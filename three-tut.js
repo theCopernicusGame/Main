@@ -5,7 +5,7 @@
     Physijs.scripts.worker = 'physijs_worker.js'; //webworker re not slowing down app with phy
     Physijs.scripts.ammo = 'ammo.js';
 
-
+    //comment
 
 
     var camera, scene, renderer, mesh;
