@@ -14,6 +14,13 @@
     var keyboard = {}; 
     var astronaut = {}; 
     scene = new Physijs.Scene;
+    scene.setGravity(new THREE.Vector3( 0, -20, 0 ));
+    scene.addEventListener(
+      'update',
+      function() {
+        scene.simulate( undefined, 2 );
+      }
+    );
 
 
     renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true} );
@@ -28,9 +35,6 @@
     camera.position.x = 0; 
     camera.position.y = 1; 
     camera.position.z = 8; 
-
-
-   
 
     var earthGeometry = new THREE.SphereGeometry(36, 28.8, 14.4);
     var textureLoader = new THREE.TextureLoader(); 
@@ -52,82 +56,108 @@
     var cloudMesh = new THREE.Mesh(cloudGeometry, cloudMaterial); 
     earth.add(cloudMesh); 
 
+    var bumper,
+    bumper_geom = new THREE.CubeGeometry(.5, .3, 1.5); 
+    bumperMaterial = new THREE.MeshLambertMaterial( { color: 0xFF0000 } ); 
+      
+    
+    bumper1 = new Physijs.BoxMesh( bumper_geom, bumperMaterial, 0, { restitution: .2 } );
+    bumper1.position.z = 2.5;
+    bumper1.position.y = -.1;
+    bumper1.position.x = .5;
+    bumper1.receiveShadow = true;
+    bumper1.castShadow = true;
+    scene.add( bumper1 );
+    
+    bumper2 = new Physijs.BoxMesh( bumper_geom, bumperMaterial, 0, { restitution: .2 } );
+    bumper2.position.z = 2.5;
+    bumper2.position.y = -.1;
+    bumper2.position.x = 2.5;
+    bumper2.receiveShadow = true;
+    bumper2.castShadow = true;
+    scene.add( bumper2 );
+
+    bumper3 = new Physijs.BoxMesh( bumper_geom, bumperMaterial, 0, { restitution: .2 } );
+    bumper3.position.z = 3;
+    bumper3.position.y = -.1;
+    bumper3.position.x = 1.5;
+    bumper3.rotation.y = Math.PI / 2;
+    bumper3.receiveShadow = true;
+    bumper3.castShadow = true;
+    scene.add( bumper3 );
+    
 
     var ballGeometry = new THREE.SphereGeometry(.3, 28.8, 14.4);
-    moonMap  = textureLoader.load('otherMoonPics/moonmap1k.jpg');
-    moonBump = textureLoader.load('otherMoonPics/moonbump1k.jpg'); 
-    var ballTexture = new THREE.MeshPhongMaterial( { map: moonMap, bumpMap: moonBump} ); 
+    moonNormal  = textureLoader.load('otherMoonPics/lastMoonPics/normal.jpg');
+    moonMap = textureLoader.load('otherMoonPics/lastMoonPics/moonPic.jpg'); 
+    var ballTexture = new THREE.MeshPhongMaterial( { map: moonMap, normalMap: moonNormal} ); 
     ball = new Physijs.SphereMesh(ballGeometry, ballTexture, undefined, { restitution: Math.random() * 1.5 } );
     ball.castShadow = true; 
     ball.position.z = -2;
     ball.position.x = 2;
     ball.position.y = 4;
-   
+    ball.__dirtyPosition = true;
     ball.receiveShadow = true; 
     scene.add( ball );
 
 
-
     var manager = new THREE.LoadingManager();
     manager.onProgress = function ( item, loaded, total ) {
-
-       console.log( item, loaded, total );
-
+      console.log( item, loaded, total );
        };
-       var onError = function(xhr) {
+    var onError = function(xhr) {
+       }; 
 
-       }
+   var imageMap = new THREE.Texture();
+   var normalMap = new THREE.Texture();
+   var specMap = new THREE.Texture();
 
-       var imageMap = new THREE.Texture();
-       var normalMap = new THREE.Texture();
-       var specMap = new THREE.Texture();
+   var loader = new THREE.ImageLoader(manager);
+   loader.load('Astronaut/Astronaut_D.jpg', function(img) {
+     imageMap.image = img;
+     imageMap.needsUpdate = true;
+   });
 
-       var loader = new THREE.ImageLoader(manager);
-       loader.load('Astronaut/Astronaut_D.jpg', function(img) {
-           imageMap.image = img;
-           imageMap.needsUpdate = true;
-       });
+   var loader = new THREE.ImageLoader(manager);
+   loader.load('Astronaut/Astronaut_N.jpg', function(img) {
+       normalMap.image = img;
+       normalMap.needsUpdate = true;
+   });
 
-       var loader = new THREE.ImageLoader(manager);
-       loader.load('Astronaut/Astronaut_N.jpg', function(img) {
-           normalMap.image = img;
-           normalMap.needsUpdate = true;
-       });
+   var loader = new THREE.ImageLoader(manager);
+   loader.load('Astronaut/Astronaut_S.jpg', function(img) {
+       specMap.image = img;
+       specMap.needsUpdate = true;
+   });
 
-       var loader = new THREE.ImageLoader(manager);
-       loader.load('Astronaut/Astronaut_S.jpg', function(img) {
-           specMap.image = img;
-           specMap.needsUpdate = true;
-       });
+   var loader = new THREE.OBJLoader( manager );
+   loader.load( 'Astronaut/Astronaut.OBJ', function ( object ) {
+    
+     object.traverse( function ( child ) {
+       
+       if ( child instanceof THREE.Mesh ) {
+           // child.material.normalMap = decalNormal;
+           child.material.map = imageMap;
+           child.material.normalMap = normalMap;
+           child.material.specualarMap = specMap;
+           child.castShadow = true;
+       }
 
-       var loader = new THREE.OBJLoader( manager );
-       loader.load( 'Astronaut/Astronaut.OBJ', function ( object ) {
-        
-           object.traverse( function ( child ) {
-           
-           if ( child instanceof THREE.Mesh ) {
-               // child.material.normalMap = decalNormal;
-               child.material.map = imageMap;
-               child.material.normalMap = normalMap;
-               child.material.specualarMap = specMap;
-               child.castShadow = true;
-           }
-
-       });
+   });
      
       object.position.y = -.22;
       object.position.x = 2;
-       object.position.z = -3;
-       object.scale.set(.5,.5,.5); 
-       astronaut = object; 
-       scene.add( object );
+      object.position.z = -3;
+      object.scale.set(.5,.5,.5); 
+      astronaut = object; 
+      scene.add( object );
        
    });
 
   // var axis = new THREE.AxisHelper(100); 
   // scene.add(axis);  
 
-  //Material for ground, adding physJS props, wrapping it to 
+  //Material for ground, adding physJS props
   floorRocks = textureLoader.load('FinalMoonPics/rocks.jpg'); 
   //floorBump = textureLoader.load( 'moonPics/cropBump.jpg' );
   floorMaterial = Physijs.createMaterial(
@@ -141,7 +171,6 @@
    // Ground
     ground = new Physijs.BoxMesh(
       new THREE.CubeGeometry(10, 1, 10),
-      //new THREE.PlaneGeometry(50, 50),
       floorMaterial,
       0 // mass
     );
@@ -162,7 +191,9 @@
   floor.position.y = -.5;
   floor.receiveShadow = true; 
   floor.rotation.x = Math.PI / 1.9;
-  //scene.add(floor);
+  //scene.add(floor)
+
+
 
 
   controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -269,6 +300,9 @@
   render();
   function render() {
     scene.simulate(); // run physics
+
+    
+
     earth.rotation.x += parameters.rotateX; 
     earth.rotation.y -= parameters.rotateY; 
     earth.rotation.z += parameters.rotateZ; 
@@ -276,27 +310,38 @@
     cloudMesh.rotation.x -= parameters.cRotateX; 
     cloudMesh.rotation.y -= parameters.cRotateY; 
 
-     ball.rotation.y =- .002
+    
 
     // setTimeout(function(){ astronaut.rotation.y += .002; }, 1000);
 
-    if (keyboard[37]){
-      camera.rotation.y -= Math.PI * .001;
+    if (keyboard[65]){
+      ball.setLinearVelocity(new THREE.Vector3(0, 10, 1));
     }
 
-     if (keyboard[39]){ 
-      camera.rotation.y += Math.PI * .001;
+     if (keyboard[87]){ 
+      //ball.setAngularVelocity(new THREE.Vector3(5, 5, 0));
+      ball.setLinearVelocity(new THREE.Vector3(0, 14, 1));
     }
 
-    if (keyboard[38]){
-       
-      camera.position.z += 5; 
+    if (keyboard[68]){ 
+      ball.setAngularVelocity(new THREE.Vector3(-2, 0, 0));
     }
-    //  if (keyboard[40]){
-       
-    //   camera.position.z += 5; 
-    // }
-    
+     if (keyboard[83]){ 
+      ball.setAngularVelocity(new THREE.Vector3(0, 0, 0));
+    }
+    //CHANGING GRAVITY MID-SCENE DOES NOT SEEM TO WORK, WORTH RESEARCHING MORE; 
+      if (keyboard[49]){ 
+      scene.setGravity(new THREE.Vector3( 0, -20, 0 ));
+    }
+    if (keyboard[50]){ 
+      scene.setGravity(new THREE.Vector3( 0, -10, 0 ));
+    }
+  
+    if (keyboard[51]){ 
+      scene.setGravity(new THREE.Vector3( 0, -60, 0 ));
+    }
+
+
      
     // var dtime   = Date.now() - startTime;
     // mesh.scale.x    = .5 + 0.3*Math.sin(dtime/1000);
