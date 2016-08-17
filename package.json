@@ -1,14 +1,14 @@
 {
-  "name": "zztest",
+  "name": "project-copernicus",
   "version": "1.0.0",
-  "description": "work for assessment",
+  "description": "An educational game that teaches kinematics through interactive gameplay with the webcam and another player.",
   "main": "index.js",
   "scripts": {
     "test": "test",
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "keywords": [
-    "zz"
+    "Copernicus"
   ],
   "author": "Scott Miller",
   "license": "ISC",
@@ -17,6 +17,7 @@
     "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
     "mongodb": "^2.2.5",
-    "mongoose": "^4.5.7"
+    "mongoose": "^4.5.7",
+    "nodemon": "^1.10.0"
   }
 }
