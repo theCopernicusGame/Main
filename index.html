@@ -3,10 +3,60 @@
     <meta charset="UTF-8">
      <link href='https://fonts.googleapis.com/css?family=Exo+2:400,900' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <title>Copernicus</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+         <script type="text/javascript" src="lib/tracking-min.js"></script>
   </head>
 
   <body>
+    <video id="myVideo" width="10%" preload autoplay loop muted></video>
 
+    <script>
+       var colors = new tracking.ColorTracker(['cyan']);
+
+  var start, start2, end, end2, time, time2; 
+  console.log('NOW in tracking ish', colors); 
+
+  colors.on('track', function(event) {
+    
+    if (event.data.length === 0) {
+    console.log('No colors were detected in this frame.'); 
+    } else {
+      event.data.forEach(function(rect) {
+      console.log(rect.y);
+      //console.log('time', Date.now());
+      if ( start === undefined && rect.y > 45) {
+        start = Date.now(); 
+        console.log('start', start);
+      }
+
+      if ( start !== undefined && end === undefined && rect.y < 20) {
+        end = Date.now();
+        console.log('start', start,'end', end);
+        time = end - start;
+        console.log("time " + (time / 1000) % 60);
+      }
+      if (time !== undefined && start2 === undefined && rect.y > 45){
+        start2 = Date.now(); 
+        console.log('start2', start2);
+      }
+      if ( time !== undefined && start2 !== undefined && end2 === undefined && rect.y < 20) {
+        end2 = Date.now();
+        console.log('start2', start2,'end2', end2);
+        time2 = end2 - start2;
+        console.log("time2 " + (time2 / 1000) % 60);
+      }
+
+     }); 
+   }
+  });
+
+$(function(){
+  console.log('in doc ready'); 
+ tracking.track('#myVideo', colors, {camera: true});
+ //$('#myVideo').css('visibility', 'hidden');
+  }); 
+    </script>
     <div class="Top" style="margin-top: -30px; margin-bottom: -30px; margin-left: 80px">
         <h1 style="padding-top: -40px;  font-family:'Exo 2'; font-size: 60px; text-shadow: 2px 2px 2px #000; padding-left: 7  0px; color: #9933Ff"></h1>
 
@@ -19,13 +69,16 @@
     </div>
 </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+   
     <script type="text/javascript" src="lib/three.min.js"></script>
     <script type="text/javascript" src="lib/dat.gui.min.js"></script>
     <script type="text/javascript" src="scene.js"></script>
     <script type="text/javascript" src="lib/OrbitControls.js"></script>
     <script type="text/javascript" src="lib/OBJLoader.js"></script>
     <script type="text/javascript" src="lib/physi.js"></script>
+
+    
 
 
 

@@ -1,6 +1,11 @@
 // 'use strict';
 $(function(){
 
+  //PLAYER MOVEMENT TRACKING CODE
+
+
+  //END OF PLAYER MOVEMENT TRACKING CODE
+
   Physijs.scripts.worker = 'lib/physijs_worker.js'; //webworker are not slowing down app with phy
   Physijs.scripts.ammo = 'ammo.js';
 
