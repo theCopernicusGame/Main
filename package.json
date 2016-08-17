@@ -14,10 +14,12 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.15.2",
+    "coffee-script": "^1.10.0",
+    "connect": "^3.4.1",
     "cookie-parser": "^1.4.3",
+    "ejs": "^2.5.1",
     "express": "^4.14.0",
-    "mongodb": "^2.2.5",
-    "mongoose": "^4.5.7",
+    "express.io": "^1.1.13",
     "nodemon": "^1.10.0"
   }
 }
