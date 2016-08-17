@@ -17,7 +17,7 @@ var dataChannelOptions = {
 var dataChannel;
 
 io = io.connect();
-console.log(io);
+
 io.emit('ready', {"signal_room": SIGNAL_ROOM});
 
 //Send a first signaling message to anyone listening
