@@ -1,21 +1,31 @@
-var express = require('express');
+var express = require('express.io');
 var app = express();
+app.http().io();
 var bodyParser = require('body-parser');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var PORT = 3001;
 
- app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname)));
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 
 app.get('/', function(req, res){
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.render('index.html');
 });
 
-
-app.listen(3001, function(){
-    console.log('you listenin on port 3001');
+app.listen(process.env.PORT || PORT, function(){
+    console.log('You listenin on port 3001');
 });
 
-module.exports = app;
+app.io.route('ready', function(req) {
+	req.io.join(req.data.signal_room);
+})
+
+app.io.route('signal', function(req) {
+	req.io.room(req.data.room).broadcast('signaling_message', {
+    type: req.data.type,
+    message: req.data.message
+  });
+})
