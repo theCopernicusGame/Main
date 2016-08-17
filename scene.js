@@ -2,50 +2,217 @@
 $(function(){
 
   //PLAYER MOVEMENT TRACKING CODE
-   var colors = new tracking.ColorTracker(['cyan']);
 
-  var start, start2, end, end2, time, time2; 
-  console.log('NOW in tracking ish', colors); 
+  //THE FOLLOWING IS TRACKING HANDS IN JS-HANDTRACKING
+  var finalTime; 
+  var DEMO = function(){
+    this.startTime = undefined; this.endTime = undefined, this.finalTime = undefined;   
+  };
 
-  colors.on('track', function(event) {
-    
-    if (event.data.length === 0) {
-    //console.log('No colors were detected in this frame.'); 
+  DEMO.prototype.start = function() {
+    var that = this; 
+
+    this.tracker = new HT.Tracker();
+
+  // this.cbxHull = document.getElementById("cbxHull");
+  // this.cbxDefects = document.getElementById("cbxDefects");
+  // this.cbxSkin = document.getElementById("cbxSkin");
+
+    this.video = document.getElementById("myVideo");
+    this.canvas = document.getElementById("canvas");
+    this.context = this.canvas.getContext("2d");
+
+    this.canvas.width = parseInt(this.canvas.style.width);
+    this.canvas.height = parseInt(this.canvas.style.height);
+
+    this.image = this.context.createImageData(
+    this.canvas.width * 0.2, this.canvas.height * 0.2);
+
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+    if (navigator.getUserMedia){
+      navigator.getUserMedia({video: true},
+      function(stream){ return that.videoReady(stream); },
+      function(error){ return that.videoError(error); } );
+    }
+  };
+
+  DEMO.prototype.videoReady = function(stream){
+    if (window.webkitURL) {
+      this.video.src = window.webkitURL.createObjectURL(stream);
+    } else if (video.mozSrcObject !== undefined) {
+      this.video.mozSrcObject = stream;
     } else {
-      event.data.forEach(function(rect) {
-      //console.log(rect.y);
-      //console.log('time', Date.now());
-      if ( start === undefined && rect.y > 45) {
-        start = Date.now(); 
-        console.log('start', start);
-      }
+      this.video.src = stream;
+    }
 
-      if ( start !== undefined && end === undefined && rect.y < 20) {
-        end = Date.now();
-        console.log('start', start,'end', end);
-        time = end - start;
-        console.log("time " + (time / 1000) % 60);
-      }
-      if (time !== undefined && start2 === undefined && rect.y > 45){
-        start2 = Date.now(); 
-        console.log('start2', start2);
-      }
-      if ( time !== undefined && start2 !== undefined && end2 === undefined && rect.y < 20) {
-        end2 = Date.now();
-        console.log('start2', start2,'end2', end2);
-        time2 = end2 - start2;
-        console.log("time2 " + (time2 / 1000) % 60);
-      }
+    this.tick();
+  };
 
-     }); 
-   }
-  });
+  DEMO.prototype.videoError = function(error){
+  };
+
+  DEMO.prototype.tick = function(){
+    var that = this, image, candidate;
+
+    requestAnimationFrame( function() { return that.tick(); } );
+
+    if (this.video.readyState === this.video.HAVE_ENOUGH_DATA){
+      image = this.snapshot();
+
+      candidate = this.tracker.detect(image);
+
+      this.draw(candidate);
+    }
+  };
+
+  DEMO.prototype.snapshot = function(){
+    this.context.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
+
+    return this.context.getImageData(0, 0, this.canvas.width, this.canvas.height);
+  };
+  
+  //REFACTOR BELOW, NO NEED FOR CONDITIONALS IN OUR APP
+  DEMO.prototype.draw = function(candidate){
+    if (candidate){
+      if (true){
+        this.drawHull(candidate.hull, "black");
+      }
+      if (true){
+        this.drawDefects(candidate.defects, "black");
+      }
+    }
+    if (true){
+      this.context.putImageData(
+      this.createImage(this.tracker.mask, this.image), 
+      this.canvas.width - this.image.width,
+      this.canvas.height - this.image.height);
+    }
+  };
+
+  DEMO.prototype.drawHull = function(hull, color){
+    var len = hull.length, i = 1;
+    if (len > 0){
+      this.context.beginPath();
+      this.context.lineWidth = 3;
+      this.context.strokeStyle = color;
+      this.context.moveTo(hull[0].x, hull[0].y);
+      //console.log('Y coordinate', hull[0].y); 
+      //console.log('start', this.startTime); 
+      if (hull[0].y > 85 && this.startTime === undefined){
+        this.startTime = Date.now(); 
+        console.log('start', (this.startTime / 1000) % 60); 
+      }
+      if (hull[0].y < 75 && this.startTime !== undefined && this.endTime === undefined){
+        this.endTime = Date.now();
+        this.finalTime = this.endTime - this.startTime; 
+        console.log('endTime', this.endTime); 
+        console.log('howMuch', (this.finalTime / 1000) % 60);
+        finalTime = (this.finalTime / 1000) % 60; 
+      }
+      for (; i < len; ++ i){
+        this.context.lineTo(hull[i].x, hull[i].y);
+      }
+
+      this.context.stroke();
+      this.context.closePath();
+    }
+  };
+
+  DEMO.prototype.drawDefects = function(defects, color){
+    var len = defects.length, i = 0, point;
+
+    if (len > 0){
+      this.context.beginPath();
+      this.context.lineWidth = 3;
+      this.context.strokeStyle = color;
+
+    for (; i < len; ++ i){
+      point = defects[i].depthPoint;
+      this.context.strokeRect(point.x - 4, point.y - 4, 8, 8);
+    }
+
+    this.context.stroke();
+    this.context.closePath();
+    }
+  };
+
+  DEMO.prototype.createImage = function(imageSrc, imageDst){
+    var src = imageSrc.data, dst = imageDst.data,
+      width = imageSrc.width, span = 4 * width,
+      len = src.length, i = 0, j = 0, k = 0, fun = dst; 
+    for(i = 0; i < len; i += span){
+
+      for(j = 0; j < width; j += 5){
+
+        dst[k] = dst[k + 1] = dst[k + 2] = src[i];
+        dst[k + 3] = 255;
+        k += 4;
+    
+        i += 5;
+      }
+    }
 
 
-  console.log('in doc ready'); 
- tracking.track('#myVideo', colors, {camera: true});
- //$('#myVideo').css('visibility', 'hidden');
+   
+    return imageDst;
+  };
+
+  $('#canvas').css('visibility', 'hidden');
+  var demo = new DEMO();
+  demo.start();
+
    
+//THIS IS THE END OF THE JS-HANDTRACKING CODE
+
+
+
+//THE FOLLOWING IS TRACKING COLORS IN TRACKING.JS
+
+//    var colors = new tracking.ColorTracker(['magenta']);
+
+//   var start, start2, end, end2, time, time2; 
+//   console.log('NOW in tracking ish', colors); 
+
+//   colors.on('track', function(event) {
+    
+//     if (event.data.length === 0) {
+//     //console.log('No colors were detected in this frame.'); 
+//     } else {
+//       event.data.forEach(function(rect) {
+//       //console.log(rect.y);
+//       //console.log('time', Date.now());
+//       if ( start === undefined && rect.y > 45) {
+//         start = Date.now(); 
+//         console.log('start', start);
+//       }
+
+//       if ( start !== undefined && end === undefined && rect.y < 20) {
+//         end = Date.now();
+//         console.log('start', start,'end', end);
+//         time = end - start;
+//         console.log("time " + (time / 1000) % 60);
+//       }
+//       if (time !== undefined && start2 === undefined && rect.y > 45){
+//         start2 = Date.now(); 
+//         console.log('start2', start2);
+//       }
+//       if ( time !== undefined && start2 !== undefined && end2 === undefined && rect.y < 20) {
+//         end2 = Date.now();
+//         console.log('start2', start2,'end2', end2);
+//         time2 = end2 - start2;
+//         console.log("time2 " + (time2 / 1000) % 60);
+//       }
+
+//      }); 
+//    }
+//   });
+
+
+//   console.log('in doc ready'); 
+//  tracking.track('#myVideo', colors, {camera: true});
+//  $('#myVideo').css('visibility', 'hidden');
+   
+   //END OF TRACKING COLORS IN TRACKING.JS
 
   //END OF PLAYER MOVEMENT TRACKING CODE
 
@@ -367,7 +534,6 @@ $(function(){
      if (keyboard[83]){
       ball.setAngularVelocity(new THREE.Vector3(0, 0, 0));
     }
-    //CHANGING GRAVITY MID-SCENE DOES NOT SEEM TO WORK, WORTH RESEARCHING MORE;
       if (keyboard[49]){
       scene.setGravity(new THREE.Vector3( 0, -20, 0 ));
     }
@@ -379,22 +545,24 @@ $(function(){
       scene.setGravity(new THREE.Vector3( 0, -60, 0 ));
     }
 
-    if (time !== undefined && time < 1){
-       ball.setLinearVelocity(new THREE.Vector3(0, 14, 1));
-       time = 1; 
+    if (finalTime < .4){
+      console.log('fT', finalTime); 
+       ball.setLinearVelocity(new THREE.Vector3(0, 22, 1));
+       finalTime = undefined; 
     }
-    if (time !== undefined && time > 1){
+    if (finalTime > .4){
+      console.log('fT', finalTime); 
        ball.setLinearVelocity(new THREE.Vector3(0, 8, 1));
-       time = 1; 
+      finalTime = undefined; 
     }
-     if (time2 !== undefined && time2 < 1){
-       ball.setLinearVelocity(new THREE.Vector3(0, 15, 1));
-       time2 = 1; 
-    }
-    if (time2 !== undefined && time2 > 1){
-       ball.setLinearVelocity(new THREE.Vector3(0, 4, 1));
-       time = 1; 
-    }
+    //  if (time2 !== undefined && time2 < 1){
+    //    ball.setLinearVelocity(new THREE.Vector3(0, 15, 1));
+    //    time2 = 1; 
+    // }
+    // if (time2 !== undefined && time2 > 1){
+    //    ball.setLinearVelocity(new THREE.Vector3(0, 4, 1));
+    //    time = 1; 
+    // }
     // var dtime   = Date.now() - startTime;
     // mesh.scale.x    = .5 + 0.3*Math.sin(dtime/1000);
     // mesh.scale.y    = .5 + 0.3*Math.sin(dtime/1000);
