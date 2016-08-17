@@ -2,7 +2,50 @@
 $(function(){
 
   //PLAYER MOVEMENT TRACKING CODE
+   var colors = new tracking.ColorTracker(['cyan']);
 
+  var start, start2, end, end2, time, time2; 
+  console.log('NOW in tracking ish', colors); 
+
+  colors.on('track', function(event) {
+    
+    if (event.data.length === 0) {
+    //console.log('No colors were detected in this frame.'); 
+    } else {
+      event.data.forEach(function(rect) {
+      //console.log(rect.y);
+      //console.log('time', Date.now());
+      if ( start === undefined && rect.y > 45) {
+        start = Date.now(); 
+        console.log('start', start);
+      }
+
+      if ( start !== undefined && end === undefined && rect.y < 20) {
+        end = Date.now();
+        console.log('start', start,'end', end);
+        time = end - start;
+        console.log("time " + (time / 1000) % 60);
+      }
+      if (time !== undefined && start2 === undefined && rect.y > 45){
+        start2 = Date.now(); 
+        console.log('start2', start2);
+      }
+      if ( time !== undefined && start2 !== undefined && end2 === undefined && rect.y < 20) {
+        end2 = Date.now();
+        console.log('start2', start2,'end2', end2);
+        time2 = end2 - start2;
+        console.log("time2 " + (time2 / 1000) % 60);
+      }
+
+     }); 
+   }
+  });
+
+
+  console.log('in doc ready'); 
+ tracking.track('#myVideo', colors, {camera: true});
+ //$('#myVideo').css('visibility', 'hidden');
+   
 
   //END OF PLAYER MOVEMENT TRACKING CODE
 
@@ -336,8 +379,22 @@ $(function(){
       scene.setGravity(new THREE.Vector3( 0, -60, 0 ));
     }
 
-
-
+    if (time !== undefined && time < 1){
+       ball.setLinearVelocity(new THREE.Vector3(0, 14, 1));
+       time = 1; 
+    }
+    if (time !== undefined && time > 1){
+       ball.setLinearVelocity(new THREE.Vector3(0, 8, 1));
+       time = 1; 
+    }
+     if (time2 !== undefined && time2 < 1){
+       ball.setLinearVelocity(new THREE.Vector3(0, 15, 1));
+       time2 = 1; 
+    }
+    if (time2 !== undefined && time2 > 1){
+       ball.setLinearVelocity(new THREE.Vector3(0, 4, 1));
+       time = 1; 
+    }
     // var dtime   = Date.now() - startTime;
     // mesh.scale.x    = .5 + 0.3*Math.sin(dtime/1000);
     // mesh.scale.y    = .5 + 0.3*Math.sin(dtime/1000);
