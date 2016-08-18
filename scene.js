@@ -3,6 +3,7 @@
 $(function(){
 
 
+
   //THE FOLLOWING IS TRACKING HANDS USING JS-HANDTRACKING
   var finalTime = { runTime: undefined}, counter2 = 0; 
   var DEMO = function(){
@@ -11,11 +12,9 @@ $(function(){
   };
 
   DEMO.prototype.start = function() {
-    var that = this; 
-    this.skinner = new HT.Skinner(); 
+    var that = this;
     this.tracker = new HT.Tracker();
     this.video = document.getElementById("myVideo");
-    console.log('video', this.video); 
     this.canvas = document.getElementById("canvas");
     this.context = this.canvas.getContext("2d");
     this.canvas.width = parseInt(this.canvas.style.width);
@@ -61,13 +60,13 @@ $(function(){
 
     return this.context.getImageData(0, 0, this.canvas.width, this.canvas.height);
   };
-  
+
   DEMO.prototype.draw = function(candidate){
     if (candidate){
       this.drawHull(candidate.hull, "red");
       this.drawDefects(candidate.defects, "blue");
       this.context.putImageData(
-      this.createImage(this.tracker.mask, this.image), 
+      this.createImage(this.tracker.mask, this.image),
       this.canvas.width - this.image.width,
       this.canvas.height - this.image.height);
     }
@@ -81,7 +80,21 @@ $(function(){
       this.context.lineWidth = 3;
       this.context.strokeStyle = color;
       this.context.moveTo(hull[0].x, hull[0].y);
-      
+      if (hull[0].y > 0  && hull[0].x > 60 && hull[0].x < 90 & this.startTime === undefined){
+        //console.log('yStart', hull[0].y);
+        this.startTime = Date.now();
+        //console.log('start', (this.startTime / 1000) % 60); //KEPT IN TO TEST TRACKING
+      }
+      if (hull[0].y > 110 && this.startTime !== undefined && this.endTime === undefined){
+       // console.log('yEnd', hull[0].y);
+        this.endTime = Date.now();
+        this.finalTime = this.endTime - this.startTime;
+       // console.log('endTime', this.endTime);
+       // console.log('howMuch', (this.finalTime / 1000) % 60);
+        finalTime = (this.finalTime / 1000) % 60;
+        //this.startTime = undefined, this.endTime = undefined;  //MULTIPLE THROWS POSSIBLE WITH THIS
+      }
+
       for (; i < len; ++ i){
         this.context.lineTo(hull[i].x, hull[i].y);
       }
@@ -108,7 +121,7 @@ $(function(){
   DEMO.prototype.createImage = function(imageSrc, imageDst){
     var src = imageSrc.data, dst = imageDst.data,
       width = imageSrc.width, span = 4 * width,
-      len = src.length, i = 0, j = 0, k = 0, fun = dst; 
+      len = src.length, i = 0, j = 0, k = 0, fun = dst;
     for(i = 0; i < len; i += span){
       for(j = 0; j < width; j += 5){
         dst[k] = dst[k + 1] = dst[k + 2] = src[i];
@@ -124,8 +137,6 @@ $(function(){
   $('#canvas').css('visibility', 'hidden');
   var demo = new DEMO();
   demo.start();
-
-//THIS IS THE END OF THE JS-HANDTRACKING CODE
 
 
   Physijs.scripts.worker = 'lib/physijs_worker.js'; //webworker used to minimize latency re phys.js
@@ -174,7 +185,7 @@ $(function(){
 
 
   var cloudGeometry   = new THREE.SphereGeometry(37, 28.8, 14.4);
-  canvasCloud = textureLoader.load('assets/earthPics/fair_clouds_4k.png');
+  canvasCloud = textureLoader.load('assets/earthPics/earth_clouds.png');
   var cloudMaterial  = new THREE.MeshPhongMaterial( {map: canvasCloud, transparent: true, depthWrite: false, opacity: .7} );
   var cloudMesh = new THREE.Mesh(cloudGeometry, cloudMaterial);
   earth.add(cloudMesh);
@@ -211,8 +222,8 @@ $(function(){
 
 
   var ballGeometry = new THREE.SphereGeometry(.3, 28.8, 14.4);
-  moonNormal  = textureLoader.load('assets/otherMoonPics/lastMoonPics/normal.jpg');
-  moonMap = textureLoader.load('assets/otherMoonPics/lastMoonPics/moonPic.jpg');
+  moonNormal  = textureLoader.load('assets/finalMoonPics/normal.jpg');
+  moonMap = textureLoader.load('assets/finalMoonPics/moonPic.jpg');
   var ballTexture = new THREE.MeshPhongMaterial( { map: moonMap, normalMap: moonNormal} );//TEST RED BALL FOR LOAD TIME
   var ballTexture2 = new THREE.MeshPhongMaterial( { color: 0xFF0000} );
   ball = new Physijs.SphereMesh(ballGeometry, ballTexture, undefined, { restitution: Math.random() * 1.5 } );
@@ -237,19 +248,19 @@ $(function(){
   var specMap = new THREE.Texture();
 
   var loader = new THREE.ImageLoader(manager);
-  loader.load('assets/astronaut/Astronaut_D.jpg', function(img) {
+  loader.load('assets/astronaut/Astronaut_DI.jpg', function(img) {
     imageMap.image = img;
     imageMap.needsUpdate = true;
   });
 
   var loader = new THREE.ImageLoader(manager);
-  loader.load('assets/astronaut/Astronaut_N.jpg', function(img) {
+  loader.load('assets/astronaut/Astronaut_NI.jpg', function(img) {
     normalMap.image = img;
     normalMap.needsUpdate = true;
   });
 
   var loader = new THREE.ImageLoader(manager);
-  loader.load('assets/astronaut/Astronaut_S.jpg', function(img) {
+  loader.load('assets/astronaut/Astronaut_SI.jpg', function(img) {
     specMap.image = img;
     specMap.needsUpdate = true;
   });
@@ -277,7 +288,7 @@ $(function(){
   // scene.add(axis);
 
   //Material for ground, adding physJS props
-  floorRocks = textureLoader.load('assets/finalMoonPics/rocks.jpg');
+  floorRocks = textureLoader.load('assets/finalMoonPics/Larissa-Texture.png');
   //floorBump = textureLoader.load( 'assets/moonPics/cropBump.jpg' );
   floorMaterial = Physijs.createMaterial(
     new THREE.MeshPhongMaterial({ map: floorRocks, side: THREE.DoubleSide }),
@@ -426,11 +437,11 @@ $(function(){
     cloudMesh.rotation.x -= parameters.cRotateX;
     cloudMesh.rotation.y -= parameters.cRotateY;
     // setTimeout(function(){ astronaut.rotation.y += .002; }, 1000);
-    // if (moved === true && ball.position.z < 2) sendPosition();
+    if (moved === true && ball.position.z < 2) sendPosition();
 
     if (keyboard[65]){
       // var continuousPos = setInterval(sendPosition, 50);
-      // sendPosition();
+      sendPosition();
       moved = true;
       ball.setLinearVelocity(new THREE.Vector3(0, 10, 1));
     }
@@ -443,55 +454,54 @@ $(function(){
     if (keyboard[68]){
       ball.setAngularVelocity(new THREE.Vector3(-2, 0, 0));
     }
-     if (keyboard[83]){
+    if (keyboard[83]){
       ball.setAngularVelocity(new THREE.Vector3(0, 0, 0));
     }
-      if (keyboard[49]){
+    if (keyboard[49]){
       scene.setGravity(new THREE.Vector3( 0, -20, 0 ));
     }
     if (keyboard[50]){
       scene.setGravity(new THREE.Vector3( 0, -10, 0 ));
     }
-
     if (keyboard[51]){
       scene.setGravity(new THREE.Vector3( 0, -60, 0 ));
     }
 
-      if (finalTime.runTime <= .03){
-       console.log('sp6', finalTime.runTime); 
-       ball.setLinearVelocity(new THREE.Vector3(0, 15, 1));
-       finalTime.runTime = undefined;
+    if (finalTime.runTime <= .03){
+      console.log('sp6', finalTime.runTime); 
+      ball.setLinearVelocity(new THREE.Vector3(0, 15, 1));
+      finalTime.runTime = undefined;
      }
     
     if (finalTime.runTime > .03 && finalTime.runTime <= .06){
-       console.log('sp5', finalTime.runTime); 
-       ball.setLinearVelocity(new THREE.Vector3(0, 13, 1));
-       finalTime.runTime = undefined;
+      console.log('sp5', finalTime.runTime); 
+      ball.setLinearVelocity(new THREE.Vector3(0, 13, 1));
+      finalTime.runTime = undefined;
      }
-     if (finalTime.runTime > .06 && finalTime.runTime <= .1){
-       console.log('sp4', finalTime.runTime); 
-       ball.setLinearVelocity(new THREE.Vector3(0, 11, 1));
-       finalTime.runTime = undefined;
+    if (finalTime.runTime > .06 && finalTime.runTime <= .1){
+      console.log('sp4', finalTime.runTime); 
+      ball.setLinearVelocity(new THREE.Vector3(0, 11, 1));
+      finalTime.runTime = undefined;
      }
-     if (finalTime.runTime > .1 && finalTime.runTime <= .15){
-       console.log('sp3', finalTime.runTime); 
-       ball.setLinearVelocity(new THREE.Vector3(0, 9, 1));
-       finalTime.runTime = undefined;
+    if (finalTime.runTime > .1 && finalTime.runTime <= .15){
+      console.log('sp3', finalTime.runTime); 
+      ball.setLinearVelocity(new THREE.Vector3(0, 9, 1));
+      finalTime.runTime = undefined;
      }
-     if (finalTime.runTime > .15 && finalTime.runTime <= .3){
-       console.log('sp2', finalTime.runTime); 
-       ball.setLinearVelocity(new THREE.Vector3(0, 7, 1));
-       finalTime.runTime = undefined;
+    if (finalTime.runTime > .15 && finalTime.runTime <= .3){
+      console.log('sp2', finalTime.runTime); 
+      ball.setLinearVelocity(new THREE.Vector3(0, 7, 1));
+      finalTime.runTime = undefined;
      }
-      if (finalTime.runTime > .3 && finalTime.runTime <= 1){
-       console.log('sp1', finalTime.runTime); 
-       ball.setLinearVelocity(new THREE.Vector3(0, 5, 1));
-       finalTime.runTime = undefined;
+    if (finalTime.runTime > .3 && finalTime.runTime <= 1){
+      console.log('sp1', finalTime.runTime); 
+      ball.setLinearVelocity(new THREE.Vector3(0, 5, 1));
+      finalTime.runTime = undefined;
      }
-      if (finalTime.runTime > 1){
-       console.log('sp0', finalTime.runTime); 
-       ball.setLinearVelocity(new THREE.Vector3(0, 3, 1));
-       finalTime.runTime = undefined;
+    if (finalTime.runTime > 1){
+      console.log('sp0', finalTime.runTime); 
+      ball.setLinearVelocity(new THREE.Vector3(0, 3, 1));
+      finalTime.runTime = undefined;
      }
 
     requestAnimationFrame( render );
@@ -515,17 +525,9 @@ $(function(){
 
 });
 
-$('body').on('keydown', function(e) {
-  if (e.keyCode === 88) {
-    console.log('Sending...');
-    sendPosition();
-  }
-});
-
 // ADD DISTANCE PART AND FIX FORMATTING OF OBJECTS PASSED INTO DATA CHANNEL
 function sendPosition() {
   let position = { 'type': 'ballPos', 'position': [ ball.position.z, ball.position.y ] };
-  console.log('Data to send: ', position)
   dataChannel.send(JSON.stringify(position));
 }
 

@@ -3,7 +3,7 @@ var heightArea = document.querySelector("#heightArea");
 var distArea = document.querySelector("#distArea");
 var signalingArea = document.querySelector("#signalingArea");
 
-// WE NEED TO CREATE OUR OWN STUN SERVER
+// WE NEED TO CREATE OUR OWN STUN SERVER, LOOK INTO TOOLIO
 //Signaling Code Setup
 var SIGNAL_ROOM = "signaling";
 var configuration = {
@@ -15,7 +15,7 @@ var rtcPeerConn;
 var dataChannelOptions = {
 	reliable: false,
 	ordered: false, //no guaranteed delivery, unreliable but faster
-	maxRetransmits: 1000, //milliseconds
+	maxRetransmitTime: 1000, //milliseconds
 };
 
 var dataChannel;
@@ -26,17 +26,16 @@ io.emit('ready', {"signal_room": SIGNAL_ROOM});
 
 //Send a first signaling message to anyone listening
 //In other apps this would be on a button click, we are just doing it on page load
-io.emit('signal',{"type":"user_here", "message":"Would you like to play a game?", "room":SIGNAL_ROOM});
+io.emit('signal',{"type":"user_1", "message":"Would you like to play a game?", "room":SIGNAL_ROOM});
 
 io.on('signaling_message', function(data) {
 	displaySignalMessage("Signal received: " + data.type);
 	//Setup the RTC Peer Connection object
 	if (!rtcPeerConn) {
-		console.log('rtcPeerConn needs to be setup.');
 		startSignaling();
 	}
 
-	if (data.type != "user_here") {
+	if (data.type != "user_1") {
 		var message = JSON.parse(data.message);
 		if (message.sdp) {
 			console.log('Received message.sdp: ', message.sdp);
@@ -44,13 +43,11 @@ io.on('signaling_message', function(data) {
 				// if we received an offer, we need to answer
 				console.log('Received remote description, and set it: ', rtcPeerConn.remoteDescription)
 				if (rtcPeerConn.remoteDescription.type == 'offer') {
-					console.log('Going to send an answer.')
 					rtcPeerConn.createAnswer(sendLocalDesc, logError);
 				}
 			}, logError);
 		}
 		else {
-			console.log('Nothing set up, add ICE candidate.')
 			rtcPeerConn.addIceCandidate(new RTCIceCandidate(message.candidate));
 			console.log('Setting ICE candidate: ', message.candidate);
 		}
@@ -61,10 +58,11 @@ io.on('signaling_message', function(data) {
 function startSignaling() {
 	displaySignalMessage("starting signaling...");
 	rtcPeerConn = new webkitRTCPeerConnection(configuration, {optional: []});
-	dataChannel = rtcPeerConn.createDataChannel('textMessages', dataChannelOptions);
+	dataChannel = rtcPeerConn.createDataChannel('positionMessages', dataChannelOptions);
 	console.log('dataChannel created', dataChannel);
 
 	dataChannel.onerror = logError;
+	dataChannel.onmessage = receiveDataChannelMessage;
 	dataChannel.onopen = dataChannelStateChanged;
 	rtcPeerConn.ondatachannel = receiveDataChannel;
 
@@ -79,13 +77,12 @@ function startSignaling() {
 
 	// let the 'negotiationneeded' event trigger offer generation
 	rtcPeerConn.onnegotiationneeded = function () {
-		displaySignalMessage("on negotiation called");
+		displaySignalMessage("On negotiation called");
 		if (rtcPeerConn.remoteDescription.type.length === 0) rtcPeerConn.createOffer(sendLocalDesc, logError);
 	}
 }
 
 function sendLocalDesc(desc) {
-	console.log('Sending local description...')
 	rtcPeerConn.setLocalDescription(desc, function () {
 		console.log('Sending local description: ', rtcPeerConn.localDescription);
 		displaySignalMessage("sending local description");
@@ -97,7 +94,6 @@ function sendLocalDesc(desc) {
 function dataChannelStateChanged() {
 	if (dataChannel.readyState === 'open') {
 		displaySignalMessage("Data Channel open");
-		console.log('dataChannelStateChanged')
 		dataChannel.onmessage = receiveDataChannelMessage;
 	}
 }
@@ -106,20 +102,16 @@ function receiveDataChannel(event) {
 	displaySignalMessage("Receiving a data channel");
 	console.log('event in receiveDataChannel', event)
 	dataChannel = event.channel;
-	dataChannel.onmessage = receiveDataChannelMessage;
+	// dataChannel.onmessage = receiveDataChannelMessage;
 }
 
 function receiveDataChannelMessage(event) {
 	position = JSON.parse(event.data);
-	console.log('Data sent: ', position.position[0], position.position[1]);
 	displayMessage('Height: ' + position.position[1], 'Distance: ' + position.position[0]);
-
-	// logic for what to do with message
 }
 
 //Logging/Display Methods
 function logError(error) {
-	console.log('Error: ', error.message);
 	displaySignalMessage(error.name + ': ' + error.message);
 }
 
