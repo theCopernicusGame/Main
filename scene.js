@@ -1,7 +1,9 @@
 // 'use strict';
+
 $(function(){
 
   //PLAYER MOVEMENT TRACKING CODE
+
 
   //THE FOLLOWING IS TRACKING HANDS IN JS-HANDTRACKING
   var finalTime; 
@@ -100,16 +102,16 @@ $(function(){
       this.context.moveTo(hull[0].x, hull[0].y);
       
       if (hull[0].y > 0  && hull[0].x > 60 && hull[0].x < 90 & this.startTime === undefined){
-        console.log('yStart', hull[0].y)
+        //console.log('yStart', hull[0].y); 
         this.startTime = Date.now(); 
-        console.log('start', (this.startTime / 1000) % 60); //KEPT IN TO TEST TRACKING 
+        //console.log('start', (this.startTime / 1000) % 60); //KEPT IN TO TEST TRACKING 
       }
       if (hull[0].y > 110 && this.startTime !== undefined && this.endTime === undefined){
-        console.log('yEnd', hull[0].y)
+       // console.log('yEnd', hull[0].y); 
         this.endTime = Date.now();
         this.finalTime = this.endTime - this.startTime; 
-        console.log('endTime', this.endTime); 
-        console.log('howMuch', (this.finalTime / 1000) % 60);
+       // console.log('endTime', this.endTime); 
+       // console.log('howMuch', (this.finalTime / 1000) % 60);
         finalTime = (this.finalTime / 1000) % 60; 
         //this.startTime = undefined, this.endTime = undefined;  //MULTIPLE THROWS POSSIBLE WITH THIS
       }
@@ -241,7 +243,7 @@ $(function(){
 
   renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true} );
   renderer.setClearColor(0x000000, 0);
-  renderer.setSize( 1280,720 );
+  renderer.setSize( window.innerWidth, window.innerHeight );
   renderer.shadowMap.enabled = true;
   renderer.shadowMapSoft = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -426,7 +428,7 @@ $(function(){
     a: true,
     x: -90, y: 20, z: 4,
     bX: 0, bY: 20, bZ: -50,
-    rotateX: .000, rotateY: .002, rotateZ: .000,
+    rotateX: .000, rotateY: .0013, rotateZ: .000,
     cRotateX: .000, cRotateY: .001,
     xLight: 85, yLight: 60, zLight: 60,
     intensity: 0
@@ -505,13 +507,12 @@ $(function(){
 
 // var helper = new THREE.SpotLightHelper( spotLight2 );
 // scene.add(helper);
-
+  var moved;
 
   render();
   function render() {
+
     scene.simulate(); // run physics
-
-
 
     earth.rotation.x += parameters.rotateX;
     earth.rotation.y -= parameters.rotateY;
@@ -519,12 +520,13 @@ $(function(){
 
     cloudMesh.rotation.x -= parameters.cRotateX;
     cloudMesh.rotation.y -= parameters.cRotateY;
-
-
-
     // setTimeout(function(){ astronaut.rotation.y += .002; }, 1000);
+    // if (moved === true && ball.position.z < 2) sendPosition();
 
     if (keyboard[65]){
+      // var continuousPos = setInterval(sendPosition, 50);
+      // sendPosition();
+      moved = true;
       ball.setLinearVelocity(new THREE.Vector3(0, 10, 1));
     }
 
@@ -549,6 +551,7 @@ $(function(){
     if (keyboard[51]){
       scene.setGravity(new THREE.Vector3( 0, -60, 0 ));
     }
+
     if (finalTime < .15){
        console.log('fT', finalTime); 
        ball.setLinearVelocity(new THREE.Vector3(0, 15, 1));
@@ -564,6 +567,24 @@ $(function(){
        ball.setLinearVelocity(new THREE.Vector3(0, 8, 1));
       finalTime = undefined; 
     }
+
+    // if (time !== undefined && time < 1){
+    //    ball.setLinearVelocity(new THREE.Vector3(0, 14, 1));
+    //    time = 1;
+    // }
+    // if (time !== undefined && time > 1){
+    //    ball.setLinearVelocity(new THREE.Vector3(0, 8, 1));
+    //    time = 1;
+    // }
+    //  if (time2 !== undefined && time2 < 1){
+    //    ball.setLinearVelocity(new THREE.Vector3(0, 15, 1));
+    //    time2 = 1;
+    // }
+    // if (time2 !== undefined && time2 > 1){
+    //    ball.setLinearVelocity(new THREE.Vector3(0, 4, 1));
+    //    time = 1;
+
+    // }
     //  if (time2 !== undefined && time2 < 1){
     //    ball.setLinearVelocity(new THREE.Vector3(0, 15, 1));
     //    time2 = 1; 
@@ -595,8 +616,22 @@ $(function(){
 
   $('#bg').append( renderer.domElement );
   renderer.render( scene, camera );
-  
+
 });
+
+$('body').on('keydown', function(e) {
+  if (e.keyCode === 88) {
+    console.log('Sending...');
+    sendPosition();
+  }
+});
+
+// ADD DISTANCE PART AND FIX FORMATTING OF OBJECTS PASSED INTO DATA CHANNEL
+function sendPosition() {
+  let position = { 'type': 'ballPos', 'position': [ ball.position.z, ball.position.y ] };
+  console.log('Data to send: ', position)
+  dataChannel.send(JSON.stringify(position));
+}
 
 
   //    function onWindowResize() {
