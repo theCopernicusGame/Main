@@ -6,7 +6,8 @@ $(function(){
   //THE FOLLOWING IS TRACKING HANDS IN JS-HANDTRACKING
   var finalTime; 
   var DEMO = function(){
-    this.startTime = undefined; this.endTime = undefined, this.finalTime = undefined;   
+    startTime = undefined, endTime = undefined; 
+    this.startTime = startTime; this.endTime = endTime, this.finalTime = undefined;   
   };
 
   DEMO.prototype.start = function() {
@@ -19,6 +20,7 @@ $(function(){
   // this.cbxSkin = document.getElementById("cbxSkin");
 
     this.video = document.getElementById("myVideo");
+    console.log('video', this.video); 
     this.canvas = document.getElementById("canvas");
     this.context = this.canvas.getContext("2d");
 
@@ -75,10 +77,10 @@ $(function(){
   DEMO.prototype.draw = function(candidate){
     if (candidate){
       if (true){
-        this.drawHull(candidate.hull, "black");
+        this.drawHull(candidate.hull, "red");
       }
       if (true){
-        this.drawDefects(candidate.defects, "black");
+        this.drawDefects(candidate.defects, "blue");
       }
     }
     if (true){
@@ -96,18 +98,20 @@ $(function(){
       this.context.lineWidth = 3;
       this.context.strokeStyle = color;
       this.context.moveTo(hull[0].x, hull[0].y);
-      //console.log('Y coordinate', hull[0].y); 
-      //console.log('start', this.startTime); 
-      if (hull[0].y > 85 && this.startTime === undefined){
+      
+      if (hull[0].y > 0  && hull[0].x > 60 && hull[0].x < 90 & this.startTime === undefined){
+        console.log('yStart', hull[0].y)
         this.startTime = Date.now(); 
-        console.log('start', (this.startTime / 1000) % 60); 
+        console.log('start', (this.startTime / 1000) % 60); //KEPT IN TO TEST TRACKING 
       }
-      if (hull[0].y < 75 && this.startTime !== undefined && this.endTime === undefined){
+      if (hull[0].y > 110 && this.startTime !== undefined && this.endTime === undefined){
+        console.log('yEnd', hull[0].y)
         this.endTime = Date.now();
         this.finalTime = this.endTime - this.startTime; 
         console.log('endTime', this.endTime); 
         console.log('howMuch', (this.finalTime / 1000) % 60);
         finalTime = (this.finalTime / 1000) % 60; 
+        //this.startTime = undefined, this.endTime = undefined;  //MULTIPLE THROWS POSSIBLE WITH THIS
       }
       for (; i < len; ++ i){
         this.context.lineTo(hull[i].x, hull[i].y);
@@ -302,7 +306,8 @@ $(function(){
   var ballGeometry = new THREE.SphereGeometry(.3, 28.8, 14.4);
   moonNormal  = textureLoader.load('assets/otherMoonPics/lastMoonPics/normal.jpg');
   moonMap = textureLoader.load('assets/otherMoonPics/lastMoonPics/moonPic.jpg');
-  var ballTexture = new THREE.MeshPhongMaterial( { map: moonMap, normalMap: moonNormal} );
+  var ballTexture = new THREE.MeshPhongMaterial( { map: moonMap, normalMap: moonNormal} );//TEST RED BALL FOR LOAD TIME
+  var ballTexture2 = new THREE.MeshPhongMaterial( { color: 0xFF0000} );
   ball = new Physijs.SphereMesh(ballGeometry, ballTexture, undefined, { restitution: Math.random() * 1.5 } );
   ball.castShadow = true;
   ball.position.z = -2;
@@ -544,13 +549,17 @@ $(function(){
     if (keyboard[51]){
       scene.setGravity(new THREE.Vector3( 0, -60, 0 ));
     }
-
-    if (finalTime < .4){
-      console.log('fT', finalTime); 
-       ball.setLinearVelocity(new THREE.Vector3(0, 22, 1));
+    if (finalTime < .15){
+       console.log('fT', finalTime); 
+       ball.setLinearVelocity(new THREE.Vector3(0, 15, 1));
+       finalTime = undefined;
+    }
+    if (finalTime > .15 && finalTime < .3){
+       console.log('fT', finalTime); 
+       ball.setLinearVelocity(new THREE.Vector3(0, 11, 1));
        finalTime = undefined; 
     }
-    if (finalTime > .4){
+    if (finalTime > .3){
       console.log('fT', finalTime); 
        ball.setLinearVelocity(new THREE.Vector3(0, 8, 1));
       finalTime = undefined; 
