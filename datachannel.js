@@ -1,7 +1,9 @@
 //Page controls
-var chatArea = document.querySelector("#chatArea");
+var heightArea = document.querySelector("#heightArea");
+var distArea = document.querySelector("#distArea");
 var signalingArea = document.querySelector("#signalingArea");
 
+// WE NEED TO CREATE OUR OWN STUN SERVER
 //Signaling Code Setup
 var SIGNAL_ROOM = "signaling";
 var configuration = {
@@ -11,9 +13,11 @@ var configuration = {
 };
 var rtcPeerConn;
 var dataChannelOptions = {
+	reliable: false,
 	ordered: false, //no guaranteed delivery, unreliable but faster
-	maxRetransmitTime: 1000, //milliseconds
+	maxRetransmits: 1000, //milliseconds
 };
+
 var dataChannel;
 
 io = io.connect();
@@ -56,10 +60,11 @@ io.on('signaling_message', function(data) {
 
 function startSignaling() {
 	displaySignalMessage("starting signaling...");
-	rtcPeerConn = new webkitRTCPeerConnection(configuration, null);
+	rtcPeerConn = new webkitRTCPeerConnection(configuration, {optional: []});
 	dataChannel = rtcPeerConn.createDataChannel('textMessages', dataChannelOptions);
 	console.log('dataChannel created', dataChannel);
 
+	dataChannel.onerror = logError;
 	dataChannel.onopen = dataChannelStateChanged;
 	rtcPeerConn.ondatachannel = receiveDataChannel;
 
@@ -92,42 +97,37 @@ function sendLocalDesc(desc) {
 function dataChannelStateChanged() {
 	if (dataChannel.readyState === 'open') {
 		displaySignalMessage("Data Channel open");
+		console.log('dataChannelStateChanged')
 		dataChannel.onmessage = receiveDataChannelMessage;
 	}
 }
 
 function receiveDataChannel(event) {
 	displaySignalMessage("Receiving a data channel");
+	console.log('event in receiveDataChannel', event)
 	dataChannel = event.channel;
 	dataChannel.onmessage = receiveDataChannelMessage;
 }
 
 function receiveDataChannelMessage(event) {
-	// displayMessage("From DataChannel: " + event.data);
-  //
-	// if (event.data.split(" ")[0] == "memoryFlipTile") {
-	// 	var tileToFlip = event.data.split(" ")[1];
-	// 	displayMessage("Flipping tile " + tileToFlip);
-	// 	var tile = document.querySelector("#" + tileToFlip);
-	// 	var index = tileToFlip.split("_")[1];
-	// 	var tile_value = memory_array[index];
-	// 	flipTheTile(tile,tile_value);
-	// } else if (event.data.split(" ")[0] == "newBoard") {
-	// 	displayMessage("Setting up new board");
-	// 	memory_array = event.data.split(" ")[1].split(",");
-	// 	newBoard();
-	// }
+	position = JSON.parse(event.data);
+	console.log('Data sent: ', position.position[0], position.position[1]);
+	displayMessage('Height: ' + position.position[1], 'Distance: ' + position.position[0]);
+
+	// logic for what to do with message
 }
 
 //Logging/Display Methods
 function logError(error) {
+	console.log('Error: ', error.message);
 	displaySignalMessage(error.name + ': ' + error.message);
 }
 
-function displayMessage(message) {
-	chatArea.innerHTML = chatArea.innerHTML + "<br/>" + message;
+function displayMessage(message1, message2) {
+	heightArea.innerHTML = message1;
+	distArea.innerHTML = message2;
 }
 
 function displaySignalMessage(message) {
-	signalingArea.innerHTML = signalingArea.innerHTML + "<br/>" + message;
+	// signalingArea.innerHTML = signalingArea.innerHTML + "<br/>" + message;
 }

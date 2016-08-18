@@ -1,22 +1,23 @@
 // 'use strict';
+
 $(function(){
 
   //PLAYER MOVEMENT TRACKING CODE
-   var colors = new tracking.ColorTracker(['cyan']);
+  var colors = new tracking.ColorTracker(['cyan']);
 
-  var start, start2, end, end2, time, time2; 
-  console.log('NOW in tracking ish', colors); 
+  var start, start2, end, end2, time, time2;
+  console.log('NOW in tracking ish', colors);
 
   colors.on('track', function(event) {
-    
+
     if (event.data.length === 0) {
-    //console.log('No colors were detected in this frame.'); 
+    //console.log('No colors were detected in this frame.');
     } else {
       event.data.forEach(function(rect) {
       //console.log(rect.y);
       //console.log('time', Date.now());
       if ( start === undefined && rect.y > 45) {
-        start = Date.now(); 
+        start = Date.now();
         console.log('start', start);
       }
 
@@ -27,7 +28,7 @@ $(function(){
         console.log("time " + (time / 1000) % 60);
       }
       if (time !== undefined && start2 === undefined && rect.y > 45){
-        start2 = Date.now(); 
+        start2 = Date.now();
         console.log('start2', start2);
       }
       if ( time !== undefined && start2 !== undefined && end2 === undefined && rect.y < 20) {
@@ -37,15 +38,13 @@ $(function(){
         console.log("time2 " + (time2 / 1000) % 60);
       }
 
-     }); 
+     });
    }
   });
 
+  tracking.track('#myVideo', colors, {camera: true});
+  //$('#myVideo').css('visibility', 'hidden');
 
-  console.log('in doc ready'); 
- tracking.track('#myVideo', colors, {camera: true});
- //$('#myVideo').css('visibility', 'hidden');
-   
 
   //END OF PLAYER MOVEMENT TRACKING CODE
 
@@ -70,7 +69,7 @@ $(function(){
 
   renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true} );
   renderer.setClearColor(0x000000, 0);
-  renderer.setSize( 1280,720 );
+  renderer.setSize( window.innerWidth, window.innerHeight );
   renderer.shadowMap.enabled = true;
   renderer.shadowMapSoft = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -254,7 +253,7 @@ $(function(){
     a: true,
     x: -90, y: 20, z: 4,
     bX: 0, bY: 20, bZ: -50,
-    rotateX: .000, rotateY: .002, rotateZ: .000,
+    rotateX: .000, rotateY: .0013, rotateZ: .000,
     cRotateX: .000, cRotateY: .001,
     xLight: 85, yLight: 60, zLight: 60,
     intensity: 0
@@ -333,10 +332,11 @@ $(function(){
 
 // var helper = new THREE.SpotLightHelper( spotLight2 );
 // scene.add(helper);
-
+  var moved;
 
   render();
   function render() {
+
     scene.simulate(); // run physics
 
 
@@ -347,12 +347,13 @@ $(function(){
 
     cloudMesh.rotation.x -= parameters.cRotateX;
     cloudMesh.rotation.y -= parameters.cRotateY;
-
-
-
     // setTimeout(function(){ astronaut.rotation.y += .002; }, 1000);
+    // if (moved === true && ball.position.z < 2) sendPosition();
 
     if (keyboard[65]){
+      // var continuousPos = setInterval(sendPosition, 50);
+      // sendPosition();
+      moved = true;
       ball.setLinearVelocity(new THREE.Vector3(0, 10, 1));
     }
 
@@ -381,19 +382,19 @@ $(function(){
 
     if (time !== undefined && time < 1){
        ball.setLinearVelocity(new THREE.Vector3(0, 14, 1));
-       time = 1; 
+       time = 1;
     }
     if (time !== undefined && time > 1){
        ball.setLinearVelocity(new THREE.Vector3(0, 8, 1));
-       time = 1; 
+       time = 1;
     }
      if (time2 !== undefined && time2 < 1){
        ball.setLinearVelocity(new THREE.Vector3(0, 15, 1));
-       time2 = 1; 
+       time2 = 1;
     }
     if (time2 !== undefined && time2 > 1){
        ball.setLinearVelocity(new THREE.Vector3(0, 4, 1));
-       time = 1; 
+       time = 1;
     }
     // var dtime   = Date.now() - startTime;
     // mesh.scale.x    = .5 + 0.3*Math.sin(dtime/1000);
@@ -418,8 +419,22 @@ $(function(){
 
   $('#bg').append( renderer.domElement );
   renderer.render( scene, camera );
-  
+
 });
+
+$('body').on('keydown', function(e) {
+  if (e.keyCode === 88) {
+    console.log('Sending...');
+    sendPosition();
+  }
+});
+
+// ADD DISTANCE PART AND FIX FORMATTING OF OBJECTS PASSED INTO DATA CHANNEL
+function sendPosition() {
+  let position = { 'type': 'ballPos', 'position': [ ball.position.z, ball.position.y ] };
+  console.log('Data to send: ', position)
+  dataChannel.send(JSON.stringify(position));
+}
 
 
   //    function onWindowResize() {
