@@ -15,7 +15,7 @@ var rtcPeerConn;
 var dataChannelOptions = {
 	reliable: false,
 	ordered: false, //no guaranteed delivery, unreliable but faster
-	maxRetransmits: 1000, //milliseconds
+	maxRetransmitTime: 1000, //milliseconds
 };
 
 var dataChannel;
@@ -58,7 +58,7 @@ io.on('signaling_message', function(data) {
 function startSignaling() {
 	displaySignalMessage("starting signaling...");
 	rtcPeerConn = new webkitRTCPeerConnection(configuration, {optional: []});
-	dataChannel = rtcPeerConn.createDataChannel('textMessages', dataChannelOptions);
+	dataChannel = rtcPeerConn.createDataChannel('positionMessages', dataChannelOptions);
 	console.log('dataChannel created', dataChannel);
 
 	dataChannel.onerror = logError;
@@ -112,7 +112,6 @@ function receiveDataChannelMessage(event) {
 
 //Logging/Display Methods
 function logError(error) {
-	console.log('Error: ', error.message);
 	displaySignalMessage(error.name + ': ' + error.message);
 }
 

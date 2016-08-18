@@ -1,7 +1,6 @@
 // 'use strict';
 
 $(function(){
-
   //PLAYER MOVEMENT TRACKING CODE
 
 
@@ -22,7 +21,6 @@ $(function(){
   // this.cbxSkin = document.getElementById("cbxSkin");
 
     this.video = document.getElementById("myVideo");
-    console.log('video', this.video);
     this.canvas = document.getElementById("canvas");
     this.context = this.canvas.getContext("2d");
 
