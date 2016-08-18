@@ -6,14 +6,14 @@ $(function(){
 
 
   //THE FOLLOWING IS TRACKING HANDS IN JS-HANDTRACKING
-  var finalTime; 
+  var finalTime;
   var DEMO = function(){
-    startTime = undefined, endTime = undefined; 
-    this.startTime = startTime; this.endTime = endTime, this.finalTime = undefined;   
+    startTime = undefined, endTime = undefined;
+    this.startTime = startTime; this.endTime = endTime, this.finalTime = undefined;
   };
 
   DEMO.prototype.start = function() {
-    var that = this; 
+    var that = this;
 
     this.tracker = new HT.Tracker();
 
@@ -22,7 +22,7 @@ $(function(){
   // this.cbxSkin = document.getElementById("cbxSkin");
 
     this.video = document.getElementById("myVideo");
-    console.log('video', this.video); 
+    console.log('video', this.video);
     this.canvas = document.getElementById("canvas");
     this.context = this.canvas.getContext("2d");
 
@@ -74,7 +74,7 @@ $(function(){
 
     return this.context.getImageData(0, 0, this.canvas.width, this.canvas.height);
   };
-  
+
   //REFACTOR BELOW, NO NEED FOR CONDITIONALS IN OUR APP
   DEMO.prototype.draw = function(candidate){
     if (candidate){
@@ -87,7 +87,7 @@ $(function(){
     }
     if (true){
       this.context.putImageData(
-      this.createImage(this.tracker.mask, this.image), 
+      this.createImage(this.tracker.mask, this.image),
       this.canvas.width - this.image.width,
       this.canvas.height - this.image.height);
     }
@@ -100,19 +100,19 @@ $(function(){
       this.context.lineWidth = 3;
       this.context.strokeStyle = color;
       this.context.moveTo(hull[0].x, hull[0].y);
-      
+
       if (hull[0].y > 0  && hull[0].x > 60 && hull[0].x < 90 & this.startTime === undefined){
-        //console.log('yStart', hull[0].y); 
-        this.startTime = Date.now(); 
-        //console.log('start', (this.startTime / 1000) % 60); //KEPT IN TO TEST TRACKING 
+        //console.log('yStart', hull[0].y);
+        this.startTime = Date.now();
+        //console.log('start', (this.startTime / 1000) % 60); //KEPT IN TO TEST TRACKING
       }
       if (hull[0].y > 110 && this.startTime !== undefined && this.endTime === undefined){
-       // console.log('yEnd', hull[0].y); 
+       // console.log('yEnd', hull[0].y);
         this.endTime = Date.now();
-        this.finalTime = this.endTime - this.startTime; 
-       // console.log('endTime', this.endTime); 
+        this.finalTime = this.endTime - this.startTime;
+       // console.log('endTime', this.endTime);
        // console.log('howMuch', (this.finalTime / 1000) % 60);
-        finalTime = (this.finalTime / 1000) % 60; 
+        finalTime = (this.finalTime / 1000) % 60;
         //this.startTime = undefined, this.endTime = undefined;  //MULTIPLE THROWS POSSIBLE WITH THIS
       }
       for (; i < len; ++ i){
@@ -145,7 +145,7 @@ $(function(){
   DEMO.prototype.createImage = function(imageSrc, imageDst){
     var src = imageSrc.data, dst = imageDst.data,
       width = imageSrc.width, span = 4 * width,
-      len = src.length, i = 0, j = 0, k = 0, fun = dst; 
+      len = src.length, i = 0, j = 0, k = 0, fun = dst;
     for(i = 0; i < len; i += span){
 
       for(j = 0; j < width; j += 5){
@@ -153,7 +153,7 @@ $(function(){
         dst[k] = dst[k + 1] = dst[k + 2] = src[i];
         dst[k + 3] = 255;
         k += 4;
-    
+
         i += 5;
       }
     }
@@ -167,7 +167,7 @@ $(function(){
   var demo = new DEMO();
   demo.start();
 
-   
+
 //THIS IS THE END OF THE JS-HANDTRACKING CODE
 
 
@@ -176,19 +176,19 @@ $(function(){
 
 //    var colors = new tracking.ColorTracker(['magenta']);
 
-//   var start, start2, end, end2, time, time2; 
-//   console.log('NOW in tracking ish', colors); 
+//   var start, start2, end, end2, time, time2;
+//   console.log('NOW in tracking ish', colors);
 
 //   colors.on('track', function(event) {
-    
+
 //     if (event.data.length === 0) {
-//     //console.log('No colors were detected in this frame.'); 
+//     //console.log('No colors were detected in this frame.');
 //     } else {
 //       event.data.forEach(function(rect) {
 //       //console.log(rect.y);
 //       //console.log('time', Date.now());
 //       if ( start === undefined && rect.y > 45) {
-//         start = Date.now(); 
+//         start = Date.now();
 //         console.log('start', start);
 //       }
 
@@ -199,7 +199,7 @@ $(function(){
 //         console.log("time " + (time / 1000) % 60);
 //       }
 //       if (time !== undefined && start2 === undefined && rect.y > 45){
-//         start2 = Date.now(); 
+//         start2 = Date.now();
 //         console.log('start2', start2);
 //       }
 //       if ( time !== undefined && start2 !== undefined && end2 === undefined && rect.y < 20) {
@@ -209,15 +209,15 @@ $(function(){
 //         console.log("time2 " + (time2 / 1000) % 60);
 //       }
 
-//      }); 
+//      });
 //    }
 //   });
 
 
-//   console.log('in doc ready'); 
+//   console.log('in doc ready');
 //  tracking.track('#myVideo', colors, {camera: true});
 //  $('#myVideo').css('visibility', 'hidden');
-   
+
    //END OF TRACKING COLORS IN TRACKING.JS
 
   //END OF PLAYER MOVEMENT TRACKING CODE
@@ -521,11 +521,11 @@ $(function(){
     cloudMesh.rotation.x -= parameters.cRotateX;
     cloudMesh.rotation.y -= parameters.cRotateY;
     // setTimeout(function(){ astronaut.rotation.y += .002; }, 1000);
-    // if (moved === true && ball.position.z < 2) sendPosition();
+    if (moved === true && ball.position.z < 2) sendPosition();
 
     if (keyboard[65]){
       // var continuousPos = setInterval(sendPosition, 50);
-      // sendPosition();
+      sendPosition();
       moved = true;
       ball.setLinearVelocity(new THREE.Vector3(0, 10, 1));
     }
@@ -553,19 +553,19 @@ $(function(){
     }
 
     if (finalTime < .15){
-       console.log('fT', finalTime); 
+       console.log('fT', finalTime);
        ball.setLinearVelocity(new THREE.Vector3(0, 15, 1));
        finalTime = undefined;
     }
     if (finalTime > .15 && finalTime < .3){
-       console.log('fT', finalTime); 
+       console.log('fT', finalTime);
        ball.setLinearVelocity(new THREE.Vector3(0, 11, 1));
-       finalTime = undefined; 
+       finalTime = undefined;
     }
     if (finalTime > .3){
-      console.log('fT', finalTime); 
+      console.log('fT', finalTime);
        ball.setLinearVelocity(new THREE.Vector3(0, 8, 1));
-      finalTime = undefined; 
+      finalTime = undefined;
     }
 
     // if (time !== undefined && time < 1){
@@ -587,11 +587,11 @@ $(function(){
     // }
     //  if (time2 !== undefined && time2 < 1){
     //    ball.setLinearVelocity(new THREE.Vector3(0, 15, 1));
-    //    time2 = 1; 
+    //    time2 = 1;
     // }
     // if (time2 !== undefined && time2 > 1){
     //    ball.setLinearVelocity(new THREE.Vector3(0, 4, 1));
-    //    time = 1; 
+    //    time = 1;
     // }
     // var dtime   = Date.now() - startTime;
     // mesh.scale.x    = .5 + 0.3*Math.sin(dtime/1000);
@@ -619,17 +619,9 @@ $(function(){
 
 });
 
-$('body').on('keydown', function(e) {
-  if (e.keyCode === 88) {
-    console.log('Sending...');
-    sendPosition();
-  }
-});
-
 // ADD DISTANCE PART AND FIX FORMATTING OF OBJECTS PASSED INTO DATA CHANNEL
 function sendPosition() {
   let position = { 'type': 'ballPos', 'position': [ ball.position.z, ball.position.y ] };
-  console.log('Data to send: ', position)
   dataChannel.send(JSON.stringify(position));
 }
 
