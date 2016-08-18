@@ -269,7 +269,7 @@ $(function(){
 
 
   var cloudGeometry   = new THREE.SphereGeometry(37, 28.8, 14.4);
-  canvasCloud = textureLoader.load('assets/earthPics/fair_clouds_4k.png');
+  canvasCloud = textureLoader.load('assets/earthPics/earth_clouds.png');
   var cloudMaterial  = new THREE.MeshPhongMaterial( {map: canvasCloud, transparent: true, depthWrite: false, opacity: .7} );
   var cloudMesh = new THREE.Mesh(cloudGeometry, cloudMaterial);
   earth.add(cloudMesh);
@@ -306,8 +306,8 @@ $(function(){
 
 
   var ballGeometry = new THREE.SphereGeometry(.3, 28.8, 14.4);
-  moonNormal  = textureLoader.load('assets/otherMoonPics/lastMoonPics/normal.jpg');
-  moonMap = textureLoader.load('assets/otherMoonPics/lastMoonPics/moonPic.jpg');
+  moonNormal  = textureLoader.load('assets/finalMoonPics/normal.jpg');
+  moonMap = textureLoader.load('assets/finalMoonPics/moonPic.jpg');
   var ballTexture = new THREE.MeshPhongMaterial( { map: moonMap, normalMap: moonNormal} );//TEST RED BALL FOR LOAD TIME
   var ballTexture2 = new THREE.MeshPhongMaterial( { color: 0xFF0000} );
   ball = new Physijs.SphereMesh(ballGeometry, ballTexture, undefined, { restitution: Math.random() * 1.5 } );
@@ -332,19 +332,19 @@ $(function(){
   var specMap = new THREE.Texture();
 
   var loader = new THREE.ImageLoader(manager);
-  loader.load('assets/astronaut/Astronaut_D.jpg', function(img) {
+  loader.load('assets/astronaut/Astronaut_DI.jpg', function(img) {
     imageMap.image = img;
     imageMap.needsUpdate = true;
   });
 
   var loader = new THREE.ImageLoader(manager);
-  loader.load('assets/astronaut/Astronaut_N.jpg', function(img) {
+  loader.load('assets/astronaut/Astronaut_NI.jpg', function(img) {
     normalMap.image = img;
     normalMap.needsUpdate = true;
   });
 
   var loader = new THREE.ImageLoader(manager);
-  loader.load('assets/astronaut/Astronaut_S.jpg', function(img) {
+  loader.load('assets/astronaut/Astronaut_SI.jpg', function(img) {
     specMap.image = img;
     specMap.needsUpdate = true;
   });
@@ -372,7 +372,7 @@ $(function(){
   // scene.add(axis);
 
   //Material for ground, adding physJS props
-  floorRocks = textureLoader.load('assets/finalMoonPics/rocks.jpg');
+  floorRocks = textureLoader.load('assets/finalMoonPics/Larissa-Texture.png');
   //floorBump = textureLoader.load( 'assets/moonPics/cropBump.jpg' );
   floorMaterial = Physijs.createMaterial(
     new THREE.MeshPhongMaterial({ map: floorRocks, side: THREE.DoubleSide }),
