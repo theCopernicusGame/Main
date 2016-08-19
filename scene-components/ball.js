@@ -1,5 +1,6 @@
 'use strict';
 
+var textureLoader = new THREE.TextureLoader();
 var ballGeometry = new THREE.SphereGeometry(.3, 28.8, 14.4);
 var moonNormal  = textureLoader.load('assets/finalMoonPics/normal.jpg');
 var moonMap = textureLoader.load('assets/finalMoonPics/moonPic.jpg');

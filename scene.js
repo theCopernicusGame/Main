@@ -42,6 +42,9 @@ $(function(){
   // add earth w/ clouds to scene
   scene.add( earth );
 
+  // add moonscape as ground 
+  scene.add( ground );
+
   // add bumpers
   scene.add( bumper1 );
   scene.add( bumper2 );
@@ -75,21 +78,10 @@ $(function(){
           child.castShadow = true;
         }
       });
+    object.position.y = 2;
     scene.add( object );
   });
 
-
-  //ground plane
-  floorRocks = textureLoader.load('assets/finalMoonPics/Larissa-Texture.png');
-  var loader = new THREE.OBJLoader( manager );
-  loader.load( 'assets/finalMoonPics/moon_floor.OBJ', function ( object ) {
-    object.traverse( function ( child ) {
-       if ( child instanceof THREE.Mesh ) {
-          child.material.map = floorRocks;
-        }
-      });
-    scene.add( object );
-  });
 
 
   controls = new THREE.OrbitControls(camera, renderer.domElement);
