@@ -1,8 +1,4 @@
-// 'use strict';
-
 $(function(){
-
-
 
   //THE FOLLOWING IS TRACKING HANDS USING JS-HANDTRACKING
   var finalTime = { runTime: undefined}, counter2 = 0;
@@ -138,7 +134,9 @@ $(function(){
   var demo = new DEMO();
   demo.start();
 
+  // END TRACKING CODE
 
+  // START THREE.JS
   Physijs.scripts.worker = 'lib/physijs_worker.js'; //webworker used to minimize latency re phys.js
   Physijs.scripts.ammo = 'ammo.js';
 
@@ -163,11 +161,11 @@ $(function(){
   renderer.shadowMapSoft = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-  // add camera
-  camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, .1, 1500);
-  camera.position.x = 0;
-  camera.position.y = 1;
-  camera.position.z = 8;
+  //player 1 camera
+  camera = new THREE.PerspectiveCamera( 35, window.innerWidth / window.innerHeight, 0.1, 10000);
+  camera.position.x = 13;
+  camera.position.y = 3;
+  camera.position.z = 0.67;
 
   // add earth w/ clouds to scene
   scene.add( earth );
@@ -181,8 +179,8 @@ $(function(){
   scene.add( ball );
 
   // add astronaut
-  loader = new THREE.OBJLoader(manager);
-  loader.load( 'assets/astronaut/Astronaut.OBJ', function ( object ) {
+  var loader = new THREE.OBJLoader( manager );
+  loader.load( 'assets/astronaut/player2_body.OBJ', function ( object ) {
     object.traverse( function ( child ) {
          if ( child instanceof THREE.Mesh ) {
           child.material.map = imageMap;
@@ -191,42 +189,39 @@ $(function(){
           child.castShadow = true;
         }
       });
-
-    object.position.y = -.22;
-    object.position.x = 2;
-    object.position.z = -3;
-    object.scale.set(.5,.5,.5);
     scene.add(object);
   });
 
-  //Material for ground, adding physJS props
+  // add hand
+  var loader = new THREE.OBJLoader( manager );
+  loader.load( 'assets/astronaut/player1_hand.OBJ', function ( object ) {
+    object.traverse( function ( child ) {
+       if ( child instanceof THREE.Mesh ) {
+          child.material.map = imageMap;
+          child.material.normalMap = normalMap;
+          child.material.specualarMap = specMap;
+          child.castShadow = true;
+        }
+      });
+    scene.add( object );
+  });
+
+
+  //ground plane
   floorRocks = textureLoader.load('assets/finalMoonPics/Larissa-Texture.png');
-  //floorBump = textureLoader.load( 'assets/moonPics/cropBump.jpg' );
-  floorMaterial = Physijs.createMaterial(
-    new THREE.MeshPhongMaterial({ map: floorRocks, side: THREE.DoubleSide }),
-    .8, // high friction
-    .4 // low restitution
-  );
-  floorMaterial.map.wrapS = floorMaterial.map.wrapT = THREE.RepeatWrapping;
-  floorMaterial.map.repeat.set( 2 , 2 );
-
-  // Ground
-  ground = new Physijs.BoxMesh(
-    new THREE.CubeGeometry(10, 1, 10),
-    floorMaterial,
-    0 // mass
-  );
-  ground.receiveShadow = true;
-  ground.position.y = -.7;
-
-  scene.add( ground );
+  var loader = new THREE.OBJLoader( manager );
+  loader.load( 'assets/finalMoonPics/moon_floor.OBJ', function ( object ) {
+    object.traverse( function ( child ) {
+       if ( child instanceof THREE.Mesh ) {
+          child.material.map = floorRocks;
+        }
+      });
+    scene.add( object );
+  });
 
 
   controls = new THREE.OrbitControls(camera, renderer.domElement);
   controls.addEventListener('change', render);
-
-
-  camera.lookAt(scene);
 
   scene.add( spotLight );
   scene.add( spotLight2 );
@@ -244,22 +239,18 @@ $(function(){
 
     cloudMesh.rotation.x -= parameters.cRotateX;
     cloudMesh.rotation.y -= parameters.cRotateY;
-    // setTimeout(function(){ astronaut.rotation.y += .002; }, 1000);
+
     if (moved === true && ball.position.z < 2) sendPosition();
 
     // SWITCH STATEMENT?
     if (keyboard[65]){
-      // var continuousPos = setInterval(sendPosition, 50);
       sendPosition();
       moved = true;
       ball.setLinearVelocity(new THREE.Vector3(0, 10, 1));
     }
-
      if (keyboard[87]){
-      //ball.setAngularVelocity(new THREE.Vector3(5, 5, 0));
       ball.setLinearVelocity(new THREE.Vector3(0, 14, 1));
     }
-
     if (keyboard[68]){
       ball.setAngularVelocity(new THREE.Vector3(-2, 0, 0));
     }
@@ -276,7 +267,6 @@ $(function(){
       scene.setGravity(new THREE.Vector3( 0, -60, 0 ));
     }
 
-<<<<<<< HEAD
     if (finalTime < .15){
        console.log('fT', finalTime);
        ball.setLinearVelocity(new THREE.Vector3(0, 15, 1));
@@ -292,7 +282,7 @@ $(function(){
        ball.setLinearVelocity(new THREE.Vector3(0, 8, 1));
       finalTime = undefined;
     }
-    
+
     if (finalTime.runTime <= .03){
       console.log('sp6', finalTime.runTime);
       ball.setLinearVelocity(new THREE.Vector3(0, 15, 1));
@@ -357,10 +347,9 @@ function sendPosition() {
 }
 
 
-//    function onWindowResize() {
-//        camera.aspect = window.innerWidth / window.innerHeight;
-//        camera.updateProjectionMatrix();
-//        renderer.setSize( window.innerWidth, window.innerHeight );
-//        render();
-
+// function onWindowResize() {
+//    camera.aspect = window.innerWidth / window.innerHeight;
+//    camera.updateProjectionMatrix();
+//    renderer.setSize( window.innerWidth, window.innerHeight );
+//    render();
 // }

@@ -112,7 +112,6 @@ function receiveDataChannel(event) {
 	displaySignalMessage("Receiving a data channel");
 	console.log('event in receiveDataChannel', event)
 	dataChannel = event.channel;
-	// dataChannel.onmessage = receiveDataChannelMessage;
 }
 
 function receiveDataChannelMessage(event) {
