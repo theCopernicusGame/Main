@@ -140,6 +140,16 @@ $(function(){
   Physijs.scripts.worker = 'lib/physijs_worker.js'; //webworker used to minimize latency re phys.js
   Physijs.scripts.ammo = 'ammo.js';
 
+  // in case window changes
+  function onWindowResize() {
+     camera.aspect = window.innerWidth / window.innerHeight;
+     camera.updateProjectionMatrix();
+     renderer.setSize( window.innerWidth, window.innerHeight );
+     render();
+  }
+
+  window.addEventListener( 'resize', onWindowResize, false );
+
   var camera, scene, renderer, mesh;
   var startTime  = Date.now();
   displaygui();
@@ -152,7 +162,6 @@ $(function(){
       scene.simulate( undefined, 2 );
     }
   );
-
 
   renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true} );
   renderer.setClearColor(0x000000, 0);
@@ -340,16 +349,7 @@ $(function(){
 
 });
 
-// ADD DISTANCE PART AND FIX FORMATTING OF OBJECTS PASSED INTO DATA CHANNEL
 function sendPosition() {
   let position = { 'type': 'ballPos', 'position': [ ball.position.z, ball.position.y ] };
   dataChannel.send(JSON.stringify(position));
 }
-
-
-// function onWindowResize() {
-//    camera.aspect = window.innerWidth / window.innerHeight;
-//    camera.updateProjectionMatrix();
-//    renderer.setSize( window.innerWidth, window.innerHeight );
-//    render();
-// }
