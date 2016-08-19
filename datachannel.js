@@ -18,6 +18,8 @@ var dataChannelOptions = {
 	maxRetransmitTime: 1000, //milliseconds
 };
 
+var peerFound = false;
+var message = {'type': "", 'position': [0, 0]}
 var dataChannel;
 
 // set up socket connection between client and server for signaling
@@ -26,10 +28,11 @@ io = io.connect();
 io.emit('ready', {"signal_room": SIGNAL_ROOM});
 
 // send a first signaling message to anyone listening, sending it on page load
-io.emit('signal',{"type":"user_1", "message":"Let's play the CopernicusGame!", "room":SIGNAL_ROOM});
+io.emit('signal',{"type":"user_here", "message":"Let's play the CopernicusGame!", "room":SIGNAL_ROOM});
 
 io.on('signaling_message', function(data) {
 	displaySignalMessage("Signal received: " + data.type);
+	peerFound = true;
 
 	// set up the RTC Peer Connection object
 	if (!rtcPeerConn) {
@@ -37,7 +40,7 @@ io.on('signaling_message', function(data) {
 	}
 
 	// if user isn't the first user to join the page, peerConnect obj is already set up, so simply respond with description
-	if (data.type != "user_1") {
+	if (data.type != "user_here") {
 		var message = JSON.parse(data.message);
 		if (message.sdp) {
 			sendRemoteDesc(message.sdp);
@@ -115,8 +118,8 @@ function receiveDataChannel(event) {
 }
 
 function receiveDataChannelMessage(event) {
-	position = JSON.parse(event.data);
-	displayMessage('Height: ' + position.position[1], 'Distance: ' + position.position[0]);
+	message = JSON.parse(event.data);
+	displayMessage('Height: ' + message.position[1], 'Distance: ' + message.position[0]);
 }
 
 //Logging/Display Methods
@@ -132,3 +135,9 @@ function displayMessage(message1, message2) {
 function displaySignalMessage(message) {
 	// signalingArea.innerHTML = signalingArea.innerHTML + "<br/>" + message;
 }
+
+function addGameLogic() {
+  $('#spotlight').append( `<script id=` + `"gamescript"` + `type=` + `"text/javascript"` + ` src=` + `"gameLogic.js"` + `></script>` );
+}
+
+setTimeout(addGameLogic, 2000);

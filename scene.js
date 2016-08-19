@@ -1,5 +1,6 @@
 $(function(){
   // START THREE.JS
+  console.log(user);
   Physijs.scripts.worker = 'lib/physijs_worker.js'; //webworker used to minimize latency re phys.js
   Physijs.scripts.ammo = 'ammo.js';
 
@@ -13,7 +14,7 @@ $(function(){
 
   window.addEventListener( 'resize', onWindowResize, false );
 
-  var camera, scene, renderer, mesh;
+  var camera, scene, renderer, mesh, moved;
   var startTime  = Date.now();
   displaygui();
   var keyboard = {};
@@ -33,7 +34,7 @@ $(function(){
   renderer.shadowMapSoft = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-  //player 1 camera
+  // choose camera
   camera = new THREE.PerspectiveCamera( 35, window.innerWidth / window.innerHeight, 0.1, 10000);
   camera.position.x = 13;
   camera.position.y = 3;
@@ -41,11 +42,6 @@ $(function(){
 
   // add earth w/ clouds to scene
   scene.add( earth );
-
-  // add bumpers
-  scene.add( bumper1 );
-  scene.add( bumper2 );
-  scene.add( bumper3 );
 
   // add ball
   scene.add( ball );
@@ -75,79 +71,24 @@ $(function(){
           child.castShadow = true;
         }
       });
-    scene.add( object );
+    hand = object;
+    scene.add( hand );
   });
 
-
-  //ground plane
-//   floorRocks = textureLoader.load('assets/finalMoonPics/Larissa-Texture.png');
-//   var loader = new THREE.OBJLoader( manager );
-//   loader.load( 'assets/finalMoonPics/moon_floor.OBJ', function ( object ) {
-//     object.traverse( function ( child ) {
-//        if ( child instanceof THREE.Mesh ) {
-//           child.material.map = floorRocks;
-//           //console.log(child.geometry);
-//         }
-//       });
-
-//     scene.add( object );
-//   });
-
-
-   ground_material = Physijs.createMaterial(
-            new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( 'assets/finalMoonPics/Larissa-Texture.png' ) }),
-            .8, // high friction
-            .4 // low restitution
-        );
-        ground_material.map.wrapS = ground_material.map.wrapT = THREE.RepeatWrapping;
-        ground_material.map.repeat.set( 2.5, 2.5 );
-        
-        // Ground
-        NoiseGen = new SimplexNoise;
-        
-        ground_geometry = new THREE.PlaneGeometry( 75, 75, 50, 50 );
-        for ( var i = 0; i < ground_geometry.vertices.length; i++ ) {
-            var vertex = ground_geometry.vertices[i];
-            vertex.z = NoiseGen.noise( vertex.x / 20, vertex.y / 20 ) * 1.03;
-        }
-        ground_geometry.computeFaceNormals();
-        ground_geometry.computeVertexNormals();
-        
-        // If your plane is not square as far as face count then the HeightfieldMesh
-        // takes two more arguments at the end: # of x faces and # of y faces that were passed to THREE.PlaneMaterial
-        ground = new Physijs.HeightfieldMesh(
-            ground_geometry,
-            ground_material,
-            0, // mass
-            50,
-            50
-        );
-        ground.rotation.x = Math.PI / -2;
-        ground.receiveShadow = true;
-        scene.add( ground );
-
-
-
-
-
-
-
-
-
-
+  // add ground plane
+  scene.add( ground );
 
 
   controls = new THREE.OrbitControls(camera, renderer.domElement);
   controls.addEventListener('change', render);
 
+  // add lighting
   scene.add( spotLight );
   scene.add( spotLight2 );
 
-  var moved;
-
-  render();
+  //  MULTIPLAYER 'WORKS', BUT ISNT AT ALL OPTIMAL. GAME NEEDS TO BECOME TURN-BASED. POSITION IN X DIRECTION NEEDS TO BE FLIPPED.
+  // IT NEEDS TO WORK BOTH WAYS. SETTIMEOUT METHOD IS KINDA HACKY, AND MAKES IT SO USER_2'S SCREEN IS WRONG FOR A FRACTION OF A SECOND.
   function render() {
-
     scene.simulate(); // run physics
 
     earth.rotation.x += parameters.rotateX;
@@ -157,31 +98,24 @@ $(function(){
     cloudMesh.rotation.x -= parameters.cRotateX;
     cloudMesh.rotation.y -= parameters.cRotateY;
 
-    if (moved === true && ball.position.z < 2) sendPosition();
+    if (moved === true && user.myTurn === true) sendPosition();
+    if (user.myTurn === false) {
+      ball.position.x = ball.position.x - message.position[0];
+      ball.position.y = message.position[1];
+      ball.position.z = ball.position.z - message.position[2];
+    }
 
-    // SWITCH STATEMENT?
-    if (keyboard[65]){
+    if (keyboard[65] && user.myTurn === true){
       sendPosition();
       moved = true;
-      ball.setLinearVelocity(new THREE.Vector3(0, 10, 1));
+      ball.setLinearVelocity(new THREE.Vector3(-2, 10, 0));
+      ball.rotation.x += .005
     }
-     if (keyboard[87]){
-      ball.setLinearVelocity(new THREE.Vector3(0, 14, 1));
-    }
-    if (keyboard[68]){
-      ball.setAngularVelocity(new THREE.Vector3(-2, 0, 0));
-    }
-    if (keyboard[83]){
-      ball.setAngularVelocity(new THREE.Vector3(0, 0, 0));
-    }
-    if (keyboard[49]){
-      scene.setGravity(new THREE.Vector3( 0, -20, 0 ));
-    }
-    if (keyboard[50]){
-      scene.setGravity(new THREE.Vector3( 0, -10, 0 ));
-    }
-    if (keyboard[51]){
-      scene.setGravity(new THREE.Vector3( 0, -60, 0 ));
+
+    if (keyboard[83]) {
+      if (user.myTurn === false) user.myTurn = true;
+      else user.myTurn = false;
+      console.log(user.myTurn);
     }
 
     if (newFinalTime.counter >= 10 && newFinalTime.flag === true){
@@ -220,6 +154,7 @@ $(function(){
     renderer.render( scene, camera );
   }
 
+  render();
 
   function keyDown(event){
     keyboard[event.keyCode] = true;
@@ -237,6 +172,6 @@ $(function(){
 });
 
 function sendPosition() {
-  let position = { 'type': 'ballPos', 'position': [ ball.position.z, ball.position.y ] };
-  dataChannel.send(JSON.stringify(position));
+  message = { 'type': 'ballPos', 'position': [ ball.position.x, ball.position.y, ball.position.z ] };
+  dataChannel.send(JSON.stringify(message));
 }
