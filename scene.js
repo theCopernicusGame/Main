@@ -164,11 +164,11 @@ $(function(){
   renderer.shadowMapSoft = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-
-  camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, .1, 1500);
-  camera.position.x = 0;
-  camera.position.y = 1;
-  camera.position.z = 8;
+  //player 1
+  camera = new THREE.PerspectiveCamera( 35, window.innerWidth / window.innerHeight, 0.1, 10000);
+  camera.position.x = 13;
+  camera.position.y = 3;
+  camera.position.z = 0.67;
 
   var earthGeometry = new THREE.SphereGeometry(36, 28.8, 14.4);
   var textureLoader = new THREE.TextureLoader();
@@ -190,35 +190,7 @@ $(function(){
   var cloudMesh = new THREE.Mesh(cloudGeometry, cloudMaterial);
   earth.add(cloudMesh);
 
-  var bumper,
-  bumper_geom = new THREE.CubeGeometry(.5, .3, 1.5);
-  bumperMaterial = new THREE.MeshLambertMaterial( { color: 0xFF0000 } );
 
-
-  bumper1 = new Physijs.BoxMesh( bumper_geom, bumperMaterial, 0, { restitution: .2 } );
-  bumper1.position.z = 2.5;
-  bumper1.position.y = -.1;
-  bumper1.position.x = .5;
-  bumper1.receiveShadow = true;
-  bumper1.castShadow = true;
-  scene.add( bumper1 );
-
-  bumper2 = new Physijs.BoxMesh( bumper_geom, bumperMaterial, 0, { restitution: .2 } );
-  bumper2.position.z = 2.5;
-  bumper2.position.y = -.1;
-  bumper2.position.x = 2.5;
-  bumper2.receiveShadow = true;
-  bumper2.castShadow = true;
-  scene.add( bumper2 );
-
-  bumper3 = new Physijs.BoxMesh( bumper_geom, bumperMaterial, 0, { restitution: .2 } );
-  bumper3.position.z = 3;
-  bumper3.position.y = -.1;
-  bumper3.position.x = 1.5;
-  bumper3.rotation.y = Math.PI / 2;
-  bumper3.receiveShadow = true;
-  bumper3.castShadow = true;
-  scene.add( bumper3 );
 
 
   var ballGeometry = new THREE.SphereGeometry(.3, 28.8, 14.4);
@@ -265,7 +237,7 @@ $(function(){
     specMap.needsUpdate = true;
   });
   var loader = new THREE.OBJLoader( manager );
-  loader.load( 'assets/astronaut/Astronaut.OBJ', function ( object ) {
+  loader.load( 'assets/astronaut/player2_body.OBJ', function ( object ) {
     object.traverse( function ( child ) {
        if ( child instanceof THREE.Mesh ) {
           // child.material.normalMap = decalNormal;
@@ -276,13 +248,69 @@ $(function(){
         }
       });
 
-    object.position.y = -.22;
-    object.position.x = 2;
-    object.position.z = -3;
-    object.scale.set(.5,.5,.5);
-    astronaut = object;
+//     object.position.y = -.22;
+//     object.position.x = 2;
+//     object.position.z = -3;
+//     object.scale.set(.5,.5,.5);
+//     astronaut = object;
     scene.add( object );
   });
+
+
+  var loader = new THREE.OBJLoader( manager );
+  loader.load( 'assets/astronaut/player1_hand.OBJ', function ( object ) {
+    object.traverse( function ( child ) {
+       if ( child instanceof THREE.Mesh ) {
+          // child.material.normalMap = decalNormal;
+          child.material.map = imageMap;
+          child.material.normalMap = normalMap;
+          child.material.specualarMap = specMap;
+          child.castShadow = true;
+        }
+      });
+
+//     object.position.y = -.22;
+//     object.position.x = 2;
+//     object.position.z = -3;
+//     object.scale.set(.5,.5,.5);
+//     astronaut = object;
+    scene.add( object );
+  });
+
+
+
+
+
+
+
+
+  //ground plane
+  floorRocks = textureLoader.load('assets/finalMoonPics/Larissa-Texture.png');
+  var loader = new THREE.OBJLoader( manager );
+  loader.load( 'assets/finalMoonPics/moon_floor.OBJ', function ( object ) {
+    object.traverse( function ( child ) {
+       if ( child instanceof THREE.Mesh ) {
+          // child.material.normalMap = decalNormal;
+          child.material.map = floorRocks;
+          // child.material.normalMap = normalMap;
+          // child.material.specualarMap = specMap;
+          // child.castShadow = true;
+        }
+      });
+
+//     object.position.y = -.22;
+//     object.position.x = 2;
+//     object.position.z = -3;
+//     object.scale.set(.5,.5,.5);
+//     astronaut = object;
+    scene.add( object );
+  });
+
+
+
+
+
+
 
   // var axis = new THREE.AxisHelper(100);
   // scene.add(axis);
@@ -329,7 +357,7 @@ $(function(){
   controls.addEventListener('change', render);
 
 
-  camera.lookAt(scene);
+  //camera.lookAt(scene);
 
 
 
