@@ -3,13 +3,16 @@
 $(function(){
 
 
-
   //THE FOLLOWING IS TRACKING HANDS USING JS-HANDTRACKING
-  var finalTime = { runTime: undefined}, counter2 = 0; 
+  var finalTime = {}, demo, newFinalTime = {flag: true}; 
   var DEMO = function(){
     startTime = undefined, endTime = undefined; 
     this.startTime = startTime; this.endTime = endTime, this.finalTime = undefined, this.skinner = undefined;   
   };
+
+  DEMO.prototype.clear = function(){
+    this.tracker.clear(); 
+  }; 
 
   DEMO.prototype.start = function() {
     var that = this;
@@ -74,6 +77,7 @@ $(function(){
 
   DEMO.prototype.drawHull = function(hull, color){
     finalTime = this.tracker.returnTimeObj(); //THIS IS THE ADDED METHOD THAT RETURNS THE OBJECT CAPTURING THE SPEED OF THE PLAYERS HAND
+    if (finalTime.counter > 0) waitABit(); 
     var len = hull.length, i = 1;
     if (len > 0){
       this.context.beginPath();
@@ -135,9 +139,16 @@ $(function(){
   };
 
   $('#canvas').css('visibility', 'hidden');
-  var demo = new DEMO();
+  demo = new DEMO();
   demo.start();
 
+   function waitABit(){
+      setTimeout(function(){
+        newFinalTime.counter = finalTime.counter; 
+        //console.log('inside waitABit', newFinalTime);
+      }, 700); 
+       
+    }
 
   Physijs.scripts.worker = 'lib/physijs_worker.js'; //webworker used to minimize latency re phys.js
   Physijs.scripts.ammo = 'ammo.js';
@@ -467,41 +478,36 @@ $(function(){
       scene.setGravity(new THREE.Vector3( 0, -60, 0 ));
     }
 
-    if (finalTime.runTime <= .03){
-      console.log('sp6', finalTime.runTime); 
-      ball.setLinearVelocity(new THREE.Vector3(0, 15, 1));
-      finalTime.runTime = undefined;
+    if (newFinalTime.counter >= 10 && newFinalTime.flag === true){
+      console.log('sp1', finalTime.counter); 
+      ball.setLinearVelocity(new THREE.Vector3(0, 2, 1));
+      newFinalTime.flag = false;
+      newFinalTime.counter = 0; 
+      demo.clear(); 
      }
     
-    if (finalTime.runTime > .03 && finalTime.runTime <= .06){
-      console.log('sp5', finalTime.runTime); 
-      ball.setLinearVelocity(new THREE.Vector3(0, 13, 1));
-      finalTime.runTime = undefined;
-     }
-    if (finalTime.runTime > .06 && finalTime.runTime <= .1){
-      console.log('sp4', finalTime.runTime); 
-      ball.setLinearVelocity(new THREE.Vector3(0, 11, 1));
-      finalTime.runTime = undefined;
-     }
-    if (finalTime.runTime > .1 && finalTime.runTime <= .15){
-      console.log('sp3', finalTime.runTime); 
-      ball.setLinearVelocity(new THREE.Vector3(0, 9, 1));
-      finalTime.runTime = undefined;
-     }
-    if (finalTime.runTime > .15 && finalTime.runTime <= .3){
-      console.log('sp2', finalTime.runTime); 
-      ball.setLinearVelocity(new THREE.Vector3(0, 7, 1));
-      finalTime.runTime = undefined;
-     }
-    if (finalTime.runTime > .3 && finalTime.runTime <= 1){
-      console.log('sp1', finalTime.runTime); 
+    if (newFinalTime.counter >= 5 && newFinalTime.counter < 10 && newFinalTime.flag === true){
+      console.log('sp2', newFinalTime.counter); 
       ball.setLinearVelocity(new THREE.Vector3(0, 5, 1));
-      finalTime.runTime = undefined;
+      newFinalTime.flag = false; 
+      newFinalTime.counter = 0; 
+      demo.clear(); 
+      
      }
-    if (finalTime.runTime > 1){
-      console.log('sp0', finalTime.runTime); 
-      ball.setLinearVelocity(new THREE.Vector3(0, 3, 1));
-      finalTime.runTime = undefined;
+    if (newFinalTime.counter > 3 && newFinalTime.counter < 5 && newFinalTime.flag === true){
+      console.log('sp3', finalTime.counter); 
+      ball.setLinearVelocity(new THREE.Vector3(0, 10, 1));
+      newFinalTime.flag = false;
+      newFinalTime.counter = 0; 
+      demo.clear(); 
+      
+     }
+    if (newFinalTime.counter > 0 && newFinalTime.flag === true){
+      console.log('sp4', finalTime.counter); 
+      ball.setLinearVelocity(new THREE.Vector3(0, 15, 1));
+      newFinalTime.flag = false;
+      newFinalTime.counter = 0; 
+      demo.clear(); 
      }
 
     requestAnimationFrame( render );
