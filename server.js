@@ -29,3 +29,5 @@ app.io.route('signal', function(req) {
     message: req.data.message
   });
 })
+
+// DAVID, YOU NEED TO UNDERSTAND THE TWO ABOVE ROUTES BETTER

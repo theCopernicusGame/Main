@@ -20,33 +20,29 @@ var dataChannelOptions = {
 
 var dataChannel;
 
+// set up socket connection between client and server for signaling
 io = io.connect();
 
 io.emit('ready', {"signal_room": SIGNAL_ROOM});
 
-//Send a first signaling message to anyone listening
-//In other apps this would be on a button click, we are just doing it on page load
-io.emit('signal',{"type":"user_1", "message":"Would you like to play a game?", "room":SIGNAL_ROOM});
+// send a first signaling message to anyone listening, sending it on page load
+io.emit('signal',{"type":"user_1", "message":"Let's play the CopernicusGame!", "room":SIGNAL_ROOM});
 
 io.on('signaling_message', function(data) {
 	displaySignalMessage("Signal received: " + data.type);
-	//Setup the RTC Peer Connection object
+
+	// set up the RTC Peer Connection object
 	if (!rtcPeerConn) {
 		startSignaling();
 	}
 
+	// if user isn't the first user to join the page, peerConnect obj is already set up, so simply respond with description
 	if (data.type != "user_1") {
 		var message = JSON.parse(data.message);
 		if (message.sdp) {
-			console.log('Received message.sdp: ', message.sdp);
-			rtcPeerConn.setRemoteDescription(new RTCSessionDescription(message.sdp), function () {
-				// if we received an offer, we need to answer
-				console.log('Received remote description, and set it: ', rtcPeerConn.remoteDescription)
-				if (rtcPeerConn.remoteDescription.type == 'offer') {
-					rtcPeerConn.createAnswer(sendLocalDesc, logError);
-				}
-			}, logError);
+			sendRemoteDesc(message.sdp);
 		}
+		// if descriptions for each peer already set up, set ICE candidates
 		else {
 			rtcPeerConn.addIceCandidate(new RTCIceCandidate(message.candidate));
 			console.log('Setting ICE candidate: ', message.candidate);
@@ -56,15 +52,10 @@ io.on('signaling_message', function(data) {
 });
 
 function startSignaling() {
-	displaySignalMessage("starting signaling...");
+	displaySignalMessage("Starting signaling...");
 	rtcPeerConn = new webkitRTCPeerConnection(configuration, {optional: []});
 	dataChannel = rtcPeerConn.createDataChannel('positionMessages', dataChannelOptions);
 	console.log('dataChannel created', dataChannel);
-
-	dataChannel.onerror = logError;
-	dataChannel.onmessage = receiveDataChannelMessage;
-	dataChannel.onopen = dataChannelStateChanged;
-	rtcPeerConn.ondatachannel = receiveDataChannel;
 
 	// send any ice candidates to the other peer
 	rtcPeerConn.onicecandidate = function (evt) {
@@ -80,13 +71,32 @@ function startSignaling() {
 		displaySignalMessage("On negotiation called");
 		if (rtcPeerConn.remoteDescription.type.length === 0) rtcPeerConn.createOffer(sendLocalDesc, logError);
 	}
+
+	// let these dataChannel events trigger dataChannel methods
+	dataChannel.onerror = logError;
+	dataChannel.onmessage = receiveDataChannelMessage;
+	dataChannel.onopen = dataChannelStateChanged;
+	rtcPeerConn.ondatachannel = receiveDataChannel;
 }
 
+// sends local description
 function sendLocalDesc(desc) {
 	rtcPeerConn.setLocalDescription(desc, function () {
 		console.log('Sending local description: ', rtcPeerConn.localDescription);
 		displaySignalMessage("sending local description");
 		io.emit('signal',{"type":"SDP", "message": JSON.stringify({ 'sdp': rtcPeerConn.localDescription }), "room":SIGNAL_ROOM});
+	}, logError);
+}
+
+// sends remote description
+function sendRemoteDesc(desc) {
+	console.log('Received message.sdp: ', desc);
+	rtcPeerConn.setRemoteDescription(new RTCSessionDescription(desc), function () {
+		// if we received an offer, we need to answer
+		console.log('Received remote description, and set it: ', rtcPeerConn.remoteDescription)
+		if (rtcPeerConn.remoteDescription.type == 'offer') {
+			rtcPeerConn.createAnswer(sendLocalDesc, logError);
+		}
 	}, logError);
 }
 
