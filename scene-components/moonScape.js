@@ -1,4 +1,4 @@
-// Materials
+
         // Materials
 
         var textureLoader = new THREE.TextureLoader();
@@ -30,3 +30,4 @@
         );
         ground.rotation.x = Math.PI / -2;
         ground.receiveShadow = true
+

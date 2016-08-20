@@ -1,5 +1,6 @@
 $(function(){
   // START THREE.JS
+
   var userObj = {pointFlag: true, points: 0}
 
   Physijs.scripts.worker = 'lib/physijs_worker.js'; //webworker used to minimize latency re phys.js
@@ -15,7 +16,7 @@ $(function(){
 
   window.addEventListener( 'resize', onWindowResize, false );
 
-  var camera, scene, renderer, mesh;
+  var camera, scene, renderer, mesh, moved;
   var startTime  = Date.now();
   displaygui();
   var keyboard = {};
@@ -35,7 +36,7 @@ $(function(){
   renderer.shadowMapSoft = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-  //player 1 camera
+  // choose camera
   camera = new THREE.PerspectiveCamera( 35, window.innerWidth / window.innerHeight, 0.1, 10000);
   camera.position.x = 13;
   camera.position.y = 3;
@@ -44,13 +45,9 @@ $(function(){
   // add earth w/ clouds to scene
   scene.add( earth );
 
+
   // add moonscape as ground 
   scene.add( ground );
-
-  // add bumpers
-  scene.add( bumper1 );
-  scene.add( bumper2 );
-  scene.add( bumper3 );
 
   // add ball
   scene.add( ball );
@@ -86,30 +83,37 @@ $(function(){
           child.castShadow = true;
         }
       });
-    object.position.y = 2;
+
     scene.add( object );
   });
+
+
+  hand = object;
+  scene.add( hand );
+ 
+
+  // add ground plane
+  scene.add( ground );
 
 
 
   controls = new THREE.OrbitControls(camera, renderer.domElement);
   controls.addEventListener('change', render);
 
+  // add lighting
   scene.add( spotLight );
   scene.add( spotLight2 );
 
-  var moved;
-
-  render();
+  //  MULTIPLAYER 'WORKS', BUT ISNT AT ALL OPTIMAL. GAME NEEDS TO BECOME TURN-BASED. POSITION IN X DIRECTION NEEDS TO BE FLIPPED.
+  // IT NEEDS TO WORK BOTH WAYS. SETTIMEOUT METHOD IS KINDA HACKY, AND MAKES IT SO USER_2'S SCREEN IS WRONG FOR A FRACTION OF A SECOND.
   function render() {
     scene.simulate(); // run physics
 
-    //POINTS BASED ON X,Y COORDINATES
+    //POINTS BASED ON X,Y COORDINATES - DRAFT OF LOGIC
     if ( userObj.pointFlag === true && ((ball.position.x - target.position.x) > -2) && ((ball.position.x - target.position.x) < 2)  && ((ball.position.z - target.position.z) < 2)  && ((ball.position.z - target.position.z) < 2) ){
       userObj.points += 2; 
       userObj.pointFlag = false; 
       console.log("Player points increased!", userObj); 
-      
     } 
     else if ( userObj.pointFlag === true && ((ball.position.x - target.position.x) > -3) && ((ball.position.x - target.position.x) < 3)  && ((ball.position.z - target.position.z) < 3)  && ((ball.position.z - target.position.z) < 3) ){ 
       userObj.points += 1; 
@@ -125,14 +129,16 @@ $(function(){
     cloudMesh.rotation.x -= parameters.cRotateX;
     cloudMesh.rotation.y -= parameters.cRotateY;
 
-    if (moved === true && ball.position.z < 2) sendPosition();
+    if (moved === true && user.myTurn === true) sendPosition();
+    if (user.myTurn === false) {
+      ball.position.x = ball.position.x - message.position[0];
+      ball.position.y = message.position[1];
+      ball.position.z = ball.position.z - message.position[2];
+    }
 
-    // SWITCH STATEMENT?
-    if (keyboard[65]){
+    if (keyboard[65] && user.myTurn === true){
       sendPosition();
-      moved = true;
-      ball.setLinearVelocity(new THREE.Vector3(2, 0, 0));
-      console.log('target coord', target.position.z); 
+      moved = true; 
     }
      if (keyboard[87]){
       ball.setLinearVelocity(new THREE.Vector3(0, 0, 1));
@@ -151,6 +157,12 @@ $(function(){
     }
     if (keyboard[51]){
       scene.setGravity(new THREE.Vector3( 0, -60, 0 ));
+    }
+
+    if (keyboard[83]) {
+      if (user.myTurn === false) user.myTurn = true;
+      else user.myTurn = false;
+      console.log(user.myTurn);
     }
 
     if (newFinalTime.counter >= 10 && newFinalTime.flag === true){
@@ -189,6 +201,7 @@ $(function(){
     renderer.render( scene, camera );
   }
 
+  render();
 
   function keyDown(event){
     keyboard[event.keyCode] = true;
@@ -201,11 +214,11 @@ $(function(){
   window.addEventListener('keydown', keyDown);
   window.addEventListener('keyup', keyUp);
 
-  $('#bg').append( renderer.domElement );
+  $('#bg').append( renderer.domElement ); 
 
 });
 
 function sendPosition() {
-  let position = { 'type': 'ballPos', 'position': [ ball.position.z, ball.position.y ] };
-  dataChannel.send(JSON.stringify(position));
+  message = { 'type': 'ballPos', 'position': [ ball.position.x, ball.position.y, ball.position.z ] };
+  dataChannel.send(JSON.stringify(message));
 }
