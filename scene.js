@@ -38,7 +38,8 @@ $(function(){
   camera = new THREE.PerspectiveCamera( 35, window.innerWidth / window.innerHeight, 0.1, 10000);
   camera.position.x = 13;
   camera.position.y = 3;
-  camera.position.z = 0.67;
+  camera.position.z = 0;
+  camera.lookAt(new THREE.Vector3(0,3,0))
 
   // add earth w/ clouds to scene
   scene.add( earth );
@@ -47,8 +48,7 @@ $(function(){
   scene.add( ball );
 
   // add astronaut
-  var loader = new THREE.OBJLoader( manager );
-  loader.load( 'assets/astronaut/player2_body.OBJ', function ( object ) {
+  objLoader.load( 'assets/astronaut/player2_body.OBJ', function ( object ) {
     object.traverse( function ( child ) {
          if ( child instanceof THREE.Mesh ) {
           child.material.map = imageMap;
@@ -61,8 +61,7 @@ $(function(){
   });
 
   // add hand
-  var loader = new THREE.OBJLoader( manager );
-  loader.load( 'assets/astronaut/player1_hand.OBJ', function ( object ) {
+  objLoader.load( 'assets/astronaut/player1_hand.OBJ', function ( object ) {
     object.traverse( function ( child ) {
        if ( child instanceof THREE.Mesh ) {
           child.material.map = imageMap;
@@ -77,10 +76,6 @@ $(function(){
 
   // add ground plane
   scene.add( ground );
-
-
-  controls = new THREE.OrbitControls(camera, renderer.domElement);
-  controls.addEventListener('change', render);
 
   // add lighting
   scene.add( spotLight );

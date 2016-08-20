@@ -3,8 +3,7 @@
 var textureLoader = new THREE.TextureLoader();
 var ground_material = Physijs.createMaterial(
   new THREE.MeshPhongMaterial({
-    map: textureLoader.load( 'assets/finalMoonpics/normal.jpg' )
-    // normalMap: textureLoader.load( 'assets/finalMoonpics/moonPic.jpg' )
+    map: textureLoader.load( 'assets/finalMoonpics/finalMoonMapTile.jpg' )
   }), .8, .3);
 ground_material.map.wrapS = ground_material.map.wrapT = THREE.RepeatWrapping;
 ground_material.map.repeat.set( 2.5, 2.5 );
