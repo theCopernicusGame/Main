@@ -6,5 +6,5 @@
     50
   );
 
-  ballHolder.position.set( 6, 1, -1 );
+  ballHolder.position.set( 6, 1, 0 );
   ballHolder.visible = false;
