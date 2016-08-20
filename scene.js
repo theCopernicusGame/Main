@@ -79,58 +79,78 @@ $(function(){
   });
 
 
-  //ground plane
-//   floorRocks = textureLoader.load('assets/finalMoonPics/Larissa-Texture.png');
-//   var loader = new THREE.OBJLoader( manager );
-//   loader.load( 'assets/finalMoonPics/moon_floor.OBJ', function ( object ) {
-//     object.traverse( function ( child ) {
-//        if ( child instanceof THREE.Mesh ) {
-//           child.material.map = floorRocks;
-//           //console.log(child.geometry);
-//         }
-//       });
 
-//     scene.add( object );
-//   });
+  var loader = new THREE.OBJLoader( manager );
+  loader.load( 'assets/finalMoonPics/moon_floor.OBJ', function ( object ) {
+    object.traverse( function ( child ) {
+       if ( child instanceof THREE.Mesh ) {
+          child.material.map = floorImage;
+          child.receiveShadow = true;
+        }
+      });
 
-
-   ground_material = Physijs.createMaterial(
-            new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( 'assets/finalMoonPics/Larissa-Texture.png' ) }),
-            .8, // high friction
-            .4 // low restitution
-        );
-        ground_material.map.wrapS = ground_material.map.wrapT = THREE.RepeatWrapping;
-        ground_material.map.repeat.set( 2.5, 2.5 );
-        
-        // Ground
-        NoiseGen = new SimplexNoise;
-        
-        ground_geometry = new THREE.PlaneGeometry( 75, 75, 50, 50 );
-        for ( var i = 0; i < ground_geometry.vertices.length; i++ ) {
-            var vertex = ground_geometry.vertices[i];
-            vertex.z = NoiseGen.noise( vertex.x / 20, vertex.y / 20 ) * 1.03;
-        }
-        ground_geometry.computeFaceNormals();
-        ground_geometry.computeVertexNormals();
-        
-        // If your plane is not square as far as face count then the HeightfieldMesh
-        // takes two more arguments at the end: # of x faces and # of y faces that were passed to THREE.PlaneMaterial
-        ground = new Physijs.HeightfieldMesh(
-            ground_geometry,
-            ground_material,
-            0, // mass
-            50,
-            50
-        );
-        ground.rotation.x = Math.PI / -2;
-        ground.receiveShadow = true;
-        scene.add( ground );
+    scene.add( object );
+  });
 
 
+//    ground_material = Physijs.createMaterial(
+//             new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( 'assets/finalMoonPics/Larissa-Texture.png' ) }),
+//             .8, // high friction
+//             .4 // low restitution
+//         );
+//         ground_material.map.wrapS = ground_material.map.wrapT = THREE.RepeatWrapping;
+//         ground_material.map.repeat.set( 2.5, 2.5 );
+//         
+//         // Ground
+//         NoiseGen = new SimplexNoise;
+//         
+//         ground_geometry = new THREE.PlaneGeometry( 75, 75, 50, 50 );
+//         for ( var i = 0; i < ground_geometry.vertices.length; i++ ) {
+//             var vertex = ground_geometry.vertices[i];
+//             vertex.z = NoiseGen.noise( vertex.x / 20, vertex.y / 20 ) * 1.03;
+//         }
+//         ground_geometry.computeFaceNormals();
+//         ground_geometry.computeVertexNormals();
+//         
+//         // If your plane is not square as far as face count then the HeightfieldMesh
+//         // takes two more arguments at the end: # of x faces and # of y faces that were passed to THREE.PlaneMaterial
+//         ground = new Physijs.HeightfieldMesh(
+//             ground_geometry,
+//             ground_material,
+//             0, // mass
+//             50,
+//             50
+//         );
+//         ground.rotation.x = Math.PI / -2;
+//         ground.receiveShadow = true;
+//         scene.add( ground );
 
+//fake floor (invisible)
+  box = new Physijs.BoxMesh(
+            new THREE.CubeGeometry( 30, 1, 10 ),
+            new THREE.MeshBasicMaterial({ color: 0x888888 }),
+            0,
+            50,
+            50
+        );
 
+  box.position.set( 0, -0.5, 0 );
+  box.visible = false;
+  scene.add( box );
 
+  //ball start
 
+  var ballHolder = new Physijs.BoxMesh(
+    new THREE.CubeGeometry( 2, 0.1, 2 ),
+    new THREE.MeshBasicMaterial({ color: 0x888888 }),
+    0,
+    50,
+    50
+  );
+
+  ballHolder.position.set( 6, 1, -1 );
+  ballHolder.visible = false;
+  scene.add( ballHolder );
 
 
 
@@ -157,13 +177,13 @@ $(function(){
     cloudMesh.rotation.x -= parameters.cRotateX;
     cloudMesh.rotation.y -= parameters.cRotateY;
 
-    if (moved === true && ball.position.z < 2) sendPosition();
+    if (moved === true && ball.position.x < 2) sendPosition();
 
     // SWITCH STATEMENT?
     if (keyboard[65]){
       sendPosition();
       moved = true;
-      ball.setLinearVelocity(new THREE.Vector3(0, 10, 1));
+      ball.setLinearVelocity(new THREE.Vector3(-1, 10, 0));
     }
      if (keyboard[87]){
       ball.setLinearVelocity(new THREE.Vector3(0, 14, 1));
@@ -237,6 +257,6 @@ $(function(){
 });
 
 function sendPosition() {
-  let position = { 'type': 'ballPos', 'position': [ ball.position.z, ball.position.y ] };
+  let position = { 'type': 'ballPos', 'position': [ ball.position.x, ball.position.y ] };
   dataChannel.send(JSON.stringify(position));
 }
