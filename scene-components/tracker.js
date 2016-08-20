@@ -37,7 +37,7 @@ DEMO.prototype.videoReady = function(stream){
   } else {
     this.video.src = stream;
   }
-  this.tick();
+  //this.tick();
 };
 
 DEMO.prototype.videoError = function(error){
