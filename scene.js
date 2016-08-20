@@ -151,7 +151,7 @@ $(function(){
 
     if (newFinalTime.counter >= 10 && newFinalTime.flag === true){
       console.log('sp1', finalTime.counter);
-      ball.setLinearVelocity(new THREE.Vector3(0, 2, 1));
+      ball.setLinearVelocity(new THREE.Vector3(-9, 13, 0));
       newFinalTime.flag = false;
       newFinalTime.counter = 0;
       demo.clear();
@@ -159,7 +159,7 @@ $(function(){
 
     if (newFinalTime.counter >= 5 && newFinalTime.counter < 10 && newFinalTime.flag === true){
       console.log('sp2', newFinalTime.counter);
-      ball.setLinearVelocity(new THREE.Vector3(0, 6, 1));
+      ball.setLinearVelocity(new THREE.Vector3(-8.4, 12, 0));
       newFinalTime.flag = false;
       newFinalTime.counter = 0;
       demo.clear();
@@ -167,7 +167,7 @@ $(function(){
 
     if (newFinalTime.counter > 3 && newFinalTime.counter < 5 && newFinalTime.flag === true){
       console.log('sp3', finalTime.counter);
-      ball.setLinearVelocity(new THREE.Vector3(0, 10, 1));
+      ball.setLinearVelocity(new THREE.Vector3(-5, 10, 0));
       newFinalTime.flag = false;
       newFinalTime.counter = 0;
       demo.clear();
@@ -199,6 +199,8 @@ $(function(){
   window.addEventListener('keyup', keyUp);
 
   $('#bg').append( renderer.domElement );
+  var waiting = $( "<div id='waiting' style='border: 3px solid white; border-radius: 10px; background: rgba(0,0,128, .1); color: #FFF; text-align: center; margin-left: 40%; width: 20%; height: 10%; margin-top: -50%; font-size: 200%; padding-top: 2.5%; padding-bottom: 2.5%'>Waiting for player 2</div>" ); 
+  $('#bg').append(waiting); 
 
 });
 

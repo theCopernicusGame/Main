@@ -30,9 +30,9 @@ var ballTexture2 = new THREE.MeshPhongMaterial( { color: 0xFF0000} );
 
 
 // var ball = new Physijs.SphereMesh(ballGeometry, ballTexture, undefined, { restitution: Math.random() * 1.5 } );
-var ball = new Physijs.SphereMesh(ballGeometry, ballTexture, undefined, .9 );
+var ball = new Physijs.SphereMesh(ballGeometry, ballTexture, .6, .9 );
 ball.castShadow = true;
-ball.position.z = -1;
+ball.position.z = 0;
 ball.position.x = 6;
 ball.position.y = 1.35;
 ball.collisions = 0;
