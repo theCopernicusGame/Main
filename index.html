@@ -1,50 +1,46 @@
 <!DOCTYPE html>
   <head>
     <meta charset="UTF-8">
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="styles.css">
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="lib/three.min.js"></script>
-     <script type="text/javascript" src="lib/SubdivisionModifier.js"></script>
     <script type="text/javascript" src="lib/dat.gui.min.js"></script>
-    <script type="text/javascript" src="lib/OrbitControls.js"></script>
     <script type="text/javascript" src="lib/OBJLoader.js"></script>
+    <script type="text/javascript" src="lib/heartcode-canvasloader.js"></script>
     <script type="text/javascript" src="lib/physi.js"></script>
     <script type="text/javascript" src="lib/tracking-min.js"></script>
     <script type="text/javascript" src="lib/cv.js"></script>
     <script type="text/javascript" src="lib/handTracking.js"></script>
-    <script type="text/javascript" src="lib/simplex-noise.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
 
     <title>Copernicus</title>
-
 
   </head>
 
   <body>
-  
-  <div id="stuff" style="position: absolute">
-    <video id="myVideo" width="10%" preload autoplay loop muted></video>
+    <div class = "loading-container">
+      <div id="container">
 
-    <canvas id="canvas" style="width:160px; height:120px"></canvas>
+        <div id="infoPanel">
+          <video id="myVideo" width="80.5px" height:"60.38" preload autoplay loop muted></video>
+          <canvas id="canvas" style="width:80.5px; height:60.38px"></canvas>
 
-    <div>
-      <div id="heightArea">Height: </div>
-      <div id="distArea">Distance: </div>
-      <div id="signalingArea">Signaling Messages:</br></div>
-    </div>
-  </div>
-  
-    <div id='bg' style='border-radius: 15px; width: 600px; opacity: .9'>
-        
-    <div id="game-box" style="font-family:'Exo 2'; font-size: 30px; text-shadow: 2px 2px 2px #000; padding-left: 30px"></div>
-    <!-- <img  id="gif" src="assets/loadingImage.gif" style="width: 50%">; -->
+          <div id="heightArea">Height: </div>
+          <div id="distArea">Distance: </div>
+          <div id="signalingArea">Signaling Messages:</br></div>
+        </div>
+
+    <div id='bg' style='border-radius: 15px; opacity: .9'>
     </div>
 
     <script type="text/javascript" src="dataChannel.js"></script>
+    <script type="text/javascript" src="scene-components/loaderAndLoadingScreen.js"></script>
     <script type="text/javascript" src="scene-components/tracker.js"></script>
     <script type="text/javascript" src="scene-components/target.js"></script>
     <script type="text/javascript" src="scene-components/earth.js"></script>
-    <script type="text/javascript" src="scene-components/moonScape.js"></script>
+    <script type="text/javascript" src="scene-components/ballHolder.js"></script>
+    <script type="text/javascript" src="scene-components/physicsFloor.js"></script>
     <script type="text/javascript" src="scene-components/bumper.js"></script>
     <script type="text/javascript" src="scene-components/kinematicGui.js"></script>
     <script type="text/javascript" src="scene-components/ball.js"></script>
@@ -57,12 +53,6 @@
       canvas.css('paddingop', '200px');
     })
     </script>
-
-  <!--   <div id='bg' style='border-radius: 15px; width: 600px; opacity: .9'>
-
-    <div id="game-box" style="font-family:'Exo 2'; font-size: 30px; text-shadow: 2px 2px 2px #000; padding-left: 30px"></div>
-
-    </div> -->
 
 
   </body>

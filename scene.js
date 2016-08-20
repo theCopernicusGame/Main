@@ -1,7 +1,7 @@
 $(function(){
   // START THREE.JS
-
-  var userObj = {pointFlag: true, points: 0}
+  //FOR TESTING POINTS
+  var pointsTest = true;
 
   Physijs.scripts.worker = 'lib/physijs_worker.js'; //webworker used to minimize latency re phys.js
   Physijs.scripts.ammo = 'ammo.js';
@@ -40,13 +40,12 @@ $(function(){
   camera = new THREE.PerspectiveCamera( 35, window.innerWidth / window.innerHeight, 0.1, 10000);
   camera.position.x = 13;
   camera.position.y = 3;
-  camera.position.z = 0.67;
+  camera.position.z = 0;
+  camera.lookAt(new THREE.Vector3(0,3,0))
 
 
   // add earth w/ clouds to scene
   scene.add( earth );
-
-
 
   // add ball
   scene.add( ball );
@@ -55,11 +54,10 @@ $(function(){
   scene.add( target );
 
   //add second target
-  scene.add( target2 ); 
+  scene.add( target2 );
 
   // add astronaut
-  var loader = new THREE.OBJLoader( manager );
-  loader.load( 'assets/astronaut/player2_body.OBJ', function ( object ) {
+  objLoader.load( 'assets/astronaut/player2_body.OBJ', function ( object ) {
     object.traverse( function ( child ) {
          if ( child instanceof THREE.Mesh ) {
           child.material.map = imageMap;
@@ -72,8 +70,7 @@ $(function(){
   });
 
   // add hand
-  var loader = new THREE.OBJLoader( manager );
-  loader.load( 'assets/astronaut/player1_hand.OBJ', function ( object ) {
+  objLoader.load( 'assets/astronaut/player1_hand.OBJ', function ( object ) {
     object.traverse( function ( child ) {
        if ( child instanceof THREE.Mesh ) {
           child.material.map = imageMap;
@@ -86,19 +83,24 @@ $(function(){
     scene.add( object );
   });
 
+  // add moon floor
+  var floorImage = new THREE.Texture();
+  
+  imgLoader.load('assets/finalMoonPics/Larissa-Texture.png', function(img) {
+    floorImage.image = img;
+    floorImage.needsUpdate = true;
+  });
 
-
-  var loader = new THREE.OBJLoader( manager );
-  loader.load( 'assets/finalMoonPics/moon_floor.OBJ', function ( object ) {
+  objLoader.load( 'assets/finalMoonPics/moon_floor.OBJ', function ( object ) {
     object.traverse( function ( child ) {
        if ( child instanceof THREE.Mesh ) {
           child.material.map = floorImage;
           child.receiveShadow = true;
         }
       });
-
     scene.add( object );
   });
+
 
   box = new Physijs.BoxMesh(
             new THREE.CubeGeometry( 30, 1, 10 ),
@@ -137,6 +139,14 @@ $(function(){
   controls = new THREE.OrbitControls(camera, renderer.domElement);
   controls.addEventListener('change', render);
 
+
+  //fake floor (invisible)
+  scene.add( fakeFloor );
+
+  //ball holder for ball starting position (invisible)
+  scene.add( ballHolder );
+
+
   // add lighting
   scene.add( spotLight );
   scene.add( spotLight2 );
@@ -145,19 +155,6 @@ $(function(){
   // IT NEEDS TO WORK BOTH WAYS. SETTIMEOUT METHOD IS KINDA HACKY, AND MAKES IT SO USER_2'S SCREEN IS WRONG FOR A FRACTION OF A SECOND.
   function render() {
     scene.simulate(); // run physics
-
-    //POINTS BASED ON X,Y COORDINATES - DRAFT OF LOGIC
-    if ( userObj.pointFlag === true && ((ball.position.x - target.position.x) > -2) && ((ball.position.x - target.position.x) < 2)  && ((ball.position.z - target.position.z) < 2)  && ((ball.position.z - target.position.z) < 2) ){
-      userObj.points += 2; 
-      userObj.pointFlag = false; 
-      console.log("Player points increased!", userObj); 
-    } 
-    else if ( userObj.pointFlag === true && ((ball.position.x - target.position.x) > -3) && ((ball.position.x - target.position.x) < 3)  && ((ball.position.z - target.position.z) < 3)  && ((ball.position.z - target.position.z) < 3) ){ 
-      userObj.points += 1; 
-      userObj.pointFlag = false; 
-      console.log("Player points increased!", userObj); 
-    } 
-
 
     earth.rotation.x += parameters.rotateX;
     earth.rotation.y -= parameters.rotateY;
@@ -177,6 +174,14 @@ $(function(){
       sendPosition();
       moved = true;
       ball.setLinearVelocity(new THREE.Vector3(-1, 10, 0));
+    }
+    if (keyboard[32] && pointsTest === true){ //AIMING AT TARGET FOR TESTING POINTS +2
+      ball.setLinearVelocity(new THREE.Vector3(-9, 13, 0));
+      pointsTest = false;
+    }
+     if (keyboard[67] && pointsTest === true){ //AIMING AT TARGET FOR TESTING POINTS +1
+      ball.setLinearVelocity(new THREE.Vector3(-8.4, 12, 0));
+      pointsTest = false;
     }
 
     if (keyboard[83]) {
@@ -234,7 +239,7 @@ $(function(){
   window.addEventListener('keydown', keyDown);
   window.addEventListener('keyup', keyUp);
 
-  $('#bg').append( renderer.domElement ); 
+  $('#bg').append( renderer.domElement );
 
 });
 
