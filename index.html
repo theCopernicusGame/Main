@@ -19,7 +19,6 @@
   </head>
 
   <body>
-
     <div class = "loading-container">
       <div id="container">
 
@@ -33,7 +32,6 @@
         </div>
 
     <div id='bg' style='border-radius: 15px; opacity: .9'>
-
     </div>
 
     <script type="text/javascript" src="dataChannel.js"></script>
@@ -48,6 +46,13 @@
     <script type="text/javascript" src="scene-components/ball.js"></script>
     <script type="text/javascript" src="scene-components/astronaut.js"></script>
     <script id="spotlight" type="text/javascript" src="scene-components/spotlight.js"></script>
+    <script>
+    $(document).ready(function() {
+      var canvas = $('canvas');
+      console.log(canvas)
+      canvas.css('paddingop', '200px');
+    })
+    </script>
 
 
   </body>
