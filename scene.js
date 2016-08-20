@@ -42,12 +42,11 @@ $(function(){
   camera.position.y = 3;
   camera.position.z = 0.67;
 
+
   // add earth w/ clouds to scene
   scene.add( earth );
 
 
-  // add moonscape as ground 
-  scene.add( ground );
 
   // add ball
   scene.add( ball );
@@ -101,40 +100,6 @@ $(function(){
     scene.add( object );
   });
 
-
-//    ground_material = Physijs.createMaterial(
-//             new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture( 'assets/finalMoonPics/Larissa-Texture.png' ) }),
-//             .8, // high friction
-//             .4 // low restitution
-//         );
-//         ground_material.map.wrapS = ground_material.map.wrapT = THREE.RepeatWrapping;
-//         ground_material.map.repeat.set( 2.5, 2.5 );
-//         
-//         // Ground
-//         NoiseGen = new SimplexNoise;
-//         
-//         ground_geometry = new THREE.PlaneGeometry( 75, 75, 50, 50 );
-//         for ( var i = 0; i < ground_geometry.vertices.length; i++ ) {
-//             var vertex = ground_geometry.vertices[i];
-//             vertex.z = NoiseGen.noise( vertex.x / 20, vertex.y / 20 ) * 1.03;
-//         }
-//         ground_geometry.computeFaceNormals();
-//         ground_geometry.computeVertexNormals();
-//         
-//         // If your plane is not square as far as face count then the HeightfieldMesh
-//         // takes two more arguments at the end: # of x faces and # of y faces that were passed to THREE.PlaneMaterial
-//         ground = new Physijs.HeightfieldMesh(
-//             ground_geometry,
-//             ground_material,
-//             0, // mass
-//             50,
-//             50
-//         );
-//         ground.rotation.x = Math.PI / -2;
-//         ground.receiveShadow = true;
-//         scene.add( ground );
-
-//fake floor (invisible)
   box = new Physijs.BoxMesh(
             new THREE.CubeGeometry( 30, 1, 10 ),
             new THREE.MeshBasicMaterial({ color: 0x888888 }),
@@ -165,7 +130,7 @@ $(function(){
  
 
   // add ground plane
-  scene.add( ground );
+  //scene.add( ground );
 
 
 

@@ -21,9 +21,9 @@
   </head>
 
   <body>
-
+  
+  <div id="stuff" style="position: absolute">
     <video id="myVideo" width="10%" preload autoplay loop muted></video>
-
 
     <canvas id="canvas" style="width:160px; height:120px"></canvas>
 
@@ -32,10 +32,8 @@
       <div id="distArea">Distance: </div>
       <div id="signalingArea">Signaling Messages:</br></div>
     </div>
-    <div class="Top" style="margin-top: -30px; margin-bottom: -30px; margin-left: 80px">
-        <h1 style="padding-top: -40px;  font-family:'Exo 2'; font-size: 60px; text-shadow: 2px 2px 2px #000; padding-left: 7  0px; color: #9933Ff"></h1>
-    </div>
-    <br>
+  </div>
+  
     <div id='bg' style='border-radius: 15px; width: 600px; opacity: .9'>
         
     <div id="game-box" style="font-family:'Exo 2'; font-size: 30px; text-shadow: 2px 2px 2px #000; padding-left: 30px"></div>
@@ -52,6 +50,13 @@
     <script type="text/javascript" src="scene-components/ball.js"></script>
     <script type="text/javascript" src="scene-components/astronaut.js"></script>
     <script id="spotlight" type="text/javascript" src="scene-components/spotlight.js"></script>
+    <script>
+    $(document).ready(function() {
+      var canvas = $('canvas');
+      console.log(canvas)
+      canvas.css('paddingop', '200px');
+    })
+    </script>
 
   <!--   <div id='bg' style='border-radius: 15px; width: 600px; opacity: .9'>
 
