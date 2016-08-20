@@ -135,7 +135,9 @@ DEMO.prototype.createImage = function(imageSrc, imageDst){
 
 $('#canvas').css('visibility', 'hidden');
 demo = new DEMO();
-demo.start(); //INITIATE THIS WHEN IT'S TIME TO THROW - CURRENTLY STARTS IMMEDIATELY UPON LOADING; 
+
+//demo.start();
+
 
 function waitABit(){
   setTimeout(function(){
