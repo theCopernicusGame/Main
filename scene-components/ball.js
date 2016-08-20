@@ -8,12 +8,11 @@ var moonNormal  = textureLoader.load('assets/finalMoonPics/normal.jpg');
 var moonMap = textureLoader.load('assets/finalMoonPics/moonPic.jpg');
 var ballTexture = new THREE.MeshPhongMaterial( { map: moonMap, normalMap: moonNormal} );//TEST RED BALL FOR LOAD TIME
 var ballTexture2 = new THREE.MeshPhongMaterial( { color: 0xFF0000} );
-<<<<<<< HEAD
-var ball = new Physijs.SphereMesh(ballGeometry, ballTexture, 1, .9  );
-=======
+
+
+
 // var ball = new Physijs.SphereMesh(ballGeometry, ballTexture, undefined, { restitution: Math.random() * 1.5 } );
 var ball = new Physijs.SphereMesh(ballGeometry, ballTexture, undefined, .9 );
->>>>>>> 47352442ac16b7c7bedcebdfe0f41a978da82c99
 ball.castShadow = true;
 ball.position.z = -2;
 ball.position.x = 2;

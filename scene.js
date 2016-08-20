@@ -88,8 +88,8 @@ $(function(){
   });
 
 
-  hand = object;
-  scene.add( hand );
+
+
  
 
   // add ground plane
