@@ -116,29 +116,23 @@ $(function(){
 
   //ball start
 
-  var ballHolder = new Physijs.BoxMesh(
-    new THREE.CubeGeometry( 2, 0.1, 2 ),
-    new THREE.MeshBasicMaterial({ color: 0x888888 }),
-    0,
-    50,
-    50
-  );
+  // var ballHolder = new Physijs.BoxMesh(
+  //   new THREE.CubeGeometry( 2, 0.1, 2 ),
+  //   new THREE.MeshBasicMaterial({ color: 0x888888 }),
+  //   0,
+  //   50,
+  //   50
+  // );
 
-  ballHolder.position.set( 6, 1, -1 );
-  ballHolder.visible = false;
-  scene.add( ballHolder );
+  // ballHolder.position.set( 6, 1, 0 );
+  // ballHolder.visible = false;
+  // scene.add( ballHolder );
 
 
  
 
   // add ground plane
   //scene.add( ground );
-
-
-
-  controls = new THREE.OrbitControls(camera, renderer.domElement);
-  controls.addEventListener('change', render);
-
 
   //fake floor (invisible)
   scene.add( fakeFloor );
@@ -240,9 +234,14 @@ $(function(){
   window.addEventListener('keyup', keyUp);
 
   $('#bg').append( renderer.domElement );
+  var pointsDiv = $( "<div id='pointsDiv' style='border: 3px solid white; border-radius: 10px; background: rgba(0,0,128, .1); color: #FFF; text-align: center; margin-left: 80%; width: 17%; height: 10%; margin-top: -55%; font-size: 90%; padding-top: 2.5%; padding-bottom: 2.5%'>Player 1 Points: <span id ='p1Points'> 0 </span> <br> Player 2 Points: <span id='p2Points'>" + user.points + " </span> </div>" ); 
+  $('#bg').append(pointsDiv);
+  $('#pointsDiv').fadeOut(0).delay(6500).fadeIn(1500);
   var waiting = $( "<div id='waiting' style='border: 3px solid white; border-radius: 10px; background: rgba(0,0,128, .1); color: #FFF; text-align: center; margin-left: 40%; width: 20%; height: 10%; margin-top: -50%; font-size: 200%; padding-top: 2.5%; padding-bottom: 2.5%'>Waiting for player 2</div>" ); 
   $('#bg').append(waiting); 
-
+  setTimeout(function(){$('#waiting').animate({'margin-top': "90%"}, 1500)},5000); 
+ 
+   
 });
 
 function sendPosition() {

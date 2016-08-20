@@ -11,6 +11,7 @@ handleCollision = function( collided_with, linearVelocity, angularVelocity ) {
             user.points += 2;
             user.pointFlag = false;
             console.log("Player got 2 points!", user);
+            $('#p1Points').text(user.points); 
           }
           else if ( user.pointFlag === true && ((this.position.x - target.position.x) > -3.5) && ((this.position.x - target.position.x) < 3.5)  && ((this.position.z - target.position.z) < 3.5)  && ((this.position.z - target.position.z) < 3.5) ){
             user.points += 1;
@@ -30,11 +31,11 @@ var ballTexture2 = new THREE.MeshPhongMaterial( { color: 0xFF0000} );
 
 
 // var ball = new Physijs.SphereMesh(ballGeometry, ballTexture, undefined, { restitution: Math.random() * 1.5 } );
-var ball = new Physijs.SphereMesh(ballGeometry, ballTexture, .6, .9 );
+var ball = new Physijs.SphereMesh(ballGeometry, ballTexture, .3, .9 );
 ball.castShadow = true;
 ball.position.z = 0;
 ball.position.x = 6;
-ball.position.y = 1.35;
+ball.position.y = 1.45;
 ball.collisions = 0;
 ball.__dirtyPosition = true;
 ball.receiveShadow = true;
