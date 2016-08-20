@@ -1,6 +1,8 @@
 $(function(){
   // START THREE.JS
-  console.log(user);
+  //FOR TESTING POINTS
+  var pointsTest = true;
+
   Physijs.scripts.worker = 'lib/physijs_worker.js'; //webworker used to minimize latency re phys.js
   Physijs.scripts.ammo = 'ammo.js';
 
@@ -47,6 +49,12 @@ $(function(){
   // add ball
   scene.add( ball );
 
+  //add target
+  scene.add( target );
+
+  //add second target
+  scene.add( target2 );
+
   // add astronaut
   objLoader.load( 'assets/astronaut/player2_body.OBJ', function ( object ) {
     object.traverse( function ( child ) {
@@ -70,12 +78,33 @@ $(function(){
           child.castShadow = true;
         }
       });
-    hand = object;
-    scene.add( hand );
+
+    scene.add( object );
   });
 
-  // add ground plane
-  scene.add( ground );
+  // add moon floor
+  var floorImage = new THREE.Texture();
+  
+  imgLoader.load('assets/finalMoonPics/Larissa-Texture.png', function(img) {
+    floorImage.image = img;
+    floorImage.needsUpdate = true;
+  });
+
+  objLoader.load( 'assets/finalMoonPics/moon_floor.OBJ', function ( object ) {
+    object.traverse( function ( child ) {
+       if ( child instanceof THREE.Mesh ) {
+          child.material.map = floorImage;
+          child.receiveShadow = true;
+        }
+      });
+    scene.add( object );
+  });
+
+  //fake floor (invisible)
+  scene.add( fakeFloor );
+
+  //ball holder for ball starting position (invisible)
+  scene.add( ballHolder );
 
   // add lighting
   scene.add( spotLight );
@@ -103,8 +132,15 @@ $(function(){
     if (keyboard[65] && user.myTurn === true){
       sendPosition();
       moved = true;
-      ball.setLinearVelocity(new THREE.Vector3(-2, 10, 0));
-      ball.rotation.x += .005
+      ball.setLinearVelocity(new THREE.Vector3(-1, 10, 0));
+    }
+    if (keyboard[32] && pointsTest === true){ //AIMING AT TARGET FOR TESTING POINTS +2
+      ball.setLinearVelocity(new THREE.Vector3(-9, 13, 0));
+      pointsTest = false;
+    }
+     if (keyboard[67] && pointsTest === true){ //AIMING AT TARGET FOR TESTING POINTS +1
+      ball.setLinearVelocity(new THREE.Vector3(-8.4, 12, 0));
+      pointsTest = false;
     }
 
     if (keyboard[83]) {

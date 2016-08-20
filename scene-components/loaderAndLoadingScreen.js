@@ -36,7 +36,6 @@ $(document).ready(function () {
 
     var $imgloader = $('.loading-container');
     var $loadingimg = $('<div id="canvasloader-container" class="onepix-imgloader"><p>Your galaxy is loading...</p></div>');
-    // $('#canvasloader-container').css()
 
     $loadingimg.attr("src", "images/flexslider/loading.gif");
     $imgloader.prepend($loadingimg);
@@ -54,5 +53,5 @@ $(document).ready(function () {
 
 function allItemsLoaded() {
   $('.onepix-imgloader').fadeOut();
-  $('.loading-container > *:not(.onepix-imgloader)').fadeTo(8000, 100);
+  $('.loading-container > *:not(.onepix-imgloader)').fadeTo(35000, 100);
 }
