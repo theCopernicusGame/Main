@@ -1,7 +1,7 @@
 'use strict';
 //THE FOLLOWING IS TRACKING HANDS USING JS-HANDTRACKING
 
-var finalTime = {}, demo, newFinalTime = {flag: true};
+var finalTime = {}, demo, newFinalTime = {flag: true}, imageCounter = 0;
 var DEMO = function(){
   startTime = undefined, endTime = undefined;
   this.startTime = startTime; this.endTime = endTime, this.finalTime = undefined, this.skinner = undefined;
@@ -44,19 +44,21 @@ DEMO.prototype.videoError = function(error){
 };
 
 DEMO.prototype.tick = function(){
-  var that = this, image, candidate;
-  requestAnimationFrame( function() { return that.tick(); } );
-  if (this.video.readyState === this.video.HAVE_ENOUGH_DATA){
-    image = this.snapshot();
+  if (user.trackFlag === true){
+    var that = this, image, candidate;
+    requestAnimationFrame( function() { return that.tick(); } );
+    if (this.video.readyState === this.video.HAVE_ENOUGH_DATA){
+     image = this.snapshot();
 
-    candidate = this.tracker.detect(image);
-
-    this.draw(candidate);
+      candidate = this.tracker.detect(image);
+      this.draw(candidate);
+    }
   }
 };
 
 DEMO.prototype.snapshot = function(){
   this.context.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
+  imageCounter++; 
 
   return this.context.getImageData(0, 0, this.canvas.width, this.canvas.height);
 };

@@ -10,6 +10,7 @@ handleCollision = function( collided_with, linearVelocity, angularVelocity ) {
           if ( user.pointFlag === true && ((this.position.x - target.position.x) > -2) && ((this.position.x - target.position.x) < 2)  && ((this.position.z - target.position.z) < 2)  && ((this.position.z - target.position.z) < 2) ){
             user.points += 2;
             user.pointFlag = false;
+            user.trackFlag = false; 
             console.log("Player got 2 points!", user);
             $('#p1Points').text(user.points); 
           }

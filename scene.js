@@ -234,9 +234,22 @@ $(function(){
   window.addEventListener('keyup', keyUp);
 
   $('#bg').append( renderer.domElement );
-  var pointsDiv = $( "<div id='pointsDiv' style='border: 3px solid white; border-radius: 10px; background: rgba(0,0,128, .1); color: #FFF; text-align: center; margin-left: 80%; width: 17%; height: 10%; margin-top: -55%; font-size: 90%; padding-top: 2.5%; padding-bottom: 2.5%'>Player 1 Points: <span id ='p1Points'> 0 </span> <br> Player 2 Points: <span id='p2Points'>" + user.points + " </span> </div>" ); 
+  
+  //DIVS FOR WAITING ON USER 2, POINT TOTALS AND 'CLICK TO THROW' - JQUERY TO APPEAR/DISAPPER DIVS - POINTS DIV UPDATED BY BALL COLLISION WITH SURFACE(GAMEPLAY) 
+  var throwBall = $( "<button id='throwBall' style='border: 3px solid white; border-radius: 10px; background: rgba(0,0,128, .1); color: #FFF; text-align: center; margin-left: 35%; width: 30%; height: 20%; margin-top: -50%; font-size: 75%; padding-top: 2.5%; padding-bottom: 2.5%'>click me when you're ready to throw!</button>" ); 
+  var pointsDiv = $( "<div id='pointsDiv' style='border: 3px solid white; border-radius: 10px; background: rgba(0,0,128, .1); color: #FFF; text-align: center; margin-left: 80%; width: 17%; height: 10%; margin-top: -55%; font-size: 90%; padding-top: 2.5%; padding-bottom: 2.5%'>Player 1 Points: <span id ='p1Points'>" + user.points + "</span> <br> Player 2 Points: <span id='p2Points'>" + user.points + " </span> </div>" ); 
   $('#bg').append(pointsDiv);
+  $('#bg').append(throwBall);
   $('#pointsDiv').fadeOut(0).delay(6500).fadeIn(1500);
+  $('#throwBall').fadeOut(0).delay(6500).fadeIn(1500);
+  
+  //CLICK TO ENABLE TRACKING SOFTWARE - TRACKING SOFTWARE DISABLED ON BALL CONTACT WITH SURFACE
+  $('.loading-container').click(function(){
+    console.log('clicked ready!'); 
+    $('#throwBall').hide(500); 
+    demo.tick(); 
+    });
+ 
   var waiting = $( "<div id='waiting' style='border: 3px solid white; border-radius: 10px; background: rgba(0,0,128, .1); color: #FFF; text-align: center; margin-left: 40%; width: 20%; height: 10%; margin-top: -50%; font-size: 200%; padding-top: 2.5%; padding-bottom: 2.5%'>Waiting for player 2</div>" ); 
   $('#bg').append(waiting); 
   setTimeout(function(){$('#waiting').animate({'margin-top': "90%"}, 1500)},5000); 
