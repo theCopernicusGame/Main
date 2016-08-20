@@ -135,7 +135,9 @@ DEMO.prototype.createImage = function(imageSrc, imageDst){
 
 $('#canvas').css('visibility', 'hidden');
 demo = new DEMO();
+
 //demo.start();
+
 
 function waitABit(){
   setTimeout(function(){
