@@ -1,6 +1,8 @@
 $(function(){
   // START THREE.JS
-  console.log(user);
+
+  var userObj = {pointFlag: true, points: 0}
+
   Physijs.scripts.worker = 'lib/physijs_worker.js'; //webworker used to minimize latency re phys.js
   Physijs.scripts.ammo = 'ammo.js';
 
@@ -43,8 +45,18 @@ $(function(){
   // add earth w/ clouds to scene
   scene.add( earth );
 
+
+  // add moonscape as ground 
+  scene.add( ground );
+
   // add ball
   scene.add( ball );
+
+  //add target
+  scene.add( target );
+
+  //add second target
+  scene.add( target2 ); 
 
   // add astronaut
   var loader = new THREE.OBJLoader( manager );
@@ -71,12 +83,18 @@ $(function(){
           child.castShadow = true;
         }
       });
-    hand = object;
-    scene.add( hand );
+
+    scene.add( object );
   });
+
+
+
+
+ 
 
   // add ground plane
   scene.add( ground );
+
 
 
   controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -90,6 +108,19 @@ $(function(){
   // IT NEEDS TO WORK BOTH WAYS. SETTIMEOUT METHOD IS KINDA HACKY, AND MAKES IT SO USER_2'S SCREEN IS WRONG FOR A FRACTION OF A SECOND.
   function render() {
     scene.simulate(); // run physics
+
+    //POINTS BASED ON X,Y COORDINATES - DRAFT OF LOGIC
+    if ( userObj.pointFlag === true && ((ball.position.x - target.position.x) > -2) && ((ball.position.x - target.position.x) < 2)  && ((ball.position.z - target.position.z) < 2)  && ((ball.position.z - target.position.z) < 2) ){
+      userObj.points += 2; 
+      userObj.pointFlag = false; 
+      console.log("Player points increased!", userObj); 
+    } 
+    else if ( userObj.pointFlag === true && ((ball.position.x - target.position.x) > -3) && ((ball.position.x - target.position.x) < 3)  && ((ball.position.z - target.position.z) < 3)  && ((ball.position.z - target.position.z) < 3) ){ 
+      userObj.points += 1; 
+      userObj.pointFlag = false; 
+      console.log("Player points increased!", userObj); 
+    } 
+
 
     earth.rotation.x += parameters.rotateX;
     earth.rotation.y -= parameters.rotateY;
@@ -107,9 +138,25 @@ $(function(){
 
     if (keyboard[65] && user.myTurn === true){
       sendPosition();
-      moved = true;
-      ball.setLinearVelocity(new THREE.Vector3(-2, 10, 0));
-      ball.rotation.x += .005
+      moved = true; 
+    }
+     if (keyboard[87]){
+      ball.setLinearVelocity(new THREE.Vector3(0, 0, 1));
+    }
+    if (keyboard[68]){
+      ball.setLinearVelocity(new THREE.Vector3(-2, 0, 0));
+    }
+    if (keyboard[83]){
+      ball.setLinearVelocity(new THREE.Vector3(0, 0, -1));
+    }
+    if (keyboard[49]){
+      scene.setGravity(new THREE.Vector3( 0, -20, 0 ));
+    }
+    if (keyboard[50]){
+      scene.setGravity(new THREE.Vector3( 0, -10, 0 ));
+    }
+    if (keyboard[51]){
+      scene.setGravity(new THREE.Vector3( 0, -60, 0 ));
     }
 
     if (keyboard[83]) {
@@ -167,7 +214,7 @@ $(function(){
   window.addEventListener('keydown', keyDown);
   window.addEventListener('keyup', keyUp);
 
-  $('#bg').append( renderer.domElement );
+  $('#bg').append( renderer.domElement ); 
 
 });
 
