@@ -43,6 +43,7 @@ $(function(){
   camera.position.z = 0;
   camera.lookAt(new THREE.Vector3(0,3,0))
 
+
   // add earth w/ clouds to scene
   scene.add( earth );
 
@@ -100,11 +101,51 @@ $(function(){
     scene.add( object );
   });
 
+
+  box = new Physijs.BoxMesh(
+            new THREE.CubeGeometry( 30, 1, 10 ),
+            new THREE.MeshBasicMaterial({ color: 0x888888 }),
+            0,
+            50,
+            50
+        );
+
+  box.position.set( 0, -0.5, 0 );
+  box.visible = false;
+  scene.add( box );
+
+  //ball start
+
+  var ballHolder = new Physijs.BoxMesh(
+    new THREE.CubeGeometry( 2, 0.1, 2 ),
+    new THREE.MeshBasicMaterial({ color: 0x888888 }),
+    0,
+    50,
+    50
+  );
+
+  ballHolder.position.set( 6, 1, -1 );
+  ballHolder.visible = false;
+  scene.add( ballHolder );
+
+
+ 
+
+  // add ground plane
+  //scene.add( ground );
+
+
+
+  controls = new THREE.OrbitControls(camera, renderer.domElement);
+  controls.addEventListener('change', render);
+
+
   //fake floor (invisible)
   scene.add( fakeFloor );
 
   //ball holder for ball starting position (invisible)
   scene.add( ballHolder );
+
 
   // add lighting
   scene.add( spotLight );
