@@ -1,5 +1,7 @@
 $(function(){
   // START THREE.JS
+  var userObj = {pointFlag: true, points: 0}
+
   Physijs.scripts.worker = 'lib/physijs_worker.js'; //webworker used to minimize latency re phys.js
   Physijs.scripts.ammo = 'ammo.js';
 
@@ -53,6 +55,12 @@ $(function(){
   // add ball
   scene.add( ball );
 
+  //add target
+  scene.add( target );
+
+  //add second target
+  scene.add( target2 ); 
+
   // add astronaut
   var loader = new THREE.OBJLoader( manager );
   loader.load( 'assets/astronaut/player2_body.OBJ', function ( object ) {
@@ -94,8 +102,21 @@ $(function(){
 
   render();
   function render() {
-
     scene.simulate(); // run physics
+
+    //POINTS BASED ON X,Y COORDINATES
+    if ( userObj.pointFlag === true && ((ball.position.x - target.position.x) > -2) && ((ball.position.x - target.position.x) < 2)  && ((ball.position.z - target.position.z) < 2)  && ((ball.position.z - target.position.z) < 2) ){
+      userObj.points += 2; 
+      userObj.pointFlag = false; 
+      console.log("Player points increased!", userObj); 
+      
+    } 
+    else if ( userObj.pointFlag === true && ((ball.position.x - target.position.x) > -3) && ((ball.position.x - target.position.x) < 3)  && ((ball.position.z - target.position.z) < 3)  && ((ball.position.z - target.position.z) < 3) ){ 
+      userObj.points += 1; 
+      userObj.pointFlag = false; 
+      console.log("Player points increased!", userObj); 
+    } 
+
 
     earth.rotation.x += parameters.rotateX;
     earth.rotation.y -= parameters.rotateY;
@@ -110,16 +131,17 @@ $(function(){
     if (keyboard[65]){
       sendPosition();
       moved = true;
-      ball.setLinearVelocity(new THREE.Vector3(0, 10, 1));
+      ball.setLinearVelocity(new THREE.Vector3(2, 0, 0));
+      console.log('target coord', target.position.z); 
     }
      if (keyboard[87]){
-      ball.setLinearVelocity(new THREE.Vector3(0, 14, 1));
+      ball.setLinearVelocity(new THREE.Vector3(0, 0, 1));
     }
     if (keyboard[68]){
-      ball.setAngularVelocity(new THREE.Vector3(-2, 0, 0));
+      ball.setLinearVelocity(new THREE.Vector3(-2, 0, 0));
     }
     if (keyboard[83]){
-      ball.setAngularVelocity(new THREE.Vector3(0, 0, 0));
+      ball.setLinearVelocity(new THREE.Vector3(0, 0, -1));
     }
     if (keyboard[49]){
       scene.setGravity(new THREE.Vector3( 0, -20, 0 ));
