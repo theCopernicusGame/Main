@@ -16,7 +16,7 @@ $(function(){
 
   window.addEventListener( 'resize', onWindowResize, false );
 
-  var camera, scene, renderer, mesh, moved;
+  var camera, scene, renderer, mesh;
   var startTime  = Date.now();
   displaygui();
   var keyboard = {};
@@ -47,12 +47,22 @@ $(function(){
   scene.add( earth );
 
   // add ball
-  scene.add( ball );
+  if (user.myTurn === true) {
+    ball.position.z = 0;
+    ball.position.x = 6;
+    ball.position.y = 1.35;
+    scene.add( ball );
+  } else {
+    ball2.position.z = 0;
+    ball2.position.x = -8;
+    ball2.position.y = 1.35;
+    scene.add( ball2 );
+  }
 
   //add target
   scene.add( target );
 
-  //add second target
+  // add second target
   scene.add( target2 );
 
   // add astronaut
@@ -84,7 +94,7 @@ $(function(){
 
   // add moon floor
   var floorImage = new THREE.Texture();
-  
+
   imgLoader.load('assets/finalMoonPics/Larissa-Texture.png', function(img) {
     floorImage.image = img;
     floorImage.needsUpdate = true;
@@ -104,7 +114,7 @@ $(function(){
   scene.add( fakeFloor );
 
   //ball holder for ball starting position (invisible)
-  scene.add( ballHolder );
+  // scene.add( ballHolder );
 
   // add lighting
   scene.add( spotLight );
@@ -112,7 +122,9 @@ $(function(){
 
   //  MULTIPLAYER 'WORKS', BUT ISNT AT ALL OPTIMAL. GAME NEEDS TO BECOME TURN-BASED. POSITION IN X DIRECTION NEEDS TO BE FLIPPED.
   // IT NEEDS TO WORK BOTH WAYS. SETTIMEOUT METHOD IS KINDA HACKY, AND MAKES IT SO USER_2'S SCREEN IS WRONG FOR A FRACTION OF A SECOND.
+
   function render() {
+    if (user.myTurn === false) console.log(ball2.position);
     scene.simulate(); // run physics
 
     earth.rotation.x += parameters.rotateX;
@@ -122,31 +134,31 @@ $(function(){
     cloudMesh.rotation.x -= parameters.cRotateX;
     cloudMesh.rotation.y -= parameters.cRotateY;
 
-    if (moved === true && user.myTurn === true) sendPosition();
-    if (user.myTurn === false) {
-      ball.position.x = ball.position.x - message.position[0];
-      ball.position.y = message.position[1];
-      ball.position.z = ball.position.z - message.position[2];
+    if (moved === true && user.myTurn === true) {
+      displayMessage('Height: ' + Math.abs(ball.position.y), 'Distance: ' + Math.abs(ball.position.x - 6));
+      sendPosition(Math.abs(ball.position.x - 6), Math.abs(ball.position.y), ball.position.z, ball.rotation.x, ball.rotation.y, ball.rotation.z);
     }
 
-    if (keyboard[65] && user.myTurn === true){
-      sendPosition();
-      moved = true;
-      ball.setLinearVelocity(new THREE.Vector3(-1, 10, 0));
+    if (moved === true && user.myTurn === false) {
+      ball2.position.x += message.position[0];
+      ball2.position.y += message.position[1];
+      ball2.position.z += message.position[2];
+      ball2.rotation.x = -message.rotation[0];
+      ball2.rotation.y = -message.rotation[1];
+      ball2.rotation.z = -message.rotation[2];
     }
+
     if (keyboard[32] && pointsTest === true){ //AIMING AT TARGET FOR TESTING POINTS +2
-      ball.setLinearVelocity(new THREE.Vector3(-9, 13, 0));
-      pointsTest = false;
-    }
-     if (keyboard[67] && pointsTest === true){ //AIMING AT TARGET FOR TESTING POINTS +1
-      ball.setLinearVelocity(new THREE.Vector3(-8.4, 12, 0));
+      ball.setLinearVelocity(new THREE.Vector3(-5, 7, 0));
+      sendPosition(Math.abs(ball.position.x - 6), Math.abs(ball.position.y), ball.position.z, ball.rotation.x, ball.rotation.y, ball.rotation.z);      moved = true;
+      dataChannel.send(moved);
       pointsTest = false;
     }
 
-    if (keyboard[83]) {
-      if (user.myTurn === false) user.myTurn = true;
-      else user.myTurn = false;
-      console.log(user.myTurn);
+    if (keyboard[83]) { /// 's' for stop
+      console.log('Position on pressing stop', ball.position.y);
+      moved = false;
+      dataChannel.close();
     }
 
     if (newFinalTime.counter >= 10 && newFinalTime.flag === true){
@@ -181,7 +193,7 @@ $(function(){
       demo.clear();
      }
 
-    requestAnimationFrame( render );
+    spaceScene = requestAnimationFrame( render );
     renderer.render( scene, camera );
   }
 
@@ -202,7 +214,12 @@ $(function(){
 
 });
 
-function sendPosition() {
-  message = { 'type': 'ballPos', 'position': [ ball.position.x, ball.position.y, ball.position.z ] };
-  dataChannel.send(JSON.stringify(message));
+function sendPosition(x, y, z, xr, yr, zr) {
+  var toSend = { 'type': 'ballPos', 'position': [ x, y, z ], 'rotation': [ xr, yr, zr ] };
+  dataChannel.send(JSON.stringify(toSend));
+}
+
+function stopAnimation() {
+  cancelAnimationFrame( spaceScene );
+  console.log('Animation stopped!')
 }

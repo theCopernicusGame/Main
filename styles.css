@@ -40,3 +40,18 @@ body {
   z-index: 1000;
   background-image:url('assets/starfield2.jpg');
 }
+
+#signalingArea {
+  border: 3px solid white;
+  border-radius: 10px;
+  background: rgba(0,0,128, .1);
+  color: #FFF;
+  text-align: center;
+  vertical-align: middle;
+  margin-left: 40%;
+  width: 20%;
+  margin-top: -50%;
+  font-size: 200%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+}
