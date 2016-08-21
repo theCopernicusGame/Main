@@ -55,3 +55,33 @@ body {
   padding-top: 1%;
   padding-bottom: 1%;
 }
+
+#pointsDiv {
+  visibility: hidden;
+  margin-left: 77%;
+  margin-top: -22%;
+  border: 3px solid white;
+  border-radius: 10px;
+  background: rgba(0,0,128, .1);
+  color: #FFF;
+  text-align: center;
+  width: 20%;
+  font-size: 100%;
+  padding-top: 2.5%;
+  padding-bottom: 2.5% ;
+}
+
+#throwBall {
+  visibility: hidden;
+  margin-left: 41.5%;
+  text-align: center;
+  border: 3px solid white;
+  border-radius: 10px;
+  background: rgba(0,0,128, .1);
+  color: #FFF;
+  text-align: center;
+  width: 17%;
+  font-size: 75%;
+  padding-top: 2.5%;
+  padding-bottom: 2.5%;
+}

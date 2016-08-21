@@ -142,6 +142,8 @@ function displaySignalMessage(message) {
 
 function fadeSignalMessage() {
 	$('#signalingArea').fadeOut();
+	$('#pointsDiv').css("visibility", "visible");
+	$('#throwBall').css("visibility", "visible");
 }
 
 function addGameLogic() {

@@ -1,3 +1,5 @@
+'use strict';
+
 var ballHolder = new Physijs.BoxMesh(
   new THREE.CubeGeometry( 2, 0.1, 2 ),
   new THREE.MeshBasicMaterial({ color: 0x888888 }),

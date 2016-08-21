@@ -18,7 +18,6 @@ $(function(){
 
   var camera, scene, renderer, mesh;
   var startTime  = Date.now();
-  displaygui();
   var keyboard = {};
   scene = new Physijs.Scene;
   scene.setGravity(new THREE.Vector3( 0, -20, 0 ));
@@ -42,6 +41,7 @@ $(function(){
   camera.position.y = 3;
   camera.position.z = 0;
   camera.lookAt(new THREE.Vector3(0,3,0))
+
 
   // add earth w/ clouds to scene
   scene.add( earth );
@@ -113,18 +113,11 @@ $(function(){
   //fake floor (invisible)
   scene.add( fakeFloor );
 
-  //ball holder for ball starting position (invisible)
-  // scene.add( ballHolder );
-
   // add lighting
   scene.add( spotLight );
   scene.add( spotLight2 );
 
-  //  MULTIPLAYER 'WORKS', BUT ISNT AT ALL OPTIMAL. GAME NEEDS TO BECOME TURN-BASED. POSITION IN X DIRECTION NEEDS TO BE FLIPPED.
-  // IT NEEDS TO WORK BOTH WAYS. SETTIMEOUT METHOD IS KINDA HACKY, AND MAKES IT SO USER_2'S SCREEN IS WRONG FOR A FRACTION OF A SECOND.
-
   function render() {
-    if (user.myTurn === false) console.log(ball2.position);
     scene.simulate(); // run physics
 
     earth.rotation.x += parameters.rotateX;
@@ -139,13 +132,14 @@ $(function(){
       sendPosition(Math.abs(ball.position.x - 6), Math.abs(ball.position.y), ball.position.z, ball.rotation.x, ball.rotation.y, ball.rotation.z);
     }
 
+    // WHEN ANIMATION STOPS, BALL ON PLAYER 2'S SCREEN MOVES BACK TO STARTING POSITION--FIXING THIS WILL ALSO PROBABLY FLIX GLITCHINESS
     if (moved === true && user.myTurn === false) {
       ball2.position.x += message.position[0];
       ball2.position.y += message.position[1];
       ball2.position.z += message.position[2];
-      ball2.rotation.x = -message.rotation[0];
-      ball2.rotation.y = -message.rotation[1];
-      ball2.rotation.z = -message.rotation[2];
+      ball2.rotation.x = -(message.rotation[0]);
+      ball2.rotation.y = -(message.rotation[1]);
+      ball2.rotation.z = -(message.rotation[2]);
     }
 
     if (keyboard[32] && pointsTest === true){ //AIMING AT TARGET FOR TESTING POINTS +2
@@ -156,14 +150,14 @@ $(function(){
     }
 
     if (keyboard[83]) { /// 's' for stop
-      console.log('Position on pressing stop', ball.position.y);
       moved = false;
       dataChannel.close();
+      stopAnimation();
     }
 
     if (newFinalTime.counter >= 10 && newFinalTime.flag === true){
       console.log('sp1', finalTime.counter);
-      ball.setLinearVelocity(new THREE.Vector3(0, 2, 1));
+      ball.setLinearVelocity(new THREE.Vector3(-9, 13, 0));
       newFinalTime.flag = false;
       newFinalTime.counter = 0;
       demo.clear();
@@ -171,7 +165,7 @@ $(function(){
 
     if (newFinalTime.counter >= 5 && newFinalTime.counter < 10 && newFinalTime.flag === true){
       console.log('sp2', newFinalTime.counter);
-      ball.setLinearVelocity(new THREE.Vector3(0, 6, 1));
+      ball.setLinearVelocity(new THREE.Vector3(-8.4, 12, 0));
       newFinalTime.flag = false;
       newFinalTime.counter = 0;
       demo.clear();
@@ -179,7 +173,7 @@ $(function(){
 
     if (newFinalTime.counter > 3 && newFinalTime.counter < 5 && newFinalTime.flag === true){
       console.log('sp3', finalTime.counter);
-      ball.setLinearVelocity(new THREE.Vector3(0, 10, 1));
+      ball.setLinearVelocity(new THREE.Vector3(-5, 10, 0));
       newFinalTime.flag = false;
       newFinalTime.counter = 0;
       demo.clear();
@@ -211,6 +205,14 @@ $(function(){
   window.addEventListener('keyup', keyUp);
 
   $('#bg').append( renderer.domElement );
+
+  //CLICK TO ENABLE TRACKING SOFTWARE - TRACKING SOFTWARE DISABLED ON BALL CONTACT WITH SURFACE
+  $('.loading-container').click(function(){
+    console.log('Clicked ready!');
+    $('#throwBall').hide(500);
+    demo.tick();
+    });
+
 
 });
 

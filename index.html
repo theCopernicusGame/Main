@@ -19,7 +19,6 @@
   </head>
 
   <body>
-
     <div class = "loading-container">
       <div id="container">
 
@@ -33,20 +32,36 @@
 
       <div id='bg' style='border-radius: 15px; opacity: .9'></div>
       <div id="signalingArea"></div>
+      <button id="throwBall">Click me when you're ready to throw!</button>
+      <div id="pointsDiv">
+        Player 1 Points:
+        <span id ='p1Points'>I broke this, Scott!</span>
+        <br>
+        Player 2 Points:
+        <span id='p2Points'>I broke this, Scott!</span>
+      </div>
 
     <script type="text/javascript" src="dataChannel.js"></script>
     <script type="text/javascript" src="scene-components/loaderAndLoadingScreen.js"></script>
+    <script type="text/javascript" src="scene-components/ball.js"></script>
     <script type="text/javascript" src="scene-components/tracker.js"></script>
     <script type="text/javascript" src="scene-components/target.js"></script>
     <script type="text/javascript" src="scene-components/earth.js"></script>
     <script type="text/javascript" src="scene-components/ballHolder.js"></script>
     <script type="text/javascript" src="scene-components/physicsFloor.js"></script>
-    <script type="text/javascript" src="scene-components/bumper.js"></script>
-    <script type="text/javascript" src="scene-components/kinematicGui.js"></script>
-    <script type="text/javascript" src="scene-components/ball.js"></script>
     <script type="text/javascript" src="scene-components/astronaut.js"></script>
     <script id="spotlight" type="text/javascript" src="scene-components/spotlight.js"></script>
 
+    <!-- LEAVE HERE, THIS MUST COME AFTER GAME LOGIC APPENDED (WHICH IS APPENDED TO SPOTLIGHT LINE 48, TRIED TO MODULARIZE AND THREW ERROR: NO USER YET -->
+    <script>
+    $(function(){
+      $('.loading-container').click(function(){
+        console.log('clicked ready!');
+        $('#throwBall').hide(500);
+        demo.tick();
+      });
+  });
+  </script>
 
   </body>
 

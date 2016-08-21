@@ -10,25 +10,27 @@ handleCollision = function( collided_with, linearVelocity, angularVelocity ) {
             if ( user.pointFlag === true && ((this.position.x - target.position.x) > -2) && ((this.position.x - target.position.x) < 2)  && ((this.position.z - target.position.z) < 2)  && ((this.position.z - target.position.z) < 2) ){
               user.points += 2;
               user.pointFlag = false;
+              user.trackFlag = false;
               console.log("Player got 2 points!", user);
-              setTimeout(stopAnimation(), 2000);
+              $('#p1Points').text(user.points);
             }
             else if ( user.pointFlag === true && ((this.position.x - target.position.x) > -3.5) && ((this.position.x - target.position.x) < 3.5)  && ((this.position.z - target.position.z) < 3.5)  && ((this.position.z - target.position.z) < 3.5) ){
               user.points += 1;
               user.pointFlag = false;
               console.log("Player got 1 point!", user);
-              setTimeout(stopAnimation(), 2000);
-            } // else {
-            //   console.log('Tough break, no points!!', target.position);
-            //   setTimeout(stopAnimation(), 2000);
-            // }
+
+            }
+             else console.log('Tough break, no points!!', target.position);
         }
     };
+
+// MOVE COLLISION/GAME LOGIC FROM HERE TO CORRECT FILE
 
 var moonNormal  = textureLoader.load('assets/finalMoonPics/normal.jpg');
 var moonMap = textureLoader.load('assets/finalMoonPics/moonPic.jpg');
 var ballTexture = new THREE.MeshPhongMaterial( { map: moonMap, normalMap: moonNormal} );//TEST RED BALL FOR LOAD TIME
 var ballTexture2 = new THREE.MeshPhongMaterial( { color: 0xFF0000} );
+
 
 var ball = new Physijs.SphereMesh(ballGeometry, ballTexture, undefined, .9 );
 ball.castShadow = true;
