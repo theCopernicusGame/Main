@@ -27,6 +27,6 @@
    "url": "https://github.com/theCopernicusGame/Main"
  },
  "engines": {
-   "node": "4.5.0"
+   "node": "6.2.0"
  }
 }
