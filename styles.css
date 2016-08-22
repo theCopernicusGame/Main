@@ -1,6 +1,5 @@
 body {
    font-size:20px;
-   font-family: 'Roboto';
    color: #fff;
    background-image:url('assets/starfield2.jpg');
    margin: 0px;
@@ -40,3 +39,59 @@ body {
   z-index: 1000;
   background-image:url('assets/starfield2.jpg');
 }
+
+#pointsDiv {
+  border: 3px solid white; 
+  border-radius: 10px; 
+  background: rgba(0,0,128, .1); 
+  color: #FFF; 
+  text-align: center; 
+  margin-left: 80%; 
+  width: 17%; 
+  height: 10%; 
+  margin-top: -55%; 
+  font-size: 90%; 
+  padding-top: 2.5%; 
+  padding-bottom: 2.5%; 
+}
+#throwBall {
+  border: 3px solid white; 
+  border-radius: 10px; 
+  background: rgba(0,0,128, .1); 
+  color: #FFF; 
+  text-align: center; 
+  margin-left: 35%; 
+  width: 30%; 
+  height: 20%; 
+  margin-top: -50%; 
+  font-size: 75%; 
+  padding-top: 2.5%; 
+  padding-bottom: 2.5%; 
+}
+
+span {
+  font-size: 130%;
+  font-weight: bolder; 
+}
+
+#p1Points{
+margin-left: 6.5%; 
+}
+
+#p2Points{
+ margin-left: 5.5%;   
+}
+#waiting{
+  border: 3px solid white; 
+  border-radius: 10px; 
+  background: rgba(0,0,128, .1); 
+  color: #FFF; text-align: center; 
+  margin-left: 40%; 
+  width: 20%; 
+  height: 10%; 
+  margin-top: -50%; 
+  font-size: 200%; 
+  padding-top: 2.5%; 
+  padding-bottom: 2.5%; 
+}
+

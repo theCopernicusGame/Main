@@ -133,7 +133,7 @@ function displayMessage(message1, message2) {
 }
 
 function displaySignalMessage(message) {
-	// signalingArea.innerHTML = signalingArea.innerHTML + "<br/>" + message;
+	signalingArea.innerHTML = message;
 }
 
 function addGameLogic() {
