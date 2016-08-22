@@ -204,17 +204,18 @@ $(function(){
   window.addEventListener('keydown', keyDown);
   window.addEventListener('keyup', keyUp);
 
+  // for appending game messages to the DOM
   $('#bg').append( renderer.domElement );
 
-  //CLICK TO ENABLE TRACKING SOFTWARE - TRACKING SOFTWARE DISABLED ON BALL CONTACT WITH SURFACE
-  $('.loading-container').click(function(){
-    console.log('Clicked ready!');
-    $('#throwBall').hide(500);
-    demo.tick();
-    });
-
+  var throwBall = $( "<button id='throwBall' >Click anywhere to throw!</button>" );
+  var pointsDiv = $( "<div id='pointsDiv'>Player 1 Points: <span id ='p1Points'>" + user.points + "</span><br>Player 2 Points: <span id='p2Points'>" + user.points + " </span> </div>" );
+  $('#bg').append(pointsDiv);
+  $('#bg').append(throwBall);
+  $('#pointsDiv').fadeOut(0);
+  $('#throwBall').fadeOut(0);
 
 });
+
 
 function sendPosition(x, y, z, xr, yr, zr) {
   var toSend = { 'type': 'ballPos', 'position': [ x, y, z ], 'rotation': [ xr, yr, zr ] };

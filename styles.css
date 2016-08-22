@@ -57,7 +57,6 @@ body {
 }
 
 #pointsDiv {
-  visibility: hidden;
   margin-left: 77%;
   margin-top: -22%;
   border: 3px solid white;
@@ -72,7 +71,6 @@ body {
 }
 
 #throwBall {
-  visibility: hidden;
   margin-left: 41.5%;
   text-align: center;
   border: 3px solid white;
@@ -84,4 +82,17 @@ body {
   font-size: 75%;
   padding-top: 2.5%;
   padding-bottom: 2.5%;
+}
+
+span {
+  font-size: 130%;
+  font-weight: bolder;
+}
+
+#p1Points {
+  margin-left: 6.5%;
+}
+
+#p2Points {
+  margin-left: 6.5%;
 }
