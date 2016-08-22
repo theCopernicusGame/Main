@@ -23,7 +23,7 @@ var moved = false;
 var dataChannel;
 
 // set up socket connection between client and server for signaling
-io = io.connect(app);
+io = io.connect();
 
 displaySignalMessage('Waiting for other player...')
 
