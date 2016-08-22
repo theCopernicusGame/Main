@@ -1,10 +1,14 @@
 //Page controls
+
+console.log('line1'); 
 var heightArea = document.querySelector("#heightArea");
 var distArea = document.querySelector("#distArea");
 var signalingArea = document.querySelector("#signalingArea");
 
 // WE NEED TO CREATE OUR OWN STUN SERVER, LOOK INTO TOOLIO
 //Signaling Code Setup
+
+console.log('line5'); 
 var SIGNAL_ROOM = "signaling";
 var configuration = {
 	'iceServers': [{
@@ -17,20 +21,21 @@ var dataChannelOptions = {
 	ordered: false, //no guaranteed delivery, unreliable but faster
 	maxRetransmitTime: 1000, //milliseconds
 };
-
+console.log('line10'); 
 var peerFound = false;
 var moved = false;
 var dataChannel;
-
+console.log('line13'); 
 // set up socket connection between client and server for signaling
 io = io.connect();
+console.log('line14'); 
 // io.configure(function () { 
 //  io.set("transports", ["xhr-polling"]); 
 //  io.set("polling duration", 20); 
 // });
 
-displaySignalMessage('Waiting for other player...')
-
+displaySignalMessage('Waiting for other player...'); 
+console.log('line16'); 
 io.emit('ready', {"signal_room": SIGNAL_ROOM});
 
 // send a first signaling message to anyone listening, sending it on page load
