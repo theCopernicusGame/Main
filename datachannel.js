@@ -24,10 +24,10 @@ var dataChannel;
 
 // set up socket connection between client and server for signaling
 io = io.connect();
-io.configure(function () { 
- io.set("transports", ["xhr-polling"]); 
- io.set("polling duration", 20); 
-});
+// io.configure(function () { 
+//  io.set("transports", ["xhr-polling"]); 
+//  io.set("polling duration", 20); 
+// });
 
 displaySignalMessage('Waiting for other player...')
 
