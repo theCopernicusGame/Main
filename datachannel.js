@@ -19,11 +19,13 @@ var dataChannelOptions = {
 };
 
 var peerFound = false;
-var message = {'type': "", 'position': [0, 0]}
+var moved = false;
 var dataChannel;
 
 // set up socket connection between client and server for signaling
 io = io.connect();
+
+displaySignalMessage('Waiting for other player...')
 
 io.emit('ready', {"signal_room": SIGNAL_ROOM});
 
@@ -31,7 +33,9 @@ io.emit('ready', {"signal_room": SIGNAL_ROOM});
 io.emit('signal',{"type":"user_here", "message":"Let's play the CopernicusGame!", "room":SIGNAL_ROOM});
 
 io.on('signaling_message', function(data) {
-	displaySignalMessage("Signal received: " + data.type);
+	if (data.type === "user_here") displaySignalMessage('Player 2 is joining...')
+	setTimeout(fadeSignalMessage, 10000);
+
 	peerFound = true;
 
 	// set up the RTC Peer Connection object
@@ -55,7 +59,6 @@ io.on('signaling_message', function(data) {
 });
 
 function startSignaling() {
-	displaySignalMessage("Starting signaling...");
 	rtcPeerConn = new webkitRTCPeerConnection(configuration, {optional: []});
 	dataChannel = rtcPeerConn.createDataChannel('positionMessages', dataChannelOptions);
 	console.log('dataChannel created', dataChannel);
@@ -65,13 +68,12 @@ function startSignaling() {
 		if (evt.candidate && rtcPeerConn.remoteDescription.type.length > 0) {
 			console.log('Created ICE candidate, now sending: ', evt.candidate);
 			io.emit('signal',{"type":"ice candidate", "message": JSON.stringify({ 'candidate': evt.candidate }), "room":SIGNAL_ROOM});
-		}
-		displaySignalMessage("completed that ice candidate...");
+		};
 	};
 
 	// let the 'negotiationneeded' event trigger offer generation
 	rtcPeerConn.onnegotiationneeded = function () {
-		displaySignalMessage("On negotiation called");
+		console.log("On negotiation called");
 		if (rtcPeerConn.remoteDescription.type.length === 0) rtcPeerConn.createOffer(sendLocalDesc, logError);
 	}
 
@@ -86,7 +88,6 @@ function startSignaling() {
 function sendLocalDesc(desc) {
 	rtcPeerConn.setLocalDescription(desc, function () {
 		console.log('Sending local description: ', rtcPeerConn.localDescription);
-		displaySignalMessage("sending local description");
 		io.emit('signal',{"type":"SDP", "message": JSON.stringify({ 'sdp': rtcPeerConn.localDescription }), "room":SIGNAL_ROOM});
 	}, logError);
 }
@@ -106,25 +107,28 @@ function sendRemoteDesc(desc) {
 //Data Channel Specific methods
 function dataChannelStateChanged() {
 	if (dataChannel.readyState === 'open') {
-		displaySignalMessage("Data Channel open");
 		dataChannel.onmessage = receiveDataChannelMessage;
 	}
 }
 
 function receiveDataChannel(event) {
-	displaySignalMessage("Receiving a data channel");
-	console.log('event in receiveDataChannel', event)
+	console.log('Event in receiveDataChannel: ', event)
 	dataChannel = event.channel;
 }
 
 function receiveDataChannelMessage(event) {
-	message = JSON.parse(event.data);
-	displayMessage('Height: ' + message.position[1], 'Distance: ' + message.position[0]);
+	var received = JSON.parse(event.data);
+	if (received.position) {
+		message = received;
+		displayMessage('Height: ' + message.position[1], 'Distance: ' + message.position[0]);
+	} else {
+		moved = received;
+	}
 }
 
 //Logging/Display Methods
 function logError(error) {
-	displaySignalMessage(error.name + ': ' + error.message);
+	console.log(error.name + ': ' + error.message);
 }
 
 function displayMessage(message1, message2) {
@@ -133,7 +137,13 @@ function displayMessage(message1, message2) {
 }
 
 function displaySignalMessage(message) {
-	// signalingArea.innerHTML = signalingArea.innerHTML + "<br/>" + message;
+	signalingArea.innerHTML = message;
+}
+
+function fadeSignalMessage() {
+	$('#signalingArea').fadeOut();
+	$('#pointsDiv').delay(2000).fadeIn(100).animate({ "margin-top": "-50%" });
+	$('#throwBall').delay(2000).fadeIn(100).animate({ "margin-top": "-50%" });
 }
 
 function addGameLogic() {

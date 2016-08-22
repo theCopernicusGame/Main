@@ -16,9 +16,8 @@ $(function(){
 
   window.addEventListener( 'resize', onWindowResize, false );
 
-  var camera, scene, renderer, mesh, moved;
+  var camera, scene, renderer, mesh;
   var startTime  = Date.now();
-  displaygui();
   var keyboard = {};
   scene = new Physijs.Scene;
   scene.setGravity(new THREE.Vector3( 0, -20, 0 ));
@@ -48,12 +47,22 @@ $(function(){
   scene.add( earth );
 
   // add ball
-  scene.add( ball );
+  if (user.myTurn === true) {
+    ball.position.z = 0;
+    ball.position.x = 6;
+    ball.position.y = 1.35;
+    scene.add( ball );
+  } else {
+    ball2.position.z = 0;
+    ball2.position.x = -8;
+    ball2.position.y = 1.35;
+    scene.add( ball2 );
+  }
 
   //add target
   scene.add( target );
 
-  //add second target
+  // add second target
   scene.add( target2 );
 
   // add astronaut
@@ -85,7 +94,7 @@ $(function(){
 
   // add moon floor
   var floorImage = new THREE.Texture();
-  
+
   imgLoader.load('assets/finalMoonPics/Larissa-Texture.png', function(img) {
     floorImage.image = img;
     floorImage.needsUpdate = true;
@@ -101,52 +110,13 @@ $(function(){
     scene.add( object );
   });
 
-
-  box = new Physijs.BoxMesh(
-            new THREE.CubeGeometry( 30, 1, 10 ),
-            new THREE.MeshBasicMaterial({ color: 0x888888 }),
-            0,
-            50,
-            50
-        );
-
-  box.position.set( 0, -0.5, 0 );
-  box.visible = false;
-  scene.add( box );
-
-  //ball start
-
-  // var ballHolder = new Physijs.BoxMesh(
-  //   new THREE.CubeGeometry( 2, 0.1, 2 ),
-  //   new THREE.MeshBasicMaterial({ color: 0x888888 }),
-  //   0,
-  //   50,
-  //   50
-  // );
-
-  // ballHolder.position.set( 6, 1, 0 );
-  // ballHolder.visible = false;
-  // scene.add( ballHolder );
-
-
- 
-
-  // add ground plane
-  //scene.add( ground );
-
   //fake floor (invisible)
   scene.add( fakeFloor );
-
-  //ball holder for ball starting position (invisible)
-  scene.add( ballHolder );
-
 
   // add lighting
   scene.add( spotLight );
   scene.add( spotLight2 );
 
-  //  MULTIPLAYER 'WORKS', BUT ISNT AT ALL OPTIMAL. GAME NEEDS TO BECOME TURN-BASED. POSITION IN X DIRECTION NEEDS TO BE FLIPPED.
-  // IT NEEDS TO WORK BOTH WAYS. SETTIMEOUT METHOD IS KINDA HACKY, AND MAKES IT SO USER_2'S SCREEN IS WRONG FOR A FRACTION OF A SECOND.
   function render() {
     scene.simulate(); // run physics
 
@@ -157,31 +127,32 @@ $(function(){
     cloudMesh.rotation.x -= parameters.cRotateX;
     cloudMesh.rotation.y -= parameters.cRotateY;
 
-    if (moved === true && user.myTurn === true) sendPosition();
-    if (user.myTurn === false) {
-      ball.position.x = ball.position.x - message.position[0];
-      ball.position.y = message.position[1];
-      ball.position.z = ball.position.z - message.position[2];
+    if (moved === true && user.myTurn === true) {
+      displayMessage('Height: ' + Math.abs(ball.position.y), 'Distance: ' + Math.abs(ball.position.x - 6));
+      sendPosition(Math.abs(ball.position.x - 6), Math.abs(ball.position.y), ball.position.z, ball.rotation.x, ball.rotation.y, ball.rotation.z);
     }
 
-    if (keyboard[65] && user.myTurn === true){
-      sendPosition();
-      moved = true;
-      ball.setLinearVelocity(new THREE.Vector3(-1, 10, 0));
+    // WHEN ANIMATION STOPS, BALL ON PLAYER 2'S SCREEN MOVES BACK TO STARTING POSITION--FIXING THIS WILL ALSO PROBABLY FLIX GLITCHINESS
+    if (moved === true && user.myTurn === false) {
+      ball2.position.x += message.position[0];
+      ball2.position.y += message.position[1];
+      ball2.position.z += message.position[2];
+      ball2.rotation.x = -(message.rotation[0]);
+      ball2.rotation.y = -(message.rotation[1]);
+      ball2.rotation.z = -(message.rotation[2]);
     }
+
     if (keyboard[32] && pointsTest === true){ //AIMING AT TARGET FOR TESTING POINTS +2
-      ball.setLinearVelocity(new THREE.Vector3(-9, 13, 0));
-      pointsTest = false;
-    }
-     if (keyboard[67] && pointsTest === true){ //AIMING AT TARGET FOR TESTING POINTS +1
-      ball.setLinearVelocity(new THREE.Vector3(-8.4, 12, 0));
+      ball.setLinearVelocity(new THREE.Vector3(-5, 7, 0));
+      sendPosition(Math.abs(ball.position.x - 6), Math.abs(ball.position.y), ball.position.z, ball.rotation.x, ball.rotation.y, ball.rotation.z);      moved = true;
+      dataChannel.send(moved);
       pointsTest = false;
     }
 
-    if (keyboard[83]) {
-      if (user.myTurn === false) user.myTurn = true;
-      else user.myTurn = false;
-      console.log(user.myTurn);
+    if (keyboard[83]) { /// 's' for stop
+      moved = false;
+      dataChannel.close();
+      stopAnimation();
     }
 
     if (newFinalTime.counter >= 10 && newFinalTime.flag === true){
@@ -216,7 +187,7 @@ $(function(){
       demo.clear();
      }
 
-    requestAnimationFrame( render );
+    spaceScene = requestAnimationFrame( render );
     renderer.render( scene, camera );
   }
 
@@ -233,31 +204,25 @@ $(function(){
   window.addEventListener('keydown', keyDown);
   window.addEventListener('keyup', keyUp);
 
+  // for appending game messages to the DOM
   $('#bg').append( renderer.domElement );
-  
-  //DIVS FOR WAITING ON USER 2, POINT TOTALS AND 'CLICK TO THROW' - JQUERY TO APPEAR/DISAPPER DIVS - POINTS DIV UPDATED BY BALL COLLISION WITH SURFACE(GAMEPLAY) 
-  var throwBall = $( "<button id='throwBall' style='border: 3px solid white; border-radius: 10px; background: rgba(0,0,128, .1); color: #FFF; text-align: center; margin-left: 35%; width: 30%; height: 20%; margin-top: -50%; font-size: 75%; padding-top: 2.5%; padding-bottom: 2.5%'>click me when you're ready to throw!</button>" ); 
-  var pointsDiv = $( "<div id='pointsDiv' style='border: 3px solid white; border-radius: 10px; background: rgba(0,0,128, .1); color: #FFF; text-align: center; margin-left: 80%; width: 17%; height: 10%; margin-top: -55%; font-size: 90%; padding-top: 2.5%; padding-bottom: 2.5%'>Player 1 Points: <span id ='p1Points'>" + user.points + "</span> <br> Player 2 Points: <span id='p2Points'>" + user.points + " </span> </div>" ); 
+
+  var throwBall = $( "<button id='throwBall' >Click anywhere to throw!</button>" );
+  var pointsDiv = $( "<div id='pointsDiv'>Player 1 Points: <span id ='p1Points'>" + user.points + "</span><br>Player 2 Points: <span id='p2Points'>" + user.points + " </span> </div>" );
   $('#bg').append(pointsDiv);
   $('#bg').append(throwBall);
-  $('#pointsDiv').fadeOut(0).delay(6500).fadeIn(1500);
-  $('#throwBall').fadeOut(0).delay(6500).fadeIn(1500);
-  
-  //CLICK TO ENABLE TRACKING SOFTWARE - TRACKING SOFTWARE DISABLED ON BALL CONTACT WITH SURFACE
-  $('.loading-container').click(function(){
-    console.log('clicked ready!'); 
-    $('#throwBall').hide(500); 
-    demo.tick(); 
-    });
- 
-  var waiting = $( "<div id='waiting' style='border: 3px solid white; border-radius: 10px; background: rgba(0,0,128, .1); color: #FFF; text-align: center; margin-left: 40%; width: 20%; height: 10%; margin-top: -50%; font-size: 200%; padding-top: 2.5%; padding-bottom: 2.5%'>Waiting for player 2</div>" ); 
-  $('#bg').append(waiting); 
-  setTimeout(function(){$('#waiting').animate({'margin-top': "90%"}, 1500)},5000); 
- 
-   
+  $('#pointsDiv').fadeOut(0);
+  $('#throwBall').fadeOut(0);
+
 });
 
-function sendPosition() {
-  message = { 'type': 'ballPos', 'position': [ ball.position.x, ball.position.y, ball.position.z ] };
-  dataChannel.send(JSON.stringify(message));
+
+function sendPosition(x, y, z, xr, yr, zr) {
+  var toSend = { 'type': 'ballPos', 'position': [ x, y, z ], 'rotation': [ xr, yr, zr ] };
+  dataChannel.send(JSON.stringify(toSend));
+}
+
+function stopAnimation() {
+  cancelAnimationFrame( spaceScene );
+  console.log('Animation stopped!')
 }

@@ -40,3 +40,59 @@ body {
   z-index: 1000;
   background-image:url('assets/starfield2.jpg');
 }
+
+#signalingArea {
+  border: 3px solid white;
+  border-radius: 10px;
+  background: rgba(0,0,128, .1);
+  color: #FFF;
+  text-align: center;
+  vertical-align: middle;
+  margin-left: 40%;
+  width: 20%;
+  margin-top: -50%;
+  font-size: 200%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+}
+
+#pointsDiv {
+  margin-left: 77%;
+  margin-top: -22%;
+  border: 3px solid white;
+  border-radius: 10px;
+  background: rgba(0,0,128, .1);
+  color: #FFF;
+  text-align: center;
+  width: 20%;
+  font-size: 100%;
+  padding-top: 2.5%;
+  padding-bottom: 2.5% ;
+}
+
+#throwBall {
+  margin-left: 41.5%;
+  text-align: center;
+  border: 3px solid white;
+  border-radius: 10px;
+  background: rgba(0,0,128, .1);
+  color: #FFF;
+  text-align: center;
+  width: 17%;
+  font-size: 75%;
+  padding-top: 2.5%;
+  padding-bottom: 2.5%;
+}
+
+span {
+  font-size: 130%;
+  font-weight: bolder;
+}
+
+#p1Points {
+  margin-left: 6.5%;
+}
+
+#p2Points {
+  margin-left: 6.5%;
+}
