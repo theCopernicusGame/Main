@@ -49,13 +49,13 @@ $(function(){
   // add ball
   if (user.myTurn === true) {
     ball.position.z = 0;
-    ball.position.x = 6;
-    ball.position.y = 1.35;
+    ball.position.x = 5;
+    ball.position.y = .35;
     scene.add( ball );
   } else {
     ball2.position.z = 0;
-    ball2.position.x = -8;
-    ball2.position.y = 1.35;
+    ball2.position.x = -7;
+    ball2.position.y = .35;
     scene.add( ball2 );
   }
 
@@ -173,7 +173,7 @@ $(function(){
 
     if (newFinalTime.counter > 3 && newFinalTime.counter < 5 && newFinalTime.flag === true){
       console.log('sp3', finalTime.counter);
-      ball.setLinearVelocity(new THREE.Vector3(-5, 10, 0));
+      ball.setLinearVelocity(new THREE.Vector3(-9, 13, 0));
       newFinalTime.flag = false;
       newFinalTime.counter = 0;
       demo.clear();
@@ -181,7 +181,7 @@ $(function(){
 
     if (newFinalTime.counter > 0 && newFinalTime.counter <= 3 && newFinalTime.flag === true){
       console.log('sp4', finalTime.counter);
-      ball.setLinearVelocity(new THREE.Vector3(0, 15, 1));
+      ball.setLinearVelocity(new THREE.Vector3(-9, 13, 0));
       newFinalTime.flag = false;
       newFinalTime.counter = 0;
       demo.clear();

@@ -22,5 +22,8 @@
     "express.io": "^1.1.13",
     "nodemon": "^1.10.0",
     "simplex-noise": "^2.2.0"
+  }, 
+  "engines": {
+    "node": "4.5.0"
   }
 }

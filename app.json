@@ -1,0 +1,8 @@
+{
+  "name": "Copernicus",
+  "description": "A new way to learn kinematics",
+  "repository": "https://github.com/theCopernicusGame/Main",
+  //"logo": "http://node-js-sample.herokuapp.com/node.svg",
+  "keywords": ["Copernicus", "kinematics", "gravity"]
+  // "image": "heroku/nodejs"
+}

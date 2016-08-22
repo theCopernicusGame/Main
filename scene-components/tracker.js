@@ -45,6 +45,7 @@ DEMO.prototype.videoError = function(error){
 
 DEMO.prototype.tick = function(){
   if (user.trackFlag === true){
+    console.log('*************IN TICK'); 
     var that = this, image, candidate;
     requestAnimationFrame( function() { return that.tick(); } );
     if (this.video) {
