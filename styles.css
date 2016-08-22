@@ -57,8 +57,9 @@ body {
 }
 
 #pointsDiv {
-  margin-left: 77%;
-  margin-top: -22%;
+  /*margin-left: 77%;*/
+  margin: auto;
+  margin-top:10px;
   border: 3px solid white;
   border-radius: 10px;
   background: rgba(0,0,128, .1);
@@ -71,7 +72,9 @@ body {
 }
 
 #throwBall {
-  margin-left: 41.5%;
+  /*margin-left: 41.5%;*/
+  margin: auto;
+  margin-top:10px;
   text-align: center;
   border: 3px solid white;
   border-radius: 10px;
@@ -79,7 +82,7 @@ body {
   color: #FFF;
   text-align: center;
   width: 17%;
-  font-size: 75%;
+  font-size: 130%;
   padding-top: 2.5%;
   padding-bottom: 2.5%;
 }
@@ -95,4 +98,10 @@ span {
 
 #p2Points {
   margin-left: 6.5%;
+}
+
+#testDiv {
+  font-size: 130%;
+  margin: auto;
+  margin-top: 50px;
 }

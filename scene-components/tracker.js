@@ -1,10 +1,10 @@
 'use strict';
 //THE FOLLOWING IS TRACKING HANDS USING JS-HANDTRACKING
 
-var finalTime = {}, demo, newFinalTime = {flag: true}, imageCounter = 0;
+var trackingTime = {}, demo, delayedTrackerTime = {flag: true}, imageCounter = 0;
 var DEMO = function(){
   startTime = undefined, endTime = undefined;
-  this.startTime = startTime; this.endTime = endTime, this.finalTime = undefined, this.skinner = undefined;
+  this.startTime = startTime; this.endTime = endTime, this.trackingTime = undefined, this.skinner = undefined;
 };
 
 DEMO.prototype.clear = function(){
@@ -76,8 +76,8 @@ DEMO.prototype.draw = function(candidate){
 };
 
 DEMO.prototype.drawHull = function(hull, color){
-  finalTime = this.tracker.returnTimeObj(); //THIS IS THE ADDED METHOD THAT RETURNS THE OBJECT CAPTURING THE SPEED OF THE PLAYERS HAND
-  if (finalTime.counter > 0) waitABit();
+  trackingTime = this.tracker.returnTimeObj(); //THIS IS THE ADDED METHOD THAT RETURNS THE OBJECT CAPTURING THE SPEED OF THE PLAYERS HAND
+  if (trackingTime.counter > 0) waitABit();
   var len = hull.length, i = 1;
   if (len > 0){
     this.context.beginPath();
@@ -92,10 +92,10 @@ DEMO.prototype.drawHull = function(hull, color){
     if (hull[0].y > 110 && this.startTime !== undefined && this.endTime === undefined){
      // console.log('yEnd', hull[0].y);
       this.endTime = Date.now();
-      this.finalTime = this.endTime - this.startTime;
+      this.trackingTime = this.endTime - this.startTime;
      // console.log('endTime', this.endTime);
-     // console.log('howMuch', (this.finalTime / 1000) % 60);
-      finalTime = (this.finalTime / 1000) % 60;
+     // console.log('howMuch', (this.trackingTime / 1000) % 60);
+      trackingTime = (this.trackingTime / 1000) % 60;
       //this.startTime = undefined, this.endTime = undefined;  //MULTIPLE THROWS POSSIBLE WITH THIS
     }
     for (; i < len; ++ i){
@@ -144,6 +144,6 @@ demo.start();
 
 function waitABit(){
   setTimeout(function(){
-    newFinalTime.counter = finalTime.counter;
+    delayedTrackerTime.counter = trackingTime.counter;
   }, 700);
 }

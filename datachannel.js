@@ -1,40 +1,58 @@
-//Page controls
+// DIRECTIONS, from server
+
+// selected elements from index.html that show information, allows for programmatic updating
 var heightArea = document.querySelector("#heightArea");
 var distArea = document.querySelector("#distArea");
 var signalingArea = document.querySelector("#signalingArea");
 
-// WE NEED TO CREATE OUR OWN STUN SERVER, LOOK INTO TOOLIO
-//Signaling Code Setup
+// *we need to create our own stun server, look into toolio
+// *set room name = to random string from req.params url
+// signaling variables setup:
+// SIGNAL_ROOM = name of room we test our game in, soon to be programmatic for multiple rooms/users
+// iceServers connects to development server hosted by Google, negotiates NAT/firewalls
+// iceServers (STUN or TURN) technically not required in dev environment
 var SIGNAL_ROOM = "signaling";
 var configuration = {
 	'iceServers': [{
 		'url': 'stun:stun.l.google.com:19302'
 	}]
 };
+
+// initializes rtcPeerConn variable for P2P connection object
+// dataChannel for specific dataChannel object
 var rtcPeerConn;
+var dataChannel;
 var dataChannelOptions = {
 	reliable: false,
 	ordered: false, //no guaranteed delivery, unreliable but faster
 	maxRetransmitTime: 1000, //milliseconds
 };
 
+// P2P information needed for game logic
 var peerFound = false;
 var moved = false;
-var dataChannel;
 
 // set up socket connection between client and server for signaling
 io = io.connect();
 
+// io.configure(function () {
+//   io.set("transports", ["xhr-polling"]); 
+//   io.set("polling duration", 20);
+// });
+
 displaySignalMessage('Waiting for other player...')
 
+// emits event to server setting up unique room
+// DIRECTIONS, to server.js
 io.emit('ready', {"signal_room": SIGNAL_ROOM});
 
-// send a first signaling message to anyone listening, sending it on page load
+// DIRECTIONS, on setting up unique room
+// sends a first signaling message to anyone in room listening
 io.emit('signal',{"type":"user_here", "message":"Let's play the CopernicusGame!", "room":SIGNAL_ROOM});
 
 io.on('signaling_message', function(data) {
-	if (data.type === "user_here") displaySignalMessage('Player 2 is joining...')
-	setTimeout(fadeSignalMessage, 10000);
+	if (data.type === "user_here") displaySignalMessage('Player 2 is joining...');
+	setTimeout(transitionGameMessages, 10000);
 
 	peerFound = true;
 
@@ -121,8 +139,14 @@ function receiveDataChannelMessage(event) {
 	if (received.position) {
 		message = received;
 		displayMessage('Height: ' + message.position[1], 'Distance: ' + message.position[0]);
-	} else {
-		moved = received;
+	} else if (received.moved) {
+		moved = received.moved;
+	} else if (received.turn) {
+		user.myTurn = received.turn;
+		console.log('myTurn is', user.myTurn);
+		scene.remove(ball2);
+		addBall();
+		user.pointFlag = true;
 	}
 }
 
@@ -140,10 +164,12 @@ function displaySignalMessage(message) {
 	signalingArea.innerHTML = message;
 }
 
-function fadeSignalMessage() {
+function transitionGameMessages() {
 	$('#signalingArea').fadeOut();
-	$('#pointsDiv').delay(2000).fadeIn(100).animate({ "margin-top": "-50%" });
-	$('#throwBall').delay(2000).fadeIn(100).animate({ "margin-top": "-50%" });
+
+	$('#pointsDiv').delay(2000).fadeIn(100).animate({ "marginTop": "-50%" });
+	if (user.myTurn === true) $('#throwBall').delay(2000).fadeIn(100).animate({ "marginTop": "-50%" });
+	else $('#throwBall').text("Please wait for the other player to take his turn!").delay(2000).fadeIn(100).animate({ "marginTop": "-50%" });
 }
 
 function addGameLogic() {

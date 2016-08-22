@@ -16,11 +16,11 @@ for ( var i = 0; i < targetGeometry2.faces.length; i++ ) {
 }
 
 var target = new Physijs.BoxMesh( targetGeometry2, targetMaterial, 1, .3 );
-target.position.set(-7, .5, 0);
+target.position.set(-8, .5, 0);
 target.receiveShadow = true;
 target.castShadow = true;
 
 var target2 = new Physijs.BoxMesh( targetGeometry, targetMaterial, 1, .3 );
-target2.position.set(5, .5, 0);
+target2.position.set(6, .5, 0);
 target2.receiveShadow = true;
 target2.castShadow = true;
