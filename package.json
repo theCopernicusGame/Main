@@ -2,7 +2,7 @@
   "name": "project-copernicus",
   "version": "1.0.0",
   "description": "An educational game that teaches kinematics through interactive gameplay with the webcam and another player.",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "test",
     "start": "nodemon server.js"
@@ -20,10 +20,15 @@
     "ejs": "^2.5.1",
     "express": "^4.14.0",
     "express.io": "^1.1.13",
-    "nodemon": "^1.10.0",
-    "simplex-noise": "^2.2.0"
+    "nodemon": "^1.10.0"
   }, 
+   "repository": {
+    "type": "git",
+    "url": "https://github.com/theCopernicusGame/Main"
+  },
   "engines": {
     "node": "4.5.0"
   }
 }
+
+
