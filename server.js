@@ -4,7 +4,7 @@ app.http().io();
 var bodyParser = require('body-parser');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-var PORT = 3001;
+
 
 app.use(express.static(path.join(__dirname)));
 
@@ -15,7 +15,7 @@ app.get('/', function(req, res){
     res.send('index.html');
 });
 
-app.listen(process.env.PORT || PORT, function(){
+app.listen(process.env.PORT || 3001, function(){
     console.log('You listenin on port 3001');
 });
 
