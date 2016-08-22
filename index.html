@@ -28,34 +28,31 @@
 
           <div id="heightArea">Height: </div>
           <div id="distArea">Distance: </div>
-          <div id="signalingArea">Signaling Messages:</br></div>
         </div>
 
-    <div id='bg' style='border-radius: 15px; opacity: .9'>
-    </div>
+      <div id='bg' style='border-radius: 15px; opacity: .9'></div>
+      <div id="signalingArea"></div>
 
     <script type="text/javascript" src="dataChannel.js"></script>
     <script type="text/javascript" src="scene-components/loaderAndLoadingScreen.js"></script>
-     <script type="text/javascript" src="scene-components/ball.js"></script>
+    <script type="text/javascript" src="scene-components/ball.js"></script>
     <script type="text/javascript" src="scene-components/tracker.js"></script>
     <script type="text/javascript" src="scene-components/target.js"></script>
     <script type="text/javascript" src="scene-components/earth.js"></script>
     <script type="text/javascript" src="scene-components/ballHolder.js"></script>
     <script type="text/javascript" src="scene-components/physicsFloor.js"></script>
-    <script type="text/javascript" src="scene-components/bumper.js"></script>
-    <script type="text/javascript" src="scene-components/kinematicGui.js"></script>
     <script type="text/javascript" src="scene-components/astronaut.js"></script>
     <script id="spotlight" type="text/javascript" src="scene-components/spotlight.js"></script>
-    
+
     <!-- LEAVE HERE, THIS MUST COME AFTER GAME LOGIC APPENDED (WHICH IS APPENDED TO SPOTLIGHT LINE 48, TRIED TO MODULARIZE AND THREW ERROR: NO USER YET -->
     <script>
     $(function(){
       $('.loading-container').click(function(){
-        console.log('clicked ready!'); 
-        $('#throwBall').hide(500); 
-        demo.tick(); 
+        console.log('clicked ready!');
+        $('#throwBall').hide(500);
+        demo.tick();
       });
-  });  
+  });
   </script>
 
   </body>

@@ -47,18 +47,19 @@ DEMO.prototype.tick = function(){
   if (user.trackFlag === true){
     var that = this, image, candidate;
     requestAnimationFrame( function() { return that.tick(); } );
-    if (this.video.readyState === this.video.HAVE_ENOUGH_DATA){
-     image = this.snapshot();
-
-      candidate = this.tracker.detect(image);
-      this.draw(candidate);
+    if (this.video) {
+      if (this.video.readyState === this.video.HAVE_ENOUGH_DATA){
+        image = this.snapshot();
+        candidate = this.tracker.detect(image);
+        this.draw(candidate);
+      }
     }
   }
 };
 
 DEMO.prototype.snapshot = function(){
   this.context.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
-  imageCounter++; 
+  imageCounter++;
 
   return this.context.getImageData(0, 0, this.canvas.width, this.canvas.height);
 };
