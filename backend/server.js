@@ -11,14 +11,14 @@ var bodyParser = require('body-parser');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname + '/../')));
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // currently test page url, to be home page url
 app.get('/', function(req, res){
-    res.send('index.html');
+    res.sendfile(path.join('views/index.html'));
 });
 
 app.listen(process.env.PORT || 3001, function(){

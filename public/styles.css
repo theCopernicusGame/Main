@@ -2,7 +2,7 @@ body {
    font-size:20px;
    font-family: 'Roboto';
    color: #fff;
-   background-image:url('assets/starfield2.jpg');
+   background-image:url('/assets/starfield2.jpg');
    margin: 0px;
    overflow: hidden;
    font-family: 'Fjalla One', sans-serif;
@@ -38,7 +38,7 @@ body {
   height: 100%;
   width: 100%;
   z-index: 1000;
-  background-image:url('assets/starfield2.jpg');
+  background-image:url('/assets/starfield2.jpg');
 }
 
 #signalingArea {

@@ -25,7 +25,7 @@ user.pointFlag = true;
 user.trackFlag = true;
 
 function addScene() {
-  $('#gamescript').append( `<script type=` + `"text/javascript"` + ` src=` + `"public/scene.js"` + `></script>` );
+  $('#gamescript').append( `<script type=` + `"text/javascript"` + ` src=` + `"./scene/scene.js"` + `></script>` );
 }
 
 setTimeout(addScene, 2000);

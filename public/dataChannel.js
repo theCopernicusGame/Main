@@ -176,7 +176,7 @@ function transitionGameMessages() {
 }
 
 function addGameLogic() {
-  $('#spotlight').append( `<script id=` + `"gamescript"` + `type=` + `"text/javascript"` + ` src=` + `"public/gameLogic.js"` + `></script>` );
+  $('#spotlight').append( `<script id=` + `"gamescript"` + `type=` + `"text/javascript"` + ` src=` + `"./public/gameLogic.js"` + `></script>` );
 }
 
 setTimeout(addGameLogic, 2000);

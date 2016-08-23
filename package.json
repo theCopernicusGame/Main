@@ -5,7 +5,7 @@
  "main": "server.js",
  "scripts": {
    "test": "test",
-   "start": "nodemon server.js"
+   "start": "nodemon backend/server.js"
  },
  "keywords": [
    "Copernicus"
