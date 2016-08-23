@@ -1,40 +1,58 @@
-//Page controls
+// DIRECTIONS, from server
+
+// selected elements from index.html that show information, allows for programmatic updating
 var heightArea = document.querySelector("#heightArea");
 var distArea = document.querySelector("#distArea");
 var signalingArea = document.querySelector("#signalingArea");
 
-// WE NEED TO CREATE OUR OWN STUN SERVER, LOOK INTO TOOLIO
-//Signaling Code Setup
+// *we need to create our own stun server, look into toolio
+// *set room name = to random string from req.params url
+// signaling variables setup:
+// SIGNAL_ROOM = name of room we test our game in, soon to be programmatic for multiple rooms/users
+// iceServers connects to development server hosted by Google, negotiates NAT/firewalls
+// iceServers (STUN or TURN) technically not required in dev environment
 var SIGNAL_ROOM = "signaling";
 var configuration = {
 	'iceServers': [{
 		'url': 'stun:stun.l.google.com:19302'
 	}]
 };
+
+// initializes rtcPeerConn variable for P2P connection object
+// dataChannel for specific dataChannel object
 var rtcPeerConn;
+var dataChannel;
 var dataChannelOptions = {
 	reliable: false,
 	ordered: false, //no guaranteed delivery, unreliable but faster
 	maxRetransmitTime: 1000, //milliseconds
 };
 
+// P2P information needed for game logic
 var peerFound = false;
 var moved = false;
-var dataChannel;
 
 // set up socket connection between client and server for signaling
 io = io.connect();
 
+// io.configure(function () {
+//   io.set("transports", ["xhr-polling"]);
+//   io.set("polling duration", 20);
+// });
+
 displaySignalMessage('Waiting for other player...')
 
+// emits event to server setting up unique room
+// DIRECTIONS, to server.js
 io.emit('ready', {"signal_room": SIGNAL_ROOM});
 
-// send a first signaling message to anyone listening, sending it on page load
+// DIRECTIONS, on setting up unique room
+// sends a first signaling message to anyone in room listening
 io.emit('signal',{"type":"user_here", "message":"Let's play the CopernicusGame!", "room":SIGNAL_ROOM});
 
 io.on('signaling_message', function(data) {
-	if (data.type === "user_here") displaySignalMessage('Player 2 is joining...')
-	setTimeout(fadeSignalMessage, 10000);
+	if (data.type === "user_here") displaySignalMessage('Player 2 is joining...');
+	setTimeout(transitionGameMessages, 10000);
 
 	peerFound = true;
 
@@ -52,7 +70,7 @@ io.on('signaling_message', function(data) {
 		// if descriptions for each peer already set up, set ICE candidates
 		else {
 			rtcPeerConn.addIceCandidate(new RTCIceCandidate(message.candidate));
-			console.log('Setting ICE candidate: ', message.candidate);
+			// console.log('Setting ICE candidate: ', message.candidate);
 		}
 	}
 
@@ -61,19 +79,19 @@ io.on('signaling_message', function(data) {
 function startSignaling() {
 	rtcPeerConn = new webkitRTCPeerConnection(configuration, {optional: []});
 	dataChannel = rtcPeerConn.createDataChannel('positionMessages', dataChannelOptions);
-	console.log('dataChannel created', dataChannel);
+	// console.log('dataChannel created', dataChannel);
 
 	// send any ice candidates to the other peer
 	rtcPeerConn.onicecandidate = function (evt) {
 		if (evt.candidate && rtcPeerConn.remoteDescription.type.length > 0) {
-			console.log('Created ICE candidate, now sending: ', evt.candidate);
+			// console.log('Created ICE candidate, now sending: ', evt.candidate);
 			io.emit('signal',{"type":"ice candidate", "message": JSON.stringify({ 'candidate': evt.candidate }), "room":SIGNAL_ROOM});
 		};
 	};
 
 	// let the 'negotiationneeded' event trigger offer generation
 	rtcPeerConn.onnegotiationneeded = function () {
-		console.log("On negotiation called");
+		// console.log("On negotiation called");
 		if (rtcPeerConn.remoteDescription.type.length === 0) rtcPeerConn.createOffer(sendLocalDesc, logError);
 	}
 
@@ -87,17 +105,17 @@ function startSignaling() {
 // sends local description
 function sendLocalDesc(desc) {
 	rtcPeerConn.setLocalDescription(desc, function () {
-		console.log('Sending local description: ', rtcPeerConn.localDescription);
+		// console.log('Sending local description: ', rtcPeerConn.localDescription);
 		io.emit('signal',{"type":"SDP", "message": JSON.stringify({ 'sdp': rtcPeerConn.localDescription }), "room":SIGNAL_ROOM});
 	}, logError);
 }
 
 // sends remote description
 function sendRemoteDesc(desc) {
-	console.log('Received message.sdp: ', desc);
+	// console.log('Received message.sdp: ', desc);
 	rtcPeerConn.setRemoteDescription(new RTCSessionDescription(desc), function () {
 		// if we received an offer, we need to answer
-		console.log('Received remote description, and set it: ', rtcPeerConn.remoteDescription)
+		// console.log('Received remote description, and set it: ', rtcPeerConn.remoteDescription)
 		if (rtcPeerConn.remoteDescription.type == 'offer') {
 			rtcPeerConn.createAnswer(sendLocalDesc, logError);
 		}
@@ -112,7 +130,7 @@ function dataChannelStateChanged() {
 }
 
 function receiveDataChannel(event) {
-	console.log('Event in receiveDataChannel: ', event)
+	// console.log('Event in receiveDataChannel: ', event)
 	dataChannel = event.channel;
 }
 
@@ -120,15 +138,24 @@ function receiveDataChannelMessage(event) {
 	var received = JSON.parse(event.data);
 	if (received.position) {
 		message = received;
-		displayMessage('Height: ' + message.position[1], 'Distance: ' + message.position[0]);
-	} else {
-		moved = received;
+		displayMessage('Height: ' + parseFloat(message.position[1] - .3).toFixed(3), 'Distance: ' + parseFloat(7 + message.position[0]).toFixed(3));
+	} else if (received.moved) {
+		moved = received.moved;
+	} else if (received.turn) {
+		user.myTurn = received.turn;
+		scene.remove(ball2);
+		addBall();
+		user.pointFlag = true;
+	} else if (received.points) {
+		otherUser.points += received.points;
+		if (user.player === "user_1") $('#p2Points').text(otherUser.points);
+		else $('#p1Points').text(otherUser.points);
 	}
 }
 
 //Logging/Display Methods
 function logError(error) {
-	console.log(error.name + ': ' + error.message);
+	// console.log(error.name + ': ' + error.message);
 }
 
 function displayMessage(message1, message2) {
@@ -140,14 +167,16 @@ function displaySignalMessage(message) {
 	signalingArea.innerHTML = message;
 }
 
-function fadeSignalMessage() {
+function transitionGameMessages() {
 	$('#signalingArea').fadeOut();
-	$('#pointsDiv').delay(2000).fadeIn(100).animate({ "margin-top": "-50%" });
-	$('#throwBall').delay(2000).fadeIn(100).animate({ "margin-top": "-50%" });
+
+	$('#pointsDiv').delay(1000).fadeIn(100).animate({ "marginTop": "-100%" });
+	if (user.myTurn === true) $('#throwBall').delay(1000).fadeIn(100).animate({ "marginTop": "-100%" });
+	else $('#throwBall').text("Please wait for the other player to take his turn!").delay(1000).fadeIn(100).animate({ "marginTop": "-100%" });
 }
 
 function addGameLogic() {
-  $('#spotlight').append( `<script id=` + `"gamescript"` + `type=` + `"text/javascript"` + ` src=` + `"gameLogic.js"` + `></script>` );
+  $('#spotlight').append( `<script id=` + `"gamescript"` + `type=` + `"text/javascript"` + ` src=` + `"./public/gameLogic.js"` + `></script>` );
 }
 
 setTimeout(addGameLogic, 2000);

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+  <head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./public/styles.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="./lib/three.min.js"></script>
+    <script type="text/javascript" src="./lib/dat.gui.min.js"></script>
+    <script type="text/javascript" src="./lib/OBJLoader.js"></script>
+    <script type="text/javascript" src="./lib/heartcode-canvasloader.js"></script>
+    <script type="text/javascript" src="./lib/physi.js"></script>
+    <script type="text/javascript" src="./lib/tracking-min.js"></script>
+    <script type="text/javascript" src="./lib/cv.js"></script>
+    <script type="text/javascript" src="./lib/handTracking.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
+
+    <title>Copernicus</title>
+
+  </head>
+
+  <body>
+    <div class = "loading-container">
+      <div id="container">
+        <div id="infoPanel">
+          <video id="myVideo" width="80.5px" height:"60.38" preload autoplay loop muted></video>
+          <canvas id="canvas" style="width:80.5px; height:60.38px"></canvas>
+
+          <div id="heightArea">Height: </div>
+          <div id="distArea">Distance: </div>
+        </div>
+
+        <div id='bg'></div>
+        <div id="signalingArea"></div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="/public/dataChannel.js"></script>
+    <script type="text/javascript" src="/scene/loaderAndLoadingScreen.js"></script>
+    <script type="text/javascript" src="/scene/ball.js"></script>
+    <script type="text/javascript" src="/scene/tracker.js"></script>
+    <script type="text/javascript" src="/scene/target.js"></script>
+    <script type="text/javascript" src="/scene/earth.js"></script>
+    <script type="text/javascript" src="/scene/physicsFloor.js"></script>
+    <script type="text/javascript" src="/scene/astronaut.js"></script>
+    <script id="spotlight" type="text/javascript" src="/scene/spotlight.js"></script>
+
+    <!-- LEAVE HERE, THIS MUST COME AFTER GAME LOGIC APPENDED (WHICH IS APPENDED TO SPOTLIGHT LINE 48, TRIED TO MODULARIZE AND THREW ERROR: NO USER YET -->
+    <script>
+      $(function(){
+        $('.loading-container').click(function(){
+          user.trackFlag = true;
+          delayedTrackerTime.flag = true
+          console.log('Clicked ready!');
+          $('#throwBall').fadeOut(100);
+          demo.tick();
+        });
+      });
+    </script>
+
+  </body>
+
+</html>

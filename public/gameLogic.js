@@ -2,6 +2,7 @@
 // this should apply all game logic before rendering the scene
 
 var user = {};
+var otherUser = {};
 
 function chooseUser() {
   if (peerFound == true) {
@@ -14,14 +15,17 @@ function chooseUser() {
 user.player = chooseUser()[0];
 user.myTurn = chooseUser()[1];
 
-if (user.player === "user_2") displaySignalMessage("You've joined Player 1!")
+console.log(user.myTurn);
 
+if (user.player === "user_2") displaySignalMessage("You've joined Player 1!");
+
+otherUser.points = 0;
 user.points = 0;
 user.pointFlag = true;
 user.trackFlag = true;
 
 function addScene() {
-  $('#gamescript').append( `<script type=` + `"text/javascript"` + ` src=` + `"scene.js"` + `></script>` );
+  $('#gamescript').append( `<script type=` + `"text/javascript"` + ` src=` + `"./scene/scene.js"` + `></script>` );
 }
 
 setTimeout(addScene, 2000);
