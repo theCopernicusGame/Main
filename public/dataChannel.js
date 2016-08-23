@@ -70,7 +70,7 @@ io.on('signaling_message', function(data) {
 		// if descriptions for each peer already set up, set ICE candidates
 		else {
 			rtcPeerConn.addIceCandidate(new RTCIceCandidate(message.candidate));
-			console.log('Setting ICE candidate: ', message.candidate);
+			// console.log('Setting ICE candidate: ', message.candidate);
 		}
 	}
 
@@ -79,19 +79,19 @@ io.on('signaling_message', function(data) {
 function startSignaling() {
 	rtcPeerConn = new webkitRTCPeerConnection(configuration, {optional: []});
 	dataChannel = rtcPeerConn.createDataChannel('positionMessages', dataChannelOptions);
-	console.log('dataChannel created', dataChannel);
+	// console.log('dataChannel created', dataChannel);
 
 	// send any ice candidates to the other peer
 	rtcPeerConn.onicecandidate = function (evt) {
 		if (evt.candidate && rtcPeerConn.remoteDescription.type.length > 0) {
-			console.log('Created ICE candidate, now sending: ', evt.candidate);
+			// console.log('Created ICE candidate, now sending: ', evt.candidate);
 			io.emit('signal',{"type":"ice candidate", "message": JSON.stringify({ 'candidate': evt.candidate }), "room":SIGNAL_ROOM});
 		};
 	};
 
 	// let the 'negotiationneeded' event trigger offer generation
 	rtcPeerConn.onnegotiationneeded = function () {
-		console.log("On negotiation called");
+		// console.log("On negotiation called");
 		if (rtcPeerConn.remoteDescription.type.length === 0) rtcPeerConn.createOffer(sendLocalDesc, logError);
 	}
 
@@ -105,17 +105,17 @@ function startSignaling() {
 // sends local description
 function sendLocalDesc(desc) {
 	rtcPeerConn.setLocalDescription(desc, function () {
-		console.log('Sending local description: ', rtcPeerConn.localDescription);
+		// console.log('Sending local description: ', rtcPeerConn.localDescription);
 		io.emit('signal',{"type":"SDP", "message": JSON.stringify({ 'sdp': rtcPeerConn.localDescription }), "room":SIGNAL_ROOM});
 	}, logError);
 }
 
 // sends remote description
 function sendRemoteDesc(desc) {
-	console.log('Received message.sdp: ', desc);
+	// console.log('Received message.sdp: ', desc);
 	rtcPeerConn.setRemoteDescription(new RTCSessionDescription(desc), function () {
 		// if we received an offer, we need to answer
-		console.log('Received remote description, and set it: ', rtcPeerConn.remoteDescription)
+		// console.log('Received remote description, and set it: ', rtcPeerConn.remoteDescription)
 		if (rtcPeerConn.remoteDescription.type == 'offer') {
 			rtcPeerConn.createAnswer(sendLocalDesc, logError);
 		}
@@ -130,7 +130,7 @@ function dataChannelStateChanged() {
 }
 
 function receiveDataChannel(event) {
-	console.log('Event in receiveDataChannel: ', event)
+	// console.log('Event in receiveDataChannel: ', event)
 	dataChannel = event.channel;
 }
 
@@ -138,21 +138,24 @@ function receiveDataChannelMessage(event) {
 	var received = JSON.parse(event.data);
 	if (received.position) {
 		message = received;
-		displayMessage('Height: ' + message.position[1], 'Distance: ' + message.position[0]);
+		displayMessage('Height: ' + parseFloat(message.position[1] - .3).toFixed(3), 'Distance: ' + parseFloat(7 + message.position[0]).toFixed(3));
 	} else if (received.moved) {
 		moved = received.moved;
 	} else if (received.turn) {
 		user.myTurn = received.turn;
-		console.log('myTurn is', user.myTurn);
 		scene.remove(ball2);
 		addBall();
 		user.pointFlag = true;
+	} else if (received.points) {
+		otherUser.points += received.points;
+		if (user.player === "user_1") $('#p2Points').text(otherUser.points);
+		else $('#p1Points').text(otherUser.points);
 	}
 }
 
 //Logging/Display Methods
 function logError(error) {
-	console.log(error.name + ': ' + error.message);
+	// console.log(error.name + ': ' + error.message);
 }
 
 function displayMessage(message1, message2) {
@@ -167,9 +170,9 @@ function displaySignalMessage(message) {
 function transitionGameMessages() {
 	$('#signalingArea').fadeOut();
 
-	$('#pointsDiv').delay(2000).fadeIn(100).animate({ "marginTop": "-50%" });
-	if (user.myTurn === true) $('#throwBall').delay(2000).fadeIn(100).animate({ "marginTop": "-50%" });
-	else $('#throwBall').text("Please wait for the other player to take his turn!").delay(2000).fadeIn(100).animate({ "marginTop": "-50%" });
+	$('#pointsDiv').delay(1000).fadeIn(100).animate({ "marginTop": "-100%" });
+	if (user.myTurn === true) $('#throwBall').delay(1000).fadeIn(100).animate({ "marginTop": "-100%" });
+	else $('#throwBall').text("Please wait for the other player to take his turn!").delay(1000).fadeIn(100).animate({ "marginTop": "-100%" });
 }
 
 function addGameLogic() {
