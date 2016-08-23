@@ -155,35 +155,39 @@ $(function(){
       stopAnimation();
     }
 
-    if (newFinalTime.counter >= 10 && newFinalTime.flag === true){
+    if (delayedTrackerMatches.counter >= 10 && delayedTrackerMatches.flag === true){
       console.log('sp1', finalTime.counter);
       ball.setLinearVelocity(new THREE.Vector3(-9, 13, 0));
-      newFinalTime.flag = false;
-      newFinalTime.counter = 0;
+      delayedTrackerMatches.flag = false;
+      delayedTrackerMatches.counter = 0;
+      //user.trackFlag = false; 
       demo.clear();
     }
 
-    if (newFinalTime.counter >= 5 && newFinalTime.counter < 10 && newFinalTime.flag === true){
-      console.log('sp2', newFinalTime.counter);
+    if (delayedTrackerMatches.counter >= 5 && delayedTrackerMatches.counter < 10 && delayedTrackerMatches.flag === true){
+      console.log('sp2', delayedTrackerMatches.counter);
       ball.setLinearVelocity(new THREE.Vector3(-8.4, 12, 0));
-      newFinalTime.flag = false;
-      newFinalTime.counter = 0;
+      delayedTrackerMatches.flag = false;
+      //ser.trackFlag = false; 
+      delayedTrackerMatches.counter = 0;
       demo.clear();
     }
 
-    if (newFinalTime.counter > 3 && newFinalTime.counter < 5 && newFinalTime.flag === true){
+    if (delayedTrackerMatches.counter > 3 && delayedTrackerMatches.counter < 5 && delayedTrackerMatches.flag === true){
       console.log('sp3', finalTime.counter);
       ball.setLinearVelocity(new THREE.Vector3(-9, 13, 0));
-      newFinalTime.flag = false;
-      newFinalTime.counter = 0;
+      delayedTrackerMatches.flag = false;
+      //user.trackFlag = false; 
+      delayedTrackerMatches.counter = 0;
       demo.clear();
      }
 
-    if (newFinalTime.counter > 0 && newFinalTime.counter <= 3 && newFinalTime.flag === true){
+    if (delayedTrackerMatches.counter > 0 && delayedTrackerMatches.counter <= 3 && delayedTrackerMatches.flag === true){
       console.log('sp4', finalTime.counter);
       ball.setLinearVelocity(new THREE.Vector3(-9, 13, 0));
-      newFinalTime.flag = false;
-      newFinalTime.counter = 0;
+      //user.trackFlag = false; 
+      delayedTrackerMatches.flag = false;
+      delayedTrackerMatches.counter = 0;
       demo.clear();
      }
 
