@@ -18,10 +18,10 @@ if (user.player === "user_2") displaySignalMessage("You've joined Player 1!")
 
 user.points = 0;
 user.pointFlag = true;
-user.trackFlag = true;
+user.trackFlag = false;
 
 function addScene() {
-  $('#gamescript').append( `<script type=` + `"text/javascript"` + ` src=` + `"public/scene.js"` + `></script>` );
+  $('#gamescript').append( `<script type=` + `"text/javascript"` + ` src=` + `"scene/scene.js"` + `></script>` );
 }
 
 setTimeout(addScene, 2000);
