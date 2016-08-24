@@ -19,7 +19,7 @@ app.use(cookieParser());
 
 // currently test page url, to be home page url
 app.get('/', function(req, res){
-    res.sendfile(path.join('views/index.html'));
+    res.sendfile('views/index.html');
 });
 
 app.listen(process.env.PORT || 3001, function(){
