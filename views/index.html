@@ -5,14 +5,14 @@
 
   <!-- BOOTSTRAP FOR RESPONSIVE DIVS -->
   <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+-->
 
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+ -->
 <!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<!-- End of Bootstrap -->
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>  -->
+<!-- End of Bootstrap --> 
 
     <link rel="stylesheet" type="text/css" href="./public/styles.css">
     <script src="/socket.io/socket.io.js"></script>
@@ -33,31 +33,22 @@
   <body>
     <div class = "loading-container">
       <div id="container">
+
         <div id='bg'>
           <div id="infoPanel">
-           <div class="container-fluid">
             <video id="myVideo" width="80.5px" height:"60.38" preload autoplay loop muted></video>
             <canvas id="canvas" style="width:80.5px; height:60.38px"></canvas>
-
-            <div class="row">
-              <div class="col-md-1" id="heightArea">Height: </div>
-              <div class="col-md-11"></div>
-            </div>
-             <div class="row">
-              <div class="col-md-1" id="distArea">Distance: </div>
-              <div class="col-md-11"></div>
-            </div>
-            <canvas id="test" style="width:160.5px; height:120.38px"></canvas>
+           <!-- CANVAS FOR TAKING PICTURE -->
+           <!--  <canvas id="test" style="width:80.5px; height:60.38px"></canvas> -->
+            <div id="heightArea">Height: </div>
+            <div id="distArea">Distance: </div>
           </div>
-        </div>
           <div id="signalingArea"></div>
           <button id='throwBall'>Click anywhere to throw!</button>
           <div id='pointsDiv'>Player 1 Points: <span id='p1Points'>0</span><br>Player 2 Points: <span id='p2Points'>0</span></div>
-          
         </div>
-    </div>
-    </div>
 
+    </div>
 
     <script type="text/javascript" src="/public/dataChannel.js"></script>
     <script type="text/javascript" src="/scene/loaderAndLoadingScreen.js"></script>
@@ -72,15 +63,16 @@
     <!-- LEAVE HERE, THIS MUST COME AFTER GAME LOGIC APPENDED (WHICH IS APPENDED TO SPOTLIGHT LINE 48, TRIED TO MODULARIZE AND THREW ERROR: NO USER YET -->
    <script>
       $(function(){
-        var canvas = document.getElementById('test');
-        var context = canvas.getContext('2d');
-        var video = document.getElementById('myVideo');
+        //CODE FOR TAKING PICTURE - INCLUDING 
+        // var canvas = document.getElementById('test');
+        // var context = canvas.getContext('2d');
+        // var video = document.getElementById('myVideo');
         $('.loading-container').click(function(){
           console.log('clicked ready!');
           delayedTrackerMatches.flag = true; 
           $('#throwBall').hide(500);
-          context.drawImage(video, 0, 0, 180.5, 160.38);
-          setTimeout(function(){$('#test').remove();}, 1500); 
+          // context.drawImage(video, 0, 0, 180.5, 160.38);
+          // setTimeout(function(){$('#test').remove();}, 1500); 
           demo.tick();
         });
       });
