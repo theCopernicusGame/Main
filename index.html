@@ -52,19 +52,20 @@
     <!-- LEAVE HERE, THIS MUST COME AFTER GAME LOGIC APPENDED (WHICH IS APPENDED TO SPOTLIGHT LINE 48, TRIED TO MODULARIZE AND THREW ERROR: NO USER YET -->
     <script>
     $(function(){
-       var canvas = document.getElementById('test');
+      var canvas = document.getElementById('test');
       var context = canvas.getContext('2d');
       var video = document.getElementById('myVideo');
       $('.loading-container').click(function(){
         console.log('clicked ready!');
         delayedTrackerMatches.flag = true; 
         $('#throwBall').hide(500);
+         // Trigger photo take
          context.drawImage(video, 0, 0, 180.5, 160.38);
         setTimeout(function(){$('#test').remove();}, 1500); 
         demo.tick();
       });
      
-// Trigger photo take
+
  
   });
   </script>
