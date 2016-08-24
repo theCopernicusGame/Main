@@ -39,7 +39,7 @@
             <video id="myVideo" width="80.5px" height:"60.38" preload autoplay loop muted></video>
             <canvas id="canvas" style="width:80.5px; height:60.38px"></canvas>
            <!-- CANVAS FOR TAKING PICTURE -->
-           <!--  <canvas id="test" style="width:80.5px; height:60.38px"></canvas> -->
+            <canvas id="test" style="width:160.5px; height:120.38px"></canvas>
             <div id="heightArea">Height: </div>
             <div id="distArea">Distance: </div>
           </div>
@@ -64,16 +64,18 @@
    <script>
       $(function(){
         //CODE FOR TAKING PICTURE - INCLUDING 
-        // var canvas = document.getElementById('test');
-        // var context = canvas.getContext('2d');
-        // var video = document.getElementById('myVideo');
+        var canvas = document.getElementById('test');
+        var context = canvas.getContext('2d');
+        var video = document.getElementById('myVideo');
         $('.loading-container').click(function(){
           console.log('clicked ready!');
           delayedTrackerMatches.flag = true; 
           $('#throwBall').hide(500);
-          // context.drawImage(video, 0, 0, 180.5, 160.38);
-          // setTimeout(function(){$('#test').remove();}, 1500); 
-          demo.tick();
+          context.drawImage(video, 0, 0, 180.5, 160.38);
+          var imageData = context.getImageData(0, 0, canvas.width, canvas.height); 
+          demo.checkPicture(imageData);
+          setTimeout(function(){$('#test').remove();}, 1500); 
+          //demo.tick();
         });
       });
    
