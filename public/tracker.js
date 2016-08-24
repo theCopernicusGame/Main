@@ -1,10 +1,12 @@
 'use strict';
 //THE FOLLOWING IS TRACKING HANDS USING JS-HANDTRACKING
 
-var trackerTime = {}, demo, delayedTrackerTime = {flag: true}, imageCounter = 0;
+//WORKING WITH TRACKER FLAGS, DAVID, MAKE SURE INITIALIZING THEM AS FALSE WORKS
+
+var trackerMatches = {}, demo, delayedTrackerMatches = {flag: false}, imageCounter = 0;
 var DEMO = function(){
   startTime = undefined, endTime = undefined;
-  this.startTime = startTime; this.endTime = endTime, this.trackerTime = undefined, this.skinner = undefined;
+  this.startTime = startTime; this.endTime = endTime, this.trackerMatches = undefined, this.skinner = undefined;
 };
 
 DEMO.prototype.clear = function(){
@@ -44,7 +46,7 @@ DEMO.prototype.videoError = function(error){
 };
 
 DEMO.prototype.tick = function(){
-  if (user.trackFlag === true){
+  if (user.trackFlag === true) {
     var that = this, image, candidate;
     requestAnimationFrame( function() { return that.tick(); } );
     if (this.video) {
@@ -76,8 +78,8 @@ DEMO.prototype.draw = function(candidate){
 };
 
 DEMO.prototype.drawHull = function(hull, color){
-  trackerTime = this.tracker.returnTimeObj(); //THIS IS THE ADDED METHOD THAT RETURNS THE OBJECT CAPTURING THE SPEED OF THE PLAYERS HAND
-  if (trackerTime.counter > 0) waitABit();
+  trackerMatches = this.tracker.returnTimeObj(); //THIS IS THE ADDED METHOD THAT RETURNS THE OBJECT CAPTURING THE SPEED OF THE PLAYERS HAND
+  if (trackerMatches.counter > 0) waitABit();
   var len = hull.length, i = 1;
   if (len > 0){
     this.context.beginPath();
@@ -92,10 +94,10 @@ DEMO.prototype.drawHull = function(hull, color){
     if (hull[0].y > 110 && this.startTime !== undefined && this.endTime === undefined){
      // console.log('yEnd', hull[0].y);
       this.endTime = Date.now();
-      this.trackerTime = this.endTime - this.startTime;
+      this.trackerMatches = this.endTime - this.startTime;
      // console.log('endTime', this.endTime);
-     // console.log('howMuch', (this.trackerTime / 1000) % 60);
-      trackerTime = (this.trackerTime / 1000) % 60;
+     // console.log('howMuch', (this.trackerMatches / 1000) % 60);
+      trackerMatches = (this.trackerMatches / 1000) % 60;
       //this.startTime = undefined, this.endTime = undefined;  //MULTIPLE THROWS POSSIBLE WITH THIS
     }
     for (; i < len; ++ i){
@@ -144,6 +146,6 @@ demo.start();
 
 function waitABit(){
   setTimeout(function(){
-    delayedTrackerTime.counter = trackerTime.counter;
-  }, 700);
+    delayedTrackerMatches.counter = trackerMatches.counter;
+  }, 1000);
 }

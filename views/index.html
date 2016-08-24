@@ -37,7 +37,7 @@
     <script type="text/javascript" src="/public/dataChannel.js"></script>
     <script type="text/javascript" src="/scene/loaderAndLoadingScreen.js"></script>
     <script type="text/javascript" src="/scene/ball.js"></script>
-    <script type="text/javascript" src="/scene/tracker.js"></script>
+    <script type="text/javascript" src="/public/tracker.js"></script>
     <script type="text/javascript" src="/scene/target.js"></script>
     <script type="text/javascript" src="/scene/earth.js"></script>
     <script type="text/javascript" src="/scene/physicsFloor.js"></script>
@@ -49,7 +49,7 @@
       $(function(){
         $('.loading-container').click(function(){
           user.trackFlag = true;
-          delayedTrackerTime.flag = true
+          delayedTrackerMatches.flag = true;
           console.log('Clicked ready!');
           $('#throwBall').fadeOut(100);
           demo.tick();
