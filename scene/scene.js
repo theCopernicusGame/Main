@@ -188,18 +188,7 @@ window.addEventListener('keyup', keyUp);
 
 
 // for appending game messages to the DOM
-$('#bg').prepend( renderer.domElement );
-
-var throwBall = $( "<button id='throwBall'>Click anywhere to throw!</button>" );
-if (user.player === "user_1") {
-  var pointsDiv = $( "<div id='pointsDiv'>Player 1 Points: <span id ='p1Points'>" + user.points + "</span><br>Player 2 Points: <span id='p2Points'>" + user.otherPoints + " </span> </div>" );
-} else {
-  var pointsDiv = $( "<div id='pointsDiv'>Player 1 Points: <span id ='p1Points'>" + user.otherPoints + "</span><br>Player 2 Points: <span id='p2Points'>" + user.points + " </span> </div>" );
-}
-$('#bg').append(pointsDiv);
-$('#bg').append(throwBall);
-$('#pointsDiv').fadeOut(0);
-$('#throwBall').fadeOut(0);
+$('#bg').append( renderer.domElement );
 
 function sendPosition(x, y, z, xr, yr, zr) {
   var toSend = { 'type': 'ballPos', 'position': [ x, y, z ], 'rotation': [ xr, yr, zr ] };
