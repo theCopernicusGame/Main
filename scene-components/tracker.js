@@ -1,6 +1,6 @@
 'use strict';
 //THE FOLLOWING IS TRACKING HANDS USING JS-HANDTRACKING
-var trackerMatches = {}, demo, delayedTrackerMatches = {flag: true}, 
+var trackerMatches = {}, demo, delayedTrackerMatches = {flag: true};  
 var DEMO = function(){
   startTime = undefined, endTime = undefined;
   this.startTime = startTime; this.endTime = endTime, this.trackerMatches = undefined, this.skinner = undefined;

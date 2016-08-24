@@ -22,12 +22,16 @@
     <div class = "loading-container">
       <div id="container">
 
+       
+
+
         <div id="infoPanel">
           <video id="myVideo" width="80.5px" height:"60.38" preload autoplay loop muted></video>
+          <canvas id="test" style="width:160.5px; height:120.38px"></canvas>
           <canvas id="canvas" style="width:80.5px; height:60.38px"></canvas>
-
           <div id="heightArea">Height: </div>
           <div id="distArea">Distance: </div>
+          
         </div>
 
       <div id='bg' style='border-radius: 15px; opacity: .9'></div>
@@ -48,14 +52,23 @@
     <!-- LEAVE HERE, THIS MUST COME AFTER GAME LOGIC APPENDED (WHICH IS APPENDED TO SPOTLIGHT LINE 48, TRIED TO MODULARIZE AND THREW ERROR: NO USER YET -->
     <script>
     $(function(){
+       var canvas = document.getElementById('test');
+      var context = canvas.getContext('2d');
+      var video = document.getElementById('myVideo');
       $('.loading-container').click(function(){
         console.log('clicked ready!');
         delayedTrackerMatches.flag = true; 
         $('#throwBall').hide(500);
+         context.drawImage(video, 0, 0, 180.5, 160.38);
+        setTimeout(function(){$('#test').remove();}, 1500); 
         demo.tick();
       });
+     
+// Trigger photo take
+ 
   });
   </script>
+ 
 
   </body>
 

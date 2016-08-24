@@ -155,8 +155,8 @@ $(function(){
       stopAnimation();
     }
 
-    if (delayedTrackerMatches.counter >= 10 && delayedTrackerMatches.flag === true){
-      console.log('sp1', finalTime.counter);
+    if (delayedTrackerMatches.counter >= 200 && delayedTrackerMatches.flag === true){
+      console.log('sp1', delayedTrackerMatches.counter);
       ball.setLinearVelocity(new THREE.Vector3(-9, 13, 0));
       delayedTrackerMatches.flag = false;
       delayedTrackerMatches.counter = 0;
@@ -174,7 +174,7 @@ $(function(){
     }
 
     if (delayedTrackerMatches.counter > 3 && delayedTrackerMatches.counter < 5 && delayedTrackerMatches.flag === true){
-      console.log('sp3', finalTime.counter);
+      console.log('sp3', delayedTrackerMatches.counter);
       ball.setLinearVelocity(new THREE.Vector3(-9, 13, 0));
       delayedTrackerMatches.flag = false;
       //user.trackFlag = false; 
@@ -183,7 +183,7 @@ $(function(){
      }
 
     if (delayedTrackerMatches.counter > 0 && delayedTrackerMatches.counter <= 3 && delayedTrackerMatches.flag === true){
-      console.log('sp4', finalTime.counter);
+      console.log('sp4', delayedTrackerMatches.counter);
       ball.setLinearVelocity(new THREE.Vector3(-9, 13, 0));
       //user.trackFlag = false; 
       delayedTrackerMatches.flag = false;
