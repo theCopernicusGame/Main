@@ -12,7 +12,7 @@
  -->
 <!-- Latest compiled and minified JavaScript -->
 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>  -->
-<!-- End of Bootstrap --> 
+<!-- End of Bootstrap -->
 
     <link rel="stylesheet" type="text/css" href="./public/styles.css">
     <script src="/socket.io/socket.io.js"></script>
@@ -31,6 +31,11 @@
   </head>
 
   <body>
+    <canvas id="testcanvas" style="width:80.5px; height:60.38px"></canvas>
+    <button id="start-scan">Start Webcam</button>
+    <div id="take-snapshot">
+      <img  id="hand-image" src="assets/hand-background2.png">
+    </div>
     <div class = "loading-container">
       <div id="container">
 
@@ -39,7 +44,7 @@
             <video id="myVideo" width="80.5px" height:"60.38" preload autoplay loop muted></video>
             <canvas id="canvas" style="width:80.5px; height:60.38px"></canvas>
            <!-- CANVAS FOR TAKING PICTURE -->
-            <canvas id="test" style="width:160.5px; height:120.38px"></canvas>
+            <canvas id="test" style="width:80.5px; height:60.38px"></canvas>
             <div id="heightArea">Height: </div>
             <div id="distArea">Distance: </div>
           </div>
@@ -63,35 +68,47 @@
     <!-- LEAVE HERE, THIS MUST COME AFTER GAME LOGIC APPENDED (WHICH IS APPENDED TO SPOTLIGHT LINE 48, TRIED TO MODULARIZE AND THREW ERROR: NO USER YET -->
    <script>
       $(function(){
-        //CODE FOR TAKING PICTURE - INCLUDING 
+        //CODE FOR TAKING PICTURE - INCLUDING
         var canvas = document.getElementById('test');
         var context = canvas.getContext('2d');
         var video = document.getElementById('myVideo');
         $('.loading-container').click(function(){
           console.log('clicked ready!');
-          user.trackFlag = true; 
+          user.trackFlag = true;
           $('#throwBall').hide(500);
-          context.drawImage(video, 0, 0, 180.5, 160.38);
-          var imageData = context.getImageData(0, 0, canvas.width, canvas.height); 
+          context.drawImage(video, 0, 0, 320.5, 240.38);
+          var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+            var i;
+            for (i = 0; i < imageData.data.length; i += 4) {
+  if (i < 10000  || (i > 90300 && i < 90700) || ( i > 91200 && i < 91700) || ( i > 92200 && i < 92700)  || ( i > 93200 && i < 93700)  || ( i > 94200 && i < 94700) || ( i > 95200 && i < 95700) || ( i > 96200 && i < 96700)  || ( i > 97200 && i < 97700)) {
+                  imageData.data[i] = 255;
+                  imageData.data[i + 1] = 0;
+                  imageData.data[i + 2] = 0;
+                }
+            }
+            context.putImageData(imageData, 0, 0);
           demo.checkPicture(imageData);
-          setTimeout(function(){$('#test').remove();}, 1500); 
+          //setTimeout(function(){$('#test').remove();}, 1500);
           setTimeout(function(){
-            console.log('starting Tracking!'); 
+            console.log('starting Tracking!');
             demo.tick();
-          }, 10000); 
+          }, 2000);
         });
       });
-   
+
+    </script>
+    <script>
+      $(document).ready(function() {
+
+        $('#start-scan').click(function() {
+          $('#myVideo').css('width', '161px');
+          $('#myVideo').css('height', '120px');
+
+          $('#take-snapshot').css('display', 'block');
+        });
+      });
     </script>
 
   </body>
 
 </html>
-
-
-
-
-
- 
-
-
