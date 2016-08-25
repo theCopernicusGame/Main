@@ -1,12 +1,13 @@
 'use strict';
 //THE FOLLOWING IS TRACKING HANDS USING JS-HANDTRACKING
 
-//WORKING WITH TRACKER FLAGS, DAVID, MAKE SURE INITIALIZING THEM AS FALSE WORKS
+var trackerMatches = {}, demo, delayedTrackerMatches = {trackFlag: false};  
 
-var trackerMatches = {}, demo, delayedTrackerMatches = {flag: false}, imageCounter = 0;
+
+//WORKING WITH TRACKER FLAGS, DAVID, MAKE SURE INITIALIZING THEM AS FALSE WORKS
 var DEMO = function(){
   startTime = undefined, endTime = undefined;
-  this.startTime = startTime; this.endTime = endTime, this.trackerMatches = undefined, this.skinner = undefined;
+  this.startTime = startTime; this.endTime = endTime, this.trackerMatches = undefined; 
 };
 
 DEMO.prototype.clear = function(){
@@ -59,9 +60,14 @@ DEMO.prototype.tick = function(){
   }
 };
 
+DEMO.prototype.checkPicture = function(image){
+  this.skinner = new HT.Skinner();
+  this.skinner.checkPic(image); 
+}
+
 DEMO.prototype.snapshot = function(){
   this.context.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
-  imageCounter++;
+  
 
   return this.context.getImageData(0, 0, this.canvas.width, this.canvas.height);
 };

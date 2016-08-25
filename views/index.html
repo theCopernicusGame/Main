@@ -2,6 +2,18 @@
   <head>
     <meta charset="UTF-8">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+  <!-- BOOTSTRAP FOR RESPONSIVE DIVS -->
+  <!-- Latest compiled and minified CSS -->
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+-->
+
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+ -->
+<!-- Latest compiled and minified JavaScript -->
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>  -->
+<!-- End of Bootstrap --> 
+
     <link rel="stylesheet" type="text/css" href="./public/styles.css">
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="./lib/three.min.js"></script>
@@ -25,11 +37,13 @@
     </div>
     <div class = "loading-container">
       <div id="container">
+
         <div id='bg'>
           <div id="infoPanel">
             <video id="myVideo" width="80.5px" height:"60.38" preload autoplay loop muted></video>
             <canvas id="canvas" style="width:80.5px; height:60.38px"></canvas>
-
+           <!-- CANVAS FOR TAKING PICTURE -->
+            <canvas id="test" style="width:160.5px; height:120.38px"></canvas>
             <div id="heightArea">Height: </div>
             <div id="distArea">Distance: </div>
           </div>
@@ -51,16 +65,27 @@
     <script id="spotlight" type="text/javascript" src="/scene/spotlight.js"></script>
 
     <!-- LEAVE HERE, THIS MUST COME AFTER GAME LOGIC APPENDED (WHICH IS APPENDED TO SPOTLIGHT LINE 48, TRIED TO MODULARIZE AND THREW ERROR: NO USER YET -->
-    <script>
+   <script>
       $(function(){
+        //CODE FOR TAKING PICTURE - INCLUDING 
+        var canvas = document.getElementById('test');
+        var context = canvas.getContext('2d');
+        var video = document.getElementById('myVideo');
         $('.loading-container').click(function(){
-          user.trackFlag = true;
-          delayedTrackerMatches.flag = true;
-          console.log('Clicked ready!');
-          $('#throwBall').fadeOut(100);
-          demo.tick();
+          console.log('clicked ready!');
+          user.trackFlag = true; 
+          $('#throwBall').hide(500);
+          context.drawImage(video, 0, 0, 180.5, 160.38);
+          var imageData = context.getImageData(0, 0, canvas.width, canvas.height); 
+          demo.checkPicture(imageData);
+          setTimeout(function(){$('#test').remove();}, 1500); 
+          setTimeout(function(){
+            console.log('starting Tracking!'); 
+            demo.tick();
+          }, 10000); 
         });
       });
+   
     </script>
     <script>
       $(document).ready(function() {
@@ -77,3 +102,11 @@
   </body>
 
 </html>
+
+
+
+
+
+ 
+
+
