@@ -124,3 +124,20 @@ span {
 #bg {
   z-index: 1000;
 }
+
+#take-snapshot {
+  position:absolute;
+  width: 160px;
+  height: 120px;
+  border: 1px solid #999;
+  z-index: 2000;
+  display: none;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+#hand-image {
+  width: 100%;
+  height: 100%;
+  opacity: 0.94;
+}

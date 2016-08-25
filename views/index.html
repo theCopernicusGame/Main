@@ -19,6 +19,10 @@
   </head>
 
   <body>
+    <button id="start-scan">Start Webcam</button>
+    <div id="take-snapshot">
+      <img  id="hand-image" src="assets/hand-background2.png">
+    </div>
     <div class = "loading-container">
       <div id="container">
         <div id='bg'>
@@ -33,6 +37,7 @@
           <button id='throwBall'>Click anywhere to throw!</button>
           <div id='pointsDiv'>Player 1 Points: <span id='p1Points'>0</span><br>Player 2 Points: <span id='p2Points'>0</span></div>
         </div>
+
     </div>
 
     <script type="text/javascript" src="/public/dataChannel.js"></script>
@@ -54,6 +59,17 @@
           console.log('Clicked ready!');
           $('#throwBall').fadeOut(100);
           demo.tick();
+        });
+      });
+    </script>
+    <script>
+      $(document).ready(function() {
+
+        $('#start-scan').click(function() {
+          $('#myVideo').css('width', '161px');
+          $('#myVideo').css('height', '120px');
+
+          $('#take-snapshot').css('display', 'block');
         });
       });
     </script>
