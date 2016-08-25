@@ -69,13 +69,16 @@
         var video = document.getElementById('myVideo');
         $('.loading-container').click(function(){
           console.log('clicked ready!');
-          delayedTrackerMatches.flag = true; 
+          user.trackFlag = true; 
           $('#throwBall').hide(500);
           context.drawImage(video, 0, 0, 180.5, 160.38);
           var imageData = context.getImageData(0, 0, canvas.width, canvas.height); 
           demo.checkPicture(imageData);
           setTimeout(function(){$('#test').remove();}, 1500); 
-          //demo.tick();
+          setTimeout(function(){
+            console.log('starting Tracking!'); 
+            demo.tick();
+          }, 10000); 
         });
       });
    

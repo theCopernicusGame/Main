@@ -1,7 +1,7 @@
 'use strict';
 //THE FOLLOWING IS TRACKING HANDS USING JS-HANDTRACKING
 
-var trackerMatches = {}, demo, delayedTrackerMatches = {flag: true};  
+var trackerMatches = {}, demo, delayedTrackerMatches = {trackFlag: false};  
 
 
 //WORKING WITH TRACKER FLAGS, DAVID, MAKE SURE INITIALIZING THEM AS FALSE WORKS
