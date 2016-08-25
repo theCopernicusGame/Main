@@ -1,13 +1,13 @@
-'use strict';
+//'use strict';
 //THE FOLLOWING IS TRACKING HANDS USING JS-HANDTRACKING
 
-var trackerMatches = {}, demo, delayedTrackerMatches = {trackFlag: false};  
+var trackerMatches = {}, demo, delayedTrackerMatches = {trackFlag: false};
 
 
 //WORKING WITH TRACKER FLAGS, DAVID, MAKE SURE INITIALIZING THEM AS FALSE WORKS
 var DEMO = function(){
   startTime = undefined, endTime = undefined;
-  this.startTime = startTime; this.endTime = endTime, this.trackerMatches = undefined; 
+  this.startTime = startTime; this.endTime = endTime, this.trackerMatches = undefined;
 };
 
 DEMO.prototype.clear = function(){
@@ -62,12 +62,12 @@ DEMO.prototype.tick = function(){
 
 DEMO.prototype.checkPicture = function(image){
   this.skinner = new HT.Skinner();
-  this.skinner.checkPic(image); 
+  this.skinner.checkPic(image);
 }
 
 DEMO.prototype.snapshot = function(){
   this.context.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
-  
+
 
   return this.context.getImageData(0, 0, this.canvas.width, this.canvas.height);
 };
@@ -133,18 +133,25 @@ DEMO.prototype.createImage = function(imageSrc, imageDst){
   var src = imageSrc.data, dst = imageDst.data,
     width = imageSrc.width, span = 4 * width,
     len = src.length, i = 0, j = 0, k = 0, fun = dst;
+    console.log('src length', len);
   for(i = 0; i < len; i += span){
     for(j = 0; j < width; j += 5){
       dst[k] = dst[k + 1] = dst[k + 2] = src[i];
       dst[k + 3] = 255;
       k += 4;
       i += 5;
+    if (i > 2000 && i < 3000){
+      dst[k] = 255;
+      dst[k + 1] = 255;
+      dst[k + 2] = 255;
+      dst[k + 3] = 255;
+    }
     }
   }
   return imageDst;
 };
 
-$('#canvas').css('visibility', 'hidden');
+//$('#canvas').css('visibility', 'hidden');
 demo = new DEMO();
 
 demo.start();
