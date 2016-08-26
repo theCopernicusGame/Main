@@ -172,14 +172,9 @@ function render() {
     sendPosition((-7 + (5 - ball.position.x)), ball.position.y, ball.position.z, ball.rotation.x, ball.rotation.y, ball.rotation.z);
   }
 
-  // press 's' to stop sending and animation, testing purposes only
-  if (keyboard[83]) {
-    moved = false;
-    dataChannel.close();
-    stopAnimation();
+  if (delayedTrackerMatches.trackFlag === true && user.trackFlag === true) {
+    sendProjectile(delayedTrackerMatches.counter);
   }
-
-  if (delayedTrackerMatches.trackFlag === true && user.trackFlag === true) sendProjectile(delayedTrackerMatches.counter);
 
   var spaceScene = requestAnimationFrame( render );
   renderer.render( scene, camera );
@@ -219,11 +214,16 @@ function determineVelocity(trackerCount) {
 
 function sendProjectile(trackerCount) {
   var velocity = determineVelocity(trackerCount);
+  t = performance.now();
+  v0 = parseFloat(Math.sqrt(((-velocity)**2) + ((velocity)**2))).toFixed(3);
   ball.setLinearVelocity(new THREE.Vector3(-velocity, velocity, 0));
   delayedTrackerMatches.flag = false;
   user.trackFlag = false;
   delayedTrackerMatches.counter = 0;
   moved = true;
+  if (turnEnded === false) {
+    storePosition();
+  }
   dataChannel.send(JSON.stringify({ 'moved': moved }));
   sendPosition((-7 + (5 - ball.position.x)), ball.position.y, ball.position.z, ball.rotation.x, ball.rotation.y, ball.rotation.z);
   demo.clear();
