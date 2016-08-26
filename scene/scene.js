@@ -168,7 +168,10 @@ function render() {
     stopAnimation();
   }
 
-  if (delayedTrackerMatches.flag === true && user.trackFlag === true) sendProjectile(delayedTrackerMatches.counter);
+  if (delayedTrackerMatches.trackFlag === true && user.trackFlag === true) {
+      console.log('in velStart', delayedTrackerMatches); 
+    sendProjectile(delayedTrackerMatches.counter);
+  }
 
   var spaceScene = requestAnimationFrame( render );
   renderer.render( scene, camera );

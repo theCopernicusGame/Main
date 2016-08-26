@@ -1,6 +1,6 @@
  
 marsOrbitRadius = 355,
-marsOrbitAngle = 50,
+marsOrbitAngle = 75,
 marsOrbitSpeed = 0.04;
 
 
