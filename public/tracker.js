@@ -133,7 +133,7 @@ DEMO.prototype.createImage = function(imageSrc, imageDst){
   var src = imageSrc.data, dst = imageDst.data,
     width = imageSrc.width, span = 4 * width,
     len = src.length, i = 0, j = 0, k = 0, fun = dst;
-    console.log('src length', len);
+    //console.log('src length', len);
   for(i = 0; i < len; i += span){
     for(j = 0; j < width; j += 5){
       dst[k] = dst[k + 1] = dst[k + 2] = src[i];
