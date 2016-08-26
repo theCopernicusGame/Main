@@ -23,6 +23,7 @@
     <script type="text/javascript" src="./lib/physi.js"></script>
     <script type="text/javascript" src="./lib/tracking-min.js"></script>
     <script type="text/javascript" src="./lib/cv.js"></script>
+    <script type="text/javascript" src="./public/engageTracking.js"></script>
     <script type="text/javascript" src="./lib/handTracking.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
 
@@ -39,7 +40,7 @@
       <img  id="transparent-circle" src="assets/transparentCircle.png">
     </div>
     <div id="allow-webcam">
-      <button id="start-scan">Play using Webcam</button>
+      <button id="start-scan">Click to Scan Hand</button>
     </div>
     <div class = "loading-container">
       <div id="container">
@@ -52,7 +53,7 @@
             <div id="distArea">Distance: </div>
           </div>
           <div id="signalingArea"></div>
-          <button id='throwBall'>Click anywhere to throw!</button>
+         <button id='throwBall'></button>
           <div id='pointsDiv'>Player 1 Points: <span id='p1Points'>0</span><br>Player 2 Points: <span id='p2Points'>0</span></div>
         </div>
 
@@ -60,116 +61,7 @@
 
     <script type="text/javascript" src="/public/dataChannel.js"></script>
     <script type="text/javascript" src="/scene/loaderAndLoadingScreen.js"></script>
-    <script>
-      $(document).ready(function() {
-
-        $('#start-scan').click(function() {
-
-          var canvas = document.getElementById('process-image');
-          var canvas2 = document.getElementById('snapShot');
-
-          var context1 = canvas.getContext('2d');
-          var photo = document.getElementById('whiteCircle')
-
-          var context2 = canvas2.getContext('2d');
-          var video = document.getElementById('myVideo');
-
-          $('.loading-container').click(function(){
-            console.log('clicked ready!');
-            user.trackFlag = true;
-            $('#throwBall').hide(500);
-
-            var image = context1.drawImage(photo, 0, 0, 160, 120);
-            var imageData = context1.getImageData(0, 0, canvas.width, canvas.height);
-
-            var vid = context2.drawImage(video, 0, 0, 160, 120);
-            var videoData = context2.getImageData(0, 0, canvas.width, canvas.height);
-
-            var arrRed = [];
-            var arrGreen = [];
-            var arrBlue = [];
-            pixelsNeededIndex = [];
-
-            for (var i = 0; i < imageData.data.length; i += 4) {
-              if (imageData.data[i] > 235) {
-
-                 imageData.data[i] = videoData.data[i]
-                 if (imageData.data[i] > 25) {
-                   arrRed.push(imageData.data[i]);
-                   pixelsNeededIndex.push(i);
-                 }
-
-                 imageData.data[i + 1] = videoData.data[i + 1];
-                 if (imageData.data[i + 1] > 25) arrGreen.push(imageData.data[i + 1]);
-
-                 imageData.data[i + 2] = videoData.data[i + 2];
-                 if (imageData.data[i + 2] > 25) arrBlue.push(imageData.data[i + 2]);
-              }
-
-            }
-
-              function average(arr) {
-                let maxLow = {};
-
-                let average = Math.floor(arr.reduce(function(acc, i) {
-                  return acc + i;
-                }, 0) / arr.length);
-
-                maxLow.lowest = average - 5;
-                maxLow.max = average + 5;
-                return maxLow;
-              }
-
-              let reds = average(arrRed);
-              let greens = average(arrGreen);
-              let blues = average(arrBlue);
-
-              minMaxColors = {};
-              minMaxColors.lowRed = reds.lowest;
-              minMaxColors.maxRed = reds.max;
-              minMaxColors.lowGreen = greens.lowest;
-              minMaxColors.maxGreen = greens.max;
-              minMaxColors.lowBlue = blues.lowest;
-              minMaxColors.maxBlue = blues.max;
-
-              context1.putImageData(imageData, 0, 0);
-
-              demo.checkPicture(imageData);
-              setTimeout(function(){
-                console.log('starting Tracking!');
-                demo.tick();
-            }, 2000);
-          });
-
-
-          var infoP = $('<p id="hand-info">Place hand over circle to correctly scan pixelation.</p>');
-          var allowWebcam = $('#allow-webcam');
-          var transparentCircle = $('#transparent-circle');
-          var snapContainer = $('#take-snapshot');
-
-          //show frame over video
-          snapContainer.css('display', 'block');
-
-          //display info message
-          allowWebcam.prepend(infoP);
-          $('#start-scan').remove();
-
-          //capture snapshot of hand && tell user
-          setTimeout(function() {
-            transparentCircle.css('backgroundColor', 'green');
-            infoP.html("Thanks! move your hand across to throw the ball!");
-            //demo.tick();
-          }, 7000);
-
-          //remove info box
-          setTimeout(function() {
-            infoP.remove();
-            snapContainer.remove();
-          }, 14000);
-
-        });
-      });
-    </script>
+    <!-- LEAVE HERE, THIS MUST COME AFTER GAME LOGIC APPENDED (WHICH IS APPENDED TO SPOTLIGHT LINE 48, TRIED TO MODULARIZE AND THREW ERROR: NO USER YET -->
    <!--  <script type="text/javascript" src="trackingJSColors.js"></script> -->
     <script type="text/javascript" src="/scene/ball.js"></script>
     <script type="text/javascript" src="/public/tracker.js"></script>
@@ -180,89 +72,6 @@
     <script id="spotlight" type="text/javascript" src="/scene/spotlight.js"></script>
 
     <!-- LEAVE HERE, THIS MUST COME AFTER GAME LOGIC APPENDED (WHICH IS APPENDED TO SPOTLIGHT LINE 48, TRIED TO MODULARIZE AND THREW ERROR: NO USER YET -->
-   <script>
-      $(function(){
-        //CODE FOR TAKING PICTURE - INCLUDING
-        // var canvas = document.getElementById('process-image');
-        // var canvas2 = document.getElementById('snapShot');
-        //
-        // var context1 = canvas.getContext('2d');
-        // var photo = document.getElementById('whiteCircle')
-        //
-        // var context2 = canvas2.getContext('2d');
-        // var video = document.getElementById('myVideo');
-        //
-        // $('.loading-container').click(function(){
-        //   console.log('clicked ready!');
-        //   user.trackFlag = true;
-        //   $('#throwBall').hide(500);
-        //
-        //   var image = context1.drawImage(photo, 0, 0, 160, 120);
-        //   var imageData = context1.getImageData(0, 0, canvas.width, canvas.height);
-        //
-        //   var vid = context2.drawImage(video, 0, 0, 160, 120);
-        //   var videoData = context2.getImageData(0, 0, canvas.width, canvas.height);
-        //
-        //   var arrRed = [];
-        //   var arrGreen = [];
-        //   var arrBlue = [];
-        //   pixelsNeededIndex = [];
-        //
-        //   for (var i = 0; i < imageData.data.length; i += 4) {
-        //     if (imageData.data[i] > 235) {
-        //
-        //        imageData.data[i] = videoData.data[i]
-        //        if (imageData.data[i] > 25) {
-        //          arrRed.push(imageData.data[i]);
-        //          pixelsNeededIndex.push(i);
-        //        }
-        //
-        //        imageData.data[i + 1] = videoData.data[i + 1];
-        //        if (imageData.data[i + 1] > 25) arrGreen.push(imageData.data[i + 1]);
-        //
-        //        imageData.data[i + 2] = videoData.data[i + 2];
-        //        if (imageData.data[i + 2] > 25) arrBlue.push(imageData.data[i + 2]);
-        //     }
-        //
-        //   }
-        //
-        //     function average(arr) {
-        //       let maxLow = {};
-        //
-        //       let average = Math.floor(arr.reduce(function(acc, i) {
-        //         return acc + i;
-        //       }, 0) / arr.length);
-        //
-        //       maxLow.lowest = average - 5;
-        //       maxLow.max = average + 5;
-        //       return maxLow;
-        //     }
-        //
-        //     let reds = average(arrRed);
-        //     let greens = average(arrGreen);
-        //     let blues = average(arrBlue);
-        //
-        //     minMaxColors = {};
-        //     minMaxColors.lowRed = reds.lowest;
-        //     minMaxColors.maxRed = reds.max;
-        //     minMaxColors.lowGreen = greens.lowest;
-        //     minMaxColors.maxGreen = greens.max;
-        //     minMaxColors.lowBlue = blues.lowest;
-        //     minMaxColors.maxBlue = blues.max;
-        //
-        //     context1.putImageData(imageData, 0, 0);
-        //
-        //     demo.checkPicture(imageData);
-        //     setTimeout(function(){
-        //       console.log('starting Tracking!');
-        //       demo.tick();
-        //   }, 2000);
-        // });
-      });
-
-    </script>
-
-
   </body>
 
 </html>

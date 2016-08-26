@@ -2,6 +2,7 @@
   <head>
     <meta charset="UTF-8">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="./public/styles.css">
     <title>Welcome to Copernicus</title>
     <script type="text/javascript" src="./lib/three.min.js"></script>
@@ -20,8 +21,12 @@
   </head>
 
   <body>
-
-<div id="container"></div>
+    <div id='startGame'>
+        <h1 id='banner'>Copernicus</h1>
+        <button class='newGame' id="onePlayer">One Player Game</button>
+        <button class='newGame' id="twoPlayer">Two Player Game</button>
+    </div>
+    <div id="container"></div>
 
 
     <script type="text/javascript" src="./galaxyScene/galaxyScene.js"></script>
