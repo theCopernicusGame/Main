@@ -20,24 +20,42 @@ var theSun,
     theEarth,
     theMoon,
     Mars, 
-    Jupiter;
+    Jupiter,
+    Saturn;
 
 
-var earthOrbitRadius = 150,
-    earthOrbitAngle = 0,
-    earthOrbitSpeed = 0.2,
+var mercuryOrbitRadius = 120,
+    mercuryOrbitAngle = -100,
+    mercuryOrbitSpeed = 0.8,
+
+    venusOrbitRadius = 200,
+    venusOrbitAngle = 40,
+    venusOrbitSpeed = 0.2,
     
-    marsOrbitRadius = 50,
-    marsOrbitAngle = 20,
-    marsOrbitSpeed = 0.8,
+    earthOrbitRadius = 300,
+    earthOrbitAngle = 80,
+    earthOrbitSpeed = 0.1,
+
+    moonOrbitRadius = 24,
+    moonOrbitAngle = 20,
+    moonOrbitSpeed = .7,
     
-    jupiterOrbitRadius = 220,
+    marsOrbitRadius = 355,
+    marsOrbitAngle = 50,
+    marsOrbitSpeed = 0.2,
+
+    saturnOrbitRadius = 405,
+    saturnOrbitAngle = 20,
+    saturnOrbitSpeed = 0.1,
+
+    
+    jupiterOrbitRadius = 470,
     jupiterOrbitAngle = 0,
     jupiterOrbitSpeed = 0.05,
     
-    moonOrbitRadius = 10,
-    moonOrbitAngle = 20,
-    moonOrbitSpeed = 1;
+    uOrbitRadius = 530,
+    uOrbitAngle = -70,
+    uOrbitSpeed = 0.05;
 
 init();
 animate();
@@ -50,6 +68,8 @@ function init() {
     // renderer
     renderer = new THREE.WebGLRenderer( { clearColor: 0x000000, alpha: true } );
     renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     container.appendChild( renderer.domElement );
     
     // scene
@@ -57,16 +77,13 @@ function init() {
 
     //camera
     camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 10000 );
-    camera.position.z = 280;
-    camera.position.y = 80; 
+    camera.position.z = 500; 
+    //camera.position.z = 35;
+    camera.position.y = 100; 
     //
-    var ambientLight = new THREE.AmbientLight(0xF0F0F0);
-        scene.add(ambientLight);
+    camera.lookAt(new THREE.Vector3(0,0,0));
     
-    var light = new THREE.SpotLight(0xFFFFFF);
-        light.intensity = 4; 
-        light.position.set(0, 0, 0);
-        scene.add(light);
+  
     //
 
 
@@ -80,59 +97,252 @@ function init() {
 
 
 
+        // var saturn = THREEx.Planets.createSaturn()
+        // scene.add(saturn)
+        // var rings = THREEx.Planets.createUranusRing()
+        // scene.add(rings)
 
-
-    var sunGeometry = new THREE.SphereGeometry(30, 28.8, 14); 
+    var sunGeometry = new THREE.SphereGeometry(55, 28.8, 20); 
     var textureLoader = new THREE.TextureLoader();
     var sunMap  = textureLoader.load('assets/earthPics/sunmap.jpg');
     var sunTexture =  new THREE.MeshPhongMaterial( { map: sunMap} );
     theSun = new THREE.Mesh( sunGeometry, sunTexture); 
     theSun.rotation.z = 23.439281 * Math.PI / 180; //tilt of earth in radians;
+    theSun.position.set(0,0,0); 
     scene.add(theSun);
     
-    Mars = new THREE.Mesh(new THREE.SphereGeometry(3, 16, 15), new THREE.MeshBasicMaterial({
-        color: 'red' 
-    }));
-    scene.add(Mars);
+    var mercuryGeometry = new THREE.SphereGeometry(7, 28.8, 14); 
+    var mercuryMap  = textureLoader.load('assets/earthPics/mercurymap.jpg');
+    var mercuryBump = textureLoader.load('assets/earthPics/mercurybump.jpg');
+    var mercuryTexture =  new THREE.MeshPhongMaterial( { map: mercuryMap, bumpMap: mercuryBump} );
+    Mercury = new THREE.Mesh( mercuryGeometry, mercuryTexture); 
+    Mercury.receiveShadow = true; 
+    scene.add(Mercury);
+
+    var venusGeometry = new THREE.SphereGeometry(15, 28.8, 14); 
+    var venusMap  = textureLoader.load('assets/earthPics/venusmap.jpg');
+    var venusBump = textureLoader.load('assets/earthPics/venusbump.jpg');
+    var venusTexture =  new THREE.MeshPhongMaterial( { map: venusMap, bumpMap: venusBump} );
+    Venus = new THREE.Mesh( venusGeometry, venusTexture); 
+    Venus.receiveShadow = true; 
+    scene.add(Venus);
 
 
-    var marsGeometry = new THREE.SphereGeometry(3, 28, 14); 
-    var marsMap  = textureLoader.load('assets/earthPics/mars_1k_color.jpg');
-    var marsBump = textureLoader.load('assets/earthPics/mars_1k_marsbump1k.jpg');
-    var marsNormal = textureLoader.load('assets/earthPics/mars_1k_normal.jpg');
-    var marsTexture =  new THREE.MeshPhongMaterial( { map: marsMap, bumpMap: marsBump, normalMap: marsNormal} );
-    Mars = new THREE.Mesh( marsGeometry, marsTexture); 
-    scene.add(Mars);
-
-
-
-    var jupiterGeometry = new THREE.SphereGeometry(5, 28.8, 14); 
-    var jupiterMap  = textureLoader.load('assets/earthPics/jupiterMap.jpg');
-    var jupiterTexture =  new THREE.MeshPhongMaterial( { map: jupiterMap} );
-    Jupiter = new THREE.Mesh( jupiterGeometry, jupiterTexture); 
-    scene.add(Jupiter);
-
-    
-    //this is the object that will have its position changed to orbit around the sun    
+     //this is the object that will have its position changed to orbit around the sun    
     theEarthAndMoon = new THREE.Object3D();
     theEarthAndMoon.rotation.z = 23.439281 * Math.PI / 180; //tilt of earth in radians;
+    theEarthAndMoon.receiveShadow = true; 
     scene.add(theEarthAndMoon);
     
-    theEarth = new THREE.Mesh(new THREE.SphereGeometry(5, 16, 15),  new THREE.MeshLambertMaterial({
-        color:"blue"
-    }));
-    
+    var earthGeometry = new THREE.SphereGeometry(15, 28.8, 15);
+    var earthMap  = textureLoader.load('assets/earthPics/earthmap1k.jpg');
+    var earthBump = textureLoader.load('assets/earthPics/earthbump1k.jpg');
+    var earthSpec = textureLoader.load('assets/earthPics/earthspec1k.jpg');
+    var earthTexture =  new THREE.MeshPhongMaterial( { map: earthMap, bumpMap: earthBump, specularMap: earthMap} );
+    var theEarth = new THREE.Mesh(earthGeometry, earthTexture );
     theEarthAndMoon.add(theEarth); 
+
+    var cloudGeometry   = new THREE.SphereGeometry(15.5, 28.8, 14.4);
+    var canvasCloud = textureLoader.load('assets/earthPics/earth_clouds.png');
+    var cloudMaterial  = new THREE.MeshPhongMaterial( {map: canvasCloud, transparent: true, depthWrite: false, opacity: .7} );
+    var cloudMesh = new THREE.Mesh(cloudGeometry, cloudMaterial);
+    theEarthAndMoon.add(cloudMesh);
     
-    theMoon = new THREE.Mesh(new THREE.SphereGeometry(1, 16, 15),  new THREE.MeshLambertMaterial({
-        color:"white"
+    theMoon = new THREE.Mesh(new THREE.SphereGeometry(5, 16, 15),  new THREE.MeshPhongMaterial({
+
+        map: textureLoader.load('assets/earthPics/moonmap1k.jpg'), 
+        bumpMap: textureLoader.load('assets/earthPics/moonbump1k.jpg')
+      
     }));
     
     theEarthAndMoon.add(theMoon);
 
+    var marsGeometry = new THREE.SphereGeometry(15, 28.8, 14); 
+    var marsMap  = textureLoader.load('assets/earthPics/mars_1k_color.jpg');
+    var marsBump = textureLoader.load('assets/earthPics/marsbump1k.jpg');
+    var marsNormal = textureLoader.load('assets/earthPics/mars_1k_normal.jpg');
+    var marsTexture =  new THREE.MeshPhongMaterial( { map: marsMap, bumpMap: marsBump, normalMap: marsNormal} );
+    Mars = new THREE.Mesh( marsGeometry, marsTexture); 
+    Mars.receiveShadow = true; 
+    scene.add(Mars);
+
+    var jupiterGeometry = new THREE.SphereGeometry(23, 28.8, 15); 
+    var jupiterMap  = textureLoader.load('assets/earthPics/jupiterMap.jpg');
+    var jupiterTexture =  new THREE.MeshPhongMaterial( { map: jupiterMap} );
+    Jupiter = new THREE.Mesh( jupiterGeometry, jupiterTexture); 
+    Jupiter.receiveShadow = false; 
+    scene.add(Jupiter);    
+
+    var saturnGeometry = new THREE.SphereGeometry(15, 28.8, 14); 
+    var saturnMap  = textureLoader.load('assets/earthPics/saturnmap.jpg');
+    var saturnTexture =  new THREE.MeshPhongMaterial( { map: saturnMap} );
+    Saturn = new THREE.Mesh( saturnGeometry, saturnTexture); 
+    Saturn.receiveShadow = true; 
+    Saturn.rotation.x = Math.PI / .5;
+    scene.add(Saturn);
+   
+    var ringMap  = textureLoader.load('assets/earthPics/saturnringcolor.jpg');
+    var ringAlphaMap = textureLoader.load('assets/earthPics/saturnringpattern.gif');
+    var Ring = new THREE.Mesh(new THREE.RingGeometry(24.5, 28, 50), new THREE.MeshPhongMaterial({map: ringMap, side: THREE.DoubleSide, alphaMap: ringAlphaMap}));
+    Ring.rotation.x = Math.PI / 1.85;
+    Saturn.add(Ring);
+    var iRing = new THREE.Mesh(new THREE.RingGeometry(19, 24, 50), new THREE.MeshPhongMaterial({map: ringMap, side: THREE.DoubleSide, alphaMap: ringAlphaMap}));
+    iRing.rotation.x = Math.PI / 1.85;
+    Saturn.add(iRing);
+
+
+    var uranusGeometry = new THREE.SphereGeometry(15, 28.8, 20); 
+    var uranusMap  = textureLoader.load('assets/earthPics/uranusmap.jpg');
+    var uranusTexture =  new THREE.MeshPhongMaterial( { map: uranusMap} );
+    Uranus = new THREE.Mesh( uranusGeometry, uranusTexture); 
+    Uranus.receiveShadow = true; 
+    scene.add(Uranus);
+   
+    var uiRingMap  = textureLoader.load('assets/earthPics/saturnringcolor.jpg');
+    var uiRing = new THREE.Mesh(new THREE.RingGeometry(24.5, 28, 50), new THREE.MeshPhongMaterial({color: 0x334455,  side: THREE.DoubleSide, alphaMap: ringAlphaMap}));
+    uiRing.rotation.x = Math.PI / 1.15;
+    Uranus.add(uiRing);
+    var umRing = new THREE.Mesh(new THREE.RingGeometry(19, 21, 50), new THREE.MeshPhongMaterial({color: 0x334455, side: THREE.DoubleSide, alphaMap: ringAlphaMap}));
+    umRing.rotation.x = Math.PI / 1.15;
+    Uranus.add(umRing);
+    var uoRing = new THREE.Mesh(new THREE.RingGeometry(30, 34, 50), new THREE.MeshPhongMaterial({color: 0x334455, side: THREE.DoubleSide, alphaMap: ringAlphaMap}));
+    uoRing.rotation.x = Math.PI / 1.15;
+    Uranus.add(uoRing);
+
+
+
+
+
+
+
+
+
+    
+
+    
 
 
    
+
+   
+
+   var light = new THREE.PointLight( 0xFAFAFA, 1);
+    light.position.set( 0, 0, 0 );
+    scene.add( light );
+
+
+
+
+    var sunLight1 = new THREE.SpotLight(0xFFFFFF, 4);
+    sunLight1.position.set(0, 150, 0);
+    sunLight1.angle = .5; 
+    sunLight1.target = theSun; 
+    sunLight1.distance = 150; 
+    sunLight1.decay = 1; 
+    scene.add(sunLight1);
+
+    var sunLight2 = new THREE.SpotLight(0xFFFFFF, 4);
+    sunLight2.position.set(0, -150, 0);
+    sunLight2.target = theSun;
+    sunLight2.angle = .9;  
+    sunLight2.distance = 150;
+    sunLight2.decay = 1;  
+    scene.add(sunLight2);
+
+    var sunLight3 = new THREE.SpotLight(0xFFFFFF, 3);
+    sunLight3.position.set(100, 0, 0);
+    sunLight3.target = theSun;
+    sunLight3.angle = .9;  
+    sunLight3.distance = 100; 
+    sunLight3.decay = 1; 
+    scene.add(sunLight3);
+
+    var sunLight4 = new THREE.SpotLight(0xFFFFFF, 4);
+    sunLight4.position.set(0, 0, 100);
+    sunLight4.target = theSun;
+    sunLight4.angle = .9;  
+    sunLight4.distance = 100; 
+    sunLight4.decay = 1; 
+    scene.add(sunLight4);
+
+    var sunLight5 = new THREE.SpotLight(0xFFFFFF, 3);
+    sunLight5.position.set(-100, 0, 30);
+    sunLight5.target = theSun;
+    sunLight5.angle = .6;  
+    sunLight5.distance = 100; 
+    sunLight5.decay = 1; 
+    scene.add(sunLight5);
+
+    var sunLight6 = new THREE.SpotLight(0xFFFFFF, 2);
+    sunLight6.position.set(80, 50, 80);
+    sunLight6.target = theSun;
+    sunLight6.angle = .5;  
+    sunLight6.distance = 100; 
+    scene.add(sunLight6);
+
+    var sunLight7 = new THREE.SpotLight(0xFFFFFF, 1.1);
+    sunLight7.position.set(-100, 50, 80);
+    sunLight7.target = theSun;
+    sunLight7.angle = .5;  
+    sunLight7.distance = 140; 
+    scene.add(sunLight7);
+
+    var sunLight8 = new THREE.SpotLight(0xFFFFFF, 2);
+    sunLight8.position.set(-100, -50, 50);
+    sunLight8.target = theSun;
+    sunLight8.angle = .5;  
+    sunLight8.distance = 100; 
+    scene.add(sunLight8);
+
+     var sunLight9 = new THREE.SpotLight(0xFFFFFF, 2);
+    sunLight9.position.set(80, -50, 80);
+    sunLight9.target = theSun;
+    sunLight9.angle = .5;  
+    sunLight9.distance = 100; 
+    scene.add(sunLight9);
+
+    var sunLight10 = new THREE.SpotLight(0xFFFFFF, 1.5);
+    sunLight10.position.set(-100, 80, 120);
+    sunLight10.target = theSun;
+    sunLight10.angle = .5;  
+    sunLight10.distance = 150; 
+    scene.add(sunLight10);
+
+    var sunLight11 = new THREE.SpotLight(0xFFFFFF, 1.5);
+    sunLight11.position.set(-100, -80, 120);
+    sunLight11.target = theSun;
+    sunLight11.angle = .5;  
+    sunLight11.distance = 150; 
+    scene.add(sunLight11);
+
+     var sunLight12 = new THREE.SpotLight(0xFFFFFF, 1.5);
+    sunLight12.position.set(-100, 50, 80);
+    sunLight12.target = theSun;
+    sunLight12.angle = .5;  
+    sunLight12.distance = 140; 
+    scene.add(sunLight12);
+    //  var sunLight5a = new THREE.SpotLight(0xFFFFFF, 3);
+    // sunLight5a.position.set(80, 0, 0);
+    // sunLight5a.target = theSun;
+    // sunLight5a.angle = .4;  
+    // sunLight5a.fov = 5; 
+    // scene.add(sunLight5a);
+
+
+   var aLight = new THREE.AmbientLight( 0x334455 ); // soft white light
+    scene.add( aLight );
+    lightHelper1 = new THREE.SpotLightHelper( sunLight1 );
+    lightHelper2 = new THREE.SpotLightHelper( sunLight2 );
+    lightHelper3 = new THREE.SpotLightHelper( sunLight3 );
+    lightHelper4 = new THREE.SpotLightHelper( sunLight4 );
+      lightHelper5 = new THREE.SpotLightHelper( sunLight5 );
+    lightHelper11 = new THREE.SpotLightHelper( sunLight11 );
+    lightHelper7 = new THREE.SpotLightHelper( sunLight7 );
+    
+   
+     
+
+
  
 }
 
@@ -146,35 +356,70 @@ function animate() {
 
 function render() {
 
-    //run the earth's orbit around the Sun
+ 
     earthOrbitAngle += earthOrbitSpeed; 
-    marsOrbitAngle -= marsOrbitSpeed
-    jupiterOrbitAngle -= jupiterOrbitSpeed
+    marsOrbitAngle -= marsOrbitSpeed; 
+    jupiterOrbitAngle -= jupiterOrbitSpeed; 
+    mercuryOrbitAngle += mercuryOrbitSpeed; 
+    saturnOrbitAngle += saturnOrbitSpeed; 
+    venusOrbitAngle -= venusOrbitSpeed;
+    uOrbitAngle -= uOrbitSpeed;
+    
     var radians = earthOrbitAngle * Math.PI / 180;
     var marsRadians = marsOrbitAngle * Math.PI/180;
     var jupiterRadians = jupiterOrbitAngle * Math.PI/180;
-    
+    var mercuryRadians = mercuryOrbitAngle * Math.PI/180;
+    var saturnRadians = saturnOrbitAngle * Math.PI/180;
+    var venusRadians = venusOrbitAngle * Math.PI/270;
+    var uranusRadians = uOrbitAngle * Math.PI/180;
+
     theEarthAndMoon.position.x = Math.cos(radians) * earthOrbitRadius;
     theEarthAndMoon.position.z = Math.sin(radians) * earthOrbitRadius;
     
     Mars.position.x = Math.cos(marsRadians) * marsOrbitRadius;
     Mars.position.z = Math.sin(marsRadians) * marsOrbitRadius;
-    Mars.rotation.y += .02; 
+    Mars.rotation.y -= .02; 
+
+    Venus.position.x = Math.cos(venusRadians) * venusOrbitRadius;
+    Venus.position.z = Math.sin(venusRadians) * venusOrbitRadius;
+    Venus.rotation.y -= .02; 
+
+    Uranus.position.x = Math.cos(uranusRadians) * uOrbitRadius;
+    Uranus.position.z = Math.sin(uranusRadians) * uOrbitRadius;
+    Uranus.rotation.y -= .01;
+    Uranus.rotation.z -= .0006; 
+
+     Saturn.position.x = Math.cos(saturnRadians) * saturnOrbitRadius;
+    Saturn.position.z = Math.sin(saturnRadians) * saturnOrbitRadius;
+    Saturn.rotation.y -= .01; 
 
     theSun.rotation.z += .001; 
     theSun.rotation.y -= .005; 
     
     Jupiter.position.x = Math.cos(jupiterRadians) * jupiterOrbitRadius;
     Jupiter.position.z = Math.sin(jupiterRadians) * jupiterOrbitRadius;
-    Jupiter.rotation.y -= .02; 
- 
+    Jupiter.rotation.y -= .01;
+    Jupiter.rotation.z -= .00001; 
     
+    //camera.lookAt(Mars.position); 
+
+    Mercury.position.x = Math.cos(mercuryRadians) * mercuryOrbitRadius;
+    Mercury.position.z = Math.sin(mercuryRadians) * mercuryOrbitRadius;
+    Mercury.rotation.y -= .04;
+    Mercury.rotation.z -= .0006; 
+ 
+    theEarthAndMoon.rotation.y -= .01; 
+    theEarthAndMoon.rotation.z -= .00005; 
+
     //run the Moon's orbit around the Earth
     moonOrbitAngle += moonOrbitSpeed; 
     var moonRadians = moonOrbitAngle * Math.PI / 180;
     
     theMoon.position.y = Math.cos(moonRadians) * moonOrbitRadius;
     theMoon.position.z = Math.sin(moonRadians) * moonOrbitRadius;
+
+    // cloudMesh.rotation.x += .01;
+    // cloudMesh.rotation.y -= .0006; 
     
     // render
     renderer.render( scene, camera );
