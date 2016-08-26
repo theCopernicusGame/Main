@@ -164,7 +164,8 @@ margin-left: 6.5%;
 /*container holding items that user does not need to see*/
 #items-to-be-hidden {
   position: absolute;
-  visibility: hidden;
+  /*visibility: hidden;*/
+  z-index: 5000;
   margin-left: 200px;
   margin-top: 200px;
 }

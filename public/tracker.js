@@ -47,7 +47,7 @@ DEMO.prototype.videoError = function(error){
 };
 
 DEMO.prototype.tick = function(){
-  if (user.trackFlag === true) {
+  if (user.trackFlag === true && false) {
     var that = this, image, candidate;
     requestAnimationFrame( function() { return that.tick(); } );
     if (this.video) {
