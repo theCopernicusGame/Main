@@ -18,7 +18,7 @@ DEMO.prototype.start = function() {
   var that = this;
   this.tracker = new HT.Tracker();
   this.video = document.getElementById("myVideo");
-  this.canvas = document.getElementById("canvas");
+  this.canvas = document.getElementById("process-video");
   this.context = this.canvas.getContext("2d");
   this.canvas.width = parseInt(this.canvas.style.width);
   this.canvas.height = parseInt(this.canvas.style.height);
@@ -151,7 +151,7 @@ DEMO.prototype.createImage = function(imageSrc, imageDst){
   return imageDst;
 };
 
-//$('#canvas').css('visibility', 'hidden');
+
 demo = new DEMO();
 
 demo.start();
