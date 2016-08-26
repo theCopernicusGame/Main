@@ -170,6 +170,7 @@ function render() {
 
   if (delayedTrackerMatches.trackFlag === true && user.trackFlag === true) sendProjectile(delayedTrackerMatches.counter);
 
+
   var spaceScene = requestAnimationFrame( render );
   renderer.render( scene, camera );
 }
