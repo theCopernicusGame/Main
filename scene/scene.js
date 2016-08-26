@@ -156,7 +156,7 @@ function render() {
   if (keyboard[32]){
     ball.setLinearVelocity(new THREE.Vector3(-10.5, 10.5, 0));
     moved = true;
-    user.trackFlag = false; 
+    user.trackFlag = false;
     dataChannel.send(JSON.stringify({ 'moved': moved }));
     sendPosition((-7 + (5 - ball.position.x)), ball.position.y, ball.position.z, ball.rotation.x, ball.rotation.y, ball.rotation.z);
   }
@@ -168,10 +168,8 @@ function render() {
     stopAnimation();
   }
 
-  if (delayedTrackerMatches.trackFlag === true && user.trackFlag === true) {
-      console.log('in velStart', delayedTrackerMatches); 
-    sendProjectile(delayedTrackerMatches.counter);
-  }
+  if (delayedTrackerMatches.trackFlag === true && user.trackFlag === true) sendProjectile(delayedTrackerMatches.counter);
+
 
   var spaceScene = requestAnimationFrame( render );
   renderer.render( scene, camera );
