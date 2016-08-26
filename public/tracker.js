@@ -1,7 +1,7 @@
 //'use strict';
 //THE FOLLOWING IS TRACKING HANDS USING JS-HANDTRACKING
 
-var trackerMatches = {}, demo, delayedTrackerMatches = {trackFlag: false};
+//var trackerMatches = {}, demo, delayedTrackerMatches = {trackFlag: false};
 
 
 //WORKING WITH TRACKER FLAGS, DAVID, MAKE SURE INITIALIZING THEM AS FALSE WORKS
@@ -84,8 +84,8 @@ DEMO.prototype.draw = function(candidate){
 };
 
 DEMO.prototype.drawHull = function(hull, color){
-  trackerMatches = this.tracker.returnTimeObj(); //THIS IS THE ADDED METHOD THAT RETURNS THE OBJECT CAPTURING THE SPEED OF THE PLAYERS HAND
-  if (trackerMatches.counter > 0) waitABit();
+  //trackerMatches = this.tracker.returnTimeObj(); //THIS IS THE ADDED METHOD THAT RETURNS THE OBJECT CAPTURING THE SPEED OF THE PLAYERS HAND
+  // if (trackerMatches.counter > 0) waitABit();
   var len = hull.length, i = 1;
   if (len > 0){
     this.context.beginPath();
