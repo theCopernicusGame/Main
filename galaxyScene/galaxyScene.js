@@ -122,8 +122,8 @@ $(function() {
         theEarthAndMoon.position.x = Math.cos(radians) * earthOrbitRadius;
         theEarthAndMoon.position.z = Math.sin(radians) * earthOrbitRadius;
         
-        Mars.position.x = Math.cos(marsRadians) * marsOrbitRadius;
-        Mars.position.z = Math.sin(marsRadians) * marsOrbitRadius;
+        Mars.position.x = Math.cos(marsRadians) * marsOrbitRadius * 1.25;
+        Mars.position.z = Math.sin(marsRadians) * marsOrbitRadius * 1.25;
         Mars.rotation.y -= .02; 
 
 
@@ -136,12 +136,12 @@ $(function() {
         Uranus.rotation.y -= .003;
         Uranus.rotation.z -= .0006; 
 
-        Neptune.position.x = Math.cos(venusRadians / 1.001) * nOrbitRadius * 2;
-        Neptune.position.z = Math.sin(venusRadians/ 1.0001) * nOrbitRadius * 2;
+        Neptune.position.x = Math.cos(venusRadians) * nOrbitRadius * 2;
+        Neptune.position.z = Math.sin(venusRadians) * nOrbitRadius * 2;
         Neptune.rotation.y -= .02; 
 
-         Saturn.position.x = Math.cos(saturnRadians) * saturnOrbitRadius;
-        Saturn.position.z = Math.sin(saturnRadians) * saturnOrbitRadius;
+         Saturn.position.x = Math.cos(saturnRadians) * saturnOrbitRadius * 1.3;
+        Saturn.position.z = Math.sin(saturnRadians) * saturnOrbitRadius * 1.3; 
         Saturn.rotation.y -= .01; 
 
         theSun.rotation.z += .001; 
@@ -151,7 +151,7 @@ $(function() {
         jupiterAndGanymede.position.z = Math.sin(jupiterRadians) * jupiterOrbitRadius * 1.3;
         jupiterAndGanymede.rotation.y -= .005; 
         
-        //camera.lookAt(Mars.position); 
+        camera.lookAt(Mars.position); 
 
         Mercury.position.x = Math.cos(mercuryRadians) * mercuryOrbitRadius;
         Mercury.position.z = Math.sin(mercuryRadians) * mercuryOrbitRadius;
