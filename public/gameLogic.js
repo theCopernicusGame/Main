@@ -2,6 +2,7 @@
 // this should apply all game logic before rendering the scene
 
 var user = {};
+var turnEnded = false;
 
 function chooseUser() {
   if (peerFound === true) {
@@ -21,8 +22,11 @@ user.otherPoints = 0;
 if (user.player === "user_2") displaySignalMessage("You've joined Player 1!");
 
 function endTurnAndUpdate(points) {
+  turnEnded = true;
   user.points += points;
   user.pointFlag = false;
+  t = parseFloat((performance.now() - t)/1000).toFixed(3);
+  graphMotion();
   if (user.player === "user_1") $('#p1Points').text(user.points);
   else $('#p2Points').text(user.points);
   dataChannel.send(JSON.stringify({ 'points': points }));
@@ -33,6 +37,7 @@ function endTurnAndUpdate(points) {
     user.myTurn = false;
     user.pointFlag = true;
     scene.remove(ball);
+    turnEnded = false;
     addBall();
   }, 2000)
 }
@@ -48,6 +53,12 @@ function updateOtherPoints() {
   user.otherPoints += received.points;
   if (user.player === "user_1") $('#p2Points').text(user.otherPoints);
   else $('#p1Points').text(user.otherPoints);
+}
+
+function checkForeverFall() {
+  if (ball.position.y < -1 && turnEnded === false) {
+    endTurnAndUpdate(0);
+  }
 }
 
 function addScene() {

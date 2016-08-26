@@ -1,28 +1,56 @@
 'use strict';
 
-var targetMaterial = new THREE.MeshPhongMaterial(
-    { color: 0xffffff, vertexColors: THREE.FaceColors } );
+var textureLoader = new THREE.TextureLoader();
 
-var targetGeometry = new THREE.CubeGeometry( .5, .5, .5, 3, 3, 3 );
-for ( var i = 0; i < targetGeometry.faces.length; i++ ) {
-  var face  = targetGeometry.faces[ i ];
-  face.color.setRGB( Math.random(), Math.random(), Math.random() );
+// cap geometry
+var targetGeometry = new THREE.CylinderGeometry( 1, 1, .0001, 32 );
+
+// cylinder material
+var targetMaterial = new THREE.MeshBasicMaterial({ color: 0xFF0000, side: THREE.DoubleSide });
+
+// cylinder
+var target = new Physijs.Mesh(targetGeometry, targetMaterial, 0);
+target.position.set(-8, 0, 0);
+
+// cap geometries
+var capGeometry1 = new THREE.CircleGeometry( 1, 32 );
+var capGeometry2 = new THREE.CircleGeometry( .8, 32 );
+var capGeometry3 = new THREE.CircleGeometry( .6, 32 );
+var capGeometry4 = new THREE.CircleGeometry( .4, 32 );
+var capGeometry5 = new THREE.CircleGeometry( .2, 32 );
+var capGeometry6 = new THREE.CircleGeometry( .1, 32 );
+
+// end-cap materials
+var whiteCapMaterial = new THREE.MeshBasicMaterial({
+  color: 0xFFFFFF,
+  side: THREE.DoubleSide
+});
+
+var redCapMaterial = new THREE.MeshBasicMaterial({
+  color: 0xFF0000,
+  side: THREE.DoubleSide
+});
+
+function setPosition(cap, height) {
+  cap.rotation.x = Math.PI/2;
+  cap.position.set(-8, height, 0);
 }
 
-var targetGeometry2 = new THREE.CubeGeometry( .5, .5, .5, 3, 3, 3 );
-for ( var i = 0; i < targetGeometry2.faces.length; i++ ) {
-  face  = targetGeometry2.faces[ i ];
-  face.color.setRGB( Math.random(), Math.random(), Math.random() );
-}
+// caps
+var cap1 = new THREE.Mesh(capGeometry1, whiteCapMaterial);
+setPosition(cap1, .0002);
 
-var target = new Physijs.BoxMesh( targetGeometry2, targetMaterial, 0, .3 );
+var cap2 = new THREE.Mesh(capGeometry2, redCapMaterial);
+setPosition(cap2, .0003);
 
-target.position.set(-8, .5, 0);
-target.receiveShadow = true;
-target.castShadow = true;
+var cap3 = new THREE.Mesh(capGeometry3, whiteCapMaterial);
+setPosition(cap3, .0004);
 
+var cap4 = new THREE.Mesh(capGeometry4, redCapMaterial);
+setPosition(cap4, .0005);
 
-var target2 = new Physijs.BoxMesh( targetGeometry, targetMaterial, 0, .3 );
-target2.position.set(6, .5, 0);
-target2.receiveShadow = true;
-target2.castShadow = true;
+var cap5 = new THREE.Mesh(capGeometry5, whiteCapMaterial);
+setPosition(cap5, .0006);
+
+var cap6 = new THREE.Mesh(capGeometry6, redCapMaterial);
+setPosition(cap6, .0007);

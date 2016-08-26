@@ -60,10 +60,13 @@ addBall = function() {
 addBall();
 
 //add target
-scene.add( target );
-
-// add second target
-scene.add( target2 );
+scene.add(target);
+scene.add(cap1);
+scene.add(cap2);
+scene.add(cap3);
+scene.add(cap4);
+scene.add(cap5);
+scene.add(cap6);
 
 // add astronaut
 objLoader.load( 'assets/astronaut/player2_body.OBJ', function ( object ) {
@@ -117,7 +120,6 @@ scene.add( fakeFloor );
 scene.add( spotLight );
 scene.add( spotLight2 );
 
-
 function render() {
 
   // run physics
@@ -139,7 +141,11 @@ function render() {
     var yRot = ball.rotation.y
     var zRot = ball.rotation.z;
     displayPosition('Height: ' + parseFloat(ball.position.y - .3).toFixed(3), 'Distance: ' + parseFloat(5 - ball.position.x).toFixed(3));
+    if (turnEnded === false) {
+      storePosition();
+    }
     sendPosition(xPos, yPos, zPos, xRot, yRot, zRot);
+    checkForeverFall(); // still a problem with this "cannot read property 'a' of undefined in ammo.js"
   }
 
   // received condition
@@ -147,24 +153,22 @@ function render() {
     ball2.position.x = message.position[0];
     ball2.position.y = message.position[1];
     ball2.position.z = message.position[2];
-    // ball2.rotation.x = -(message.rotation[0]); one of these is buggy
-    // ball2.rotation.y = -(message.rotation[1]);
     ball2.rotation.z = -(message.rotation[2]);
   }
 
   // start sending condition, sets projectile motion, testing purposes only
   if (keyboard[32]){
-    ball.setLinearVelocity(new THREE.Vector3(-10.5, 10.5, 0));
+    t = performance.now();
+    var vX = -10.5;
+    var vY = 10.5;
+    v0 = parseFloat(Math.sqrt(((vX)**2) + ((vY)**2))).toFixed(3);
+    ball.setLinearVelocity(new THREE.Vector3(vX, vY, 0));
     moved = true;
+    if (turnEnded === false) {
+      storePosition();
+    }
     dataChannel.send(JSON.stringify({ 'moved': moved }));
     sendPosition((-7 + (5 - ball.position.x)), ball.position.y, ball.position.z, ball.rotation.x, ball.rotation.y, ball.rotation.z);
-  }
-
-  // press 's' to stop sending and animation, testing purposes only
-  if (keyboard[83]) {
-    moved = false;
-    dataChannel.close();
-    stopAnimation();
   }
 
   if (delayedTrackerMatches.flag === true && user.trackFlag === true) sendProjectile(delayedTrackerMatches.counter);
