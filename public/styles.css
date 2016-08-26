@@ -142,7 +142,7 @@ margin-left: 6.5%;
   z-index: 1000;
 }
 
-
+/*container that holds the circle png over the video*/
 #take-snapshot {
   position:absolute;
   width: 160px;
@@ -154,15 +154,38 @@ margin-left: 6.5%;
   margin-left: 20px;
 }
 
-#hand-image {
+/*shows over video footage*/
+#transparent-circle {
   width: 100%;
   height: 100%;
   opacity: 0.94;
 }
 
-#test1 {
+/*container holding items that user does not need to see*/
+#items-to-be-hidden {
+  position: absolute;
+  visibility: hidden;
+  margin-left: 200px;
+  margin-top: 200px;
+}
+
+#allow-webcam {
   position: absolute;
   z-index: 4000;
   margin-left: 200px;
-  margin-top: 200px;
+  margin-top: 70px;
+}
+
+#start-scan {
+  padding: 5px 5px;
+  border-radius: 2px;
+  font-size: 18px;
+  visibility: hidden;
+}
+
+#hand-info {
+  width: 140px;
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
 }

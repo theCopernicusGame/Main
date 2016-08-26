@@ -1,7 +1,7 @@
 //'use strict';
 //THE FOLLOWING IS TRACKING HANDS USING JS-HANDTRACKING
 
-var trackerMatches = {}, demo, delayedTrackerMatches = {trackFlag: false};
+//var trackerMatches = {}, demo, delayedTrackerMatches = {trackFlag: false};
 
 
 //WORKING WITH TRACKER FLAGS, DAVID, MAKE SURE INITIALIZING THEM AS FALSE WORKS
@@ -18,7 +18,7 @@ DEMO.prototype.start = function() {
   var that = this;
   this.tracker = new HT.Tracker();
   this.video = document.getElementById("myVideo");
-  this.canvas = document.getElementById("canvas");
+  this.canvas = document.getElementById("process-video");
   this.context = this.canvas.getContext("2d");
   this.canvas.width = parseInt(this.canvas.style.width);
   this.canvas.height = parseInt(this.canvas.style.height);
@@ -84,8 +84,8 @@ DEMO.prototype.draw = function(candidate){
 };
 
 DEMO.prototype.drawHull = function(hull, color){
-  trackerMatches = this.tracker.returnTimeObj(); //THIS IS THE ADDED METHOD THAT RETURNS THE OBJECT CAPTURING THE SPEED OF THE PLAYERS HAND
-  if (trackerMatches.counter > 0) waitABit();
+  //trackerMatches = this.tracker.returnTimeObj(); //THIS IS THE ADDED METHOD THAT RETURNS THE OBJECT CAPTURING THE SPEED OF THE PLAYERS HAND
+  // if (trackerMatches.counter > 0) waitABit();
   var len = hull.length, i = 1;
   if (len > 0){
     this.context.beginPath();
@@ -151,7 +151,7 @@ DEMO.prototype.createImage = function(imageSrc, imageDst){
   return imageDst;
 };
 
-//$('#canvas').css('visibility', 'hidden');
+
 demo = new DEMO();
 
 demo.start();
