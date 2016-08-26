@@ -54,4 +54,5 @@ $(document).ready(function () {
 function allItemsLoaded() {
   $('.onepix-imgloader').fadeOut();
   $('.loading-container > *:not(.onepix-imgloader)').fadeTo(35000, 100);
+  $('#start-scan').css('visibility', 'visible');
 }

@@ -1,7 +1,8 @@
 //'use strict';
 //THE FOLLOWING IS TRACKING HANDS USING JS-HANDTRACKING
 
-var trackerMatches = {}, demo, delayedTrackerMatches = {trackFlag: false};
+
+//var trackerMatches = {}, demo, delayedTrackerMatches = {trackFlag: false};
 
 
 //WORKING WITH TRACKER FLAGS, DAVID, MAKE SURE INITIALIZING THEM AS FALSE WORKS
@@ -18,7 +19,7 @@ DEMO.prototype.start = function() {
   var that = this;
   this.tracker = new HT.Tracker();
   this.video = document.getElementById("myVideo");
-  this.canvas = document.getElementById("canvas");
+  this.canvas = document.getElementById("process-video");
   this.context = this.canvas.getContext("2d");
   this.canvas.width = parseInt(this.canvas.style.width);
   this.canvas.height = parseInt(this.canvas.style.height);
@@ -63,7 +64,7 @@ DEMO.prototype.tick = function(){
 DEMO.prototype.checkPicture = function(image){
   this.skinner = new HT.Skinner();
   this.skinner.checkPic(image);
-}
+}; 
 
 DEMO.prototype.snapshot = function(){
   this.context.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
@@ -74,6 +75,7 @@ DEMO.prototype.snapshot = function(){
 
 DEMO.prototype.draw = function(candidate){
   if (candidate){
+    // console.log('in draw HERE'); 
     this.drawHull(candidate.hull, "red");
     this.drawDefects(candidate.defects, "blue");
     this.context.putImageData(
@@ -84,8 +86,6 @@ DEMO.prototype.draw = function(candidate){
 };
 
 DEMO.prototype.drawHull = function(hull, color){
-  trackerMatches = this.tracker.returnTimeObj(); //THIS IS THE ADDED METHOD THAT RETURNS THE OBJECT CAPTURING THE SPEED OF THE PLAYERS HAND
-  if (trackerMatches.counter > 0) waitABit();
   var len = hull.length, i = 1;
   if (len > 0){
     this.context.beginPath();
@@ -133,7 +133,6 @@ DEMO.prototype.createImage = function(imageSrc, imageDst){
   var src = imageSrc.data, dst = imageDst.data,
     width = imageSrc.width, span = 4 * width,
     len = src.length, i = 0, j = 0, k = 0, fun = dst;
-    //console.log('src length', len);
   for(i = 0; i < len; i += span){
     for(j = 0; j < width; j += 5){
       dst[k] = dst[k + 1] = dst[k + 2] = src[i];
@@ -151,7 +150,7 @@ DEMO.prototype.createImage = function(imageSrc, imageDst){
   return imageDst;
 };
 
-//$('#canvas').css('visibility', 'hidden');
+
 demo = new DEMO();
 
 demo.start();
@@ -159,6 +158,8 @@ demo.start();
 
 function waitABit(){
   setTimeout(function(){
-    delayedTrackerMatches.counter = trackerMatches.counter;
+
+    delayedTrackerMatches.counter = trackerMatches.counter; 
+    delayedTrackerMatches.trackFlag = true;
   }, 1000);
 }

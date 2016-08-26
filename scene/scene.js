@@ -167,12 +167,19 @@ function render() {
     if (turnEnded === false) {
       storePosition();
     }
-    user.trackFlag = false; 
+    user.trackFlag = false;
     dataChannel.send(JSON.stringify({ 'moved': moved }));
     sendPosition((-7 + (5 - ball.position.x)), ball.position.y, ball.position.z, ball.rotation.x, ball.rotation.y, ball.rotation.z);
   }
 
-  if (delayedTrackerMatches.flag === true && user.trackFlag === true) sendProjectile(delayedTrackerMatches.counter);
+  // press 's' to stop sending and animation, testing purposes only
+  if (keyboard[83]) {
+    moved = false;
+    dataChannel.close();
+    stopAnimation();
+  }
+
+  if (delayedTrackerMatches.trackFlag === true && user.trackFlag === true) sendProjectile(delayedTrackerMatches.counter);
 
   var spaceScene = requestAnimationFrame( render );
   renderer.render( scene, camera );
