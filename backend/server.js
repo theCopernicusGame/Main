@@ -21,6 +21,10 @@ app.get('/', function(req, res){
     res.sendfile('views/index.html');
 });
 
+app.get('/galaxy', function(req, res){
+    res.sendfile('views/galaxy.html');
+});
+
 app.listen(process.env.PORT || 3001, function(){
     console.log('You listenin on port 3001');
 });

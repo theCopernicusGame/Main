@@ -167,6 +167,7 @@ function render() {
     if (turnEnded === false) {
       storePosition();
     }
+    user.trackFlag = false; 
     dataChannel.send(JSON.stringify({ 'moved': moved }));
     sendPosition((-7 + (5 - ball.position.x)), ball.position.y, ball.position.z, ball.rotation.x, ball.rotation.y, ball.rotation.z);
   }
