@@ -17,6 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // currently test page url, to be home page url
+// get req.params for specific room url
 app.get('/', function(req, res){
     res.sendfile('views/index.html');
 });

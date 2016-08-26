@@ -2,6 +2,8 @@
   <head>
     <meta charset="UTF-8">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="shortcut icon" href="">
 
   <!-- BOOTSTRAP FOR RESPONSIVE DIVS -->
   <!-- Latest compiled and minified CSS -->
@@ -49,19 +51,28 @@
           <div id="infoPanel">
             <video id="myVideo" width="160px" height:"120px" preload autoplay loop muted></video>
 
+            <canvas id="canvas" style="width:160px; height:120px"></canvas>
+           <!-- CANVAS FOR TAKING PICTURE -->
+            <canvas id="picture" style="width:80.5px; height:60.38px"></canvas>
+            <canvas id="test" style="width:160px; height:120px"></canvas>
+
             <div id="heightArea">Height: </div>
             <div id="distArea">Distance: </div>
           </div>
           <div id="signalingArea"></div>
          <button id='throwBall'></button>
           <div id='pointsDiv'>Player 1 Points: <span id='p1Points'>0</span><br>Player 2 Points: <span id='p2Points'>0</span></div>
+          <div id="line-graph">
+            <div id="v0Div">Initial Velocity: -</div>
+            <div id="tDiv">Time: -</div>
+          </div>
         </div>
 
     </div>
 
     <script type="text/javascript" src="/public/dataChannel.js"></script>
+    <script type="text/javascript" src="/public/graphMotion.js"></script>
     <script type="text/javascript" src="/scene/loaderAndLoadingScreen.js"></script>
-   <!--  <script type="text/javascript" src="trackingJSColors.js"></script> -->
     <script type="text/javascript" src="/scene/ball.js"></script>
     <script type="text/javascript" src="/public/tracker.js"></script>
     <script type="text/javascript" src="/scene/target.js"></script>
