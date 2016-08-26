@@ -202,7 +202,7 @@ function sendPosition(x, y, z, xr, yr, zr) {
 */
 function determineVelocity(trackerCount) {
   if (trackerCount < 21) trackerCount = 21;
-  const trackerToVelocityMult = 150;
+  const trackerToVelocityMult = 550;
   var velocity = (1/trackerCount) * trackerToVelocityMult;
   return velocity;
 }

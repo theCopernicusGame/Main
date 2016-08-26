@@ -1,4 +1,5 @@
 $(function() {
+    //$('#banner').fadeOut().delay(1500).fadeIn(2000); 
     var renderer, scene, camera;
          theSun, 
         theEarthAndMoon,
@@ -151,7 +152,7 @@ $(function() {
         jupiterAndGanymede.position.z = Math.sin(jupiterRadians) * jupiterOrbitRadius * 1.3;
         jupiterAndGanymede.rotation.y -= .005; 
         
-        camera.lookAt(Mars.position); 
+        //camera.lookAt(Mars.position); 
 
         Mercury.position.x = Math.cos(mercuryRadians) * mercuryOrbitRadius;
         Mercury.position.z = Math.sin(mercuryRadians) * mercuryOrbitRadius;
@@ -166,7 +167,6 @@ $(function() {
 
         //run the Moon's orbit around the Earth
         moonOrbitAngle += moonOrbitSpeed; 
-        var moonRadians = moonOrbitAngle * Math.PI / 180;
         
         theMoon.position.y = Math.cos(moonRadians) * moonOrbitRadius;
         theMoon.position.z = Math.sin(moonRadians) * moonOrbitRadius;

@@ -1,5 +1,5 @@
 saturnOrbitRadius = 405,
-saturnOrbitAngle = 20,
+saturnOrbitAngle = -165,
 saturnOrbitSpeed = 0.1;
 
 var saturnGeometry = new THREE.SphereGeometry(15, 28.8, 14); 
