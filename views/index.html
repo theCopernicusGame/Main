@@ -25,6 +25,7 @@
     <script type="text/javascript" src="./lib/physi.js"></script>
     <script type="text/javascript" src="./lib/tracking-min.js"></script>
     <script type="text/javascript" src="./lib/cv.js"></script>
+    <script type="text/javascript" src="./public/engageTracking.js"></script>
     <script type="text/javascript" src="./lib/handTracking.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
 
@@ -41,7 +42,7 @@
       <img  id="transparent-circle" src="assets/transparentCircle.png">
     </div>
     <div id="allow-webcam">
-      <button id="start-scan">Play using Webcam</button>
+      <button id="start-scan">Click to Scan Hand</button>
     </div>
     <div class = "loading-container">
       <div id="container">
@@ -59,7 +60,7 @@
             <div id="distArea">Distance: </div>
           </div>
           <div id="signalingArea"></div>
-          <button id='throwBall'>Click anywhere to throw!</button>
+         <button id='throwBall'></button>
           <div id='pointsDiv'>Player 1 Points: <span id='p1Points'>0</span><br>Player 2 Points: <span id='p2Points'>0</span></div>
           <div id="line-graph">
             <div id="v0Div">Initial Velocity: -</div>
@@ -84,6 +85,16 @@
    <script>
       $(function(){
         //CODE FOR TAKING PICTURE - INCLUDING
+        
+      });
+
+    </script>
+   <!--  <script>
+      $(document).ready(function() {
+
+        $('#start-scan').click(function() {
+            console.log('clicked to take pic of hand'); 
+
         var canvas = document.getElementById('process-image');
         var canvas2 = document.getElementById('snapShot');
 
@@ -92,10 +103,7 @@
 
         var context2 = canvas2.getContext('2d');
         var video = document.getElementById('myVideo');
-
-        $('.loading-container').click(function(){
-          console.log('clicked ready!');
-          user.trackFlag = true;
+      
           $('#throwBall').hide(500);
 
           var image = context1.drawImage(photo, 0, 0, 160, 120);
@@ -152,19 +160,13 @@
             minMaxColors.maxBlue = blues.max;
 
             context1.putImageData(imageData, 0, 0);
-            demo.checkPicture(imageData);
+            // demo.checkPicture(imageData);
             setTimeout(function(){
-              console.log('starting Tracking!');
-             demo.tick();
+              //console.log('starting Tracking!');
+            //demo.tick();
           }, 2000);
         });
-      });
 
-    </script>
-    <script>
-      $(document).ready(function() {
-
-        $('#start-scan').click(function() {
 
           var infoP = $('<p id="hand-info">Place hand over circle to correctly scan pixelation.</p>');
           var allowWebcam = $('#allow-webcam');
@@ -182,8 +184,8 @@
           setTimeout(function() {
             transparentCircle.css('backgroundColor', 'green');
             infoP.html("Thanks! move your hand across to throw the ball!");
-            //demo.tick();
-          }, 7000);
+            startTracking(); 
+          }, 5000);
 
           //remove info box
           setTimeout(function() {
@@ -191,9 +193,16 @@
             snapContainer.remove();
           }, 14000);
 
+          function startTracking(){
+            setTimeout(function(){
+              console.log('starting tracking from collected image!'); 
+              user.trackFlag = true; 
+                demo.tick(); 
+            }, 2000); 
+          }
+
         });
-      });
-    </script>
+    </script> -->
 
   </body>
 
