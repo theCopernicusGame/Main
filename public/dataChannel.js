@@ -151,7 +151,7 @@ function displaySignalMessage(message) {
 }
 
 function transitionGameMessages() {
-    $('#signalingArea').animate({ marginTop: '80%' }, 1000); 
+    $('#signalingArea').animate({ marginTop: '80%' }, 1000);
     $('#pointsDiv').animate({ opacity: 1 });
     if (user.myTurn === true) $('#throwBall').animate({ opacity: 1 });
     else $('#throwBall').text("Please wait for the other player to take his turn!").animate({ opacity: 1 });
