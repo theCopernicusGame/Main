@@ -12,7 +12,6 @@ function onWindowResize() {
 window.addEventListener( 'resize', onWindowResize, false );
 
 var camera, renderer, mesh;
-var startTime  = Date.now();
 var keyboard = {};
 scene = new Physijs.Scene;
 scene.setGravity(new THREE.Vector3( 0, -20, 0 ));
@@ -69,7 +68,7 @@ scene.add(cap5);
 scene.add(cap6);
 
 // add astronaut
-objLoader.load( 'assets/astronaut/player2_body.OBJ', function ( object ) {
+objLoader.load( 'assets/astronaut/player2_body.obj', function ( object ) {
   object.traverse( function ( child ) {
        if ( child instanceof THREE.Mesh ) {
         child.material.map = imageMap;
@@ -82,7 +81,7 @@ objLoader.load( 'assets/astronaut/player2_body.OBJ', function ( object ) {
 });
 
 // add hand
-objLoader.load( 'assets/astronaut/player1_hand.OBJ', function ( object ) {
+objLoader.load( 'assets/astronaut/player1_hand.obj', function ( object ) {
   object.traverse( function ( child ) {
        if ( child instanceof THREE.Mesh ) {
         child.material.map = imageMap;
@@ -103,7 +102,7 @@ imgLoader.load('assets/finalMoonPics/Larissa-Texture.png', function(img) {
   floorImage.needsUpdate = true;
 });
 
-objLoader.load( 'assets/finalMoonPics/moon_floor.OBJ', function ( object ) {
+objLoader.load( 'assets/finalMoonPics/moon_floor.obj', function ( object ) {
   object.traverse( function ( child ) {
        if ( child instanceof THREE.Mesh ) {
         child.material.map = floorImage;
@@ -117,8 +116,8 @@ objLoader.load( 'assets/finalMoonPics/moon_floor.OBJ', function ( object ) {
 scene.add( fakeFloor );
 
 // add lighting
-scene.add( spotLight );
-scene.add( spotLight2 );
+scene.add( spotlight );
+scene.add( spotlight2 );
 
 function render() {
 
@@ -186,9 +185,6 @@ function sendPosition(x, y, z, xr, yr, zr) {
   dataChannel.send(JSON.stringify(toSend));
 }
 
-/* current velocity tiers:
-2-12, 12-21, 21-70, 70-200
-*/
 function determineVelocity(trackerCount) {
   if (trackerCount < 21) trackerCount = 21;
   const trackerToVelocityMult = 550;

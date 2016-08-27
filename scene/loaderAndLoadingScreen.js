@@ -30,6 +30,7 @@ objManager.onError = function() {
 
 var imgLoader = new THREE.ImageLoader(imgManager);
 var objLoader = new THREE.OBJLoader(objManager);
+var textureLoader = new THREE.TextureLoader();
 
 $(document).ready(function () {
   if ($('.loading-container').length) {
