@@ -1,15 +1,11 @@
 'use strict';
 
 var earthGeometry = new THREE.SphereGeometry(36, 28.8, 14.4);
-var textureLoader = new THREE.TextureLoader();
 var earthMap  = textureLoader.load('assets/planetPics/earthmap1k.jpg');
 var earthBump = textureLoader.load('assets/planetPics/earthbump1k.jpg');
 var earthSpec = textureLoader.load('assets/planetPics/earthspec1k.jpg');
 var earthTexture = new THREE.MeshPhongMaterial( { map: earthMap, bumpMap: earthBump, specularMap: earthSpec} );
 var earth = new THREE.Mesh(earthGeometry, earthTexture );
-
-// earth.position.z = 50;
-// earth.position.x = -230;
 
 earth.position.z = 80;
 earth.position.x = -300;
