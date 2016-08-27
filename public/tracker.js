@@ -1,11 +1,6 @@
 //'use strict';
 //THE FOLLOWING IS TRACKING HANDS USING JS-HANDTRACKING
 
-
-//var trackerMatches = {}, demo, delayedTrackerMatches = {trackFlag: false};
-
-
-//WORKING WITH TRACKER FLAGS, DAVID, MAKE SURE INITIALIZING THEM AS FALSE WORKS
 var DEMO = function(){
   startTime = undefined, endTime = undefined;
   this.startTime = startTime; this.endTime = endTime, this.trackerMatches = undefined;
@@ -64,7 +59,7 @@ DEMO.prototype.tick = function(){
 DEMO.prototype.checkPicture = function(image){
   this.skinner = new HT.Skinner();
   this.skinner.checkPic(image);
-}; 
+};
 
 DEMO.prototype.snapshot = function(){
   this.context.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
@@ -75,7 +70,7 @@ DEMO.prototype.snapshot = function(){
 
 DEMO.prototype.draw = function(candidate){
   if (candidate){
-    // console.log('in draw HERE'); 
+    // console.log('in draw HERE');
     this.drawHull(candidate.hull, "red");
     this.drawDefects(candidate.defects, "blue");
     this.context.putImageData(
@@ -159,7 +154,7 @@ demo.start();
 function waitABit(){
   setTimeout(function(){
 
-    delayedTrackerMatches.counter = trackerMatches.counter; 
+    delayedTrackerMatches.counter = trackerMatches.counter;
     delayedTrackerMatches.trackFlag = true;
   }, 1000);
 }
