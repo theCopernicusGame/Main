@@ -66,11 +66,24 @@
             <div id="v0Div">Initial Velocity: -</div>
             <div id="tDiv">Time: -</div>
           </div>
-        </div>
-
+          <div id='change'>
+           
+            <input id='inputAngle' type="number" name="angle" min="0" max="90" value="45"> 
+            <p>Angle</p>
+            <br>
+            <input id='inputMass' type="number" name="mass" min="2" max="90" placeholder=".3kg">
+            <p>Mass</p> 
+            <br>
+            <input id='inputGravity' type="number" name="gravity" min="1" max="90" placeholder="1.6">
+            <p>Gravity</p> 
+            
+           
+          </div>
+    
     </div>
 
     <script type="text/javascript" src="/public/dataChannel.js"></script>
+    <script type="text/javascript" src="/public/changeItems.js"></script>
     <script type="text/javascript" src="/public/graphMotion.js"></script>
     <script type="text/javascript" src="/scene/loaderAndLoadingScreen.js"></script>
     <script type="text/javascript" src="/scene/ball.js"></script>
