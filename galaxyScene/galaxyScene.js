@@ -33,7 +33,8 @@ function init() {
   renderer.setSize( window.innerWidth, window.innerHeight );
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-  container.append( renderer.domElement );
+  // container.append( renderer.domElement );
+  $('#containerG').append( renderer.domElement );
 
   // scene
   scene = new THREE.Scene();
