@@ -27,7 +27,7 @@ sunLight3.distance = 100;
 sunLight3.decay = 1; 
 
 
-var sunLight4 = new THREE.SpotLight(0xFFFFFF, 4);
+var sunLight4 = new THREE.SpotLight(0xFFFFFF, 6);
 sunLight4.position.set(0, 0, 100);
 sunLight4.target = theSun;
 sunLight4.angle = .9;  
@@ -67,8 +67,8 @@ sunLight8.distance = 100;
  var sunLight9 = new THREE.SpotLight(0xFFFFFF, 2);
 sunLight9.position.set(80, -50, 80);
 sunLight9.target = theSun;
-sunLight9.angle = .5;  
-sunLight9.distance = 100; 
+sunLight9.angle = .6;  
+sunLight9.distance = 130; 
 
 
 var sunLight10 = new THREE.SpotLight(0xFFFFFF, 1.5);
@@ -101,8 +101,9 @@ lightHelper2 = new THREE.SpotLightHelper( sunLight2 );
 lightHelper3 = new THREE.SpotLightHelper( sunLight3 );
 lightHelper4 = new THREE.SpotLightHelper( sunLight4 );
 lightHelper5 = new THREE.SpotLightHelper( sunLight5 );
-lightHelper11 = new THREE.SpotLightHelper( sunLight11 );
+lightHelper9 = new THREE.SpotLightHelper( sunLight9 );
+lightHelper6 = new THREE.SpotLightHelper( sunLight6 );
 lightHelper7 = new THREE.SpotLightHelper( sunLight7 );
-
+lightHelper12 = new THREE.SpotLightHelper (sunLight12); 
    
      
