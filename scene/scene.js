@@ -23,7 +23,7 @@ window.addEventListener( 'resize', onWindowResize, false );
 var camera, renderer, mesh;
 var keyboard = {};
 scene = new Physijs.Scene;
-scene.setGravity(new THREE.Vector3( 0, user.changeGravityValue, 0 ));
+scene.setGravity(new THREE.Vector3( 0, -20, 0 ));
 scene.addEventListener(
   'update',
   function() {
@@ -165,11 +165,13 @@ function render() {
     ball2.rotation.z = -(message.rotation[2]);
   }
 
-  //user Changed gravity
+  //user changed gravity
   if (user.changeGravityFlag === true){
-    scene.setGravity(new THREE.Vector3( 0, user.changeGravityValue * -12.5, 0 ));
+    scene.setGravity(new THREE.Vector3( 0, user.changeGravityValue, 0 ));
     if (gravityCounter === 0){
-      setTimeout(function(){user.changeGravityFlag = false}, 10000); 
+      setTimeout(function(){
+        console.log('gravityChange done', user.changeGravityValue); 
+        user.changeGravityFlag = false}, 10000); 
       gravityCounter++; 
     }
   }
