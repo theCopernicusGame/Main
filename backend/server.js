@@ -19,12 +19,18 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname + '/../')));
 
+// supposed to redirect to secure https but this doesn't work,
+// I think the load balancer has to do the redirection
+function toSecure(req, res, next) {
+  if (req.secure === false) {
+    res.redirect("https://" + req.headers.host + req.url);
+  }
+  next();
+}
+
 // currently test page url, to be home page url
 // get req.params for specific room url
 app.get('/', function(req, res) {
-  console.log(req.headers)
-  console.log(req.headers.host)
-  console.log(req.url);
   res.sendfile('views/galaxy.html');
 });
 

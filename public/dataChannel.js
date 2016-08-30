@@ -21,6 +21,7 @@ var configuration = {
 // dataChannel for specific dataChannel object
 var rtcPeerConn;
 var dataChannel;
+var singleplayer = false;
 var dataChannelOptions = {
     reliable: false,
     ordered: false, //no guaranteed delivery, unreliable but faster
@@ -30,6 +31,8 @@ var dataChannelOptions = {
 var keyIndex = window.location.href.indexOf('game/') + 5;
 var SIGNAL_ROOM = window.location.href.split('').splice(keyIndex).join('');
 
+if (SIGNAL_ROOM === "singleplayer") singleplayer = true;
+
 // P2P information needed for game logic
 var peerFound = false;
 var moved = false;
@@ -37,15 +40,19 @@ var moved = false;
 // set up socket connection between client and server for signaling
 io = io.connect();
 
-displaySignalMessage('Waiting for other player...')
+if (singleplayer === false) {
+  displaySignalMessage('Waiting for other player...')
+} else {
+  signalingArea.remove();
+}
 
 // emits event to server setting up unique room
 // DIRECTIONS, to server.js
-io.emit('ready', {"signal_room": SIGNAL_ROOM });
+if (singleplayer === false) io.emit('ready', {"signal_room": SIGNAL_ROOM });
 
 // DIRECTIONS, on setting up unique room
 // sends a first signaling message to anyone in room listening
-io.emit('signal',{ "type": "user_here", "message": "Let's play the CopernicusGame!", "room": SIGNAL_ROOM });
+if (singleplayer === false) io.emit('signal',{ "type": "user_here", "message": "Let's play the CopernicusGame!", "room": SIGNAL_ROOM });
 
 io.on('signaling_message', function(data) {
     if (data.type === "user_here") displaySignalMessage('Player 2 is joining...');
@@ -124,8 +131,7 @@ function sendRemoteDesc(desc) {
 
 function restartConnection() {
   io.emit('signal',{ "type": "user_here", "message": "Let's play the CopernicusGame!", "room": SIGNAL_ROOM });
-  user.player = chooseUser()[0];
-  user.myTurn = chooseUser()[1];
+  setUser();
   if (ball2) scene.remove(ball2);
   addBall();
 }
@@ -172,7 +178,7 @@ function displaySignalMessage(message) {
 function transitionGameMessages() {
     $('#signalingArea').animate({ marginTop: '80%' }, 1000);
     $('#pointsDiv').animate({ opacity: 1 });
-    if (user.myTurn === false) $('#throwBall').text("Please wait for the other player to take his turn!").animate({ opacity: 1 });
+    if (user.myTurn === false) $('#throwBall').text("Please wait for the other player to throw!").animate({ opacity: 1 });
 }
 
 // necessary here

@@ -152,7 +152,9 @@ function render() {
     if (turnEnded === false) {
       storePosition();
     }
-    sendPosition(xPos, yPos, zPos, xRot, yRot, zRot);
+    if (singleplayer === false) {
+      sendPosition(xPos, yPos, zPos, xRot, yRot, zRot);
+    }
     checkForeverFall(); // still a problem with this "cannot read property 'a' of undefined in ammo.js"
   }
 
@@ -189,8 +191,10 @@ function render() {
       storePosition();
     }
     user.trackFlag = false;
-    dataChannel.send(JSON.stringify({ 'moved': moved }));
-    sendPosition((-7 + (5 - ball.position.x)), ball.position.y, ball.position.z, ball.rotation.x, ball.rotation.y, ball.rotation.z);
+    if (singleplayer === false) {
+      dataChannel.send(JSON.stringify({ 'moved': moved }));
+      sendPosition((-7 + (5 - ball.position.x)), ball.position.y, ball.position.z, ball.rotation.x, ball.rotation.y, ball.rotation.z);
+    }
   }
 
 
@@ -228,7 +232,6 @@ function sendPosition(x, y, z, xr, yr, zr) {
 /* current velocity tiers:
 2-12, 12-21, 21-70, 70-200
 */
-
 function determineVelocity(trackerCount, angle) {
   const trackerToVelocityMult = 270;
   userVelocity = (1/trackerCount) * (1/ball._physijs.mass) * trackerToVelocityMult;
@@ -251,7 +254,9 @@ function sendProjectile(trackerCount) {
   if (turnEnded === false) {
     storePosition();
   }
-  dataChannel.send(JSON.stringify({ 'moved': moved }));
-  sendPosition((-7 + (5 - ball.position.x)), ball.position.y, ball.position.z, ball.rotation.x, ball.rotation.y, ball.rotation.z);
+  if (singleplayer === false) {
+    dataChannel.send(JSON.stringify({ 'moved': moved }));
+    sendPosition((-7 + (5 - ball.position.x)), ball.position.y, ball.position.z, ball.rotation.x, ball.rotation.y, ball.rotation.z);
+  }
   demo.clear();
 }
