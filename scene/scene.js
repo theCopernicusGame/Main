@@ -4,7 +4,7 @@ Physijs.scripts.ammo = 'ammo.js';
 // in case window changes
 
 //to collect possible user change in angle; 
-var userAngle = -1, userVelocity, userGravity; 
+var userAngle = -1, userVelocity, userGravity, spaceScene, isPaused = false, gravityCounter = 0; 
 
 function onWindowResize() {
    camera.aspect = window.innerWidth / window.innerHeight;
@@ -61,7 +61,7 @@ addBall = function() {
     scene.add( ball2 );
   }
 }
-addBall();
+addBall(); 
 
 //add target
 scene.add(target);
@@ -127,7 +127,11 @@ scene.add( spotlight2 );
 function render() {
 
   // run physics
-  scene.simulate();
+  // scene.simulate();
+  if (!isPaused) {
+    //console.log('in simulation'); 
+        scene.simulate();
+  }
 
   earth.rotation.x += parameters.rotateX;
   earth.rotation.y -= parameters.rotateY;
@@ -162,18 +166,21 @@ function render() {
 
   //user Changed gravity 
   if (user.changeGravityFlag === true){
-    user.changeGravityFlag = false; 
-    console.log('in changeGravity', user.changeGravityValue, user.changeGravityFlag); 
     scene.setGravity(new THREE.Vector3( 0, user.changeGravityValue, 0 ));
+    // if (gravityCounter === 0){
+    //   setTimeout(function(){user.changeGravityFlag = false}, 10000); 
+    //   gravityCounter++; 
+    // }
   }
 
   // start sending condition, sets projectile motion, testing purposes only
   if (keyboard[32] && user.spaceBarFlag === true){
     user.spaceBarFlag = false; 
-    var vY = 10.5;
-    var velocity = 10.5; 
+    var vY = 10.5 * (1/ball._physijs.mass);
+    console.log('in render', ball._physijs.mass); 
+    var velocity = 10.5 * (1/ball._physijs.mass); 
     t = performance.now();
-    var vX = -10.5;
+    var vX = -10.5 * (1/ball._physijs.mass);
     if (userAngle !== -1) {
       var horizPortion = (1 - (userAngle/90)) * 2;
       var vertPortion = 2 - horizPortion;  
@@ -200,7 +207,7 @@ function render() {
     sendProjectile(delayedTrackerMatches.counter);
   }
 
-  var spaceScene = requestAnimationFrame( render );
+  spaceScene = requestAnimationFrame( render );
   renderer.render( scene, camera );
 }
 
@@ -241,7 +248,7 @@ function determineAngle(userVelocity){
 
 function determineVelocity(trackerCount) {
   const trackerToVelocityMult = 270;
-  userVelocity = (1/trackerCount) * trackerToVelocityMult;
+  userVelocity = (1/trackerCount) * (1/ball._physijs.mass) * trackerToVelocityMult;
   // console.log('hor', userVelocity); 
   // vertVelocity = userVelocity; 
   // if (userAngle !== -1){
@@ -277,7 +284,3 @@ function sendProjectile(trackerCount) {
   demo.clear();
 }
 
-function stopAnimation() {
-  cancelAnimationFrame( spaceScene );
-  console.log('Animation stopped!')
-}

@@ -133,7 +133,7 @@ function render() {
   Mars.position.z = Math.sin(marsRadians) * marsOrbitRadius * 1.25;
   Mars.rotation.y -= .02;
 
-
+  //camera.lookAt(Mars.position); 
   Venus.position.x = Math.cos(venusRadians) * venusOrbitRadius;
   Venus.position.z = Math.sin(venusRadians) * venusOrbitRadius;
   Venus.rotation.y -= .02;
