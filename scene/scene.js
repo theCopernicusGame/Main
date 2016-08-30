@@ -169,12 +169,12 @@ function render() {
   //user changed gravity
   if (user.changeGravityFlag === true){
     scene.setGravity(new THREE.Vector3( 0, user.changeGravityValue, 0 ));
-    if (gravityCounter === 0){
-      setTimeout(function(){
-        console.log('gravityChange done', user.changeGravityValue);
-        user.changeGravityFlag = false}, 10000);
-      gravityCounter++;
-    }
+    // if (gravityCounter === 0){
+    //   setTimeout(function(){
+    //     console.log('gravityChange done', user.changeGravityValue);
+    //     user.changeGravityFlag = false}, 10000);
+    //   gravityCounter++;
+    // }
   }
 
   // start sending condition, sets projectile motion, testing purposes only
@@ -234,7 +234,7 @@ function sendPosition(x, y, z, xr, yr, zr) {
 */
 function determineVelocity(trackerCount, angle) {
   const trackerToVelocityMult = 270;
-  userVelocity = (1/trackerCount) * (1/ball._physijs.mass) * trackerToVelocityMult;
+  userVelocity = (1/trackerCount) * (1/user.setMass) * trackerToVelocityMult;
   v0 = parseFloat(userVelocity).toFixed(3);
   var radians = angle * (Math.PI/180);
   var vertV = userVelocity * Math.sin(radians);

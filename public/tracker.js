@@ -1,4 +1,4 @@
-//'use strict';
+'use strict';
 //THE FOLLOWING IS TRACKING HANDS USING JS-HANDTRACKING
 
 var DEMO = function(){
@@ -146,7 +146,7 @@ DEMO.prototype.createImage = function(imageSrc, imageDst){
 };
 
 
-demo = new DEMO();
+var demo = new DEMO();
 
 demo.start();
 

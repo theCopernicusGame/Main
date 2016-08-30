@@ -1,7 +1,7 @@
 'use strict';
+var minMaxColors = {}, pixelsNeededIndex = [];
 
 $(function() {
-
     $('#start-scan').click(function() {
 
         var infoP = $('<p id="hand-info">Place hand over circle to correctly scan pixelation.</p>');
@@ -39,7 +39,6 @@ $(function() {
             var arrRed = [];
             var arrGreen = [];
             var arrBlue = [];
-            var pixelsNeededIndex = [];
 
             for (var i = 0; i < imageData.data.length; i += 4) {
               if (imageData.data[i] > 235) {
@@ -75,7 +74,6 @@ $(function() {
               let greens = average(arrGreen);
               let blues = average(arrBlue);
 
-              var minMaxColors = {};
               minMaxColors.lowRed = reds.lowest;
               minMaxColors.maxRed = reds.max;
               minMaxColors.lowGreen = greens.lowest;
@@ -87,9 +85,23 @@ $(function() {
               // demo.checkPicture(imageData)
 
             transparentCircle.css('backgroundColor', 'green');
-            infoP.html("Thanks! Tracking starts in 3 seconds!");
-            startTracking();
-          }, 4000);
+            // infoP.text("Tracking starts in 3 seconds!").delay(1000);
+            // infoP.html("Tracking starts in 2 seconds!").fadeIn(1000);
+
+              var text = ["Tracking starts in 3 seconds!", "Tracking starts in 2 seconds!", "Tracking starts in 1 second!"];
+              var wordCounter = 0;
+              var countDown = setInterval(change, 1200);
+              function change() {
+                infoP.fadeOut(1).delay(10).fadeIn(800);
+               infoP.text(text[wordCounter]);
+               // fadeTo(500, 0.4);
+                  wordCounter++;
+                  if(wordCounter >= text.length) {
+                    startTracking();
+                    clearInterval(countDown);
+                  }
+                }
+        }, 4000);
 
           //remove info box
           setTimeout(function() {
@@ -102,7 +114,7 @@ $(function() {
               console.log('starting tracking from collected image!');
               user.trackFlag = true;
               demo.tick();
-            }, 3000);
+            }, 1500);
           }
 
       });

@@ -29,6 +29,7 @@ setUser();
 if (user.player === "user_2") displaySignalMessage("You've joined Player 1!");
 
 function endTurnAndUpdate(points) {
+  user.changeGravityFlag = false;
   turnEnded = true;
   user.points += points;
   user.pointFlag = false;
