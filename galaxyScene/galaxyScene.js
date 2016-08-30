@@ -32,7 +32,7 @@ function init() {
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-  $('#container').append( renderer.domElement );
+  $('#containerG').append( renderer.domElement );
 
 
   // scene

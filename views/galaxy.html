@@ -16,15 +16,25 @@
     <script type="text/javascript" src="./galaxyScene/uranus.js"></script>
     <script type="text/javascript" src="./galaxyScene/venus.js"></script>
     <script type="text/javascript" src="./galaxyScene/neptune.js"></script>
+    <script type="text/javascript" src="./public/chooseGame.js"></script>
 
   </head>
 
   <body>
     <div id="containerG">
-      <h1 id='banner'>Copernicus</h1>
+      <div id='banner'>Copernicus</div>
+      <br>
       <div id='chooseGame'>
-        <button class='newGame' id="onePlayer">One Player Game</button>
-        <a href='./game'><button class='newGame' id="twoPlayer">Two Player Game</button></a>
+        <div id="singleplayer">
+          <button class='newGame' id="onePlayer">One Player Game</button>
+          <button class='newGame' id="emptyButton">Join a game!</button>
+          <button class='newGame' id="emptyButton">Start a game!</button>
+        </div>
+        <div id="multiplayer">
+          <button class='newGame' id="twoPlayer">Two Player Game</button>
+          <a href="/game"><button class='newGame' id="joinGame" disabled>Join a game!</button></a>
+          <a href="/game"><button class='newGame' id="startGame" disabled>Start a game!</button></a>
+        </div>
       </div>
     </div>
 

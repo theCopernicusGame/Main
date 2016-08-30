@@ -19,18 +19,31 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname + '/../')));
 
+// supposed to redirect to secure https but this doesn't work,
+// I think the load balancer has to do the redirection
+function toSecure(req, res, next) {
+  if (req.secure === false) {
+    res.redirect("https://" + req.headers.host + req.url);
+  }
+  next();
+}
+
 // currently test page url, to be home page url
 // get req.params for specific room url
-app.get('/', function(req, res){
-    res.sendfile('views/galaxy.html');
+app.get('/', function(req, res) {
+  res.sendfile('views/galaxy.html');
 });
 
-app.get('/game', function(req, res){
-    res.sendfile('views/index.html');
+app.get('/game', function(req, res) {
+  res.sendfile('views/search.html');
+});
+
+app.get('/game/*', function(req, res) {
+  res.sendfile('views/index.html');
 });
 
 app.listen(process.env.PORT || 3001, function(){
-    console.log('You listenin on port 3001');
+  console.log('You listenin on port 3001');
 });
 
 // DIRECTIONS, to dataChannel.js
@@ -38,7 +51,7 @@ app.listen(process.env.PORT || 3001, function(){
 // DIRECTIONS, on emission of 'ready' event in datachannel.js
 // connects client to unique room
 app.io.route('ready', function(req) {
-    req.io.join(req.data.signal_room);
+  req.io.join(req.data.signal_room);
 })
 
 // DIRECTIONS, to dataChannel.js
@@ -47,7 +60,7 @@ app.io.route('ready', function(req) {
 // this route broadcasts to every client in the room but the sender the signaling_message
 // this runs the io.on('signaling_message', ...) event in datachannel.js (ln 33)
 app.io.route('signal', function(req) {
-    req.io.room(req.data.room).broadcast('signaling_message', {
+  req.io.room(req.data.room).broadcast('signaling_message', {
     type: req.data.type,
     message: req.data.message
   });

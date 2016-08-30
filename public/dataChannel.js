@@ -11,7 +11,6 @@ var signalingArea = document.querySelector("#signalingArea");
 // SIGNAL_ROOM = name of room we test our game in, soon to be programmatic for multiple rooms/users
 // iceServers connects to development server hosted by Google, negotiates NAT/firewalls
 // iceServers (STUN or TURN) technically not required in dev environment
-var SIGNAL_ROOM = "signaling";
 var configuration = {
     'iceServers': [{
         'url': 'stun:stun.l.google.com:19302'
@@ -22,11 +21,17 @@ var configuration = {
 // dataChannel for specific dataChannel object
 var rtcPeerConn;
 var dataChannel;
+var singleplayer = false;
 var dataChannelOptions = {
     reliable: false,
     ordered: false, //no guaranteed delivery, unreliable but faster
     maxRetransmitTime: 1000, //milliseconds
 };
+
+var keyIndex = window.location.href.indexOf('game/') + 5;
+var SIGNAL_ROOM = window.location.href.split('').splice(keyIndex).join('');
+
+if (SIGNAL_ROOM === "singleplayer") singleplayer = true;
 
 // P2P information needed for game logic
 var peerFound = false;
@@ -35,15 +40,19 @@ var moved = false;
 // set up socket connection between client and server for signaling
 io = io.connect();
 
-displaySignalMessage('Waiting for other player...')
+if (singleplayer === false) {
+  displaySignalMessage('Waiting for other player...')
+} else {
+  signalingArea.remove();
+}
 
 // emits event to server setting up unique room
 // DIRECTIONS, to server.js
-io.emit('ready', {"signal_room": SIGNAL_ROOM});
+if (singleplayer === false) io.emit('ready', {"signal_room": SIGNAL_ROOM });
 
 // DIRECTIONS, on setting up unique room
 // sends a first signaling message to anyone in room listening
-io.emit('signal',{"type":"user_here", "message":"Let's play the CopernicusGame!", "room":SIGNAL_ROOM});
+if (singleplayer === false) io.emit('signal',{ "type": "user_here", "message": "Let's play the CopernicusGame!", "room": SIGNAL_ROOM });
 
 io.on('signaling_message', function(data) {
     if (data.type === "user_here") displaySignalMessage('Player 2 is joining...');
@@ -52,8 +61,8 @@ io.on('signaling_message', function(data) {
     peerFound = true;
 
     // set up the RTC Peer Connection object
-    if (!rtcPeerConn) {
-        startSignaling();
+    if (!rtcPeerConn || rtcPeerConn.signalingState === 'closed') {
+      startSignaling();
     }
 
     // if user isn't the first user to join the page, peerConnect obj is already set up, so simply respond with description
@@ -83,14 +92,24 @@ function startSignaling() {
 
     // let the 'negotiationneeded' event trigger offer generation
     rtcPeerConn.onnegotiationneeded = function () {
-        if (rtcPeerConn.remoteDescription.type.length === 0) rtcPeerConn.createOffer(sendLocalDesc, logError);
+      if (rtcPeerConn.remoteDescription.type.length === 0) rtcPeerConn.createOffer(sendLocalDesc, logError);
     }
 
     // let these dataChannel events trigger dataChannel methods
     dataChannel.onerror = logError;
     dataChannel.onmessage = receiveDataChannelMessage;
     dataChannel.onopen = dataChannelStateChanged;
+    dataChannel.onclose = restartConnection;
     rtcPeerConn.ondatachannel = receiveDataChannel;
+    rtcPeerConn.oniceconnectionstatechange = function() {
+      if (rtcPeerConn.iceConnectionState == 'disconnected') {
+          displaySignalMessage('Your friend has disconnected!');
+          $('#throwBall').animate({ opacity: 0 });
+          $('#signalingArea').animate({ marginTop: '2.48%' });
+          peerFound = false;
+          rtcPeerConn.close();
+        }
+      }
 }
 
 // sends local description
@@ -102,13 +121,19 @@ function sendLocalDesc(desc) {
 
 // sends remote description
 function sendRemoteDesc(desc) {
-    // console.log('Received message.sdp: ', desc);
     rtcPeerConn.setRemoteDescription(new RTCSessionDescription(desc), function () {
         // if we received an offer, we need to answer
         if (rtcPeerConn.remoteDescription.type == 'offer') {
             rtcPeerConn.createAnswer(sendLocalDesc, logError);
         }
     }, logError);
+}
+
+function restartConnection() {
+  io.emit('signal',{ "type": "user_here", "message": "Let's play the CopernicusGame!", "room": SIGNAL_ROOM });
+  setUser();
+  if (ball2) scene.remove(ball2);
+  addBall();
 }
 
 //Data Channel Specific methods
@@ -153,12 +178,12 @@ function displaySignalMessage(message) {
 function transitionGameMessages() {
     $('#signalingArea').animate({ marginTop: '80%' }, 1000);
     $('#pointsDiv').animate({ opacity: 1 });
-    if (user.myTurn === false) $('#throwBall').text("Please wait for the other player to take his turn!").animate({ opacity: 1 });
+    if (user.myTurn === false) $('#throwBall').text("Please wait for the other player to throw!").animate({ opacity: 1 });
 }
 
 // necessary here
 function addGameLogic() {
-  $('#spotlight').append( `<script id=` + `"gamescript"` + `type=` + `"text/javascript"` + ` src=` + `"./public/gameLogic.js"` + `></script>` );
+  $('#spotlight').append( `<script id=` + `"gamescript"` + `type=` + `"text/javascript"` + ` src=` + `"/public/gameLogic.js"` + `></script>` );
 }
 
 setTimeout(addGameLogic, 2000);

@@ -9,16 +9,14 @@ body {
 
 #containerG {
   position: relative;
-  margin-top: 3%;
-  padding-top: 6%;
 }
 
 #banner {
   position: absolute;
   left: 50%;
   margin-left: -121px;
-  margin-top: -8.5%;
   font-size: 280%;
+  margin-top: 1%;
   text-align: center;
  }
 
@@ -29,7 +27,7 @@ body {
   width: 35%;
   display: block;
  }
- 
+
 input {
   float: right;
   margin-left: 2%;
@@ -49,7 +47,6 @@ input {
  margin-top: 1%;
 }
 
-
 #change p {
   margin: 0;
   padding: 0;
@@ -57,12 +54,13 @@ input {
   white-space: nowrap;
 }
 
-
-
- #startGame{
-  margin-top:  -3px;
-  margin-bottom: -20px;
-}
+/* choose game buttons */
+#chooseGame {
+  position: absolute;
+  left: 50%;
+  margin-top: 6%;
+  margin-left: -123.415px;
+ }
 
 #onePlayer {
   position: relative;
@@ -72,11 +70,34 @@ input {
   position: relative;
 }
 
-#chooseGame {
-  position: absolute;
-  left: 50%;
-  margin-left: -123.415px;
-  margin-top: -2.2%;
+#multiplayer {
+  position: relative;
+  display: inline-block;
+  width: 121.16px;
+  padding-bottom: 5px;
+}
+
+#singleplayer {
+  position: relative;
+  display: inline-block;
+  width: 121.39px;
+}
+
+#emptyButton {
+  opacity: 0;
+  margin-top: 7px;
+}
+
+ #joinGame {
+   width: 121.16px;
+   opacity: 0;
+   margin-top: 7px;
+ }
+
+ #startGame {
+   width: 121.16px;
+   opacity: 0;
+   margin-top: 7px;
  }
 
 .newGame {
@@ -99,12 +120,26 @@ input {
   background-image: linear-gradient(to bottom, #646464, #282828);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#646464, endColorstr=#282828);
 }
 
-#infoPanel {
+/* search screen */
+#searchBar {
   position: absolute;
-  padding-top: 20px;
-  padding-left: 20px;
+  top: 40%;
+  left: 50%;
+  margin-left: -203px;
+  font-size: 40px;
+  text-align: center;
 }
 
+#room {
+  text-align: center;
+  width: 400px;
+  height: 50px;
+  font-size: 100%;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+}
+
+/* loading screen */
 .onepix-imgloader {
   display: inline-block;
   position: absolute;
@@ -146,6 +181,13 @@ input {
   position: relative;
 }
 
+/* gameplay information */
+#infoPanel {
+  position: absolute;
+  padding-top: 20px;
+  padding-left: 20px;
+}
+
 #signalingArea {
   position: absolute;
   z-index: -1;
@@ -166,6 +208,7 @@ input {
 
 #end {
   position: absolute;
+  opacity: 0;
   z-index: 9999;
   margin-top: 20.48%;
   margin-left: 33%;
