@@ -26,7 +26,7 @@ var ballTexture = new THREE.MeshPhongMaterial({ map: moonMap, normalMap: moonNor
 var ballTexture2 = new THREE.MeshPhongMaterial( { color: 0xFF0000} );
 
 
-var ball = new Physijs.SphereMesh(ballGeometry, ballTexture, .3, .9 );
+var ball = new Physijs.SphereMesh(ballGeometry, ballTexture, 1, .9 );
 ball.castShadow = true;
 ball.collisions = 0;
 ball.__dirtyPosition = true;
@@ -34,7 +34,7 @@ ball.receiveShadow = true;
 ball.addEventListener( 'collision', handleCollision );
 ball.material.color.setHex(0xcc8855);
 
-var ball2 = new Physijs.SphereMesh(ballGeometry, ballTexture, .3, .9 );
+var ball2 = new Physijs.SphereMesh(ballGeometry, ballTexture, 1, .9 );
 ball2.castShadow = true;
 ball2.collisions = 0;
 ball2.__dirtyPosition = true;

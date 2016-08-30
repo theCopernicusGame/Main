@@ -19,7 +19,7 @@ user.trackFlag = false;
 user.points = 0;
 user.otherPoints = 0;
 user.spaceBarFlag = true; 
-user.changeGravityValue = 0; 
+user.changeGravityValue = 1.6; 
 user.changeGravityFlag = false; 
 
 if (user.player === "user_2") displaySignalMessage("You've joined Player 1!");
