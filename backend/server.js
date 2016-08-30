@@ -21,7 +21,10 @@ app.use(express.static(path.join(__dirname + '/../')));
 
 // currently test page url, to be home page url
 // get req.params for specific room url
-app.get('/', function(req, res){
+app.get('/', function(req, res) {
+  console.log(req.headers)
+  console.log(req.headers.host)
+  console.log(req.url);
   res.sendfile('views/galaxy.html');
 });
 

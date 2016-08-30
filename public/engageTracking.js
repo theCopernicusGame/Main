@@ -1,3 +1,5 @@
+'use strict';
+
 $(function() {
 
     $('#start-scan').click(function() {
@@ -37,7 +39,7 @@ $(function() {
             var arrRed = [];
             var arrGreen = [];
             var arrBlue = [];
-            pixelsNeededIndex = [];
+            var pixelsNeededIndex = [];
 
             for (var i = 0; i < imageData.data.length; i += 4) {
               if (imageData.data[i] > 235) {
@@ -73,7 +75,7 @@ $(function() {
               let greens = average(arrGreen);
               let blues = average(arrBlue);
 
-              minMaxColors = {};
+              var minMaxColors = {};
               minMaxColors.lowRed = reds.lowest;
               minMaxColors.maxRed = reds.max;
               minMaxColors.lowGreen = greens.lowest;

@@ -153,7 +153,6 @@ demo.start();
 
 function waitABit(){
   setTimeout(function(){
-
     delayedTrackerMatches.counter = trackerMatches.counter;
     delayedTrackerMatches.trackFlag = true;
   }, 1000);

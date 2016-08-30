@@ -7,7 +7,6 @@ Physijs.scripts.ammo = 'ammo.js';
 
 var userAngle = 45, userVelocity, userGravity;
 
-
 function onWindowResize() {
    camera.aspect = window.innerWidth / window.innerHeight;
    camera.updateProjectionMatrix();

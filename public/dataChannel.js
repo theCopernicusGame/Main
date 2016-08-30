@@ -54,8 +54,8 @@ io.on('signaling_message', function(data) {
     peerFound = true;
 
     // set up the RTC Peer Connection object
-    if (!rtcPeerConn) {
-        startSignaling();
+    if (!rtcPeerConn || rtcPeerConn.signalingState === 'closed') {
+      startSignaling();
     }
 
     // if user isn't the first user to join the page, peerConnect obj is already set up, so simply respond with description
@@ -85,14 +85,24 @@ function startSignaling() {
 
     // let the 'negotiationneeded' event trigger offer generation
     rtcPeerConn.onnegotiationneeded = function () {
-        if (rtcPeerConn.remoteDescription.type.length === 0) rtcPeerConn.createOffer(sendLocalDesc, logError);
+      if (rtcPeerConn.remoteDescription.type.length === 0) rtcPeerConn.createOffer(sendLocalDesc, logError);
     }
 
     // let these dataChannel events trigger dataChannel methods
     dataChannel.onerror = logError;
     dataChannel.onmessage = receiveDataChannelMessage;
     dataChannel.onopen = dataChannelStateChanged;
+    dataChannel.onclose = restartConnection;
     rtcPeerConn.ondatachannel = receiveDataChannel;
+    rtcPeerConn.oniceconnectionstatechange = function() {
+      if (rtcPeerConn.iceConnectionState == 'disconnected') {
+          displaySignalMessage('Your friend has disconnected!');
+          $('#throwBall').animate({ opacity: 0 });
+          $('#signalingArea').animate({ marginTop: '2.48%' });
+          peerFound = false;
+          rtcPeerConn.close();
+        }
+      }
 }
 
 // sends local description
@@ -104,13 +114,20 @@ function sendLocalDesc(desc) {
 
 // sends remote description
 function sendRemoteDesc(desc) {
-    // console.log('Received message.sdp: ', desc);
     rtcPeerConn.setRemoteDescription(new RTCSessionDescription(desc), function () {
         // if we received an offer, we need to answer
         if (rtcPeerConn.remoteDescription.type == 'offer') {
             rtcPeerConn.createAnswer(sendLocalDesc, logError);
         }
     }, logError);
+}
+
+function restartConnection() {
+  io.emit('signal',{ "type": "user_here", "message": "Let's play the CopernicusGame!", "room": SIGNAL_ROOM });
+  user.player = chooseUser()[0];
+  user.myTurn = chooseUser()[1];
+  if (ball2) scene.remove(ball2);
+  addBall();
 }
 
 //Data Channel Specific methods
