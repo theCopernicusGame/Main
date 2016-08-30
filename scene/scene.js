@@ -23,7 +23,7 @@ window.addEventListener( 'resize', onWindowResize, false );
 var camera, renderer, mesh;
 var keyboard = {};
 scene = new Physijs.Scene;
-scene.setGravity(new THREE.Vector3( 0, -20, 0 ));
+scene.setGravity(new THREE.Vector3( 0, user.changeGravityValue, 0 ));
 scene.addEventListener(
   'update',
   function() {
@@ -132,7 +132,6 @@ function render() {
 
   // run physics
   scene.simulate();
- 
 
   earth.rotation.x += parameters.rotateX;
   earth.rotation.y -= parameters.rotateY;
@@ -142,6 +141,7 @@ function render() {
   cloudMesh.rotation.y -= parameters.cRotateY;
 
   // continue send condition
+
   if (moved === true && user.myTurn === true) {
     var xPos = -7 + (5 - ball.position.x);
     var yPos = ball.position.y;
@@ -240,13 +240,12 @@ function determineVelocity(trackerCount, angle) {
   return [horizV, vertV];
 }
 
-function sendProjectile() {
+function sendProjectile(trackerCount) {
   var velocity = determineVelocity(trackerCount, userAngle);
   t = performance.now();
   ball.setLinearVelocity(new THREE.Vector3(velocity[0], velocity[1], 0));
   v0 = parseFloat(userVelocity).toFixed(3);
-
-  delayedTrackerMatches.flag = false;
+  delayedTrackerMatches.trackFlag = false;
   user.trackFlag = false;
   delayedTrackerMatches.counter = 0;
   moved = true;

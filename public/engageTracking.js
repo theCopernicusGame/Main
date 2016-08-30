@@ -88,8 +88,7 @@ $(function() {
               // demo.checkPicture(imageData)
 
             transparentCircle.css('backgroundColor', 'green');
-            infoP.html("Thanks! move your hand across to throw the ball!");
-            console.log('got image!')
+            infoP.html("Thanks! Tracking starts in 3 seconds!");
             startTracking();
           }, 4000);
 
@@ -104,7 +103,7 @@ $(function() {
               console.log('starting tracking from collected image!');
               user.trackFlag = true;
               demo.tick();
-            }, 4000);
+            }, 3000);
           }
 
       });
