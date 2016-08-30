@@ -4,7 +4,9 @@ Physijs.scripts.ammo = 'ammo.js';
 // in case window changes
 
 //to collect possible user change in angle;
+
 var userAngle = 45, userVelocity, userGravity;
+
 
 function onWindowResize() {
    camera.aspect = window.innerWidth / window.innerHeight;
@@ -170,9 +172,11 @@ function render() {
   // start sending condition, sets projectile motion, testing purposes only
   if (keyboard[32] && user.spaceBarFlag === true){
     user.spaceBarFlag = false;
+
     t = performance.now();
     var velocity = determineVelocity(18, userAngle);
     ball.setLinearVelocity(new THREE.Vector3(velocity[0], velocity[1], 0));
+
     delayedTrackerMatches.flag = false;
     user.trackFlag = false;
     delayedTrackerMatches.counter = 0;
@@ -220,6 +224,7 @@ function sendPosition(x, y, z, xr, yr, zr) {
 /* current velocity tiers:
 2-12, 12-21, 21-70, 70-200
 */
+
 function determineVelocity(trackerCount, angle) {
   const trackerToVelocityMult = 270;
   userVelocity = (1/trackerCount) * trackerToVelocityMult;
@@ -235,6 +240,7 @@ function sendProjectile() {
   t = performance.now();
   ball.setLinearVelocity(new THREE.Vector3(velocity[0], velocity[1], 0));
   v0 = parseFloat(userVelocity).toFixed(3);
+
   delayedTrackerMatches.flag = false;
   user.trackFlag = false;
   delayedTrackerMatches.counter = 0;

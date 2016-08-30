@@ -29,8 +29,8 @@ DEMO.prototype.start = function() {
 };
 
 DEMO.prototype.videoReady = function(stream){
-  if (window.webkitURL) {
-    this.video.src = window.webkitURL.createObjectURL(stream);
+  if (window.URL) {
+    this.video.src = window.URL.createObjectURL(stream);
   } else if (video.mozSrcObject !== undefined) {
     this.video.mozSrcObject = stream;
   } else {
@@ -43,7 +43,7 @@ DEMO.prototype.videoError = function(error){
 };
 
 DEMO.prototype.tick = function(){
-  if (user.trackFlag === true) {
+  if (user.trackFlag === true && false) {
     var that = this, image, candidate;
     requestAnimationFrame( function() { return that.tick(); } );
     if (this.video) {

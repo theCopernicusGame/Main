@@ -25,16 +25,15 @@ window.addEventListener( 'resize', onWindowResize, false );
 
 function init() {
 
-  // dom
-  var container = document.getElementById( 'container' );
 
   // renderer
   renderer = new THREE.WebGLRenderer( { clearColor: 0x000000, alpha: true } );
   renderer.setSize( window.innerWidth, window.innerHeight );
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-  // container.append( renderer.domElement );
-  $('#containerG').append( renderer.domElement );
+
+  $('#container').append( renderer.domElement );
+
 
   // scene
   scene = new THREE.Scene();

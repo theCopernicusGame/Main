@@ -1,4 +1,5 @@
 $(function() {
+
   $("#inputAngle").on("keydown",function search(e) {
     if (e.keyCode === 13) {
       userAngle = parseInt($(this).val());
@@ -20,5 +21,4 @@ $(function() {
        //scene.setGravity(new THREE.Vector3( 0, $(this).val() * -12.5, 0 ));
     }
   });
-
 });
