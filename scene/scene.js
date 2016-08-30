@@ -3,9 +3,12 @@ Physijs.scripts.ammo = 'ammo.js';
 
 // in case window changes
 
+
+//to collect possible user change in angle;
+var userAngle = 45, userVelocity, userGravity, spaceScene, gravityCounter = 0;
+
 //to collect possible user change in angle;
 
-var userAngle = 45, userVelocity, userGravity;
 
 function onWindowResize() {
    camera.aspect = window.innerWidth / window.innerHeight;
@@ -19,7 +22,7 @@ window.addEventListener( 'resize', onWindowResize, false );
 var camera, renderer, mesh;
 var keyboard = {};
 scene = new Physijs.Scene;
-scene.setGravity(new THREE.Vector3( 0, -20, 0 ));
+scene.setGravity(new THREE.Vector3( 0, user.changeGravityValue, 0 ));
 scene.addEventListener(
   'update',
   function() {
@@ -125,7 +128,7 @@ scene.add( spotlight );
 scene.add( spotlight2 );
 
 function render() {
-
+  //console.log(ball._physijs.mass);
   // run physics
   scene.simulate();
 
@@ -137,6 +140,7 @@ function render() {
   cloudMesh.rotation.y -= parameters.cRotateY;
 
   // continue send condition
+
   if (moved === true && user.myTurn === true) {
     var xPos = -7 + (5 - ball.position.x);
     var yPos = ball.position.y;
@@ -160,21 +164,23 @@ function render() {
     ball2.rotation.z = -(message.rotation[2]);
   }
 
-  //user Changed gravity
+  //user changed gravity
   if (user.changeGravityFlag === true){
-    user.changeGravityFlag = false;
-    console.log('in changeGravity', user.changeGravityValue, user.changeGravityFlag);
     scene.setGravity(new THREE.Vector3( 0, user.changeGravityValue, 0 ));
+    if (gravityCounter === 0){
+      setTimeout(function(){
+        console.log('gravityChange done', user.changeGravityValue);
+        user.changeGravityFlag = false}, 10000);
+      gravityCounter++;
+    }
   }
 
   // start sending condition, sets projectile motion, testing purposes only
   if (keyboard[32] && user.spaceBarFlag === true){
     user.spaceBarFlag = false;
-
     t = performance.now();
     var velocity = determineVelocity(18, userAngle);
     ball.setLinearVelocity(new THREE.Vector3(velocity[0], velocity[1], 0));
-
     delayedTrackerMatches.flag = false;
     user.trackFlag = false;
     delayedTrackerMatches.counter = 0;
@@ -192,7 +198,7 @@ function render() {
     sendProjectile(delayedTrackerMatches.counter);
   }
 
-  var spaceScene = requestAnimationFrame( render );
+  spaceScene = requestAnimationFrame( render );
   renderer.render( scene, camera );
 }
 
@@ -225,7 +231,7 @@ function sendPosition(x, y, z, xr, yr, zr) {
 
 function determineVelocity(trackerCount, angle) {
   const trackerToVelocityMult = 270;
-  userVelocity = (1/trackerCount) * trackerToVelocityMult;
+  userVelocity = (1/trackerCount) * (1/ball._physijs.mass) * trackerToVelocityMult;
   v0 = parseFloat(userVelocity).toFixed(3);
   var radians = angle * (Math.PI/180);
   var vertV = userVelocity * Math.sin(radians);
@@ -233,13 +239,12 @@ function determineVelocity(trackerCount, angle) {
   return [horizV, vertV];
 }
 
-function sendProjectile() {
+function sendProjectile(trackerCount) {
   var velocity = determineVelocity(trackerCount, userAngle);
   t = performance.now();
   ball.setLinearVelocity(new THREE.Vector3(velocity[0], velocity[1], 0));
   v0 = parseFloat(userVelocity).toFixed(3);
-
-  delayedTrackerMatches.flag = false;
+  delayedTrackerMatches.trackFlag = false;
   user.trackFlag = false;
   delayedTrackerMatches.counter = 0;
   moved = true;
@@ -249,9 +254,4 @@ function sendProjectile() {
   dataChannel.send(JSON.stringify({ 'moved': moved }));
   sendPosition((-7 + (5 - ball.position.x)), ball.position.y, ball.position.z, ball.rotation.x, ball.rotation.y, ball.rotation.z);
   demo.clear();
-}
-
-function stopAnimation() {
-  cancelAnimationFrame( spaceScene );
-  console.log('Animation stopped!')
 }

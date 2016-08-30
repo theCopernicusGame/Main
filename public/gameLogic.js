@@ -19,8 +19,9 @@ user.trackFlag = false;
 user.points = 0;
 user.otherPoints = 0;
 user.spaceBarFlag = true;
-user.changeGravityValue = 0;
-user.changeGravityFlag = false;
+user.changeGravityValue = 1.6 * -12.5; //Moon gravity times multiplier for physijs Y coordinate
+user.changeGravityFlag = false; 
+
 
 if (user.player === "user_2") displaySignalMessage("You've joined Player 1!");
 
@@ -38,6 +39,8 @@ function endTurnAndUpdate(points) {
     dataChannel.send(JSON.stringify({ 'moved': moved }));
     dataChannel.send(JSON.stringify({ 'turn': user.myTurn }));
     user.myTurn = false;
+    $('#bg').append('#throwBall');
+    $('#throwBall').text('Please wait for other player to throw').css('opacity', '1').fadeOut(1).delay(500).fadeIn(1500);
     user.pointFlag = true;
     scene.remove(ball);
     turnEnded = false;
@@ -48,6 +51,8 @@ function endTurnAndUpdate(points) {
 
 function updateAndStartTurn() {
   user.myTurn = received.turn;
+  console.log('myTurn', user.myTurn)
+  if (user.myTurn === true) $('#throwBall').fadeOut(500);
   scene.remove(ball2);
   addBall();
   user.pointFlag = true;
