@@ -129,7 +129,7 @@ scene.add( spotlight );
 scene.add( spotlight2 );
 
 function render() {
-
+  //console.log(ball._physijs.mass);
   // run physics
   scene.simulate();
 

@@ -2,10 +2,10 @@ $(function() {
 
     $("#inputMass").on("keydown",function search(e) {
       if(e.keyCode === 13){
-        var val = $(this).val();  
-        ball._physijs.mass = val; 
-        scene.execute( 'updateMass', { id: ball._physijs.id, mass: val  } ); 
-        console.log('ballMass', ball._physijs.mass);  
+        var val = $(this).val();
+        ball._physijs.mass = val;
+        scene.execute( 'updateMass', { id: ball._physijs.id, mass: val  } );
+        console.log('ballMass', ball._physijs.mass);
       }
     });
 

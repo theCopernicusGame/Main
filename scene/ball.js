@@ -30,6 +30,7 @@ var ball = new Physijs.SphereMesh(ballGeometry, ballTexture, 1, .9 );
 ball.castShadow = true;
 ball.collisions = 0;
 ball.__dirtyPosition = true;
+ball.__dirtyRotation = true;
 ball.receiveShadow = true;
 ball.addEventListener( 'collision', handleCollision );
 ball.material.color.setHex(0xcc8855);
