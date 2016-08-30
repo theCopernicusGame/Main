@@ -127,7 +127,7 @@ scene.add( spotlight );
 scene.add( spotlight2 );
 
 function render() {
-
+  //console.log(ball._physijs.mass);
   // run physics
   scene.simulate();
 
@@ -164,8 +164,6 @@ function render() {
 
   //user Changed gravity
   if (user.changeGravityFlag === true){
-    user.changeGravityFlag = false;
-    console.log('in changeGravity', user.changeGravityValue, user.changeGravityFlag);
     scene.setGravity(new THREE.Vector3( 0, user.changeGravityValue, 0 ));
   }
 

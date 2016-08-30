@@ -8,7 +8,9 @@ $(function() {
 
   $("#inputMass").on("keydown",function search(e) {
     if (e.keyCode === 13){
-      ball.mass = parseInt($(this).val());
+      console.log(ball);
+      ball._physijs.mass = $(this).val();
+      console.log(ball._physijs.mass);
     }
   });
 
