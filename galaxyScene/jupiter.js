@@ -9,8 +9,8 @@
     ganymedeOrbitRadius = 32,
     ganymedeOrbitAngle = 20,
     ganymedeOrbitSpeed = 0.7;
-
-    var jupiterGeometry = new THREE.SphereGeometry(23, 28.8, 15);
+ 
+    var jupiterGeometry = new THREE.SphereGeometry(23, 28.8, 15); 
     var jupiterMap  = textureLoader.load('assets/planetPics/jupitermap.jpg');
     var jupiterTexture =  new THREE.MeshPhongMaterial( { map: jupiterMap} );
     Jupiter = new THREE.Mesh( jupiterGeometry, jupiterTexture);
