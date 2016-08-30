@@ -1,8 +1,8 @@
 $(function() {
 
     $('#start-scan').click(function() {
-            console.log('clicked to take pic of hand'); 
-    
+            console.log('clicked to take pic of hand');
+
 
 
         var infoP = $('<p id="hand-info">Place hand over circle to correctly scan pixelation.</p>');
@@ -27,7 +27,7 @@ $(function() {
 
             var context2 = canvas2.getContext('2d');
             var video = document.getElementById('myVideo');
-              
+
               //REMOVE THROWBALL DIV
               //$('#throwBall').hide();
 
@@ -87,11 +87,10 @@ $(function() {
               context1.putImageData(imageData, 0, 0);
               // demo.checkPicture(imageData)
 
-
             transparentCircle.css('backgroundColor', 'green');
             infoP.html("Thanks! move your hand across to throw the ball!");
             console.log('got image!')
-            startTracking(); 
+            startTracking();
           }, 4000);
 
           //remove info box
@@ -102,12 +101,12 @@ $(function() {
 
           function startTracking(){
             setTimeout(function(){
-              console.log('starting tracking from collected image!'); 
-              user.trackFlag = true; 
-                demo.tick(); 
-            }, 4000); 
+              console.log('starting tracking from collected image!');
+              user.trackFlag = true;
+              demo.tick();
+            }, 4000);
           }
-    
+
       });
 
-    }); 
+    });
