@@ -4,17 +4,26 @@
 // requirements:
 // express.io integrates socket.io with express
 // body/cookieParser for client keys as unique links/rooms
+var fs = require('fs');
+// var options = {
+//   key: fs.readFileSync('./cert/copernicus.pem'),
+//   cert: fs.readFileSync('./cert/2_www.thecopernicusgame.com.crt'),
+//   ca: fs.readFileSync('./cert/1_Intermediate.crt'),
+//   passphrase: 'copernicus'
+// };
+
 var express = require('express.io');
 var app = express();
 app.http().io();
+
 var bodyParser = require('body-parser');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 
-app.use(express.static(path.join(__dirname + '/../')));
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+app.use(express.static(path.join(__dirname + '/../')));
 
 // currently test page url, to be home page url
 // get req.params for specific room url
