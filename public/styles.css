@@ -7,18 +7,63 @@ body {
    font-family: 'Fjalla One', sans-serif;
  }
 
-#container {
+#containerG {
   position: relative;
+  margin-top: 3%;
+  padding-top: 6%; 
 }
 
 #banner {
   position: absolute;
   left: 50%;
   margin-left: -121px;
-  margin-top: 2.5%;
+  margin-top: -8.5%;
   font-size: 280%;
   text-align: center;
  }
+
+ #change {
+  position: absolute;
+  right: 5%;
+  bottom: 3%;
+  width: 35%;
+  display: block; 
+
+   
+ }
+input {
+   float: right;
+   margin-left: 2%;
+   margin-top: 2%;
+   
+}
+#massLine{
+  margin-left: 2%; 
+}
+#inputMass {
+ margin-top: .5%; 
+}
+#inputAngle {
+ margin-top: 1%; 
+}
+#inputGravity {
+ margin-top: 1%; 
+}
+
+
+#change p {
+   margin: 0;
+   padding: 0;
+  float:right;
+   white-space: nowrap;
+}
+
+
+
+ #startGame{
+  margin-top:  -3px;
+  margin-bottom: -20px;
+}
 
 #onePlayer {
   position: relative;
@@ -32,7 +77,7 @@ body {
   position: absolute;
   left: 50%;
   margin-left: -123.415px;
-  margin-top: 8%;
+  margin-top: -2.2%;
  }
 
 .newGame {
@@ -116,6 +161,23 @@ body {
   text-align: center;
   vertical-align: middle;
   font-size: 150%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+}
+
+#end {
+  position: absolute;
+  z-index: 9999;
+  margin-top: 20.48%;
+  margin-left: 33%;
+  border: 3px solid white;
+  border-radius: 10px;
+  background: rgba(0,0,128, .7);
+  color: #FFF;
+  text-align: center;
+  vertical-align: middle;
+  width: 33%;
+  font-size: 200%;
   padding-top: 1%;
   padding-bottom: 1%;
 }

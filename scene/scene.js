@@ -2,6 +2,10 @@ Physijs.scripts.worker = 'lib/physijs_worker.js'; //webworker used to minimize l
 Physijs.scripts.ammo = 'ammo.js';
 
 // in case window changes
+
+//to collect possible user change in angle; 
+var userAngle = -1, userVelocity, userGravity; 
+
 function onWindowResize() {
    camera.aspect = window.innerWidth / window.innerHeight;
    camera.updateProjectionMatrix();
@@ -15,6 +19,7 @@ var camera, renderer, mesh;
 var keyboard = {};
 scene = new Physijs.Scene;
 scene.setGravity(new THREE.Vector3( 0, -20, 0 ));
+console.log('scene', scene.setGravity); 
 scene.addEventListener(
   'update',
   function() {
@@ -155,6 +160,42 @@ function render() {
     ball2.rotation.z = -(message.rotation[2]);
   }
 
+  //user Changed gravity 
+  if (user.changeGravityFlag === true){
+    user.changeGravityFlag = false; 
+    console.log('in changeGravity', user.changeGravityValue, user.changeGravityFlag); 
+    scene.setGravity(new THREE.Vector3( 0, user.changeGravityValue, 0 ));
+  }
+
+  // start sending condition, sets projectile motion, testing purposes only
+  if (keyboard[32] && user.spaceBarFlag === true){
+    user.spaceBarFlag = false; 
+    var vY = 10.5;
+    var velocity = 10.5; 
+    t = performance.now();
+    var vX = -10.5;
+    if (userAngle !== -1) {
+      var horizPortion = (1 - (userAngle/90)) * 2;
+      var vertPortion = 2 - horizPortion;  
+      ball.setLinearVelocity(new THREE.Vector3(-horizPortion * velocity, vertPortion * velocity, 0));
+    } else {
+    if (vY > 25) vY = 25; 
+    ball.setLinearVelocity(new THREE.Vector3(vX, Math.abs(vY), 0));
+    }
+    v0 = parseFloat(Math.sqrt(((vX)**2) + ((vY)**2))).toFixed(3);
+    delayedTrackerMatches.flag = false;
+    user.trackFlag = false;
+    delayedTrackerMatches.counter = 0;
+    moved = true;
+    if (turnEnded === false) {
+      storePosition();
+    }
+    user.trackFlag = false;
+    dataChannel.send(JSON.stringify({ 'moved': moved }));
+    sendPosition((-7 + (5 - ball.position.x)), ball.position.y, ball.position.z, ball.rotation.x, ball.rotation.y, ball.rotation.z);
+  }
+
+
   if (delayedTrackerMatches.trackFlag === true && user.trackFlag === true) {
     sendProjectile(delayedTrackerMatches.counter);
   }
@@ -185,18 +226,45 @@ function sendPosition(x, y, z, xr, yr, zr) {
   dataChannel.send(JSON.stringify(toSend));
 }
 
+
+/* current velocity tiers:
+2-12, 12-21, 21-70, 70-200
+*/
+function determineAngle(userVelocity){
+//FORMULA for getting vertVel: a/sinA = c/sinC || a = sinA(c/sinC)
+//a = vertVel, A = userAngle, c = horizVelocity, C = 180 - (userAngle + 90)
+
+  vertV = Math.sin(userAngle)*(userVelocity/(Math.sin(90))); 
+  console.log('vertV', Math.abs(vertV), 'totalV', userVelocity); 
+  return vertV;   
+}
+
 function determineVelocity(trackerCount) {
-  if (trackerCount < 21) trackerCount = 21;
-  const trackerToVelocityMult = 550;
-  var velocity = (1/trackerCount) * trackerToVelocityMult;
-  return velocity;
+  const trackerToVelocityMult = 270;
+  userVelocity = (1/trackerCount) * trackerToVelocityMult;
+  // console.log('hor', userVelocity); 
+  // vertVelocity = userVelocity; 
+  // if (userAngle !== -1){
+  //  var horizPortion = (1 - (userAngle/90)) * 2;
+  //   var vertPortion = 2 - horizPortion;  
+  //   ball.setLinearVelocity(new THREE.Vector3(-horizPortion * velocity, vertPortion * velocity, 0)); 
+  // }
+  // if (vertVelocity > 25) vertVelocity = 25; 
+  // var velocityArr = [userVelocity, vertVelocity]; 
+  return userVelocity;
 }
 
 function sendProjectile(trackerCount) {
   var velocity = determineVelocity(trackerCount);
+  console.log('vel in sendProjectile', velocity); 
   t = performance.now();
-  v0 = parseFloat(Math.sqrt(((-velocity)**2) + ((velocity)**2))).toFixed(3);
-  ball.setLinearVelocity(new THREE.Vector3(-velocity, velocity, 0));
+  v0 = parseFloat(Math.sqrt(((-velocity[0])**2) + (Math.abs(velocity[1])**2))).toFixed(3);
+  if (userAngle !== -1){
+   var horizPortion = (1 - (userAngle/90)) * 2;
+    var vertPortion = 2 - horizPortion; 
+    ball.setLinearVelocity(new THREE.Vector3(-horizPortion * velocity, vertPortion * velocity, 0));  
+  }
+  else ball.setLinearVelocity(new THREE.Vector3(-velocity, velocity, 0));
   delayedTrackerMatches.flag = false;
   user.trackFlag = false;
   delayedTrackerMatches.counter = 0;
