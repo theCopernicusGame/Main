@@ -20,8 +20,8 @@ var handleCollision = function( collided_with, linearVelocity, angularVelocity )
     }
   };
 
-var moonNormal  = textureLoader.load('assets/finalMoonPics/normal.jpg');
-var moonMap = textureLoader.load('assets/finalMoonPics/moonPic.jpg');
+var moonNormal  = textureLoader.load('/assets/finalMoonPics/normal.jpg');
+var moonMap = textureLoader.load('/assets/finalMoonPics/moonPic.jpg');
 var ballTexture = new THREE.MeshPhongMaterial({ map: moonMap, normalMap: moonNormal });//TEST RED BALL FOR LOAD TIME
 var ballTexture2 = new THREE.MeshPhongMaterial( { color: 0xFF0000} );
 

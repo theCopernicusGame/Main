@@ -11,7 +11,6 @@ var signalingArea = document.querySelector("#signalingArea");
 // SIGNAL_ROOM = name of room we test our game in, soon to be programmatic for multiple rooms/users
 // iceServers connects to development server hosted by Google, negotiates NAT/firewalls
 // iceServers (STUN or TURN) technically not required in dev environment
-var SIGNAL_ROOM = "signaling";
 var configuration = {
     'iceServers': [{
         'url': 'stun:stun.l.google.com:19302'
@@ -28,6 +27,9 @@ var dataChannelOptions = {
     maxRetransmitTime: 1000, //milliseconds
 };
 
+var keyIndex = window.location.href.indexOf('game/') + 5;
+var SIGNAL_ROOM = window.location.href.split('').splice(keyIndex).join('');
+
 // P2P information needed for game logic
 var peerFound = false;
 var moved = false;
@@ -39,11 +41,11 @@ displaySignalMessage('Waiting for other player...')
 
 // emits event to server setting up unique room
 // DIRECTIONS, to server.js
-io.emit('ready', {"signal_room": SIGNAL_ROOM});
+io.emit('ready', {"signal_room": SIGNAL_ROOM });
 
 // DIRECTIONS, on setting up unique room
 // sends a first signaling message to anyone in room listening
-io.emit('signal',{"type":"user_here", "message":"Let's play the CopernicusGame!", "room":SIGNAL_ROOM});
+io.emit('signal',{ "type": "user_here", "message": "Let's play the CopernicusGame!", "room": SIGNAL_ROOM });
 
 io.on('signaling_message', function(data) {
     if (data.type === "user_here") displaySignalMessage('Player 2 is joining...');
@@ -158,7 +160,7 @@ function transitionGameMessages() {
 
 // necessary here
 function addGameLogic() {
-  $('#spotlight').append( `<script id=` + `"gamescript"` + `type=` + `"text/javascript"` + ` src=` + `"./public/gameLogic.js"` + `></script>` );
+  $('#spotlight').append( `<script id=` + `"gamescript"` + `type=` + `"text/javascript"` + ` src=` + `"/public/gameLogic.js"` + `></script>` );
 }
 
 setTimeout(addGameLogic, 2000);
