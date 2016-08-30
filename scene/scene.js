@@ -23,7 +23,7 @@ window.addEventListener( 'resize', onWindowResize, false );
 var camera, renderer, mesh;
 var keyboard = {};
 scene = new Physijs.Scene;
-scene.setGravity(new THREE.Vector3( 0, -20, 0 ));
+scene.setGravity(new THREE.Vector3( 0, user.changeGravityValue, 0 ));
 scene.addEventListener(
   'update',
   function() {
@@ -142,6 +142,7 @@ function render() {
   cloudMesh.rotation.y -= parameters.cRotateY;
 
   // continue send condition
+
   if (moved === true && user.myTurn === true) {
     var xPos = -7 + (5 - ball.position.x);
     var yPos = ball.position.y;
@@ -168,12 +169,12 @@ function render() {
   //user changed gravity
   if (user.changeGravityFlag === true){
     scene.setGravity(new THREE.Vector3( 0, user.changeGravityValue, 0 ));
-    if (gravityCounter === 0){
-      setTimeout(function(){
-        console.log('gravityChange done', user.changeGravityValue);
-        user.changeGravityFlag = false}, 10000);
-      gravityCounter++;
-    }
+    // if (gravityCounter === 0){
+    //   setTimeout(function(){
+    //     console.log('gravityChange done', user.changeGravityValue);
+    //     user.changeGravityFlag = false}, 10000);
+    //   gravityCounter++;
+    // }
   }
 
   // start sending condition, sets projectile motion, testing purposes only
@@ -232,7 +233,9 @@ function sendPosition(x, y, z, xr, yr, zr) {
 
 function determineVelocity(trackerCount, angle) {
   const trackerToVelocityMult = 270;
-  userVelocity = (1/trackerCount) * (1/user.currentSetMass) * trackerToVelocityMult;
+
+  userVelocity = (1/trackerCount) * (1/user.setMass) * trackerToVelocityMult;
+
   v0 = parseFloat(userVelocity).toFixed(3);
   var radians = angle * (Math.PI/180);
   var vertV = userVelocity * Math.sin(radians);
@@ -240,13 +243,12 @@ function determineVelocity(trackerCount, angle) {
   return [horizV, vertV];
 }
 
-function sendProjectile() {
+function sendProjectile(trackerCount) {
   var velocity = determineVelocity(trackerCount, userAngle);
   t = performance.now();
   ball.setLinearVelocity(new THREE.Vector3(velocity[0], velocity[1], 0));
   v0 = parseFloat(userVelocity).toFixed(3);
-
-  delayedTrackerMatches.flag = false;
+  delayedTrackerMatches.trackFlag = false;
   user.trackFlag = false;
   delayedTrackerMatches.counter = 0;
   moved = true;
