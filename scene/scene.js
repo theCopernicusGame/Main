@@ -1,4 +1,4 @@
-Physijs.scripts.worker = 'lib/physijs_worker.js'; //webworker used to minimize latency re phys.js
+Physijs.scripts.worker = '/lib/physijs_worker.js'; //webworker used to minimize latency re phys.js
 Physijs.scripts.ammo = 'ammo.js';
 
 // in case window changes
@@ -21,7 +21,6 @@ var camera, renderer, mesh;
 var keyboard = {};
 scene = new Physijs.Scene;
 scene.setGravity(new THREE.Vector3( 0, -20, 0 ));
-console.log('scene', scene.setGravity);
 scene.addEventListener(
   'update',
   function() {
@@ -75,7 +74,7 @@ scene.add(cap5);
 scene.add(cap6);
 
 // add astronaut
-objLoader.load( 'assets/astronaut/player2_body.obj', function ( object ) {
+objLoader.load( '/assets/astronaut/player2_body.obj', function ( object ) {
   object.traverse( function ( child ) {
        if ( child instanceof THREE.Mesh ) {
         child.material.map = imageMap;
@@ -88,7 +87,7 @@ objLoader.load( 'assets/astronaut/player2_body.obj', function ( object ) {
 });
 
 // add hand
-objLoader.load( 'assets/astronaut/player1_hand.obj', function ( object ) {
+objLoader.load( '/assets/astronaut/player1_hand.obj', function ( object ) {
   object.traverse( function ( child ) {
        if ( child instanceof THREE.Mesh ) {
         child.material.map = imageMap;
@@ -104,12 +103,12 @@ objLoader.load( 'assets/astronaut/player1_hand.obj', function ( object ) {
 // add moon floor
 var floorImage = new THREE.Texture();
 
-imgLoader.load('assets/finalMoonPics/Larissa-Texture.png', function(img) {
+imgLoader.load('/assets/finalMoonPics/Larissa-Texture.png', function(img) {
   floorImage.image = img;
   floorImage.needsUpdate = true;
 });
 
-objLoader.load( 'assets/finalMoonPics/moon_floor.obj', function ( object ) {
+objLoader.load( '/assets/finalMoonPics/moon_floor.obj', function ( object ) {
   object.traverse( function ( child ) {
        if ( child instanceof THREE.Mesh ) {
         child.material.map = floorImage;

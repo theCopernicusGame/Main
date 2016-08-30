@@ -1,9 +1,6 @@
 $(function() {
 
     $('#start-scan').click(function() {
-            console.log('clicked to take pic of hand');
-
-
 
         var infoP = $('<p id="hand-info">Place hand over circle to correctly scan pixelation.</p>');
         var allowWebcam = $('#allow-webcam');
