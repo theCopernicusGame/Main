@@ -17,8 +17,9 @@ user.myTurn = chooseUser()[1];
 user.pointFlag = true;
 user.trackFlag = false;
 user.points = 0;
+user.currentSetMass = 1;
 user.otherPoints = 0;
-user.spaceBarFlag = true; 
+user.spaceBarFlag = true;
 user.changeGravityValue = 1.6;
 user.changeGravityFlag = false;
 

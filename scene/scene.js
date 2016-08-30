@@ -4,8 +4,8 @@ Physijs.scripts.ammo = 'ammo.js';
 // in case window changes
 
 
-//to collect possible user change in angle; 
-var userAngle = 45, userVelocity, userGravity, spaceScene, gravityCounter = 0; 
+//to collect possible user change in angle;
+var userAngle = 45, userVelocity, userGravity, spaceScene, gravityCounter = 0;
 
 //to collect possible user change in angle;
 
@@ -65,7 +65,7 @@ addBall = function() {
     scene.add( ball2 );
   }
 }
-addBall(); 
+addBall();
 
 //add target
 scene.add(target);
@@ -132,7 +132,7 @@ function render() {
   //console.log(ball._physijs.mass);
   // run physics
   scene.simulate();
- 
+
 
   earth.rotation.x += parameters.rotateX;
   earth.rotation.y -= parameters.rotateY;
@@ -170,9 +170,9 @@ function render() {
     scene.setGravity(new THREE.Vector3( 0, user.changeGravityValue, 0 ));
     if (gravityCounter === 0){
       setTimeout(function(){
-        console.log('gravityChange done', user.changeGravityValue); 
-        user.changeGravityFlag = false}, 10000); 
-      gravityCounter++; 
+        console.log('gravityChange done', user.changeGravityValue);
+        user.changeGravityFlag = false}, 10000);
+      gravityCounter++;
     }
   }
 
@@ -232,7 +232,7 @@ function sendPosition(x, y, z, xr, yr, zr) {
 
 function determineVelocity(trackerCount, angle) {
   const trackerToVelocityMult = 270;
-  userVelocity = (1/trackerCount) * (1/ball._physijs.mass) * trackerToVelocityMult;
+  userVelocity = (1/trackerCount) * (1/user.currentSetMass) * trackerToVelocityMult;
   v0 = parseFloat(userVelocity).toFixed(3);
   var radians = angle * (Math.PI/180);
   var vertV = userVelocity * Math.sin(radians);
@@ -257,4 +257,3 @@ function sendProjectile() {
   sendPosition((-7 + (5 - ball.position.x)), ball.position.y, ball.position.z, ball.rotation.x, ball.rotation.y, ball.rotation.z);
   demo.clear();
 }
-
