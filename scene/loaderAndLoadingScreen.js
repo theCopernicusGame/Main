@@ -12,7 +12,7 @@ imgManager.onLoad = function() {
 }
 
 imgManager.onError = function() {
-  console.log('LOADING ERROR, YOU STUPID MOTHERFUCKER.')
+  console.log('LOADING ERROR.')
 }
 
 objManager.onProgress = function ( item, loaded, total ) {
@@ -25,11 +25,12 @@ objManager.onLoad = function() {
 }
 
 objManager.onError = function() {
-  console.log('LOADING ERROR, YOU STUPID MOTHERFUCKER.')
+  console.log('LOADING ERROR.')
 }
 
 var imgLoader = new THREE.ImageLoader(imgManager);
 var objLoader = new THREE.OBJLoader(objManager);
+var textureLoader = new THREE.TextureLoader();
 
 $(document).ready(function () {
   if ($('.loading-container').length) {

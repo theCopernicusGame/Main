@@ -17,12 +17,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // currently test page url, to be home page url
+// get req.params for specific room url
 app.get('/', function(req, res){
-    res.sendfile('views/index.html');
+    res.sendfile('views/galaxy.html');
 });
 
-app.get('/galaxy', function(req, res){
-    res.sendfile('views/galaxy.html');
+app.get('/game', function(req, res){
+    res.sendfile('views/index.html');
 });
 
 app.listen(process.env.PORT || 3001, function(){

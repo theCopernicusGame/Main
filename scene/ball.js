@@ -1,20 +1,21 @@
 'use strict';
 
-// work on collision logic
+// make collision logic more or less specific? need more on target radius
 
 var textureLoader = new THREE.TextureLoader();
 var ballGeometry = new THREE.SphereGeometry(.3, 28.8, 14.4);
 var handleCollision = function( collided_with, linearVelocity, angularVelocity ) {
   switch ( ++this.collisions ) {
-    case 3:
+    case 2:
       if ( user.pointFlag === true && ((this.position.x - target.position.x) > -2) && ((this.position.x - target.position.x) < 2)  && ((this.position.z - target.position.z) < 2)  && ((this.position.z - target.position.z) < 2) ){
         endTurnAndUpdate(2);
       }
-      else if ( user.pointFlag === true && ((this.position.x - target.position.x) > -3.5) && ((this.position.x - target.position.x) < 3.5)  && ((this.position.z - target.position.z) < 3.5)  && ((this.position.z - target.position.z) < 3.5) ){
+      //CHANGED FOR TESTING PURPOSES - POINT ASSIGNMENTS TBD
+      else if ( user.pointFlag === true && ((this.position.x - target.position.x) > -4.5) && ((this.position.x - target.position.x) < 4.5)  && ((this.position.z - target.position.z) < 4.5)  && ((this.position.z - target.position.z) < 4.5) ){
         endTurnAndUpdate(1);
       }
       else {
-        endTurnAndUpdate(1);
+        endTurnAndUpdate(0);
       }
     }
   };

@@ -2,6 +2,8 @@
   <head>
     <meta charset="UTF-8">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="shortcut icon" href="">
 
   <!-- BOOTSTRAP FOR RESPONSIVE DIVS -->
   <!-- Latest compiled and minified CSS -->
@@ -40,29 +42,56 @@
       <img  id="transparent-circle" src="assets/transparentCircle.png">
     </div>
     <div id="allow-webcam">
-      <button id="start-scan">Click to Scan Hand</button>
+      <button class='newGame' id="start-scan">Click to Scan Hand</button>
     </div>
-    <div class = "loading-container">
+    <div class="loading-container">
       <div id="container">
 
         <div id='bg'>
           <div id="infoPanel">
             <video id="myVideo" width="160px" height:"120px" preload autoplay loop muted></video>
 
+            <canvas id="canvas" style="width:160px; height:120px"></canvas>
+           <!-- CANVAS FOR TAKING PICTURE -->
+            <canvas id="picture" style="width:80.5px; height:60.38px"></canvas>
+            <canvas id="test" style="width:160px; height:120px"></canvas>
+
             <div id="heightArea">Height: </div>
             <div id="distArea">Distance: </div>
           </div>
           <div id="signalingArea"></div>
-         <button id='throwBall'></button>
+          <button id='throwBall'></button>
           <div id='pointsDiv'>Player 1 Points: <span id='p1Points'>0</span><br>Player 2 Points: <span id='p2Points'>0</span></div>
-        </div>
+          <div id="line-graph">
+            <div id="v0Div">Initial Velocity: -</div>
+            <div id="tDiv">Time: -</div>
+          </div>
 
-    </div>
+          <div id='change'>
+            <input id='inputAngle' type="number" name="angle" min="0" max="90" value="45">
+            <p>Angle</p>
+            <br>
+            <input id='inputMass' type="number" name="mass" min="2" max="90" placeholder=".3kg">
+            <p>Mass</p>
+            <br>
+            <input id='inputGravity' type="number" name="gravity" min="1" max="90" placeholder="1.6">
+            <p>Gravity</p>
+          </div>
+
+
+        </div> <!-- closes bg -->
+      </div> <!-- closes container -->
+
+    </div> <!-- closes loading-container -->
 
     <script type="text/javascript" src="/public/dataChannel.js"></script>
+    <script type="text/javascript" src="/public/changeItems.js"></script>
+    <script type="text/javascript" src="/public/graphMotion.js"></script>
     <script type="text/javascript" src="/scene/loaderAndLoadingScreen.js"></script>
+
     <!-- LEAVE HERE, THIS MUST COME AFTER GAME LOGIC APPENDED (WHICH IS APPENDED TO SPOTLIGHT LINE 48, TRIED TO MODULARIZE AND THREW ERROR: NO USER YET -->
    <!--  <script type="text/javascript" src="trackingJSColors.js"></script> -->
+
     <script type="text/javascript" src="/scene/ball.js"></script>
     <script type="text/javascript" src="/public/tracker.js"></script>
     <script type="text/javascript" src="/scene/target.js"></script>
@@ -71,7 +100,9 @@
     <script type="text/javascript" src="/scene/astronaut.js"></script>
     <script id="spotlight" type="text/javascript" src="/scene/spotlight.js"></script>
 
+
     <!-- LEAVE HERE, THIS MUST COME AFTER GAME LOGIC APPENDED (WHICH IS APPENDED TO SPOTLIGHT LINE 48, TRIED TO MODULARIZE AND THREW ERROR: NO USER YET -->
+
   </body>
 
 </html>
