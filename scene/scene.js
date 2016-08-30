@@ -3,8 +3,8 @@ Physijs.scripts.ammo = 'ammo.js';
 
 // in case window changes
 
-//to collect possible user change in angle; 
-var userAngle = -1, userVelocity, userGravity; 
+//to collect possible user change in angle;
+var userAngle = 45, userVelocity, userGravity;
 
 function onWindowResize() {
    camera.aspect = window.innerWidth / window.innerHeight;
@@ -19,7 +19,7 @@ var camera, renderer, mesh;
 var keyboard = {};
 scene = new Physijs.Scene;
 scene.setGravity(new THREE.Vector3( 0, -20, 0 ));
-console.log('scene', scene.setGravity); 
+console.log('scene', scene.setGravity);
 scene.addEventListener(
   'update',
   function() {
@@ -160,29 +160,19 @@ function render() {
     ball2.rotation.z = -(message.rotation[2]);
   }
 
-  //user Changed gravity 
+  //user Changed gravity
   if (user.changeGravityFlag === true){
-    user.changeGravityFlag = false; 
-    console.log('in changeGravity', user.changeGravityValue, user.changeGravityFlag); 
+    user.changeGravityFlag = false;
+    console.log('in changeGravity', user.changeGravityValue, user.changeGravityFlag);
     scene.setGravity(new THREE.Vector3( 0, user.changeGravityValue, 0 ));
   }
 
   // start sending condition, sets projectile motion, testing purposes only
   if (keyboard[32] && user.spaceBarFlag === true){
-    user.spaceBarFlag = false; 
-    var vY = 10.5;
-    var velocity = 10.5; 
+    user.spaceBarFlag = false;
     t = performance.now();
-    var vX = -10.5;
-    if (userAngle !== -1) {
-      var horizPortion = (1 - (userAngle/90)) * 2;
-      var vertPortion = 2 - horizPortion;  
-      ball.setLinearVelocity(new THREE.Vector3(-horizPortion * velocity, vertPortion * velocity, 0));
-    } else {
-    if (vY > 25) vY = 25; 
-    ball.setLinearVelocity(new THREE.Vector3(vX, Math.abs(vY), 0));
-    }
-    v0 = parseFloat(Math.sqrt(((vX)**2) + ((vY)**2))).toFixed(3);
+    var velocity = determineVelocity(18, userAngle);
+    ball.setLinearVelocity(new THREE.Vector3(velocity[0], velocity[1], 0));
     delayedTrackerMatches.flag = false;
     user.trackFlag = false;
     delayedTrackerMatches.counter = 0;
@@ -230,41 +220,21 @@ function sendPosition(x, y, z, xr, yr, zr) {
 /* current velocity tiers:
 2-12, 12-21, 21-70, 70-200
 */
-function determineAngle(userVelocity){
-//FORMULA for getting vertVel: a/sinA = c/sinC || a = sinA(c/sinC)
-//a = vertVel, A = userAngle, c = horizVelocity, C = 180 - (userAngle + 90)
-
-  vertV = Math.sin(userAngle)*(userVelocity/(Math.sin(90))); 
-  console.log('vertV', Math.abs(vertV), 'totalV', userVelocity); 
-  return vertV;   
-}
-
-function determineVelocity(trackerCount) {
+function determineVelocity(trackerCount, angle) {
   const trackerToVelocityMult = 270;
   userVelocity = (1/trackerCount) * trackerToVelocityMult;
-  // console.log('hor', userVelocity); 
-  // vertVelocity = userVelocity; 
-  // if (userAngle !== -1){
-  //  var horizPortion = (1 - (userAngle/90)) * 2;
-  //   var vertPortion = 2 - horizPortion;  
-  //   ball.setLinearVelocity(new THREE.Vector3(-horizPortion * velocity, vertPortion * velocity, 0)); 
-  // }
-  // if (vertVelocity > 25) vertVelocity = 25; 
-  // var velocityArr = [userVelocity, vertVelocity]; 
-  return userVelocity;
+  v0 = parseFloat(userVelocity).toFixed(3);
+  var radians = angle * (Math.PI/180);
+  var vertV = userVelocity * Math.sin(radians);
+  var horizV = -(userVelocity * Math.cos(radians));
+  return [horizV, vertV];
 }
 
-function sendProjectile(trackerCount) {
-  var velocity = determineVelocity(trackerCount);
-  console.log('vel in sendProjectile', velocity); 
+function sendProjectile() {
+  var velocity = determineVelocity(trackerCount, userAngle);
   t = performance.now();
-  v0 = parseFloat(Math.sqrt(((-velocity[0])**2) + (Math.abs(velocity[1])**2))).toFixed(3);
-  if (userAngle !== -1){
-   var horizPortion = (1 - (userAngle/90)) * 2;
-    var vertPortion = 2 - horizPortion; 
-    ball.setLinearVelocity(new THREE.Vector3(-horizPortion * velocity, vertPortion * velocity, 0));  
-  }
-  else ball.setLinearVelocity(new THREE.Vector3(-velocity, velocity, 0));
+  ball.setLinearVelocity(new THREE.Vector3(velocity[0], velocity[1], 0));
+  v0 = parseFloat(userVelocity).toFixed(3);
   delayedTrackerMatches.flag = false;
   user.trackFlag = false;
   delayedTrackerMatches.counter = 0;
