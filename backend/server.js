@@ -5,12 +5,6 @@
 // express.io integrates socket.io with express
 // body/cookieParser for client keys as unique links/rooms
 var fs = require('fs');
-// var options = {
-//   key: fs.readFileSync('./cert/copernicus.pem'),
-//   cert: fs.readFileSync('./cert/2_www.thecopernicusgame.com.crt'),
-//   ca: fs.readFileSync('./cert/1_Intermediate.crt'),
-//   passphrase: 'copernicus'
-// };
 
 var express = require('express.io');
 var app = express();

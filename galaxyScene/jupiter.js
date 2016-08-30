@@ -4,7 +4,6 @@
     jupiterOrbitSpeed = 0.05;
 
     jupiterAndGanymede = new THREE.Object3D();
-    // jupiterAndGanymede.rotation.z = 23.439281 * Math.PI / 180;
     jupiterAndGanymede.receiveShadow = true;
 
     ganymedeOrbitRadius = 32,
