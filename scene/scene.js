@@ -21,7 +21,6 @@ var camera, renderer, mesh;
 var keyboard = {};
 scene = new Physijs.Scene;
 scene.setGravity(new THREE.Vector3( 0, -20, 0 ));
-console.log('scene', scene.setGravity);
 scene.addEventListener(
   'update',
   function() {
