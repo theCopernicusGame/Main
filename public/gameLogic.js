@@ -20,13 +20,17 @@ function setUser() {
   user.points = 0;
   user.otherPoints = 0;
   user.spaceBarFlag = true;
-  user.changeGravityValue = 1.6 * -12.5; //Moon gravity times multiplier for physijs Y coordinate
+  user.changeGravityValue = -1.6; //Moon gravity times multiplier for physijs Y coordinate
   user.changeGravityFlag = false;
   user.setMass = 1;
   user.checkMatches = 0;  
+  user.turnNumber = 1;
+  user.usedSpaceBar = false;  
 }
 
 setUser();
+
+if (singleplayer === true) $('#pointsDivOnePlayer').css('opacity', '1' );
 
 if (user.player === "user_2") displaySignalMessage("You've joined Player 1!");
 
@@ -37,6 +41,7 @@ function endTurnAndUpdate(points) {
   user.pointFlag = false;
   t = parseFloat((performance.now() - t)/1000).toFixed(3);
   graphMotion();
+  if (singleplayer === true) $('#p1OnlyPoints').text(user.points);
   if (user.player === "user_1") $('#p1Points').text(user.points);
   else $('#p2Points').text(user.points);
   if (singleplayer === false) dataChannel.send(JSON.stringify({ 'points': points }));
