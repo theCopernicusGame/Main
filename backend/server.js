@@ -21,12 +21,11 @@ app.use(express.static(path.join(__dirname + '/../')));
 
 // supposed to redirect to secure https but this doesn't work,
 // I think the load balancer has to do the redirection
-function toSecure(req, res, next) {
-  if (req.secure === false) {
+app.use(function(req, res, next) {
+  if (req.headers['x-forwarded-proto'] === 'http') {
     res.redirect("https://" + req.headers.host + req.url);
-  }
-  next();
-}
+  } else next();
+});
 
 // currently test page url, to be home page url
 // get req.params for specific room url
@@ -43,7 +42,7 @@ app.get('/game/*', function(req, res) {
 });
 
 app.listen(process.env.PORT || 3001, function(){
-  console.log('You listenin on port 3001');
+  console.log("You're listening on port", process.env.PORT || 3001 + ".");
 });
 
 // DIRECTIONS, to dataChannel.js
