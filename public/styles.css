@@ -29,7 +29,7 @@ body {
   width: 35%;
   display: block;
  }
- 
+
 input {
   float: right;
   margin-left: 2%;
@@ -300,5 +300,11 @@ margin-left: 6.5%;
   width: 140px;
   font-size: 16px;
   margin: 0;
+  padding: 0;
+}
+
+#current-gravity {
+  display: inline-block;
+  margin-left: 5px;
   padding: 0;
 }

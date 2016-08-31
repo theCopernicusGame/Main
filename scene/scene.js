@@ -77,7 +77,7 @@ scene.add(cap5);
 scene.add(cap6);
 
 // add astronaut
-objLoader.load( 'assets/astronaut/player2_body.obj', function ( object ) {
+objLoader.load( 'assets/astronaut/Astronaut.obj', function ( object ) {
   object.traverse( function ( child ) {
        if ( child instanceof THREE.Mesh ) {
         child.material.map = imageMap;
@@ -86,6 +86,9 @@ objLoader.load( 'assets/astronaut/player2_body.obj', function ( object ) {
         child.castShadow = true;
       }
     });
+
+  object.position.x = -9.8;
+  object.rotation.y = 64.4;
   scene.add(object);
 });
 
@@ -106,15 +109,25 @@ objLoader.load( 'assets/astronaut/player1_hand.obj', function ( object ) {
 // add moon floor
 var floorImage = new THREE.Texture();
 
-imgLoader.load('assets/finalMoonPics/Larissa-Texture.png', function(img) {
+var floorMap = new THREE.Texture();
+imgLoader.load('assets/finalMoonPics/moonTexture.png', function(img) {
   floorImage.image = img;
+  floorImage.image.wrapS = THREE.RepeatWrapping;
+  floorImage.image.wrapT = THREE.RepeatWrapping;
   floorImage.needsUpdate = true;
+});
+
+
+imgLoader.load('assets/finalMoonPics/moonNormals.jpeg', function(img) {
+  floorMap.image = img;
+  floorMap.needsUpdate = true;
 });
 
 objLoader.load( 'assets/finalMoonPics/moon_floor.obj', function ( object ) {
   object.traverse( function ( child ) {
        if ( child instanceof THREE.Mesh ) {
         child.material.map = floorImage;
+        child.material.normalMap = floorMap;
         child.receiveShadow = true;
       }
     });
@@ -168,13 +181,8 @@ function render() {
 
   //user changed gravity
   if (user.changeGravityFlag === true){
+    console.log(user.changeGravityValue);
     scene.setGravity(new THREE.Vector3( 0, user.changeGravityValue, 0 ));
-    // if (gravityCounter === 0){
-    //   setTimeout(function(){
-    //     console.log('gravityChange done', user.changeGravityValue);
-    //     user.changeGravityFlag = false}, 10000);
-    //   gravityCounter++;
-    // }
   }
 
   // start sending condition, sets projectile motion, testing purposes only
@@ -232,7 +240,7 @@ function sendPosition(x, y, z, xr, yr, zr) {
 */
 
 function determineVelocity(trackerCount, angle) {
-  const trackerToVelocityMult = 270;
+  const trackerToVelocityMult = 80.6;
 
   userVelocity = (1/trackerCount) * (1/user.setMass) * trackerToVelocityMult;
 

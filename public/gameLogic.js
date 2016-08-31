@@ -19,9 +19,9 @@ user.trackFlag = false;
 user.points = 0;
 user.currentSetMass = 1;
 user.otherPoints = 0;
-
+user.newGravity;
 user.spaceBarFlag = true;
-user.changeGravityValue = 1.6 * -12.5; //Moon gravity times multiplier for physijs Y coordinate
+user.changeGravityValue = -1.6; //Moon gravity times multiplier for physijs Y coordinate
 
 user.changeGravityFlag = false;
 user.setMass = 1;
@@ -38,7 +38,11 @@ function endTurnAndUpdate(points) {
   graphMotion();
   if (user.player === "user_1") $('#p1Points').text(user.points);
   else $('#p2Points').text(user.points);
-  dataChannel.send(JSON.stringify({ 'points': points }));
+
+  setTimeout(function() {
+    var displayGravity = $('#current-gravity').html();
+    dataChannel.send(JSON.stringify({ 'points': points, 'gravityToProcess': user.changeGravityValue, 'gravityToDisplay': displayGravity }));
+  }, 500);
   setTimeout(function() {
     moved = false;
     dataChannel.send(JSON.stringify({ 'moved': moved }));
@@ -88,3 +92,34 @@ function addScene() {
 }
 
 setTimeout(addScene, 2000);
+
+//when user hits target call this and -send through dataChannel.
+function randomizeAndDisplayGravity() {
+    //from -1.6 to 9.8
+    var randomNum = Math.random() * 11.4 - 1.6;
+    var result = "";
+    randomNum = randomNum.toString().split('.');
+    result += randomNum[0];
+    result += '.';
+    result += randomNum[1][0];
+
+    //update the gravity div;
+    updateGravityDiv(result);
+
+    //return the converted gravity example: 9.8earth should be -12 in physijs;
+    return convertGravity(Number(result));
+}
+
+//call this to convert gravities above 0;
+function convertGravity(num) {
+  var correctGravity = num;
+  if (num > 0) {
+    correctGravity = Math.round(num * -1.2);
+  }
+  user.changeGravityFlag = true;
+  user.changeGravityValue = correctGravity;
+}
+
+function updateGravityDiv(newVal) {
+  $('#current-gravity').html(newVal);
+}

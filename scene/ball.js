@@ -9,6 +9,7 @@ var handleCollision = function( collided_with, linearVelocity, angularVelocity )
     case 2:
       if ( user.pointFlag === true && ((this.position.x - target.position.x) > -2) && ((this.position.x - target.position.x) < 2)  && ((this.position.z - target.position.z) < 2)  && ((this.position.z - target.position.z) < 2) ){
         endTurnAndUpdate(2);
+        randomizeAndDisplayGravity();
       }
       //CHANGED FOR TESTING PURPOSES - POINT ASSIGNMENTS TBD
       else if ( user.pointFlag === true && ((this.position.x - target.position.x) > -4.5) && ((this.position.x - target.position.x) < 4.5)  && ((this.position.z - target.position.z) < 4.5)  && ((this.position.z - target.position.z) < 4.5) ){
