@@ -235,6 +235,7 @@ function sendPosition(x, y, z, xr, yr, zr) {
 function determineVelocity(trackerCount, angle) {
   const trackerToVelocityMult = 270;
   userVelocity = (1/trackerCount) * (1/user.setMass) * trackerToVelocityMult;
+  console.log('userVelocity', userVelocity); 
   v0 = parseFloat(userVelocity).toFixed(3);
   var radians = angle * (Math.PI/180);
   var vertV = userVelocity * Math.sin(radians);
@@ -245,6 +246,7 @@ function determineVelocity(trackerCount, angle) {
 function sendProjectile(trackerCount) {
   var velocity = determineVelocity(trackerCount, userAngle);
   t = performance.now();
+  //console.log('velocity', velocity); 
   ball.setLinearVelocity(new THREE.Vector3(velocity[0], velocity[1], 0));
   v0 = parseFloat(userVelocity).toFixed(3);
   delayedTrackerMatches.trackFlag = false;

@@ -1,3 +1,4 @@
+console.log('in gScene'); 
 var renderer, scene, camera;
     theSun,
     theEarthAndMoon,
@@ -148,7 +149,7 @@ function render() {
 
    Saturn.position.x = Math.cos(saturnRadians) * saturnOrbitRadius * 1.3;
   Saturn.position.z = Math.sin(saturnRadians) * saturnOrbitRadius * 1.3;
-  Saturn.rotation.y -= .01;
+   Saturn.rotation.y -= .002;
 
   theSun.rotation.z += .001;
   theSun.rotation.y -= .005;

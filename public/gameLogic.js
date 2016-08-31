@@ -22,6 +22,8 @@ function setUser() {
   user.spaceBarFlag = true;
   user.changeGravityValue = 1.6 * -12.5; //Moon gravity times multiplier for physijs Y coordinate
   user.changeGravityFlag = false;
+  user.setMass = 1;
+  user.checkMatches = 0;  
 }
 
 setUser();
@@ -51,16 +53,19 @@ function endTurnAndUpdate(points) {
     turnEnded = false;
     if (user.points > 5) endGame(user.player, user.points);
     addBall();
+    if (singleplayer === true) user.checkMatches = 0;  
   }, 2000)
 }
 
-function updateAndStartTurn() {
+function updateAndStartTurn() { 
   user.myTurn = received.turn;
+  user.checkMatches = 0;
   if (user.myTurn === true) $('#throwBall').animate({ opacity: 0 });
   scene.remove(ball2);
   addBall();
   user.pointFlag = true;
   user.spaceBarFlag = true;
+   $('#start-tracking').attr("disabled", false);
 }
 
 function updateOtherPoints() {
