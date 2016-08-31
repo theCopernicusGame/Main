@@ -1,5 +1,6 @@
-'use strict'; 
+'use strict';
 var minMaxColors = {}, pixelsNeededIndex = [];
+
 $(function() {
     var infoP = $('<p id="hand-info">Place hand over circle to correctly scan pixelation.</p>');
     var allowWebcam = $('#allow-webcam');
@@ -11,7 +12,6 @@ $(function() {
 
             $('#start-scan').remove();
             $('#start-tracking').css('visibility','visible').fadeOut(1).delay(4000).fadeIn(1500); 
-        
         //show frame over video
         snapContainer.css('display', 'block');
 
@@ -42,7 +42,6 @@ $(function() {
             var arrRed = [];
             var arrGreen = [];
             var arrBlue = [];
-            
 
             for (var i = 0; i < imageData.data.length; i += 4) {
               if (imageData.data[i] > 235) {
@@ -78,7 +77,6 @@ $(function() {
               let greens = average(arrGreen);
               let blues = average(arrBlue);
 
-              
               minMaxColors.lowRed = reds.lowest;
               minMaxColors.maxRed = reds.max;
               minMaxColors.lowGreen = greens.lowest;
@@ -90,13 +88,24 @@ $(function() {
               // demo.checkPicture(imageData)
 
             transparentCircle.css('backgroundColor', 'green');
-            // infoP.text("Tracking starts in 3 seconds!").delay(1000); 
-            // infoP.html("Tracking starts in 2 seconds!").fadeIn(1000); 
+              var text = ["Tracking starts in 3 seconds!", "Tracking starts in 2 seconds!", "Tracking starts in 1 second!"];
+              var wordCounter = 0;
+              var countDown = setInterval(change, 1200);
+              function change() {
+                infoP.fadeOut(1).delay(10).fadeIn(800);
+               infoP.text(text[wordCounter]);
+               // fadeTo(500, 0.4);
+                  wordCounter++;
+                  if(wordCounter >= text.length) {
+                    startTracking();
+                    clearInterval(countDown);
+                  }
+                }
         }, 4000);
       }); 
 
         $('#start-tracking').click(function() {
-
+          $('#start-tracking').attr("disabled", true);
           var text = ["Tracking starts in 3 seconds!", "Tracking starts in 2 seconds!", "Tracking starts in 1 second!"];
           var wordCounter = 0;
           var countDown = setInterval(change, 1200);

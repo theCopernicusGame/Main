@@ -1,14 +1,13 @@
-Physijs.scripts.worker = 'lib/physijs_worker.js'; //webworker used to minimize latency re phys.js
+Physijs.scripts.worker = '/lib/physijs_worker.js'; //webworker used to minimize latency re phys.js
 Physijs.scripts.ammo = 'ammo.js';
 
 // in case window changes
 
 
-//to collect possible user change in angle; 
-var userAngle = 45, userVelocity, userGravity, spaceScene, gravityCounter = 0; 
+//to collect possible user change in angle;
+var userAngle = 45, userVelocity, userGravity, spaceScene, gravityCounter = 0;
 
 //to collect possible user change in angle;
-
 
 
 function onWindowResize() {
@@ -65,7 +64,7 @@ addBall = function() {
     scene.add( ball2 );
   }
 }
-addBall(); 
+addBall();
 
 //add target
 scene.add(target);
@@ -77,7 +76,7 @@ scene.add(cap5);
 scene.add(cap6);
 
 // add astronaut
-objLoader.load( 'assets/astronaut/player2_body.obj', function ( object ) {
+objLoader.load( '/assets/astronaut/player2_body.obj', function ( object ) {
   object.traverse( function ( child ) {
        if ( child instanceof THREE.Mesh ) {
         child.material.map = imageMap;
@@ -90,7 +89,7 @@ objLoader.load( 'assets/astronaut/player2_body.obj', function ( object ) {
 });
 
 // add hand
-objLoader.load( 'assets/astronaut/player1_hand.obj', function ( object ) {
+objLoader.load( '/assets/astronaut/player1_hand.obj', function ( object ) {
   object.traverse( function ( child ) {
        if ( child instanceof THREE.Mesh ) {
         child.material.map = imageMap;
@@ -106,12 +105,12 @@ objLoader.load( 'assets/astronaut/player1_hand.obj', function ( object ) {
 // add moon floor
 var floorImage = new THREE.Texture();
 
-imgLoader.load('assets/finalMoonPics/Larissa-Texture.png', function(img) {
+imgLoader.load('/assets/finalMoonPics/Larissa-Texture.png', function(img) {
   floorImage.image = img;
   floorImage.needsUpdate = true;
 });
 
-objLoader.load( 'assets/finalMoonPics/moon_floor.obj', function ( object ) {
+objLoader.load( '/assets/finalMoonPics/moon_floor.obj', function ( object ) {
   object.traverse( function ( child ) {
        if ( child instanceof THREE.Mesh ) {
         child.material.map = floorImage;
@@ -153,7 +152,9 @@ function render() {
     if (turnEnded === false) {
       storePosition();
     }
-    sendPosition(xPos, yPos, zPos, xRot, yRot, zRot);
+    if (singleplayer === false) {
+      sendPosition(xPos, yPos, zPos, xRot, yRot, zRot);
+    }
     checkForeverFall(); // still a problem with this "cannot read property 'a' of undefined in ammo.js"
   }
 
@@ -170,9 +171,9 @@ function render() {
     scene.setGravity(new THREE.Vector3( 0, user.changeGravityValue, 0 ));
     // if (gravityCounter === 0){
     //   setTimeout(function(){
-    //     console.log('gravityChange done', user.changeGravityValue); 
-    //     user.changeGravityFlag = false}, 10000); 
-    //   gravityCounter++; 
+    //     console.log('gravityChange done', user.changeGravityValue);
+    //     user.changeGravityFlag = false}, 10000);
+    //   gravityCounter++;
     // }
   }
 
@@ -190,8 +191,10 @@ function render() {
       storePosition();
     }
     user.trackFlag = false;
-    dataChannel.send(JSON.stringify({ 'moved': moved }));
-    sendPosition((-7 + (5 - ball.position.x)), ball.position.y, ball.position.z, ball.rotation.x, ball.rotation.y, ball.rotation.z);
+    if (singleplayer === false) {
+      dataChannel.send(JSON.stringify({ 'moved': moved }));
+      sendPosition((-7 + (5 - ball.position.x)), ball.position.y, ball.position.z, ball.rotation.x, ball.rotation.y, ball.rotation.z);
+    }
   }
 
 
@@ -229,7 +232,6 @@ function sendPosition(x, y, z, xr, yr, zr) {
 /* current velocity tiers:
 2-12, 12-21, 21-70, 70-200
 */
-
 function determineVelocity(trackerCount, angle) {
   const trackerToVelocityMult = 270;
   userVelocity = (1/trackerCount) * (1/user.setMass) * trackerToVelocityMult;
@@ -252,8 +254,9 @@ function sendProjectile(trackerCount) {
   if (turnEnded === false) {
     storePosition();
   }
-  dataChannel.send(JSON.stringify({ 'moved': moved }));
-  sendPosition((-7 + (5 - ball.position.x)), ball.position.y, ball.position.z, ball.rotation.x, ball.rotation.y, ball.rotation.z);
+  if (singleplayer === false) {
+    dataChannel.send(JSON.stringify({ 'moved': moved }));
+    sendPosition((-7 + (5 - ball.position.x)), ball.position.y, ball.position.z, ball.rotation.x, ball.rotation.y, ball.rotation.z);
+  }
   demo.clear();
 }
-

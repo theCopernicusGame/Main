@@ -3,6 +3,7 @@
     <meta charset="UTF-8">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 
   <!-- BOOTSTRAP FOR RESPONSIVE DIVS -->
   <!-- Latest compiled and minified CSS -->
@@ -15,30 +16,31 @@
 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>  -->
 <!-- End of Bootstrap -->
 
-    <link rel="stylesheet" type="text/css" href="./public/styles.css">
+    <link rel="stylesheet" type="text/css" href="/public/styles.css">
     <script src="/socket.io/socket.io.js"></script>
-    <script type="text/javascript" src="./lib/three.min.js"></script>
-    <script type="text/javascript" src="./lib/dat.gui.min.js"></script>
-    <script type="text/javascript" src="./lib/OBJLoader.js"></script>
-    <script type="text/javascript" src="./lib/heartcode-canvasloader.js"></script>
-    <script type="text/javascript" src="./lib/physi.js"></script>
-    <script type="text/javascript" src="./lib/tracking-min.js"></script>
-    <script type="text/javascript" src="./lib/cv.js"></script>
-    <script type="text/javascript" src="./public/engageTracking.js"></script>
-    <script type="text/javascript" src="./lib/handTracking.js"></script>
+    <script type="text/javascript" src="/lib/three.min.js"></script>
+    <script type="text/javascript" src="/lib/dat.gui.min.js"></script>
+    <script type="text/javascript" src="/lib/OBJLoader.js"></script>
+    <script type="text/javascript" src="/lib/heartcode-canvasloader.js"></script>
+    <script type="text/javascript" src="/lib/physi.js"></script>
+    <script type="text/javascript" src="/lib/tracking-min.js"></script>
+    <script type="text/javascript" src="/lib/cv.js"></script>
+    <script type="text/javascript" src="/public/engageTracking.js"></script>
+    <script type="text/javascript" src="/lib/handTracking.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
 
     <title>Copernicus</title>
   </head>
   <body>
+    <div id='end'></div>
     <div id="items-to-be-hidden">
-      <img id="whiteCircle" src="assets/circleCanvas.jpg">
+      <img id="whiteCircle" src="/assets/circleCanvas.jpg">
       <canvas id="snapShot" style="width:160px; height:120px"></canvas>
       <canvas id="process-video" style="width:160px; height:120px"></canvas>
       <canvas id="process-image" style="width:160px; height:120px"></canvas>
     </div>
     <div id="take-snapshot">
-      <img  id="transparent-circle" src="assets/transparentCircle.png">
+      <img  id="transparent-circle" src="/assets/transparentCircle.png">
     </div>
     <div id="allow-webcam">
       <button class='newGame' id="start-scan">Click to Scan Hand</button>
@@ -89,10 +91,6 @@
     <script type="text/javascript" src="/public/changeItems.js"></script>
     <script type="text/javascript" src="/public/graphMotion.js"></script>
     <script type="text/javascript" src="/scene/loaderAndLoadingScreen.js"></script>
-
-    <!-- LEAVE HERE, THIS MUST COME AFTER GAME LOGIC APPENDED (WHICH IS APPENDED TO SPOTLIGHT LINE 48, TRIED TO MODULARIZE AND THREW ERROR: NO USER YET -->
-   <!--  <script type="text/javascript" src="trackingJSColors.js"></script> -->
-
     <script type="text/javascript" src="/scene/ball.js"></script>
     <script type="text/javascript" src="/public/tracker.js"></script>
     <script type="text/javascript" src="/scene/target.js"></script>
@@ -100,9 +98,6 @@
     <script type="text/javascript" src="/scene/physicsFloor.js"></script>
     <script type="text/javascript" src="/scene/astronaut.js"></script>
     <script id="spotlight" type="text/javascript" src="/scene/spotlight.js"></script>
-
-
-    <!-- LEAVE HERE, THIS MUST COME AFTER GAME LOGIC APPENDED (WHICH IS APPENDED TO SPOTLIGHT LINE 48, TRIED TO MODULARIZE AND THREW ERROR: NO USER YET -->
 
   </body>
 
