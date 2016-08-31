@@ -5,7 +5,7 @@ Physijs.scripts.ammo = 'ammo.js';
 
 
 //to collect possible user change in angle;
-var userAngle = 45, userVelocity, userGravity, spaceScene, gravityCounter = 0;
+var userAngle = 45, userVelocity, userGravity, spaceScene, gravityCounter = 0, timeSinceThrow;
 
 //to collect possible user change in angle;
 
@@ -246,9 +246,15 @@ function sendPosition(x, y, z, xr, yr, zr) {
 */
 function determineVelocity(trackerCount, angle) {
   const trackerToVelocityMult = 80.6;
-
+  user.newThrow = false; 
+  
   userVelocity = (1/trackerCount) * (1/user.setMass) * trackerToVelocityMult;
-
+  user.turnTimer = setTimeout(function(){
+    if (user.collisions === 0 && user.newThrow === false){
+     console.log('too long!'); 
+     endTurnAndUpdate(0);
+     }  
+  }, 22000); 
   v0 = parseFloat(userVelocity).toFixed(3);
   var radians = angle * (Math.PI/180);
   var vertV = userVelocity * Math.sin(radians);
@@ -274,3 +280,5 @@ function sendProjectile(trackerCount) {
   }
   demo.clear();
 }
+
+ 
