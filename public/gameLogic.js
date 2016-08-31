@@ -13,7 +13,7 @@ function chooseUser() {
 }
 
 
-function setUser() {
+//function setUser() {
   user.player = chooseUser()[0];
   user.myTurn = chooseUser()[1];
   user.pointFlag = true;
@@ -27,9 +27,9 @@ function setUser() {
   user.checkMatches = 0;
   user.turnNumber = 1;
   user.usedSpaceBar = false;
-}
+//}
 
-setUser();
+//setUser();
 
 
 if (singleplayer === true) $('#pointsDivOnePlayer').css('opacity', '1' );
@@ -109,6 +109,7 @@ setTimeout(addScene, 2000);
 
 //when user hits target call this and -send through dataChannel.
 function randomizeAndDisplayGravity() {
+  console.log('random');
     //from -1.6 to 9.8
     var randomNum = Math.random() * 11.4 - 1.6;
     var result = "";
@@ -121,7 +122,7 @@ function randomizeAndDisplayGravity() {
     updateGravityDiv(result);
 
     //return the converted gravity example: 9.8earth should be -12 in physijs;
-    return convertGravity(Number(result));
+    convertGravity(Number(result));
 }
 
 //call this to convert gravities above 0;

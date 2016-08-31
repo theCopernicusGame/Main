@@ -77,7 +77,7 @@ scene.add(cap6);
 
 // add astronaut
 
-objLoader.load( 'assets/astronaut/.obj', function ( object ) {
+objLoader.load( '/assets/astronaut/Astronaut.obj', function ( object ) {
   object.traverse( function ( child ) {
        if ( child instanceof THREE.Mesh ) {
         child.material.map = imageMap;
@@ -110,7 +110,7 @@ objLoader.load( '/assets/astronaut/player1_hand.obj', function ( object ) {
 var floorImage = new THREE.Texture();
 var floorMap = new THREE.Texture();
 
-imgLoader.load('assets/finalMoonPics/moonTexture.png', function(img) {
+imgLoader.load('/assets/finalMoonPics/moonTexture.png', function(img) {
   floorImage.image = img;
   floorImage.image.wrapS = THREE.RepeatWrapping;
   floorImage.image.wrapT = THREE.RepeatWrapping;
@@ -118,12 +118,12 @@ imgLoader.load('assets/finalMoonPics/moonTexture.png', function(img) {
 });
 
 
-imgLoader.load('assets/finalMoonPics/moonNormals.jpeg', function(img) {
+imgLoader.load('/assets/finalMoonPics/moonNormals.jpeg', function(img) {
   floorMap.image = img;
   floorMap.needsUpdate = true;
 });
 
-objLoader.load( 'assets/finalMoonPics/moon_floor.obj', function ( object ) {
+objLoader.load( '/assets/finalMoonPics/moon_floor.obj', function ( object ) {
   object.traverse( function ( child ) {
        if ( child instanceof THREE.Mesh ) {
         child.material.map = floorImage;

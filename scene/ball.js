@@ -10,7 +10,7 @@ var handleCollision = function( collided_with, linearVelocity, angularVelocity )
       case 1:
       console.log('PF', user.pointFlag, 'collisions', this.collisions, 'ball poss', this.position.x, this.position.z, 'target', target.position.x, target.position.z);
         if ( user.pointFlag === true && ((this.position.x - target.position.x) > -2) && ((this.position.x - target.position.x) < 2)  && ((this.position.z - target.position.z) < 2)  && ((this.position.z - target.position.z) < 2) ){
-         endTurnAndUpdate(2);
+          endTurnAndUpdate(2);
         }
         //CHANGED FOR TESTING PURPOSES - POINT ASSIGNMENTS TBD
         else if ( user.pointFlag === true && ((this.position.x - target.position.x) > -4.5) && ((this.position.x - target.position.x) < 4.5)  && ((this.position.z - target.position.z) < 4.5)  && ((this.position.z - target.position.z) < 4.5) ){
@@ -29,7 +29,7 @@ var handleCollision = function( collided_with, linearVelocity, angularVelocity )
       case 3:
      //    console.log('PF', user.pointFlag, 'collisions', this.collisions, 'ball poss', this.position.x, this.position.z, 'target', target.position.x, target.position.z);
         if ( user.pointFlag === true && ((this.position.x - target.position.x) > -2) && ((this.position.x - target.position.x) < 2)  && ((this.position.z - target.position.z) < 2)  && ((this.position.z - target.position.z) < 2) ){
-         endTurnAndUpdate(2);
+          endTurnAndUpdate(2);
         }
         //CHANGED FOR TESTING PURPOSES - POINT ASSIGNMENTS TBD
         else if ( user.pointFlag === true && ((this.position.x - target.position.x) > -4.5) && ((this.position.x - target.position.x) < 4.5)  && ((this.position.z - target.position.z) < 4.5)  && ((this.position.z - target.position.z) < 4.5) ){
@@ -47,6 +47,7 @@ var handleCollision = function( collided_with, linearVelocity, angularVelocity )
       switch ( ++this.collisions ) {
       case 1:
         if ( user.pointFlag === true && ((this.position.x - target.position.x) > -2) && ((this.position.x - target.position.x) < 2)  && ((this.position.z - target.position.z) < 2)  && ((this.position.z - target.position.z) < 2) ){
+
           endTurnAndUpdate(2);
         }
         //CHANGED FOR TESTING PURPOSES - POINT ASSIGNMENTS TBD
@@ -72,6 +73,7 @@ var handleCollision = function( collided_with, linearVelocity, angularVelocity )
       case 2:
       console.log('not turn #1', this.collisions)
         if ( user.pointFlag === true && ((this.position.x - target.position.x) > -2) && ((this.position.x - target.position.x) < 2)  && ((this.position.z - target.position.z) < 2)  && ((this.position.z - target.position.z) < 2) ){
+          randomizeAndDisplayGravity();
           endTurnAndUpdate(2);
         }
         //CHANGED FOR TESTING PURPOSES - POINT ASSIGNMENTS TBD
