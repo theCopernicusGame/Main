@@ -1,6 +1,6 @@
 saturnOrbitRadius = 405,
 saturnOrbitAngle = -165,
-saturnOrbitSpeed = 0.1;
+saturnOrbitSpeed = 0.03;
 
 var saturnGeometry = new THREE.SphereGeometry(15, 28.8, 14); 
 var saturnMap  = textureLoader.load('assets/planetPics/saturnmap.jpg');
@@ -12,8 +12,8 @@ Saturn.rotation.x = Math.PI / .5;
 
 var ringMap  = textureLoader.load('assets/planetPics/saturnringcolor.jpg');
 var ringAlphaMap = textureLoader.load('assets/planetPics/saturnringpattern.gif');
-var Ring = new THREE.Mesh(new THREE.RingGeometry(24.5, 28, 50), new THREE.MeshPhongMaterial({map: ringMap, side: THREE.DoubleSide, alphaMap: ringAlphaMap}));
-Ring.rotation.x = Math.PI / 1.85;
+var Ring = new THREE.Mesh(new THREE.RingGeometry(24.5, 28, 50), new THREE.MeshPhongMaterial({color: 0x334455, side: THREE.DoubleSide}));
+Ring.rotation.x = Math.PI / 1.15;
 
-var iRing = new THREE.Mesh(new THREE.RingGeometry(19, 24, 50), new THREE.MeshPhongMaterial({map: ringMap, side: THREE.DoubleSide, alphaMap: ringAlphaMap}));
-iRing.rotation.x = Math.PI / 1.85;
+var iRing = new THREE.Mesh(new THREE.RingGeometry(19, 24, 50), new THREE.MeshPhongMaterial({color: 0x334455, side: THREE.DoubleSide}));
+iRing.rotation.x = Math.PI / 1.15;
