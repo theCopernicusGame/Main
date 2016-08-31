@@ -157,7 +157,10 @@ function receiveDataChannelMessage(event) {
     } else if (received.turn) {
         updateAndStartTurn();
     } else if (received.points) {
-        updateOtherPoints();
+      user.changeGravityValue = received.gravityToProcess;
+      user.changeGravityFlag = true;
+      updateGravityDiv(received.gravityToDisplay);
+      updateOtherPoints();
     }
 }
 

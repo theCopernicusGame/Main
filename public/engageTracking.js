@@ -11,13 +11,13 @@ $(function() {
             console.log('clicked to take pic of hand');
 
             $('#start-scan').remove();
-            $('#start-tracking').css('visibility','visible').fadeOut(1).delay(4000).fadeIn(1500); 
+            $('#start-tracking').css('visibility','visible').fadeOut(1).delay(4000).fadeIn(1500);
         //show frame over video
         snapContainer.css('display', 'block');
 
         //display info message
         allowWebcam.prepend(infoP);
-        
+
 
                   //capture snapshot of hand && tell user
         setTimeout(function() {
@@ -89,7 +89,7 @@ $(function() {
 
             transparentCircle.css('backgroundColor', 'green');
         }, 4000);
-      }); 
+      });
 
         $('#start-tracking').click(function() {
           if (singleplayer === false) $('#start-tracking').attr("disabled", true);
@@ -98,11 +98,11 @@ $(function() {
           var countDown = setInterval(change, 1200);
           function change() {
             infoP.fadeOut(0).fadeIn(1000);
-            infoP.text(text[wordCounter]); 
+            infoP.text(text[wordCounter]);
             wordCounter++;
-            if(wordCounter >= text.length) { 
-              startTracking(); 
-              clearInterval(countDown);  
+            if(wordCounter >= text.length) {
+              startTracking();
+              clearInterval(countDown);
             }
           }
 

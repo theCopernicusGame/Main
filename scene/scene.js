@@ -76,7 +76,8 @@ scene.add(cap5);
 scene.add(cap6);
 
 // add astronaut
-objLoader.load( '/assets/astronaut/player2_body.obj', function ( object ) {
+
+objLoader.load( '/assets/astronaut/Astronaut.obj', function ( object ) {
   object.traverse( function ( child ) {
        if ( child instanceof THREE.Mesh ) {
         child.material.map = imageMap;
@@ -85,6 +86,9 @@ objLoader.load( '/assets/astronaut/player2_body.obj', function ( object ) {
         child.castShadow = true;
       }
     });
+
+  object.position.x = -9.8;
+  object.rotation.y = 64.4;
   scene.add(object);
 });
 
@@ -104,16 +108,26 @@ objLoader.load( '/assets/astronaut/player1_hand.obj', function ( object ) {
 
 // add moon floor
 var floorImage = new THREE.Texture();
+var floorMap = new THREE.Texture();
 
-imgLoader.load('/assets/finalMoonPics/Larissa-Texture.png', function(img) {
+imgLoader.load('/assets/finalMoonPics/moonTexture.png', function(img) {
   floorImage.image = img;
+  floorImage.image.wrapS = THREE.RepeatWrapping;
+  floorImage.image.wrapT = THREE.RepeatWrapping;
   floorImage.needsUpdate = true;
+});
+
+
+imgLoader.load('/assets/finalMoonPics/moonNormals.jpeg', function(img) {
+  floorMap.image = img;
+  floorMap.needsUpdate = true;
 });
 
 objLoader.load( '/assets/finalMoonPics/moon_floor.obj', function ( object ) {
   object.traverse( function ( child ) {
        if ( child instanceof THREE.Mesh ) {
         child.material.map = floorImage;
+        child.material.normalMap = floorMap;
         child.receiveShadow = true;
       }
     });
@@ -131,6 +145,7 @@ function render() {
   //console.log(ball._physijs.mass);
   // run physics
   scene.simulate();
+
 
   earth.rotation.x += parameters.rotateX;
   earth.rotation.y -= parameters.rotateY;
@@ -168,20 +183,15 @@ function render() {
 
   //user changed gravity
   if (user.changeGravityFlag === true){
+    console.log(user.changeGravityValue);
     scene.setGravity(new THREE.Vector3( 0, user.changeGravityValue, 0 ));
-    // if (gravityCounter === 0){
-    //   setTimeout(function(){
-    //     console.log('gravityChange done', user.changeGravityValue);
-    //     user.changeGravityFlag = false}, 10000);
-    //   gravityCounter++;
-    // }
   }
 
   // start sending condition, sets projectile motion, testing purposes only
   if (keyboard[32] && user.spaceBarFlag === true){
     user.spaceBarFlag = false;
     user.usedSpaceBar = true; //for collision bug where 1st turn use of spacebar immediately gives ball 2 collisions
-    user.pointFlag = true; 
+    user.pointFlag = true;
     t = performance.now();
     var velocity = determineVelocity(18, userAngle);
     ball.setLinearVelocity(new THREE.Vector3(velocity[0], velocity[1], 0));
@@ -236,7 +246,9 @@ function sendPosition(x, y, z, xr, yr, zr) {
 */
 function determineVelocity(trackerCount, angle) {
   const trackerToVelocityMult = 80.6;
+
   userVelocity = (1/trackerCount) * (1/user.setMass) * trackerToVelocityMult;
+
   v0 = parseFloat(userVelocity).toFixed(3);
   var radians = angle * (Math.PI/180);
   var vertV = userVelocity * Math.sin(radians);

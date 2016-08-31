@@ -1,4 +1,4 @@
-'use strict';
+//'use strict';
 // this should apply all game logic before rendering the scene
 
 var user = {};
@@ -12,7 +12,8 @@ function chooseUser() {
   }
 }
 
-function setUser() {
+
+//function setUser() {
   user.player = chooseUser()[0];
   user.myTurn = chooseUser()[1];
   user.pointFlag = true;
@@ -23,12 +24,13 @@ function setUser() {
   user.changeGravityValue = -1.6; //Moon gravity times multiplier for physijs Y coordinate
   user.changeGravityFlag = false;
   user.setMass = 1;
-  user.checkMatches = 0;  
+  user.checkMatches = 0;
   user.turnNumber = 1;
-  user.usedSpaceBar = false;  
-}
+  user.usedSpaceBar = false;
+//}
 
-setUser();
+//setUser();
+
 
 if (singleplayer === true) $('#pointsDivOnePlayer').css('opacity', '1' );
 
@@ -44,7 +46,13 @@ function endTurnAndUpdate(points) {
   if (singleplayer === true) $('#p1OnlyPoints').text(user.points);
   if (user.player === "user_1") $('#p1Points').text(user.points);
   else $('#p2Points').text(user.points);
-  if (singleplayer === false) dataChannel.send(JSON.stringify({ 'points': points }));
+
+  if (singleplayer === false) {
+    setTimeout(function() {
+      var displayGravity = $('#current-gravity').html();
+      dataChannel.send(JSON.stringify({ 'points': points, 'gravityToProcess': user.changeGravityValue, 'gravityToDisplay': displayGravity }));
+    }, 500);
+  }
   setTimeout(function() {
     moved = false;
     if (singleplayer === false) {
@@ -58,14 +66,16 @@ function endTurnAndUpdate(points) {
     turnEnded = false;
     if (user.points > 5) endGame(user.player, user.points);
     addBall();
-    if (singleplayer === true) user.checkMatches = 0;  
+    if (singleplayer === true) user.checkMatches = 0;
   }, 2000)
 }
 
-function updateAndStartTurn() { 
+function updateAndStartTurn() {
   user.myTurn = received.turn;
+
   user.checkMatches = 0;
   if (user.myTurn === true) $('#throwBall').animate({ opacity: 0 });
+
   scene.remove(ball2);
   addBall();
   user.pointFlag = true;
@@ -96,3 +106,35 @@ function addScene() {
 }
 
 setTimeout(addScene, 2000);
+
+//when user hits target call this and -send through dataChannel.
+function randomizeAndDisplayGravity() {
+  console.log('random');
+    //from -1.6 to 9.8
+    var randomNum = Math.random() * 11.4 - 1.6;
+    var result = "";
+    randomNum = randomNum.toString().split('.');
+    result += randomNum[0];
+    result += '.';
+    result += randomNum[1][0];
+
+    //update the gravity div;
+    updateGravityDiv(result);
+
+    //return the converted gravity example: 9.8earth should be -12 in physijs;
+    convertGravity(Number(result));
+}
+
+//call this to convert gravities above 0;
+function convertGravity(num) {
+  var correctGravity = num;
+  if (num > 0) {
+    correctGravity = Math.round(num * -1.2);
+  }
+  user.changeGravityFlag = true;
+  user.changeGravityValue = correctGravity;
+}
+
+function updateGravityDiv(newVal) {
+  $('#current-gravity').html(newVal);
+}
