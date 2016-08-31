@@ -180,6 +180,8 @@ function render() {
   // start sending condition, sets projectile motion, testing purposes only
   if (keyboard[32] && user.spaceBarFlag === true){
     user.spaceBarFlag = false;
+    user.usedSpaceBar = true; //for collision bug where 1st turn use of spacebar immediately gives ball 2 collisions
+    user.pointFlag = true; 
     t = performance.now();
     var velocity = determineVelocity(18, userAngle);
     ball.setLinearVelocity(new THREE.Vector3(velocity[0], velocity[1], 0));
@@ -233,9 +235,8 @@ function sendPosition(x, y, z, xr, yr, zr) {
 2-12, 12-21, 21-70, 70-200
 */
 function determineVelocity(trackerCount, angle) {
-  const trackerToVelocityMult = 270;
+  const trackerToVelocityMult = 80.6;
   userVelocity = (1/trackerCount) * (1/user.setMass) * trackerToVelocityMult;
-  console.log('userVelocity', userVelocity); 
   v0 = parseFloat(userVelocity).toFixed(3);
   var radians = angle * (Math.PI/180);
   var vertV = userVelocity * Math.sin(radians);
@@ -246,7 +247,6 @@ function determineVelocity(trackerCount, angle) {
 function sendProjectile(trackerCount) {
   var velocity = determineVelocity(trackerCount, userAngle);
   t = performance.now();
-  //console.log('velocity', velocity); 
   ball.setLinearVelocity(new THREE.Vector3(velocity[0], velocity[1], 0));
   v0 = parseFloat(userVelocity).toFixed(3);
   delayedTrackerMatches.trackFlag = false;

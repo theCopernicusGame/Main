@@ -5,7 +5,93 @@
 var textureLoader = new THREE.TextureLoader();
 var ballGeometry = new THREE.SphereGeometry(.3, 28.8, 14.4);
 var handleCollision = function( collided_with, linearVelocity, angularVelocity ) {
-  switch ( ++this.collisions ) {
+  if (singleplayer === true && user.turnNumber !== 1){
+    switch ( ++this.collisions ) { 
+      case 1:
+      console.log('PF', user.pointFlag, 'collisions', this.collisions, 'ball poss', this.position.x, this.position.z, 'target', target.position.x, target.position.z); 
+        if ( user.pointFlag === true && ((this.position.x - target.position.x) > -2) && ((this.position.x - target.position.x) < 2)  && ((this.position.z - target.position.z) < 2)  && ((this.position.z - target.position.z) < 2) ){
+         endTurnAndUpdate(2);
+        }
+        //CHANGED FOR TESTING PURPOSES - POINT ASSIGNMENTS TBD
+        else if ( user.pointFlag === true && ((this.position.x - target.position.x) > -4.5) && ((this.position.x - target.position.x) < 4.5)  && ((this.position.z - target.position.z) < 4.5)  && ((this.position.z - target.position.z) < 4.5) ){
+          endTurnAndUpdate(1);
+        }
+        else {
+       //   console.log('collisions', this.collisions, user.pointFlag); 
+          endTurnAndUpdate(0);
+        }
+      }
+    }
+    else if (singleplayer === true && user.turnNumber === 1 && user.usedSpaceBar === true) {
+      user.turnNumber++;
+      user.usedSpaceBar = false; 
+      switch ( this.collisions ) { 
+      case 3:
+     //    console.log('PF', user.pointFlag, 'collisions', this.collisions, 'ball poss', this.position.x, this.position.z, 'target', target.position.x, target.position.z); 
+        if ( user.pointFlag === true && ((this.position.x - target.position.x) > -2) && ((this.position.x - target.position.x) < 2)  && ((this.position.z - target.position.z) < 2)  && ((this.position.z - target.position.z) < 2) ){
+         endTurnAndUpdate(2);
+        }
+        //CHANGED FOR TESTING PURPOSES - POINT ASSIGNMENTS TBD
+        else if ( user.pointFlag === true && ((this.position.x - target.position.x) > -4.5) && ((this.position.x - target.position.x) < 4.5)  && ((this.position.z - target.position.z) < 4.5)  && ((this.position.z - target.position.z) < 4.5) ){
+          endTurnAndUpdate(1);
+        }
+        else {
+          endTurnAndUpdate(0);
+        }
+        
+      }
+    }
+    else if (singleplayer === false && user.turnNumber === 1 && user.usedSpaceBar === true){
+      user.turnNumber++; 
+      user.usedSpaceBar = false; 
+      switch ( ++this.collisions ) {
+      case 1:
+        if ( user.pointFlag === true && ((this.position.x - target.position.x) > -2) && ((this.position.x - target.position.x) < 2)  && ((this.position.z - target.position.z) < 2)  && ((this.position.z - target.position.z) < 2) ){
+          endTurnAndUpdate(2);
+        }
+        //CHANGED FOR TESTING PURPOSES - POINT ASSIGNMENTS TBD
+        else if ( user.pointFlag === true && ((this.position.x - target.position.x) > -4.5) && ((this.position.x - target.position.x) < 4.5)  && ((this.position.z - target.position.z) < 4.5)  && ((this.position.z - target.position.z) < 4.5) ){
+         endTurnAndUpdate(1);
+        }
+      case 3:
+      console.log('P2 collisions', this.collisions); 
+        if ( user.pointFlag === true && ((this.position.x - target.position.x) > -2) && ((this.position.x - target.position.x) < 2)  && ((this.position.z - target.position.z) < 2)  && ((this.position.z - target.position.z) < 2) ){
+          endTurnAndUpdate(2);
+        }
+        //CHANGED FOR TESTING PURPOSES - POINT ASSIGNMENTS TBD
+        else if ( user.pointFlag === true && ((this.position.x - target.position.x) > -4.5) && ((this.position.x - target.position.x) < 4.5)  && ((this.position.z - target.position.z) < 4.5)  && ((this.position.z - target.position.z) < 4.5) ){
+         endTurnAndUpdate(1);
+        }
+      default: 
+     console.log('P2 collisions', this.collisions); 
+    }
+
+  }
+   else if (singleplayer === false && user.turnNumber !== 1){
+      switch ( ++this.collisions ) {
+      case 2:
+      console.log('not turn #1', this.collisions)
+        if ( user.pointFlag === true && ((this.position.x - target.position.x) > -2) && ((this.position.x - target.position.x) < 2)  && ((this.position.z - target.position.z) < 2)  && ((this.position.z - target.position.z) < 2) ){
+          endTurnAndUpdate(2);
+        }
+        //CHANGED FOR TESTING PURPOSES - POINT ASSIGNMENTS TBD
+        else if ( user.pointFlag === true && ((this.position.x - target.position.x) > -4.5) && ((this.position.x - target.position.x) < 4.5)  && ((this.position.z - target.position.z) < 4.5)  && ((this.position.z - target.position.z) < 4.5) ){
+         endTurnAndUpdate(1);
+        }
+        else {
+          endTurnAndUpdate(0);
+        }
+      default: 
+     // console.log('in here turn !== 1'); 
+    }
+
+  }
+  
+
+
+/*
+ORIGINAL CODE
+switch ( ++this.collisions ) {
     case 2:
       if ( user.pointFlag === true && ((this.position.x - target.position.x) > -2) && ((this.position.x - target.position.x) < 2)  && ((this.position.z - target.position.z) < 2)  && ((this.position.z - target.position.z) < 2) ){
         endTurnAndUpdate(2);
@@ -19,6 +105,12 @@ var handleCollision = function( collided_with, linearVelocity, angularVelocity )
       }
     }
   };
+
+
+*/
+
+
+};
 
 var moonNormal  = textureLoader.load('/assets/finalMoonPics/normal.jpg');
 var moonMap = textureLoader.load('/assets/finalMoonPics/moonPic.jpg');
