@@ -88,24 +88,11 @@ $(function() {
               // demo.checkPicture(imageData)
 
             transparentCircle.css('backgroundColor', 'green');
-              var text = ["Tracking starts in 3 seconds!", "Tracking starts in 2 seconds!", "Tracking starts in 1 second!"];
-              var wordCounter = 0;
-              var countDown = setInterval(change, 1200);
-              function change() {
-                infoP.fadeOut(1).delay(10).fadeIn(800);
-               infoP.text(text[wordCounter]);
-               // fadeTo(500, 0.4);
-                  wordCounter++;
-                  if(wordCounter >= text.length) {
-                    startTracking();
-                    clearInterval(countDown);
-                  }
-                }
         }, 4000);
       }); 
 
         $('#start-tracking').click(function() {
-          $('#start-tracking').attr("disabled", true);
+          if (singleplayer === false) $('#start-tracking').attr("disabled", true);
           var text = ["Tracking starts in 3 seconds!", "Tracking starts in 2 seconds!", "Tracking starts in 1 second!"];
           var wordCounter = 0;
           var countDown = setInterval(change, 1200);
@@ -115,8 +102,7 @@ $(function() {
             wordCounter++;
             if(wordCounter >= text.length) { 
               startTracking(); 
-              clearInterval(countDown); 
-              
+              clearInterval(countDown);  
             }
           }
 
