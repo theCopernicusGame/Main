@@ -123,17 +123,18 @@ input {
 
 
 #start-tracking{
-  visibility: hidden; 
+  visibility: hidden;
 }
 
-/*#infoPanel {
+#searchBar {
   position: absolute;
   top: 40%;
   left: 50%;
   margin-left: -203px;
   font-size: 40px;
   text-align: center;
-}*/
+
+}
 
 #room {
   text-align: center;
