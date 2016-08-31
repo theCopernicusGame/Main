@@ -1,4 +1,4 @@
-'use strict';
+//'use strict';
 // this should apply all game logic before rendering the scene
 
 var user = {};
@@ -12,20 +12,27 @@ function chooseUser() {
   }
 }
 
-user.player = chooseUser()[0];
-user.myTurn = chooseUser()[1];
-user.pointFlag = true;
-user.trackFlag = false;
-user.points = 0;
-user.currentSetMass = 1;
-user.otherPoints = 0;
-user.newGravity;
-user.spaceBarFlag = true;
-user.changeGravityValue = -1.6; //Moon gravity times multiplier for physijs Y coordinate
 
-user.changeGravityFlag = false;
-user.setMass = 1;
+function setUser() {
+  user.player = chooseUser()[0];
+  user.myTurn = chooseUser()[1];
+  user.pointFlag = true;
+  user.trackFlag = false;
+  user.points = 0;
+  user.otherPoints = 0;
+  user.spaceBarFlag = true;
+  user.changeGravityValue = -1.6; //Moon gravity times multiplier for physijs Y coordinate
+  user.changeGravityFlag = false;
+  user.setMass = 1;
+  user.checkMatches = 0;
+  user.turnNumber = 1;
+  user.usedSpaceBar = false;
+}
 
+setUser();
+
+
+if (singleplayer === true) $('#pointsDivOnePlayer').css('opacity', '1' );
 
 if (user.player === "user_2") displaySignalMessage("You've joined Player 1!");
 
@@ -36,35 +43,44 @@ function endTurnAndUpdate(points) {
   user.pointFlag = false;
   t = parseFloat((performance.now() - t)/1000).toFixed(3);
   graphMotion();
+  if (singleplayer === true) $('#p1OnlyPoints').text(user.points);
   if (user.player === "user_1") $('#p1Points').text(user.points);
   else $('#p2Points').text(user.points);
 
-  setTimeout(function() {
-    var displayGravity = $('#current-gravity').html();
-    dataChannel.send(JSON.stringify({ 'points': points, 'gravityToProcess': user.changeGravityValue, 'gravityToDisplay': displayGravity }));
-  }, 500);
+  if (singleplayer === false) {
+    setTimeout(function() {
+      var displayGravity = $('#current-gravity').html();
+      dataChannel.send(JSON.stringify({ 'points': points, 'gravityToProcess': user.changeGravityValue, 'gravityToDisplay': displayGravity }));
+    }, 500);
+  }
   setTimeout(function() {
     moved = false;
-    dataChannel.send(JSON.stringify({ 'moved': moved }));
-    dataChannel.send(JSON.stringify({ 'turn': user.myTurn }));
-    user.myTurn = false;
-    $('#bg').append('#throwBall');
-    $('#throwBall').text('Please wait for other player to throw!').css('opacity', '1').fadeOut(1).delay(500).fadeIn(1500);
+    if (singleplayer === false) {
+      dataChannel.send(JSON.stringify({ 'moved': moved }));
+      dataChannel.send(JSON.stringify({ 'turn': user.myTurn }));
+      user.myTurn = false;
+      $('#throwBall').text('Please wait for other player to throw!').animate({ opacity: 1 })
+    } else user.spaceBarFlag = true;
     user.pointFlag = true;
     scene.remove(ball);
     turnEnded = false;
     if (user.points > 5) endGame(user.player, user.points);
     addBall();
+    if (singleplayer === true) user.checkMatches = 0;
   }, 2000)
 }
 
 function updateAndStartTurn() {
   user.myTurn = received.turn;
-  if (user.myTurn === true) $('#throwBall').fadeOut(500);
+
+  user.checkMatches = 0;
+  if (user.myTurn === true) $('#throwBall').animate({ opacity: 0 });
+
   scene.remove(ball2);
   addBall();
   user.pointFlag = true;
   user.spaceBarFlag = true;
+   $('#start-tracking').attr("disabled", false);
 }
 
 function updateOtherPoints() {
@@ -80,15 +96,13 @@ function checkForeverFall() {
 }
 
 function endGame(player, points){
-  var end = $("<div id='end'></div>").text("Game over! " + player + " got to " + points + " points!  But really, everyone wins when you're learning.");
-  console.log('end', end);
+  $("#end").text("Game over! " + player + " got to " + points + " points!  But really, everyone wins when you're learning.");
   $('#line-graph').fadeOut(500);
-  $('body').prepend(end);
-  $('#end').fadeOut(0).fadeIn(500);
+  $('#end').animate({ opacity: 1 });
 }
 
 function addScene() {
-  $('#gamescript').append( `<script type=` + `"text/javascript"` + ` src=` + `"./scene/scene.js"` + `></script>` );
+  $('#gamescript').append( `<script type=` + `"text/javascript"` + ` src=` + `"/scene/scene.js"` + `></script>` );
 }
 
 setTimeout(addScene, 2000);

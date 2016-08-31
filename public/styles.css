@@ -9,22 +9,36 @@ body {
 
 #containerG {
   position: relative;
-  margin-top: 3%;
-  padding-top: 6%;
+}
+#pointsDivOnePlayer{
+  opacity: 0;
+  position: absolute;
+  right: 0px;
+  margin-top: 2.48%; /* 20px / 808px */
+  margin-right: 1.49%; /* 20px / 1440px */
+  border: 3px solid white;
+  border-radius: 10px;
+  background: rgba(0,0,128, .1);
+  color: #FFF;
+  text-align: center;
+  width: 30%;
+  font-size: 100%;
+  padding-top: 1.5%;
+  padding-bottom: 1.5% ;
 }
 
 #banner {
   position: absolute;
   left: 50%;
   margin-left: -121px;
-  margin-top: -8.5%;
   font-size: 280%;
+  margin-top: 1%;
   text-align: center;
  }
 
  #change {
   position: absolute;
-  right: 5%;
+  right: 18%;
   bottom: 3%;
   width: 35%;
   display: block;
@@ -49,7 +63,6 @@ input {
  margin-top: 1%;
 }
 
-
 #change p {
   margin: 0;
   padding: 0;
@@ -57,12 +70,13 @@ input {
   white-space: nowrap;
 }
 
-
-
- #startGame{
-  margin-top:  -3px;
-  margin-bottom: -20px;
-}
+/* choose game buttons */
+#chooseGame {
+  position: absolute;
+  left: 50%;
+  margin-top: 6%;
+  margin-left: -123.415px;
+ }
 
 #onePlayer {
   position: relative;
@@ -72,14 +86,38 @@ input {
   position: relative;
 }
 
-#chooseGame {
-  position: absolute;
-  left: 50%;
-  margin-left: -123.415px;
-  margin-top: -2.2%;
+#multiplayer {
+  position: relative;
+  display: inline-block;
+  width: 121.16px;
+  padding-bottom: 5px;
+}
+
+#singleplayer {
+  position: relative;
+  display: inline-block;
+  width: 121.39px;
+}
+
+#emptyButton {
+  opacity: 0;
+  margin-top: 7px;
+}
+
+ #joinGame {
+   width: 121.16px;
+   opacity: 0;
+   margin-top: 7px;
+ }
+
+ #startGame {
+   width: 121.16px;
+   opacity: 0;
+   margin-top: 7px;
  }
 
 .newGame {
+  outline: none;
   border:1px solid #616261; -webkit-border-radius: 3px; -moz-border-radius: 3px;border-radius: 3px;font-size:12px;font-family:arial, helvetica, sans-serif; padding: 10px 10px 10px 10px; text-decoration:none; display:inline-block;text-shadow: -1px -1px 0 rgba(0,0,0,0.3);font-weight:bold; color: #FFFFFF;
   background-color: #7d7e7d; background-image: -webkit-gradient(linear, left top, left bottom, from(#7d7e7d), to(#0e0e0e));
   background-image: -webkit-linear-gradient(top, #7d7e7d, #0e0e0e);
@@ -99,12 +137,30 @@ input {
   background-image: linear-gradient(to bottom, #646464, #282828);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#646464, endColorstr=#282828);
 }
 
-#infoPanel {
-  position: absolute;
-  padding-top: 20px;
-  padding-left: 20px;
+
+#start-tracking{
+  visibility: hidden; 
 }
 
+/*#infoPanel {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  margin-left: -203px;
+  font-size: 40px;
+  text-align: center;
+}*/
+
+#room {
+  text-align: center;
+  width: 400px;
+  height: 50px;
+  font-size: 100%;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+}
+
+/* loading screen */
 .onepix-imgloader {
   display: inline-block;
   position: absolute;
@@ -146,6 +202,13 @@ input {
   position: relative;
 }
 
+/* gameplay information */
+#infoPanel {
+  position: absolute;
+  padding-top: 20px;
+  padding-left: 20px;
+}
+
 #signalingArea {
   position: absolute;
   z-index: -1;
@@ -166,6 +229,7 @@ input {
 
 #end {
   position: absolute;
+  opacity: 0;
   z-index: 9999;
   margin-top: 20.48%;
   margin-left: 33%;
@@ -297,10 +361,10 @@ margin-left: 6.5%;
 
 
 #hand-info {
+  margin-top: -20px;
   width: 140px;
   font-size: 16px;
-  margin: 0;
-  padding: 0;
+  height: 25px;
 }
 
 #current-gravity {
