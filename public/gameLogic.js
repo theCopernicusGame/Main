@@ -27,9 +27,9 @@ function chooseUser() {
   user.checkMatches = 0;
   user.turnNumber = 1;
   user.usedSpaceBar = false;
-  user.collisions = 0; 
-  user.newThrow = true; 
-  user.turnTimer; 
+  user.collisions = 0;
+  user.newThrow = true;
+  user.turnTimer;
 //}
 
 //setUser();
@@ -40,9 +40,9 @@ if (singleplayer === true) $('#pointsDivOnePlayer').css('opacity', '1' );
 if (user.player === "user_2") displaySignalMessage("You've joined Player 1!");
 
 function endTurnAndUpdate(points) {
-  clearTimeout(user.turnTimer); 
-  user.newThrow = true; 
-  user.collisions = 0;            
+  clearTimeout(user.turnTimer);
+  user.newThrow = true;
+  user.collisions = 0;
   user.changeGravityFlag = false;
   turnEnded = true;
   user.points += points;
@@ -115,7 +115,7 @@ setTimeout(addScene, 2000);
 
 //when user hits target call this and -send through dataChannel.
 function randomizeAndDisplayGravity() {
-  console.log('random');
+
     //from -1.6 to 9.8
     var randomNum = Math.random() * 11.4 - 1.6;
     var result = "";
@@ -144,3 +144,24 @@ function convertGravity(num) {
 function updateGravityDiv(newVal) {
   $('#current-gravity').html(newVal);
 }
+
+var count = 1;
+$(document).keyup(function(event) {
+  if (event.keyCode == 32) {
+    var velocityDiv = $('#velocity');
+    count = 1;
+    velocityDiv.fadeOut(700);
+  }
+}).keydown(function(event) {
+  if (event.keyCode == 32) {
+    var velocityP = $('#velocity-num');
+    var velocityDiv = $('#velocity');
+    velocityDiv.fadeIn(400);
+
+    var velocityNum = count;
+    count++;
+      if (velocityNum <= 20) {
+        velocityP.html(velocityNum);
+      }
+  }
+});
