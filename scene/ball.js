@@ -15,13 +15,16 @@ var handleCollision = function( collided_with, linearVelocity, angularVelocity )
       case 1:
   //     console.log('PF', user.pointFlag, 'collisions', this.collisions, 'ball poss', this.position.x, this.position.z, 'target', target.position.x, target.position.z);
           if ( user.pointFlag === true && ((this.position.x - target.position.x) > -.75) && ((this.position.x - target.position.x) < .75)  && ((this.position.z - target.position.z) < .75)  && ((this.position.z - target.position.z) < .75) ){
+            randomizeAndDisplayGravity();
             endTurnAndUpdate(2);
           }
           else if ( user.pointFlag === true && ((this.position.x - target.position.x) > -1.2) && ((this.position.x - target.position.x) < 1.2)  && ((this.position.z - target.position.z) < 1.2)  && ((this.position.z - target.position.z) < 1.2) ){
+           randomizeAndDisplayGravity();
            endTurnAndUpdate(1);
          }
          else {
         //   console.log('collisions', this.collisions, user.pointFlag);
+           randomizeAndDisplayGravity();
            endTurnAndUpdate(0);
          } 
       console.log('this.collisions', this.collisions, 'x pos', this.position.x, 'y pos', this.position.y); 
