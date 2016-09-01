@@ -40,6 +40,7 @@ if (singleplayer === true) $('#pointsDivOnePlayer').css('opacity', '1' );
 if (user.player === "user_2") displaySignalMessage("You've joined Player 1!");
 
 function endTurnAndUpdate(points) {
+  console.log('singleplayer', singleplayer); 
   clearTimeout(user.turnTimer); 
   user.newThrow = true; 
   user.collisions = 0;            
@@ -66,7 +67,8 @@ function endTurnAndUpdate(points) {
       dataChannel.send(JSON.stringify({ 'turn': user.myTurn }));
       user.myTurn = false;
       $('#throwBall').text('Please wait for other player to throw!').animate({ opacity: 1 })
-    } else user.spaceBarFlag = true;
+    }
+    user.spaceBarFlag = true;
     user.pointFlag = true;
     scene.remove(ball);
     turnEnded = false;
@@ -102,10 +104,48 @@ function checkForeverFall() {
 }
 
 function endGame(player, points){
-  $("#end").text("Game over! " + player + " got to " + points + " points!  But really, everyone wins when you're learning.");
-  $('#line-graph').fadeOut(500);
+  $("#end").text("Game over! " + player + " got to " + points + " points! Restarting your game shortly.");
+  $('#line-graph').animate({ opacity: 0}, 500);
   $('#end').animate({ opacity: 1 });
+  setTimeout(function(){
+    restartGame(); 
+  }, 2500); 
 }
+
+function restartGame(points) {
+  clearTimeout(user.turnTimer); 
+  user.newThrow = true; 
+  user.collisions = 0;            
+  user.changeGravityFlag = false;
+  turnEnded = true;
+  user.points = 0;
+  user.pointFlag = false;
+  if (singleplayer === true) $('#p1OnlyPoints').text(user.points);
+  else {
+    $('#p1Points').text(user.points);
+    $('#p2Points').text(user.points);
+  }
+    setTimeout(function() {
+      var displayGravity = $('#current-gravity').html();
+      if (singleplayer === false) dataChannel.send(JSON.stringify({ 'points': points, 'gravityToProcess': user.changeGravityValue, 'gravityToDisplay': displayGravity }));
+    }, 500);
+    setTimeout(function() {
+      moved = false;
+      if (singleplayer === false) {
+        dataChannel.send(JSON.stringify({ 'moved': moved }));
+        dataChannel.send(JSON.stringify({ 'turn': user.myTurn }));
+        user.myTurn = false;
+        $('#throwBall').text('Please wait for other player to throw!').animate({ opacity: 1 })
+      } else user.spaceBarFlag = true;
+      user.pointFlag = true;
+      scene.remove(ball);
+      turnEnded = false;
+      addBall();
+      $('#end').animate({ opacity: 0 });
+      if (singleplayer === true) user.checkMatches = 0;
+    }, 1500); 
+}
+
 
 function addScene() {
   $('#gamescript').append( `<script type=` + `"text/javascript"` + ` src=` + `"/scene/scene.js"` + `></script>` );
