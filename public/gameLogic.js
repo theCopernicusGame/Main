@@ -109,7 +109,7 @@ function endGame(player, points){
   $('#end').animate({ opacity: 1 });
   setTimeout(function(){
     restartGame(); 
-  }, 3500); 
+  }, 2500); 
 }
 
 function restartGame(points) {
