@@ -23,9 +23,9 @@ function setUser() {
   user.changeGravityValue = -1.6; //Moon gravity times multiplier for physijs Y coordinate
   user.changeGravityFlag = false;
   user.setMass = 1;
-  user.checkMatches = 0;  
+  user.checkMatches = 0;
   user.turnNumber = 1;
-  user.usedSpaceBar = false;  
+  user.usedSpaceBar = false;
 }
 
 setUser();
@@ -48,7 +48,8 @@ function endTurnAndUpdate(points) {
   setTimeout(function() {
     moved = false;
     if (singleplayer === false) {
-      dataChannel.send(JSON.stringify({ 'moved': moved }));
+      // DAVID, THIS MOVED IS NOT SENDING, SO MYTURN IS SWITCHING AND IT IMMEDIATELY COUNTS FIRST COLLISION (BECAUSE MOVED IS STILL TRUE)
+      dataChannel.send(JSON.stringify({ 'moved': false }));
       dataChannel.send(JSON.stringify({ 'turn': user.myTurn }));
       user.myTurn = false;
       $('#throwBall').text('Please wait for other player to throw!').animate({ opacity: 1 })
@@ -58,15 +59,16 @@ function endTurnAndUpdate(points) {
     turnEnded = false;
     if (user.points > 5) endGame(user.player, user.points);
     addBall();
-    if (singleplayer === true) user.checkMatches = 0;  
+    if (singleplayer === true) user.checkMatches = 0;
   }, 2000)
 }
 
-function updateAndStartTurn() { 
+function updateAndStartTurn() {
   user.myTurn = received.turn;
   user.checkMatches = 0;
   if (user.myTurn === true) $('#throwBall').animate({ opacity: 0 });
   scene.remove(ball2);
+  console.log('Adding ball before moved is changed to false?: ', moved)
   addBall();
   user.pointFlag = true;
   user.spaceBarFlag = true;

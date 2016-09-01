@@ -81,7 +81,7 @@ io.on('signaling_message', function(data) {
 
 function startSignaling() {
     rtcPeerConn = new webkitRTCPeerConnection(configuration, {optional: []});
-    dataChannel = rtcPeerConn.createDataChannel('positionMessages', dataChannelOptions);
+    dataChannel = rtcPeerConn.createDataChannel('gameMessages', dataChannelOptions);
 
     // send any ice candidates to the other peer
     rtcPeerConn.onicecandidate = function (evt) {
@@ -153,8 +153,10 @@ function receiveDataChannelMessage(event) {
         message = received;
         displayPosition('Height: ' + parseFloat(message.position[1] - .3).toFixed(3), 'Distance: ' + parseFloat(7 + message.position[0]).toFixed(3));
     } else if (received.moved) {
-        moved = received.moved;
+      console.log('When is moved received?')
+      moved = received.moved;
     } else if (received.turn) {
+      console.log('When is turn received?')
         updateAndStartTurn();
     } else if (received.points) {
         updateOtherPoints();

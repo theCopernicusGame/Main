@@ -10,6 +10,7 @@ body {
 #containerG {
   position: relative;
 }
+
 #pointsDivOnePlayer{
   opacity: 0;
   position: absolute;
@@ -149,7 +150,6 @@ input {
   margin-left: -203px;
   font-size: 40px;
   text-align: center;
-
 }
 
 #room {

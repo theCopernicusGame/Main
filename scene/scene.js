@@ -1,15 +1,6 @@
 Physijs.scripts.worker = '/lib/physijs_worker.js'; //webworker used to minimize latency re phys.js
 Physijs.scripts.ammo = 'ammo.js';
 
-// in case window changes
-
-
-//to collect possible user change in angle;
-var userAngle = 45, userVelocity, userGravity, spaceScene, gravityCounter = 0;
-
-//to collect possible user change in angle;
-
-
 function onWindowResize() {
    camera.aspect = window.innerWidth / window.innerHeight;
    camera.updateProjectionMatrix();
@@ -17,7 +8,11 @@ function onWindowResize() {
    render();
 }
 
+// in case window size changes
 window.addEventListener( 'resize', onWindowResize, false );
+
+//to collect possible user change in angle;
+var userAngle = 45, userVelocity, userGravity, spaceScene, gravityCounter = 0;
 
 var camera, renderer, mesh;
 var keyboard = {};
@@ -128,7 +123,7 @@ scene.add( spotlight );
 scene.add( spotlight2 );
 
 function render() {
-  //console.log(ball._physijs.mass);
+
   // run physics
   scene.simulate();
 
@@ -178,24 +173,23 @@ function render() {
   }
 
   // start sending condition, sets projectile motion, testing purposes only
-  if (keyboard[32] && user.spaceBarFlag === true){
+  if (keyboard[32] && user.spaceBarFlag === true) {
+    var velocity = determineVelocity(18, userAngle);
+    t = performance.now();
+    ball.setLinearVelocity(new THREE.Vector3(velocity[0], velocity[1], 0));
     user.spaceBarFlag = false;
     user.usedSpaceBar = true; //for collision bug where 1st turn use of spacebar immediately gives ball 2 collisions
-    user.pointFlag = true; 
-    t = performance.now();
-    var velocity = determineVelocity(18, userAngle);
-    ball.setLinearVelocity(new THREE.Vector3(velocity[0], velocity[1], 0));
+    user.pointFlag = true;
     delayedTrackerMatches.flag = false;
     user.trackFlag = false;
     delayedTrackerMatches.counter = 0;
-    moved = true;
     if (turnEnded === false) {
       storePosition();
     }
-    user.trackFlag = false;
+    moved = true;
     if (singleplayer === false) {
-      dataChannel.send(JSON.stringify({ 'moved': moved }));
       sendPosition((-7 + (5 - ball.position.x)), ball.position.y, ball.position.z, ball.rotation.x, ball.rotation.y, ball.rotation.z);
+      dataChannel.send(JSON.stringify({ 'moved': moved }));
     }
   }
 
@@ -252,13 +246,13 @@ function sendProjectile(trackerCount) {
   delayedTrackerMatches.trackFlag = false;
   user.trackFlag = false;
   delayedTrackerMatches.counter = 0;
-  moved = true;
   if (turnEnded === false) {
     storePosition();
   }
   if (singleplayer === false) {
-    dataChannel.send(JSON.stringify({ 'moved': moved }));
     sendPosition((-7 + (5 - ball.position.x)), ball.position.y, ball.position.z, ball.rotation.x, ball.rotation.y, ball.rotation.z);
+    moved = true;
+    dataChannel.send(JSON.stringify({ 'moved': moved }));
   }
   demo.clear();
 }
