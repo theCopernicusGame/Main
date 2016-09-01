@@ -25,10 +25,6 @@ function setUser() {
   user.changeGravityFlag = false;
   user.setMass = 1;
   user.checkMatches = 0;
-  user.turnNumber = 1;
-  user.collisions = 0;
-  user.newThrow = true;
-  user.turnTimer;
 }
 
 setUser();
@@ -37,10 +33,8 @@ if (singleplayer === true) $('#pointsDivOnePlayer').css('opacity', '1' );
 
 if (user.player === "user_2") displaySignalMessage("You've joined Player 1!");
 
+// TODO: clean up
 function endTurnAndUpdate(points) {
-  clearTimeout(user.turnTimer);
-  user.newThrow = true;
-  user.collisions = 0;
   user.changeGravityFlag = false;
   turnEnded = true;
   user.points += points;
@@ -82,7 +76,6 @@ function updateAndStartTurn() {
   if (user.myTurn === true) $('#throwBall').animate({ opacity: 0 });
 
   scene.remove(ball2);
-  console.log('Adding ball before moved is changed to false?: ', moved)
   addBall();
   user.pointFlag = true;
   user.spaceBarFlag = true;
@@ -111,9 +104,6 @@ function endGame(player, points){
 }
 
 function restartGame(points) {
-  clearTimeout(user.turnTimer);
-  user.newThrow = true;
-  user.collisions = 0;
   user.changeGravityFlag = false;
   turnEnded = true;
   user.points = 0;
@@ -123,50 +113,42 @@ function restartGame(points) {
     $('#p1Points').text(user.points);
     $('#p2Points').text(user.points);
   }
-    setTimeout(function() {
-      var displayGravity = $('#current-gravity').html();
-      if (singleplayer === false) dataChannel.send(JSON.stringify({ 'points': points, 'gravityToProcess': user.changeGravityValue, 'gravityToDisplay': displayGravity }));
-    }, 500);
-    setTimeout(function() {
-      moved = false;
-      if (singleplayer === false) {
-        dataChannel.send(JSON.stringify({ 'moved': moved }));
-        dataChannel.send(JSON.stringify({ 'turn': user.myTurn }));
-        user.myTurn = false;
-        $('#throwBall').text('Please wait for other player to throw!').animate({ opacity: 1 })
-      } else user.spaceBarFlag = true;
-      user.pointFlag = true;
-      scene.remove(ball);
-      turnEnded = false;
-      addBall();
-      $('#end').animate({ opacity: 0 });
-      if (singleplayer === true) user.checkMatches = 0;
-    }, 1500);
+  setTimeout(function() {
+    var displayGravity = $('#current-gravity').html();
+    if (singleplayer === false) dataChannel.send(JSON.stringify({ 'points': points, 'gravityToProcess': user.changeGravityValue, 'gravityToDisplay': displayGravity }));
+  }, 500);
+  setTimeout(function() {
+    moved = false;
+    if (singleplayer === false) {
+      dataChannel.send(JSON.stringify({ 'moved': moved }));
+      dataChannel.send(JSON.stringify({ 'turn': user.myTurn }));
+      user.myTurn = false;
+      $('#throwBall').text('Please wait for other player to throw!').animate({ opacity: 1 })
+    } else user.spaceBarFlag = true;
+    user.pointFlag = true;
+    scene.remove(ball);
+    turnEnded = false;
+    addBall();
+    $('#end').animate({ opacity: 0 });
+    if (singleplayer === true) user.checkMatches = 0;
+  }, 1500);
 }
-
-
-function addScene() {
-  $('#gamescript').append( `<script type=` + `"text/javascript"` + ` src=` + `"/scene/scene.js"` + `></script>` );
-}
-
-setTimeout(addScene, 2000);
 
 //when user hits target call this and -send through dataChannel.
 function randomizeAndDisplayGravity() {
-  console.log('random');
-    //from -1.6 to 9.8
-    var randomNum = Math.random() * 11.4 - 1.6;
-    var result = "";
-    randomNum = randomNum.toString().split('.');
-    result += randomNum[0];
-    result += '.';
-    result += randomNum[1][0];
+  //from -1.6 to 9.8
+  var randomNum = Math.random() * 11.4 - 1.6;
+  var result = "";
+  randomNum = randomNum.toString().split('.');
+  result += randomNum[0];
+  result += '.';
+  result += randomNum[1][0];
 
-    //update the gravity div;
-    updateGravityDiv(result);
+  //update the gravity div;
+  updateGravityDiv(result);
 
-    //return the converted gravity example: 9.8earth should be -12 in physijs;
-    convertGravity(Number(result));
+  //return the converted gravity example: 9.8earth should be -12 in physijs;
+  convertGravity(Number(result));
 }
 
 //call this to convert gravities above 0;
@@ -176,9 +158,17 @@ function convertGravity(num) {
     correctGravity = Math.round(num * -1.2);
   }
   user.changeGravityFlag = true;
+  console.log('newGravity: ', correctGravity);
   user.changeGravityValue = correctGravity;
 }
 
 function updateGravityDiv(newVal) {
   $('#current-gravity').html(newVal);
 }
+
+// waits til this loads to add the scene
+function addScene() {
+  $('#gamescript').append( `<script type=` + `"text/javascript"` + ` src=` + `"/scene/scene.js"` + `></script>` );
+}
+
+setTimeout(addScene, 2000);

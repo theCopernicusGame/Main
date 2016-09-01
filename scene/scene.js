@@ -231,21 +231,10 @@ function sendPosition(x, y, z, xr, yr, zr) {
   dataChannel.send(JSON.stringify(toSend));
 }
 
-
-/* current velocity tiers:
-2-12, 12-21, 21-70, 70-200
-*/
 function determineVelocity(trackerCount, angle) {
   const trackerToVelocityMult = 80.6;
   user.newThrow = false;
-
   userVelocity = (1/trackerCount) * (1/user.setMass) * trackerToVelocityMult;
-  user.turnTimer = setTimeout(function(){
-    if (user.collisions === 0 && user.newThrow === false){
-     console.log('too long!');
-     endTurnAndUpdate(0);
-     }
-  }, 22000);
   v0 = parseFloat(userVelocity).toFixed(3);
   var radians = angle * (Math.PI/180);
   var vertV = userVelocity * Math.sin(radians);

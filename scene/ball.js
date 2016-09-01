@@ -6,22 +6,21 @@ var textureLoader = new THREE.TextureLoader();
 var ballGeometry = new THREE.SphereGeometry(.3, 28.8, 14.4);
 var handleCollision = function( collided_with, linearVelocity, angularVelocity ) {
   if (this.position.x < 4.85 && moved === true) {
-    if (this.position.y > -8 && this.position.y < 10) {
-      user.collisions++;
-      switch ( ++this.collisions ) {
-        case 1:
-            if ( user.pointFlag === true && ((this.position.x - target.position.x) > -.75) && ((this.position.x - target.position.x) < .75)  && ((this.position.z - target.position.z) < .75)  && ((this.position.z - target.position.z) < .75) ){
-              randomizeAndDisplayGravity();
-              endTurnAndUpdate(2);
-            }
-            else if ( user.pointFlag === true && ((this.position.x - target.position.x) > -1.2) && ((this.position.x - target.position.x) < 1.2)  && ((this.position.z - target.position.z) < 1.2)  && ((this.position.z - target.position.z) < 1.2) ){
-             randomizeAndDisplayGravity();
-             endTurnAndUpdate(1);
-           }
-           else {
-             randomizeAndDisplayGravity();
-             endTurnAndUpdate(0);
-           }
+    this.collisions++;
+    console.log(this.collisions, this.position.y, this.position.x);
+    switch ( this.collisions ) {
+      case 1:
+          if ( user.pointFlag === true && ((this.position.x - target.position.x) > -.75) && ((this.position.x - target.position.x) < .75)  && ((this.position.z - target.position.z) < .75)  && ((this.position.z - target.position.z) < .75) ){
+            randomizeAndDisplayGravity();
+            endTurnAndUpdate(2);
+          }
+          else if ( user.pointFlag === true && ((this.position.x - target.position.x) > -1.2) && ((this.position.x - target.position.x) < 1.2)  && ((this.position.z - target.position.z) < 1.2)  && ((this.position.z - target.position.z) < 1.2) ){
+           randomizeAndDisplayGravity();
+           endTurnAndUpdate(1);
+         }
+         else {
+           randomizeAndDisplayGravity();
+           endTurnAndUpdate(0);
          }
        }
      }
