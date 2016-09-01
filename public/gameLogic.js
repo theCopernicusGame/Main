@@ -41,12 +41,11 @@ if (singleplayer === true) $('#pointsDivOnePlayer').css('opacity', '1' );
 if (user.player === "user_2") displaySignalMessage("You've joined Player 1!");
 
 function endTurnAndUpdate(points) {
-
+  console.log('singleplayer', singleplayer);
   clearTimeout(user.turnTimer);
   user.newThrow = true;
   user.collisions = 0;
 
-  //user.changeGravityFlag = false;
   turnEnded = true;
   user.points += points;
   user.pointFlag = false;
@@ -175,17 +174,19 @@ function randomizeAndDisplayGravity() {
 
 //call this to convert gravities above 0;
 function convertGravity(num) {
+  console.log('new gravity', num);
   var correctGravity = num;
   if (num > 2.3) {
     correctGravity = Math.round(num * -1.2);
   }
-  user.changeGravityFlag = true;
   user.changeGravityValue = correctGravity;
+  user.changeGravityFlag = true;
 }
 
 function updateGravityDiv(newVal) {
   $('#current-gravity').html(newVal);
 }
+
 
 var count = 1;
 $(document).keyup(function(event) {
@@ -219,3 +220,8 @@ function processVelocity(inputV) {
 
   user.velocity = velocityToProcess;
 }
+
+$('#instructions').hide();
+$('#gear').click(function(){
+  $('#instructions').fadeToggle('medium');
+});
