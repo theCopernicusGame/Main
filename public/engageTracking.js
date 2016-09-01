@@ -1,4 +1,5 @@
 'use strict';
+
 var minMaxColors = {}, pixelsNeededIndex = [];
 
 $(function() {
@@ -109,9 +110,8 @@ $(function() {
       snapContainer.fadeOut();
     }, 5000);
 
-    function startTracking(){
-      setTimeout(function(){
-        console.log('starting tracking from collected image!');
+    function startTracking() {
+      setTimeout(function() {
         user.trackFlag = true;
         demo.tick();
       }, 1500);

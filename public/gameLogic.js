@@ -21,7 +21,6 @@ function setUser() {
   user.spaceBarFlag = true;
   user.changeGravityValue = -1.6; //Moon gravity times multiplier for physijs Y coordinate
   user.setMass = 1;
-  user.checkMatches = 0;
 }
 
 setUser();
@@ -32,6 +31,7 @@ if (user.player === "user_2") displaySignalMessage("You've joined Player 1!");
 
 function endTurnAndUpdate(points) {
   turnEnded = true;
+  user.trackFlag = false;
   graphMotion();
 
   user.points += points;
@@ -54,17 +54,15 @@ function endTurnAndUpdate(points) {
     scene.remove(ball);
     addBall();
     if (user.points > 5) endGame(user.player, user.points);
-    if (singleplayer === true) user.checkMatches = 0;
   }, 2000)
 }
 
 function updateAndStartTurn() {
   turnEnded = false;
   user.spaceBarFlag = true;
-  user.checkMatches = 0;
 
   user.myTurn = received.turn;
-  if (user.myTurn === true) $('#throwBall').animate({ opacity: 0 });
+  $('#throwBall').animate({ opacity: 0 });
 
   scene.remove(ball2);
   addBall();

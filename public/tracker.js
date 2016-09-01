@@ -150,7 +150,6 @@ var demo = new DEMO();
 
 demo.start();
 
-
 function waitABit(){
   setTimeout(function(){
     delayedTrackerMatches.counter = trackerMatches.counter;
