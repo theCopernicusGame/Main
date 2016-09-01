@@ -1,11 +1,11 @@
 $(function() {
 
-    $("#inputMass").on("keydown",function search(e) {
-      if(e.keyCode === 13){
-        var val = $(this).val();
-        user.setMass = val;
-      }
-    });
+  $("#inputMass").on("keydown",function search(e) {
+    if(e.keyCode === 13){
+      var val = $(this).val();
+      user.setMass = val;
+    }
+  });
 
   $("#inputAngle").on("keydown",function search(e) {
     if (e.keyCode === 13) {

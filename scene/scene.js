@@ -139,7 +139,7 @@ function render() {
 
   // run physics
   scene.simulate();
-
+  scene.setGravity(new THREE.Vector3( 0, user.changeGravityValue, 0 ));
 
   earth.rotation.x += parameters.rotateX;
   earth.rotation.y -= parameters.rotateY;
@@ -160,11 +160,11 @@ function render() {
     displayPosition('Height: ' + parseFloat(ball.position.y - .3).toFixed(3), 'Distance: ' + parseFloat(5 - ball.position.x).toFixed(3));
     if (turnEnded === false) {
       storePosition();
+      checkBadThrow();
     }
     if (singleplayer === false) {
       sendPosition(xPos, yPos, zPos, xRot, yRot, zRot);
     }
-    checkForeverFall(); // still a problem with this "cannot read property 'a' of undefined in ammo.js"
   }
 
   // received condition
@@ -175,34 +175,14 @@ function render() {
     ball2.rotation.z = -(message.rotation[2]);
   }
 
-  //user changed gravity
-  if (user.changeGravityFlag === true){
-    scene.setGravity(new THREE.Vector3( 0, user.changeGravityValue, 0 ));
-  }
-
   // start sending condition, sets projectile motion, testing purposes only
   if (keyboard[32] && user.spaceBarFlag === true) {
-    var velocity = determineVelocity(18, userAngle);
-    t = performance.now();
-    ball.setLinearVelocity(new THREE.Vector3(velocity[0], velocity[1], 0));
-    user.spaceBarFlag = false;
-    user.pointFlag = true;
-    delayedTrackerMatches.flag = false;
-    user.trackFlag = false;
-    delayedTrackerMatches.counter = 0;
-    if (turnEnded === false) {
-      storePosition();
-    }
-    moved = true;
-    if (singleplayer === false) {
-      sendPosition((-7 + (5 - ball.position.x)), ball.position.y, ball.position.z, ball.rotation.x, ball.rotation.y, ball.rotation.z);
-      dataChannel.send(JSON.stringify({ 'moved': moved }));
-    }
+    throwProjectile(18);
   }
 
 
   if (delayedTrackerMatches.trackFlag === true && user.trackFlag === true) {
-    sendProjectile(delayedTrackerMatches.counter);
+    throwProjectile(delayedTrackerMatches.counter);
   }
 
   spaceScene = requestAnimationFrame( render );
@@ -233,7 +213,6 @@ function sendPosition(x, y, z, xr, yr, zr) {
 
 function determineVelocity(trackerCount, angle) {
   const trackerToVelocityMult = 80.6;
-  user.newThrow = false;
   userVelocity = (1/trackerCount) * (1/user.setMass) * trackerToVelocityMult;
   v0 = parseFloat(userVelocity).toFixed(3);
   var radians = angle * (Math.PI/180);
@@ -242,11 +221,11 @@ function determineVelocity(trackerCount, angle) {
   return [horizV, vertV];
 }
 
-function sendProjectile(trackerCount) {
+function throwProjectile(trackerCount) {
   var velocity = determineVelocity(trackerCount, userAngle);
   t = performance.now();
   ball.setLinearVelocity(new THREE.Vector3(velocity[0], velocity[1], 0));
-  v0 = parseFloat(userVelocity).toFixed(3);
+  user.spaceBarFlag = false;
   delayedTrackerMatches.trackFlag = false;
   user.trackFlag = false;
   delayedTrackerMatches.counter = 0;

@@ -21,6 +21,7 @@ function storePosition() {
 }
 
 function graphMotion() {
+  t = parseFloat((performance.now() - t)/1000).toFixed(3);
   Plotly.plot( GRAPH, [{
   x: savedPos.x,
   y: savedPos.y,
