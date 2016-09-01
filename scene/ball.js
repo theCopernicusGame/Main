@@ -24,7 +24,6 @@ var handleCollision = function( collided_with, linearVelocity, angularVelocity )
          }
          else {
         //   console.log('collisions', this.collisions, user.pointFlag);
-           randomizeAndDisplayGravity();
            endTurnAndUpdate(0);
          } 
       console.log('this.collisions', this.collisions, 'x pos', this.position.x, 'y pos', this.position.y); 

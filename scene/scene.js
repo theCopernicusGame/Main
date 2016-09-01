@@ -180,10 +180,10 @@ function render() {
     ball2.position.z = message.position[2];
     ball2.rotation.z = -(message.rotation[2]);
   }
-
+  //console.log(user.changeGravityFlag);
   //user changed gravity
   if (user.changeGravityFlag === true){
-    console.log(user.changeGravityValue);
+    //console.log('test', user.changeGravityValue, user.changeGravityFlag);
     scene.setGravity(new THREE.Vector3( 0, user.changeGravityValue, 0 ));
   }
 
