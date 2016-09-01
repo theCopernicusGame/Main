@@ -157,7 +157,7 @@ input {
 
 
 #start-tracking{
-  visibility: hidden; 
+  visibility: hidden;
 }
 
 /*#infoPanel {
@@ -408,4 +408,22 @@ margin-left: 6.5%;
   display: inline-block;
   margin-left: 5px;
   padding: 0;
+}
+
+#velocity {
+  z-index: 6000;
+  position: absolute;
+  top: 80%;
+  left: 60%;
+  width: 80px;
+  text-align: center;
+  background-color: rgba(0,0,0, .7);
+  border-radius: 10px;
+  display: none;
+}
+
+#velocity-num {
+  display: inline-block;
+  font-size: 25px;
+  margin: 4px 0;
 }
