@@ -7,9 +7,9 @@ var ballGeometry = new THREE.SphereGeometry(.3, 28.8, 14.4);
 var handleCollision = function( collided_with, linearVelocity, angularVelocity ) {
   if (this.position.x < 4.85){
     if (this.position.y > -8 && this.position.y < 10){
-      user.collisions++; 
-      console.log('uColl', user.collisions); 
-       
+      user.collisions++;
+      console.log('uColl', user.collisions);
+
       switch ( ++this.collisions ) {
 
       case 1:
@@ -19,14 +19,13 @@ var handleCollision = function( collided_with, linearVelocity, angularVelocity )
             endTurnAndUpdate(2);
           }
           else if ( user.pointFlag === true && ((this.position.x - target.position.x) > -1.2) && ((this.position.x - target.position.x) < 1.2)  && ((this.position.z - target.position.z) < 1.2)  && ((this.position.z - target.position.z) < 1.2) ){
-           randomizeAndDisplayGravity();
            endTurnAndUpdate(1);
          }
          else {
         //   console.log('collisions', this.collisions, user.pointFlag);
            endTurnAndUpdate(0);
-         } 
-      console.log('this.collisions', this.collisions, 'x pos', this.position.x, 'y pos', this.position.y); 
+         }
+      console.log('this.collisions', this.collisions, 'x pos', this.position.x, 'y pos', this.position.y);
     }
   }
   }
@@ -51,7 +50,7 @@ var handleCollision = function( collided_with, linearVelocity, angularVelocity )
   //       }
   //     }
   //   }
-    
+
 
   //   else if (singleplayer === true && user.turnNumber === 1 && user.usedSpaceBar === true) {
   //     user.turnNumber++;

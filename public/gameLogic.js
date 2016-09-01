@@ -20,16 +20,17 @@ function chooseUser() {
   user.trackFlag = false;
   user.points = 0;
   user.otherPoints = 0;
-  user.spaceBarFlag = true;
+  user.spaceBarFlag = false;
   user.changeGravityValue = -1.6; //Moon gravity times multiplier for physijs Y coordinate
   user.changeGravityFlag = false;
   user.setMass = 1;
   user.checkMatches = 0;
   user.turnNumber = 1;
   user.usedSpaceBar = false;
-  user.collisions = 0; 
-  user.newThrow = true; 
-  user.turnTimer; 
+  user.collisions = 0;
+  user.newThrow = true;
+  user.turnTimer;
+  user.velocity;
 //}
 
 //setUser();
@@ -40,10 +41,11 @@ if (singleplayer === true) $('#pointsDivOnePlayer').css('opacity', '1' );
 if (user.player === "user_2") displaySignalMessage("You've joined Player 1!");
 
 function endTurnAndUpdate(points) {
-  console.log('singleplayer', singleplayer); 
-  clearTimeout(user.turnTimer); 
-  user.newThrow = true; 
-  user.collisions = 0;            
+  console.log('singleplayer', singleplayer);
+  clearTimeout(user.turnTimer);
+  user.newThrow = true;
+  user.collisions = 0;
+
   turnEnded = true;
   user.points += points;
   user.pointFlag = false;
@@ -67,7 +69,7 @@ function endTurnAndUpdate(points) {
       user.myTurn = false;
       $('#throwBall').text('Please wait for other player to throw!').animate({ opacity: 1 })
     }
-    user.spaceBarFlag = true;
+    user.spaceBarFlag = false;
     user.pointFlag = true;
     scene.remove(ball);
     turnEnded = false;
@@ -107,14 +109,14 @@ function endGame(player, points){
   $('#line-graph').animate({ opacity: 0}, 500);
   $('#end').animate({ opacity: 1 });
   setTimeout(function(){
-    restartGame(); 
-  }, 2500); 
+    restartGame();
+  }, 2500);
 }
 
 function restartGame(points) {
-  clearTimeout(user.turnTimer); 
-  user.newThrow = true; 
-  user.collisions = 0;            
+  clearTimeout(user.turnTimer);
+  user.newThrow = true;
+  user.collisions = 0;
   user.changeGravityFlag = false;
   turnEnded = true;
   user.points = 0;
@@ -142,7 +144,7 @@ function restartGame(points) {
       addBall();
       $('#end').animate({ opacity: 0 });
       if (singleplayer === true) user.checkMatches = 0;
-    }, 1500); 
+    }, 1500);
 }
 
 
@@ -154,9 +156,9 @@ setTimeout(addScene, 2000);
 
 //when user hits target call this and -send through dataChannel.
 function randomizeAndDisplayGravity() {
-  console.log('random');
+
     //from -1.6 to 9.8
-    var randomNum = Math.random() * 11.4 - 1.6;
+    var randomNum = Math.random() * 8.2 + 1.6;
     var result = "";
     randomNum = randomNum.toString().split('.');
     result += randomNum[0];
@@ -172,9 +174,9 @@ function randomizeAndDisplayGravity() {
 
 //call this to convert gravities above 0;
 function convertGravity(num) {
-  console.log('new gravity', num); 
+  console.log('new gravity', num);
   var correctGravity = num;
-  if (num > 0) {
+  if (num > 2.3) {
     correctGravity = Math.round(num * -1.2);
   }
   user.changeGravityValue = correctGravity;
@@ -185,7 +187,41 @@ function updateGravityDiv(newVal) {
   $('#current-gravity').html(newVal);
 }
 
-$('#instructions').hide(); 
+
+var count = 1;
+$(document).keyup(function(event) {
+  if (event.keyCode === 32) {
+    var velocityDiv = $('#velocity');
+    var velocityNum = Number($('#velocity-num').html());
+    processVelocity(velocityNum)
+    user.spaceBarFlag = true;
+
+    count = 1;
+    velocityDiv.fadeOut(700);
+  }
+}).keydown(function(event) {
+  if (event.keyCode == 32) {
+    var velocityP = $('#velocity-num');
+    var velocityDiv = $('#velocity');
+    velocityDiv.fadeIn(400);
+
+    var velocityNum = count;
+    count++;
+      if (velocityNum <= 27) {
+        velocityP.html(velocityNum);
+      }
+  }
+});
+
+
+function processVelocity(inputV) {
+  var currentGravity = user.changeGravityValue;
+  var velocityToProcess = 30 - inputV;
+
+  user.velocity = velocityToProcess;
+}
+
+$('#instructions').hide();
 $('#gear').click(function(){
-  $('#instructions').fadeToggle('medium'); 
-}); 
+  $('#instructions').fadeToggle('medium');
+});

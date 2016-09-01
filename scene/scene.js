@@ -188,13 +188,17 @@ function render() {
   }
 
   // start sending condition, sets projectile motion, testing purposes only
-  if (keyboard[32] && user.spaceBarFlag === true){
+  if (user.spaceBarFlag === true){
     user.spaceBarFlag = false;
-    user.usedSpaceBar = true; //for collision bug where 1st turn use of spacebar immediately gives ball 2 collisions
     user.pointFlag = true;
     t = performance.now();
-    var velocity = determineVelocity(18, userAngle);
-    ball.setLinearVelocity(new THREE.Vector3(velocity[0], velocity[1], 0));
+    console.log('velocity', user.velocity);
+    var velocity = determineVelocity(user.velocity, userAngle);
+    console.log('test', velocity[0], velocity[1])
+    // setTimeout(function() {
+      ball.setLinearVelocity(new THREE.Vector3(velocity[0], velocity[1], 0));
+    // }, 100);
+
     delayedTrackerMatches.flag = false;
     user.trackFlag = false;
     delayedTrackerMatches.counter = 0;
@@ -246,15 +250,16 @@ function sendPosition(x, y, z, xr, yr, zr) {
 */
 function determineVelocity(trackerCount, angle) {
   const trackerToVelocityMult = 80.6;
-  user.newThrow = false; 
-  
+  console.log('trackCount', trackerCount)
+  user.newThrow = false;
+
   userVelocity = (1/trackerCount) * (1/user.setMass) * trackerToVelocityMult;
   user.turnTimer = setTimeout(function(){
     if (user.collisions === 0 && user.newThrow === false){
-     console.log('too long!'); 
+     console.log('too long!');
      endTurnAndUpdate(0);
-     }  
-  }, 22000); 
+     }
+  }, 22000);
   v0 = parseFloat(userVelocity).toFixed(3);
   var radians = angle * (Math.PI/180);
   var vertV = userVelocity * Math.sin(radians);
@@ -280,5 +285,3 @@ function sendProjectile(trackerCount) {
   }
   demo.clear();
 }
-
- 
