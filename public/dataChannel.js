@@ -149,17 +149,18 @@ function receiveDataChannel(event) {
 
 function receiveDataChannelMessage(event) {
     received = JSON.parse(event.data);
-    if (received.position) {
+    if (received.hasOwnProperty('position')) {
         message = received;
         displayPosition('Height: ' + parseFloat(message.position[1] - .3).toFixed(3), 'Distance: ' + parseFloat(7 + message.position[0]).toFixed(3));
-    } else if (received.moved) {
-      console.log('When is moved received?')
+    } else if (received.hasOwnProperty('moved')) {
       moved = received.moved;
     } else if (received.turn) {
-      console.log('When is turn received?')
         updateAndStartTurn();
-    } else if (received.points) {
-        updateOtherPoints();
+    } else if (received.hasOwnProperty('points')) {
+      user.changeGravityValue = received.gyravityToProcess;
+      user.changeGravityFlag = true;
+      updateGravityDiv(received.gravityToDisplay);
+      updateOtherPoints();
     }
 }
 

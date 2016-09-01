@@ -367,3 +367,9 @@ margin-left: 6.5%;
   font-size: 16px;
   height: 25px;
 }
+
+#current-gravity {
+  display: inline-block;
+  margin-left: 5px;
+  padding: 0;
+}

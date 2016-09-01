@@ -4,9 +4,6 @@ $(function() {
       if(e.keyCode === 13){
         var val = $(this).val();
         user.setMass = val;
-        // ball._physijs.mass = val;
-        // scene.execute( 'updateMass', { id: ball._physijs.id, mass: val  } );
-        // console.log('ballMass', ball._physijs.mass);
       }
     });
 
@@ -24,5 +21,5 @@ $(function() {
       user.changeGravityFlag = true;
     }
   });
-  
+
 });
