@@ -20,7 +20,7 @@ function chooseUser() {
   user.trackFlag = false;
   user.points = 0;
   user.otherPoints = 0;
-  user.spaceBarFlag = true;
+  user.spaceBarFlag = false;
   user.changeGravityValue = -1.6; //Moon gravity times multiplier for physijs Y coordinate
   user.changeGravityFlag = false;
   user.setMass = 1;
@@ -30,6 +30,7 @@ function chooseUser() {
   user.collisions = 0;
   user.newThrow = true;
   user.turnTimer;
+  user.velocity;
 //}
 
 //setUser();
@@ -40,10 +41,12 @@ if (singleplayer === true) $('#pointsDivOnePlayer').css('opacity', '1' );
 if (user.player === "user_2") displaySignalMessage("You've joined Player 1!");
 
 function endTurnAndUpdate(points) {
+
   clearTimeout(user.turnTimer);
   user.newThrow = true;
   user.collisions = 0;
-  user.changeGravityFlag = false;
+
+  //user.changeGravityFlag = false;
   turnEnded = true;
   user.points += points;
   user.pointFlag = false;
@@ -66,7 +69,8 @@ function endTurnAndUpdate(points) {
       dataChannel.send(JSON.stringify({ 'turn': user.myTurn }));
       user.myTurn = false;
       $('#throwBall').text('Please wait for other player to throw!').animate({ opacity: 1 })
-    } else user.spaceBarFlag = true;
+    }
+    user.spaceBarFlag = false;
     user.pointFlag = true;
     scene.remove(ball);
     turnEnded = false;
@@ -102,10 +106,48 @@ function checkForeverFall() {
 }
 
 function endGame(player, points){
-  $("#end").text("Game over! " + player + " got to " + points + " points!  But really, everyone wins when you're learning.");
-  $('#line-graph').fadeOut(500);
+  $("#end").text("Game over! " + player + " got to " + points + " points! Restarting your game shortly.");
+  $('#line-graph').animate({ opacity: 0}, 500);
   $('#end').animate({ opacity: 1 });
+  setTimeout(function(){
+    restartGame();
+  }, 2500);
 }
+
+function restartGame(points) {
+  clearTimeout(user.turnTimer);
+  user.newThrow = true;
+  user.collisions = 0;
+  user.changeGravityFlag = false;
+  turnEnded = true;
+  user.points = 0;
+  user.pointFlag = false;
+  if (singleplayer === true) $('#p1OnlyPoints').text(user.points);
+  else {
+    $('#p1Points').text(user.points);
+    $('#p2Points').text(user.points);
+  }
+    setTimeout(function() {
+      var displayGravity = $('#current-gravity').html();
+      if (singleplayer === false) dataChannel.send(JSON.stringify({ 'points': points, 'gravityToProcess': user.changeGravityValue, 'gravityToDisplay': displayGravity }));
+    }, 500);
+    setTimeout(function() {
+      moved = false;
+      if (singleplayer === false) {
+        dataChannel.send(JSON.stringify({ 'moved': moved }));
+        dataChannel.send(JSON.stringify({ 'turn': user.myTurn }));
+        user.myTurn = false;
+        $('#throwBall').text('Please wait for other player to throw!').animate({ opacity: 1 })
+      } else user.spaceBarFlag = true;
+      user.pointFlag = true;
+      scene.remove(ball);
+      turnEnded = false;
+      addBall();
+      $('#end').animate({ opacity: 0 });
+      if (singleplayer === true) user.checkMatches = 0;
+    }, 1500);
+}
+
 
 function addScene() {
   $('#gamescript').append( `<script type=` + `"text/javascript"` + ` src=` + `"/scene/scene.js"` + `></script>` );
@@ -117,7 +159,7 @@ setTimeout(addScene, 2000);
 function randomizeAndDisplayGravity() {
 
     //from -1.6 to 9.8
-    var randomNum = Math.random() * 11.4 - 1.6;
+    var randomNum = Math.random() * 8.2 + 1.6;
     var result = "";
     randomNum = randomNum.toString().split('.');
     result += randomNum[0];
@@ -134,7 +176,7 @@ function randomizeAndDisplayGravity() {
 //call this to convert gravities above 0;
 function convertGravity(num) {
   var correctGravity = num;
-  if (num > 0) {
+  if (num > 2.3) {
     correctGravity = Math.round(num * -1.2);
   }
   user.changeGravityFlag = true;
@@ -147,8 +189,12 @@ function updateGravityDiv(newVal) {
 
 var count = 1;
 $(document).keyup(function(event) {
-  if (event.keyCode == 32) {
+  if (event.keyCode === 32) {
     var velocityDiv = $('#velocity');
+    var velocityNum = Number($('#velocity-num').html());
+    processVelocity(velocityNum)
+    user.spaceBarFlag = true;
+
     count = 1;
     velocityDiv.fadeOut(700);
   }
@@ -160,8 +206,16 @@ $(document).keyup(function(event) {
 
     var velocityNum = count;
     count++;
-      if (velocityNum <= 20) {
+      if (velocityNum <= 27) {
         velocityP.html(velocityNum);
       }
   }
 });
+
+
+function processVelocity(inputV) {
+  var currentGravity = user.changeGravityValue;
+  var velocityToProcess = 30 - inputV;
+
+  user.velocity = velocityToProcess;
+}
