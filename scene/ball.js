@@ -8,7 +8,7 @@ var handleCollision = function( collided_with, linearVelocity, angularVelocity )
   if (this.position.x < 4.85){
     if (this.position.y > -8 && this.position.y < 10){
       user.collisions++; 
-      console.log('uColl', user.collisions); 
+      //console.log('uColl', user.collisions); 
        
       switch ( ++this.collisions ) {
 

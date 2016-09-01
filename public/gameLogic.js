@@ -40,10 +40,10 @@ if (singleplayer === true) $('#pointsDivOnePlayer').css('opacity', '1' );
 if (user.player === "user_2") displaySignalMessage("You've joined Player 1!");
 
 function endTurnAndUpdate(points) {
-  console.log('singleplayer', singleplayer); 
   clearTimeout(user.turnTimer); 
   user.newThrow = true; 
   user.collisions = 0;            
+  user.trackFlag = false; 
   turnEnded = true;
   user.points += points;
   user.pointFlag = false;
