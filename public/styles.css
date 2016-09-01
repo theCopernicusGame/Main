@@ -5,16 +5,26 @@ body {
    margin: 0px;
    overflow: hidden;
    font-family: 'Fjalla One', sans-serif;
+   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
  }
 
 #containerG {
   position: relative;
 }
+
+#topInstr{
+  text-align: center; 
+  font-weight: 700; 
+  font-size: 120%;
+  width: 60%; 
+  margin-left: 20%;
+  margin-right: 20% ;
+}
 #pointsDivOnePlayer{
   opacity: 0;
   position: absolute;
   right: 0px;
-  margin-top: 2.48%; /* 20px / 808px */
+  margin-top: 3%; /* 20px / 808px */
   margin-right: 1.49%; /* 20px / 1440px */
   border: 3px solid white;
   border-radius: 10px;
@@ -25,6 +35,14 @@ body {
   font-size: 100%;
   padding-top: 1.5%;
   padding-bottom: 1.5% ;
+}
+
+#gear{
+  position: absolute;
+  left: 0px;
+  margin-top: 50%; 
+  margin-left: 1%;
+  z-index: 9998;
 }
 
 #banner {
@@ -245,6 +263,24 @@ input {
   padding-bottom: 1%;
 }
 
+#instructions { 
+  position: absolute;
+  z-index: 10199;
+  margin-top: 13%;
+  margin-left: 10%;
+  margin-right: 10%; 
+  border: 3px solid white; 
+  border-radius: 10px;
+  background: rgba(0,0,128, .8);
+  color: #FFF;
+  vertical-align: middle;
+  width: 80%;
+  font-size: 100%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  padding-left: 2%; 
+}
+
 
 #throwBall {
   opacity: 0;
@@ -269,7 +305,7 @@ input {
   opacity: 0;
   position: absolute;
   right: 0px;
-  margin-top: 2.48%; /* 20px / 808px */
+  margin-top: 3%; /* 20px / 808px */
   margin-right: 1.49%; /* 20px / 1440px */
   border: 3px solid white;
   border-radius: 10px;
@@ -314,8 +350,9 @@ margin-left: 6.5%;
 #tDiv {
   position: absolute;
   right: 0px;
-  margin-top: 8%;
+  margin-top: 9%;
   margin-right: 2%;
+  
 }
 
 #bg {

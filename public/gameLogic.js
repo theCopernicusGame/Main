@@ -44,7 +44,6 @@ function endTurnAndUpdate(points) {
   clearTimeout(user.turnTimer); 
   user.newThrow = true; 
   user.collisions = 0;            
-  user.changeGravityFlag = false;
   turnEnded = true;
   user.points += points;
   user.pointFlag = false;
@@ -173,14 +172,20 @@ function randomizeAndDisplayGravity() {
 
 //call this to convert gravities above 0;
 function convertGravity(num) {
+  console.log('new gravity', num); 
   var correctGravity = num;
   if (num > 0) {
     correctGravity = Math.round(num * -1.2);
   }
-  user.changeGravityFlag = true;
   user.changeGravityValue = correctGravity;
+  user.changeGravityFlag = true;
 }
 
 function updateGravityDiv(newVal) {
   $('#current-gravity').html(newVal);
 }
+
+$('#instructions').hide(); 
+$('#gear').click(function(){
+  $('#instructions').fadeToggle('medium'); 
+}); 
