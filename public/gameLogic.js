@@ -100,7 +100,7 @@ function restartGame() {
   if (user.myTurn === true) {
     peerFound = false;
     scene.remove(ball);
-    dataChannel.send(JSON.stringify({ 'restart': true }))
+    if (singleplayer === false) dataChannel.send(JSON.stringify({ 'restart': true }))
     setUser();
     addBall();
     peerFound = true;
@@ -109,6 +109,10 @@ function restartGame() {
     setUser();
     addBall();
   }
+  if (singleplayer === true) $('#p1OnlyPoints').text(user.points);
+  else if (user.player === "user_1") $('#p1Points').text(user.points);
+  else $('#p2Points').text(user.points);
+  $('#end').animate({ opacity: 0 });
 }
 
 // when user hits target call this and -send through dataChannel
