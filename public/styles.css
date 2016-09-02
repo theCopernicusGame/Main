@@ -13,13 +13,14 @@ body {
 }
 
 #topInstr{
-  text-align: center; 
-  font-weight: 700; 
+  text-align: center;
+  font-weight: 700;
   font-size: 120%;
-  width: 60%; 
+  width: 60%;
   margin-left: 20%;
   margin-right: 20% ;
 }
+
 #pointsDivOnePlayer{
   opacity: 0;
   position: absolute;
@@ -37,10 +38,10 @@ body {
   padding-bottom: 1.5% ;
 }
 
-#gear{
+#gear {
   position: absolute;
   left: 0px;
-  margin-top: 50%; 
+  margin-top: 50%;
   margin-left: 1%;
   z-index: 9998;
 }
@@ -54,18 +55,22 @@ body {
   text-align: center;
  }
 
- #change {
-  position: absolute;
-  right: 18%;
-  bottom: 3%;
-  width: 35%;
-  display: block;
- }
+#change {
+position: absolute;
+right: 0px;
+bottom: 0px;
+margin-right: 1.49%;
+margin-bottom: 5%;
+}
 
-input {
-  float: right;
-  margin-left: 2%;
-  margin-top: 2%;
+#angle {
+ display: table-cell;
+ vertical-align: middle;
+ height: 50px;
+}
+
+#angle input {
+   font-size: 20px;
 }
 
 #massLine{
@@ -74,18 +79,9 @@ input {
 #inputMass {
  margin-top: .5%;
 }
-#inputAngle {
- margin-top: 1%;
-}
+
 #inputGravity {
  margin-top: 1%;
-}
-
-#change p {
-  margin: 0;
-  padding: 0;
-  float:right;
-  white-space: nowrap;
 }
 
 /* choose game buttons */
@@ -160,14 +156,14 @@ input {
   visibility: hidden;
 }
 
-/*#infoPanel {
+#searchBar {
   position: absolute;
   top: 40%;
   left: 50%;
   margin-left: -203px;
   font-size: 40px;
   text-align: center;
-}*/
+}
 
 #room {
   text-align: center;
@@ -263,13 +259,13 @@ input {
   padding-bottom: 1%;
 }
 
-#instructions { 
+#instructions {
   position: absolute;
   z-index: 10199;
   margin-top: 13%;
   margin-left: 10%;
-  margin-right: 10%; 
-  border: 3px solid white; 
+  margin-right: 10%;
+  border: 3px solid white;
   border-radius: 10px;
   background: rgba(0,0,128, .8);
   color: #FFF;
@@ -278,7 +274,7 @@ input {
   font-size: 100%;
   padding-top: 1%;
   padding-bottom: 1%;
-  padding-left: 2%; 
+  padding-left: 2%;
 }
 
 
@@ -318,7 +314,7 @@ input {
   padding-bottom: 1.5% ;
 }
 
-span {
+#p1Points, #p2Points, #p1OnlyPoints {
   font-size: 130%;
   font-weight: bolder;
 }
@@ -333,6 +329,8 @@ margin-left: 6.5%;
 
 #line-graph {
   opacity: 0;
+  font-family: 'Fjalla One', sans-serif;
+  text-shadow: 0px 0px #FFF;
   position: absolute;
   right: 0px;
   margin-top: 12%;
@@ -342,6 +340,7 @@ margin-left: 6.5%;
 
 #v0Div {
   position: absolute;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   right: 0px;
   margin-top: 2%;
   margin-right: 2%;
@@ -349,10 +348,11 @@ margin-left: 6.5%;
 
 #tDiv {
   position: absolute;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   right: 0px;
   margin-top: 9%;
   margin-right: 2%;
-  
+
 }
 
 #bg {

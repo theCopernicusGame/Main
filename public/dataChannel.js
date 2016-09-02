@@ -81,7 +81,7 @@ io.on('signaling_message', function(data) {
 
 function startSignaling() {
     rtcPeerConn = new webkitRTCPeerConnection(configuration, {optional: []});
-    dataChannel = rtcPeerConn.createDataChannel('positionMessages', dataChannelOptions);
+    dataChannel = rtcPeerConn.createDataChannel('gameMessages', dataChannelOptions);
 
     // send any ice candidates to the other peer
     rtcPeerConn.onicecandidate = function (evt) {
@@ -148,40 +148,43 @@ function receiveDataChannel(event) {
 }
 
 function receiveDataChannelMessage(event) {
-    received = JSON.parse(event.data);
-    if (received.position) {
-        message = received;
-        displayPosition('Height: ' + parseFloat(message.position[1] - .3).toFixed(3), 'Distance: ' + parseFloat(7 + message.position[0]).toFixed(3));
-    } else if (received.moved) {
-        moved = received.moved;
-    } else if (received.turn) {
-        updateAndStartTurn();
-    } else if (received.points) {
-      user.changeGravityValue = received.gravityToProcess;
-      user.changeGravityFlag = true;
-      updateGravityDiv(received.gravityToDisplay);
-      updateOtherPoints();
-    }
+  received = JSON.parse(event.data);
+  if (received.hasOwnProperty('position')) {
+      message = received;
+      displayPosition('Height: ' + parseFloat(message.position[1] - .3).toFixed(3), 'Distance: ' + parseFloat(7 + message.position[0]).toFixed(3));
+  } else if (received.hasOwnProperty('moved')) {
+    moved = received.moved;
+  } else if (received.hasOwnProperty('turn')) {
+      updateAndStartTurn();
+  } else if (received.hasOwnProperty('points')) {
+    updateOtherPoints();
+  } else if (received.hasOwnProperty('gravityToProcess')) {
+    user.changeGravityValue = received.gyravityToProcess;
+    user.changeGravityFlag = true;
+    updateGravityDiv(received.gravityToDisplay);
+  } else if (received.hasOwnProperty('restart')) {
+    restartGame();
+  }
 }
 
 //Logging/Display Methods
 function logError(error) {
-    console.log(error.name + ': ' + error.message);
+  console.log(error.name + ': ' + error.message);
 }
 
 function displayPosition(message1, message2) {
-    heightArea.innerHTML = message1;
-    distArea.innerHTML = message2;
+  heightArea.innerHTML = message1;
+  distArea.innerHTML = message2;
 }
 
 function displaySignalMessage(message) {
-    signalingArea.innerHTML = message;
+  signalingArea.innerHTML = message;
 }
 
 function transitionGameMessages() {
-    $('#signalingArea').animate({ marginTop: '80%' }, 1000);
-    $('#pointsDiv').animate({ opacity: 1 });
-    if (user.myTurn === false) $('#throwBall').text("Please wait for the other player to throw!").animate({ opacity: 1 });
+  $('#signalingArea').animate({ marginTop: '80%' }, 1000);
+  if (singleplayer === false) $('#pointsDiv').animate({ opacity: 1 });
+  if (user.myTurn === false) $('#throwBall').text("Please wait for the other player to throw!").animate({ opacity: 1 });
 }
 
 // necessary here

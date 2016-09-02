@@ -8,6 +8,11 @@ var GRAPH = document.getElementById('line-graph');
 var layout = {
   yaxis: {title: "Vertical Displacement (m)"},
   xaxis: {title: "Horizontal Displacement (m)"},
+  font: {
+    family: "Fjalla One, sans-serif",
+    size: 10,
+    color: "black"
+  },
   margin: { t: 20, b: 40, r: 20, l: 50 },
 }
 
@@ -21,6 +26,7 @@ function storePosition() {
 }
 
 function graphMotion() {
+  t = parseFloat((performance.now() - t)/1000).toFixed(3);
   Plotly.plot( GRAPH, [{
   x: savedPos.x,
   y: savedPos.y,
