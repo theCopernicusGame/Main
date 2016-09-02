@@ -400,8 +400,12 @@ margin-left: 6.5%;
 #hand-info {
   margin-top: -20px;
   width: 140px;
+  height: 55px;
   font-size: 16px;
-  height: 25px;
+  letter-spacing: 1px;
+  padding: 5px 10px;
+  background-color: rgba(40,40,40, 0.9);
+  border-radius: 7px;
 }
 
 #current-gravity {
