@@ -1,41 +1,30 @@
 'use strict';
 
-// make collision logic more or less specific? need more on target radius
-
 var textureLoader = new THREE.TextureLoader();
 var ballGeometry = new THREE.SphereGeometry(.3, 28.8, 14.4);
 var handleCollision = function( collided_with, linearVelocity, angularVelocity ) {
-  if (this.position.x < 4.85){
-    if (this.position.y > -8 && this.position.y < 10){
-      user.collisions++; 
-      //console.log('uColl', user.collisions); 
-      switch ( ++this.collisions ) {
-
+  if (this.position.x < 4.80 && moved === true) {
+    this.collisions++;
+    switch ( this.collisions ) {
       case 1:
-  //     console.log('PF', user.pointFlag, 'collisions', this.collisions, 'ball poss', this.position.x, this.position.z, 'target', target.position.x, target.position.z);
-          if ( user.pointFlag === true && ((this.position.x - target.position.x) > -.75) && ((this.position.x - target.position.x) < .75)  && ((this.position.z - target.position.z) < .75)  && ((this.position.z - target.position.z) < .75) ){
-            randomizeAndDisplayGravity();
-            endTurnAndUpdate(2);
-          }
-          else if ( user.pointFlag === true && ((this.position.x - target.position.x) > -1.2) && ((this.position.x - target.position.x) < 1.2)  && ((this.position.z - target.position.z) < 1.2)  && ((this.position.z - target.position.z) < 1.2) ){
-           endTurnAndUpdate(1);
-         }
-         else {
-        //   console.log('collisions', this.collisions, user.pointFlag);
-           endTurnAndUpdate(0);
-         }
-      console.log('this.collisions', this.collisions, 'x pos', this.position.x, 'y pos', this.position.y);
+      if ( ((this.position.x - target.position.x) > -.75) && ((this.position.x - target.position.x) < .75)  && ((this.position.z - target.position.z) < .75)  && ((this.position.z - target.position.z) < .75) ) {
+        randomizeAndDisplayGravity();
+        endTurnAndUpdate(2);
+      }
+      else if ( ((this.position.x - target.position.x) > -1.2) && ((this.position.x - target.position.x) < 1.2)  && ((this.position.z - target.position.z) < 1.2)  && ((this.position.z - target.position.z) < 1.2) ) {
+        randomizeAndDisplayGravity();
+        endTurnAndUpdate(1);
+      }
+      else {
+        endTurnAndUpdate(0);
+      }
     }
   }
-  }
-
-
 };
-
 
 var moonNormal  = textureLoader.load('/assets/finalMoonPics/normal.jpg');
 var moonMap = textureLoader.load('/assets/finalMoonPics/moonPic.jpg');
-var ballTexture = new THREE.MeshPhongMaterial({ map: moonMap, normalMap: moonNormal });//TEST RED BALL FOR LOAD TIME
+var ballTexture = new THREE.MeshPhongMaterial({ map: moonMap, normalMap: moonNormal }); //TEST RED BALL FOR LOAD TIME
 var ballTexture2 = new THREE.MeshPhongMaterial( { color: 0xFF0000} );
 
 

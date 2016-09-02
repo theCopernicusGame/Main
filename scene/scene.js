@@ -1,15 +1,6 @@
 Physijs.scripts.worker = '/lib/physijs_worker.js'; //webworker used to minimize latency re phys.js
 Physijs.scripts.ammo = 'ammo.js';
 
-// in case window changes
-
-
-//to collect possible user change in angle;
-var userAngle = 45, userVelocity, userGravity, spaceScene, gravityCounter = 0, timeSinceThrow;
-
-//to collect possible user change in angle;
-
-
 function onWindowResize() {
    camera.aspect = window.innerWidth / window.innerHeight;
    camera.updateProjectionMatrix();
@@ -17,8 +8,11 @@ function onWindowResize() {
    render();
 }
 
+// in case window size changes
 window.addEventListener( 'resize', onWindowResize, false );
 
+//to collect possible user change in angle;
+var userAngle = 45, userVelocity, userGravity, spaceScene, gravityCounter = 0, timeSinceThrow;
 var camera, renderer, mesh;
 var keyboard = {};
 scene = new Physijs.Scene;
@@ -142,10 +136,10 @@ scene.add( spotlight );
 scene.add( spotlight2 );
 
 function render() {
-  //console.log(ball._physijs.mass);
+
   // run physics
   scene.simulate();
-
+  scene.setGravity(new THREE.Vector3( 0, user.changeGravityValue, 0 ));
 
   earth.rotation.x += parameters.rotateX;
   earth.rotation.y -= parameters.rotateY;
@@ -155,7 +149,6 @@ function render() {
   cloudMesh.rotation.y -= parameters.cRotateY;
 
   // continue send condition
-
   if (moved === true && user.myTurn === true) {
     var xPos = -7 + (5 - ball.position.x);
     var yPos = ball.position.y;
@@ -166,11 +159,11 @@ function render() {
     displayPosition('Height: ' + parseFloat(ball.position.y - .3).toFixed(3), 'Distance: ' + parseFloat(5 - ball.position.x).toFixed(3));
     if (turnEnded === false) {
       storePosition();
+      checkBadThrow();
     }
     if (singleplayer === false) {
       sendPosition(xPos, yPos, zPos, xRot, yRot, zRot);
     }
-    checkForeverFall(); // still a problem with this "cannot read property 'a' of undefined in ammo.js"
   }
 
   // received condition
@@ -180,42 +173,16 @@ function render() {
     ball2.position.z = message.position[2];
     ball2.rotation.z = -(message.rotation[2]);
   }
-  //console.log(user.changeGravityFlag);
-  //user changed gravity
-  if (user.changeGravityFlag === true){
-    //console.log('test', user.changeGravityValue, user.changeGravityFlag);
-    scene.setGravity(new THREE.Vector3( 0, user.changeGravityValue, 0 ));
-  }
 
   // start sending condition, sets projectile motion, testing purposes only
-  if (user.spaceBarFlag === true){
-    user.spaceBarFlag = false;
-    user.pointFlag = true;
-    t = performance.now();
-    console.log('velocity', user.velocity);
-    var velocity = determineVelocity(user.velocity, userAngle);
-    console.log('test', velocity[0], velocity[1])
-    // setTimeout(function() {
-      ball.setLinearVelocity(new THREE.Vector3(velocity[0], velocity[1], 0));
-    // }, 100);
-
-    delayedTrackerMatches.flag = false;
-    user.trackFlag = false;
-    delayedTrackerMatches.counter = 0;
-    moved = true;
-    if (turnEnded === false) {
-      storePosition();
-    }
-    user.trackFlag = false;
-    if (singleplayer === false) {
-      dataChannel.send(JSON.stringify({ 'moved': moved }));
-      sendPosition((-7 + (5 - ball.position.x)), ball.position.y, ball.position.z, ball.rotation.x, ball.rotation.y, ball.rotation.z);
-    }
+  if (user.spaceBarFlag === true) {
+    throwProjectile();
   }
 
-
-  if (delayedTrackerMatches.trackFlag === true && user.trackFlag === true) {
-    sendProjectile(delayedTrackerMatches.counter);
+  if (delayedTrackerMatches.trackFlag === true/* && user.trackFlag === true*/) {
+    const trackerToVelocityMult = 80.6;
+    userVelocity = (1/delayedTrackerMatches.counter) * trackerToVelocityMult;
+    throwProjectile();
   }
 
   spaceScene = requestAnimationFrame( render );
@@ -244,22 +211,7 @@ function sendPosition(x, y, z, xr, yr, zr) {
   dataChannel.send(JSON.stringify(toSend));
 }
 
-
-/* current velocity tiers:
-2-12, 12-21, 21-70, 70-200
-*/
-function determineVelocity(trackerCount, angle) {
-  const trackerToVelocityMult = 80.6;
-  console.log('trackCount', trackerCount)
-  user.newThrow = false;
-
-  userVelocity = (1/trackerCount) * (1/user.setMass) * trackerToVelocityMult;
-  user.turnTimer = setTimeout(function(){
-    if (user.collisions === 0 && user.newThrow === false){
-     console.log('too long!');
-     endTurnAndUpdate(0);
-     }
-  }, 22000);
+function determineVelocity(velocity, angle) {
   v0 = parseFloat(userVelocity).toFixed(3);
   var radians = angle * (Math.PI/180);
   var vertV = userVelocity * Math.sin(radians);
@@ -267,21 +219,21 @@ function determineVelocity(trackerCount, angle) {
   return [horizV, vertV];
 }
 
-function sendProjectile(trackerCount) {
-  var velocity = determineVelocity(trackerCount, userAngle);
+function throwProjectile() {
+  var velocity = determineVelocity(userVelocity, userAngle);
   t = performance.now();
   ball.setLinearVelocity(new THREE.Vector3(velocity[0], velocity[1], 0));
-  v0 = parseFloat(userVelocity).toFixed(3);
+  user.spaceBarFlag = false;
   delayedTrackerMatches.trackFlag = false;
   user.trackFlag = false;
   delayedTrackerMatches.counter = 0;
-  moved = true;
   if (turnEnded === false) {
     storePosition();
   }
+  moved = true;
   if (singleplayer === false) {
-    dataChannel.send(JSON.stringify({ 'moved': moved }));
     sendPosition((-7 + (5 - ball.position.x)), ball.position.y, ball.position.z, ball.rotation.x, ball.rotation.y, ball.rotation.z);
+    dataChannel.send(JSON.stringify({ 'moved': moved }));
   }
   demo.clear();
 }
