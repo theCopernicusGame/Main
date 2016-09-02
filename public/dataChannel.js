@@ -35,7 +35,6 @@ if (SIGNAL_ROOM === "singleplayer") singleplayer = true;
 
 // P2P information needed for game logic
 var peerFound = false;
-var moved = false;
 
 // set up socket connection between client and server for signaling
 io = io.connect();
