@@ -11,7 +11,6 @@ function chooseUser() {
   }
 }
 
-
 function setUser() {
   user.player = chooseUser()[0];
   user.myTurn = chooseUser()[1];
@@ -34,6 +33,7 @@ function endTurnAndUpdate(points) {
   user.spaceBarFlag = false;
   user.trackFlag = false;
   user.checkMatches = 0;
+
   graphMotion();
 
   user.points += points;
@@ -56,7 +56,8 @@ function endTurnAndUpdate(points) {
     scene.remove(ball);
     addBall();
     if (user.points > 5) endGame(user.player, user.points);
-  }, 2000)
+  }, 2000);
+
 }
 
 function updateAndStartTurn() {
@@ -91,7 +92,7 @@ function endGame(player, points){
   $('#end').animate({ opacity: 1 });
   setTimeout(function(){
     restartGame();
-  }, 2500);
+  }, 3000);
 }
 
 function restartGame() {
@@ -109,10 +110,10 @@ function restartGame() {
     setUser();
     addBall();
   }
-  if (singleplayer === true) $('#p1OnlyPoints').text(user.points);
-  else if (user.player === "user_1") $('#p1Points').text(user.points);
-  else $('#p2Points').text(user.points);
-  $('#end').animate({ opacity: 0 });
+   if (singleplayer === true) $('#p1OnlyPoints').text(user.points);
+   else if (user.player === "user_1") $('#p1Points').text(user.points);
+   else $('#p2Points').text(user.points);
+   $('#end').animate({ opacity: 0 }, 500);
 }
 
 // when user hits target call this and -send through dataChannel

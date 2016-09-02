@@ -338,7 +338,7 @@ margin-left: 6.5%;
   position: absolute;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   right: 0px;
-  margin-top: 9%;
+  margin-top: 9.5%;
   margin-right: 2%;
 
 }
@@ -388,8 +388,12 @@ margin-left: 6.5%;
 #hand-info {
   margin-top: -20px;
   width: 140px;
+  height: 55px;
   font-size: 16px;
-  height: 25px;
+  letter-spacing: 1px;
+  padding: 5px 10px;
+  background-color: rgba(40,40,40, 0.9);
+  border-radius: 7px;
 }
 
 #current-gravity {
