@@ -2,6 +2,7 @@
 
 var user = {};
 var turnEnded = false;
+var moved = false;
 
 function chooseUser() {
   if (peerFound === true) {
@@ -62,7 +63,7 @@ function endTurnAndUpdate(points) {
 
 function updateAndStartTurn() {
   turnEnded = false;
-  user.spaceBarFlag = true;
+  user.trackFlag = false;
 
   user.myTurn = received.turn;
   $('#throwBall').animate({ opacity: 0 });
@@ -81,10 +82,9 @@ function updateOtherPoints() {
 function checkBadThrow() {
   if (ball.position.y < -1) {
     endTurnAndUpdate(0);
-  } // else if ((performance.now() - t)/1000 > 15) {
-  //   console.log('is it running this?', moved, turnEnded)
-  //   endTurnAndUpdate(0);
-  // }
+  } else if ((performance.now() - t)/1000 > 15) {
+    endTurnAndUpdate(0);
+  }
 }
 
 function endGame(player, points){

@@ -179,7 +179,7 @@ function render() {
     throwProjectile();
   }
 
-  if (delayedTrackerMatches.trackFlag === true/* && user.trackFlag === true*/) {
+  if (delayedTrackerMatches.trackFlag === true && user.trackFlag === true) {
     const trackerToVelocityMult = 80.6;
     userVelocity = (1/delayedTrackerMatches.counter) * trackerToVelocityMult;
     // if (delayedTrackerMatches.counter > 1 && delayedTrackerMatches.counter <= 4) userVelocity = 21;
@@ -201,11 +201,11 @@ function render() {
     // else if (delayedTrackerMatches.counter > 106 && delayedTrackerMatches.counter < 116) userVelocity = 2;
     // else if (delayedTrackerMatches.counter > 116) userVelocity = 1.5;
     if (delayedTrackerMatches.counter > 0 && delayedTrackerMatches.counter <= 5) userVelocity = 6.5;
-   if (delayedTrackerMatches.counter > 5 && delayedTrackerMatches.counter <= 10) userVelocity = 6;
-   if (delayedTrackerMatches.counter > 10 && delayedTrackerMatches.counter <= 14) userVelocity = 5.5;
+    if (delayedTrackerMatches.counter > 5 && delayedTrackerMatches.counter <= 10) userVelocity = 6;
+    if (delayedTrackerMatches.counter > 10 && delayedTrackerMatches.counter <= 14) userVelocity = 5.5;
     if (delayedTrackerMatches.counter > 14 && delayedTrackerMatches.counter <= 19) userVelocity = 5;
-     if (delayedTrackerMatches.counter > 19 && delayedTrackerMatches.counter <= 25) userVelocity = 4.5;
-      if (delayedTrackerMatches.counter > 25) userVelocity = 3.5;
+    if (delayedTrackerMatches.counter > 19 && delayedTrackerMatches.counter <= 25) userVelocity = 4.5;
+    if (delayedTrackerMatches.counter > 25) userVelocity = 3.5;
     throwProjectile();
   }
 
