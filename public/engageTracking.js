@@ -96,12 +96,14 @@ $(function() {
     var wordCounter = 0;
     var countDown = setInterval(change, 1200);
     function change() {
+      infoP.css('backgroundColor', 'rgba(40,40,40,0.9)');
       infoP.fadeOut(0).fadeIn(1000);
       infoP.text(text[wordCounter]);
       wordCounter++;
-      if(wordCounter >= text.length) {
+      if(wordCounter > text.length) {
         startTracking();
         clearInterval(countDown);
+        infoP.css('backgroundColor', 'rgba(0,0,0,0)');
       }
     }
 
