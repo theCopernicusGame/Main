@@ -149,7 +149,6 @@ function render() {
   cloudMesh.rotation.y -= parameters.cRotateY;
 
   // continue send condition
-
   if (moved === true && user.myTurn === true) {
     var xPos = -7 + (5 - ball.position.x);
     var yPos = ball.position.y;
@@ -176,13 +175,14 @@ function render() {
   }
 
   // start sending condition, sets projectile motion, testing purposes only
-  if (keyboard[32] && user.spaceBarFlag === true) {
-    throwProjectile(18);
+  if (user.spaceBarFlag === true) {
+    throwProjectile();
   }
 
-
-  if (delayedTrackerMatches.trackFlag === true && user.trackFlag === true) {
-    throwProjectile(delayedTrackerMatches.counter);
+  if (delayedTrackerMatches.trackFlag === true/* && user.trackFlag === true*/) {
+    const trackerToVelocityMult = 80.6;
+    userVelocity = (1/delayedTrackerMatches.counter) * trackerToVelocityMult;
+    throwProjectile();
   }
 
   spaceScene = requestAnimationFrame( render );
@@ -211,9 +211,7 @@ function sendPosition(x, y, z, xr, yr, zr) {
   dataChannel.send(JSON.stringify(toSend));
 }
 
-function determineVelocity(trackerCount, angle) {
-  const trackerToVelocityMult = 80.6;
-  userVelocity = (1/trackerCount) * (1/user.setMass) * trackerToVelocityMult;
+function determineVelocity(velocity, angle) {
   v0 = parseFloat(userVelocity).toFixed(3);
   var radians = angle * (Math.PI/180);
   var vertV = userVelocity * Math.sin(radians);
@@ -221,8 +219,8 @@ function determineVelocity(trackerCount, angle) {
   return [horizV, vertV];
 }
 
-function throwProjectile(trackerCount) {
-  var velocity = determineVelocity(trackerCount, userAngle);
+function throwProjectile() {
+  var velocity = determineVelocity(userVelocity, userAngle);
   t = performance.now();
   ball.setLinearVelocity(new THREE.Vector3(velocity[0], velocity[1], 0));
   user.spaceBarFlag = false;

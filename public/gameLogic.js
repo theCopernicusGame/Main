@@ -18,9 +18,9 @@ function setUser() {
   user.trackFlag = false;
   user.points = 0;
   user.otherPoints = 0;
-  user.spaceBarFlag = true;
+  user.spaceBarFlag = false;
   user.changeGravityValue = -1.6; //Moon gravity times multiplier for physijs Y coordinate
-  user.setMass = 1;
+  user.checkMatches = 0;
 }
 
 setUser();
@@ -31,18 +31,20 @@ if (user.player === "user_2") displaySignalMessage("You've joined Player 1!");
 
 function endTurnAndUpdate(points) {
   turnEnded = true;
+  user.spaceBarFlag = false;
   user.trackFlag = false;
+  user.checkMatches = 0;
   graphMotion();
 
   user.points += points;
   if (singleplayer === true) $('#p1OnlyPoints').text(user.points);
   else if (user.player === "user_1") $('#p1Points').text(user.points);
   else $('#p2Points').text(user.points);
-  dataChannel.send(JSON.stringify({ 'points': points }));
+  if (singleplayer === false) dataChannel.send(JSON.stringify({ 'points': points }));
 
   setTimeout(function() {
     moved = false;
-    user.spaceBarFlag = true;
+    turnEnded = false;
 
     if (singleplayer === false) {
       dataChannel.send(JSON.stringify({ 'moved': moved }));
@@ -109,40 +111,47 @@ function restartGame() {
   }
 }
 
-//when user hits target call this and -send through dataChannel.
+// when user hits target call this and -send through dataChannel
 function randomizeAndDisplayGravity() {
-  //from -1.6 to 9.8
-  var randomNum = Math.random() * 8.2 + 1.6;
-  var result = "";
-  randomNum = randomNum.toString().split('.');
-  result += randomNum[0];
-  result += '.';
-  result += randomNum[1][0];
+  // from -0.1 to -9.8
+  var randomNum = -(Math.random() * (9.8 - .01) + .01).toFixed(3);
 
-  //update the gravity div;
-  updateGravityDiv(result);
+  updateGravityDiv(randomNum);
+  user.changeGravityValue = randomNum;
 
-  //return the converted gravity example: 9.8earth should be -12 in physijs;
-  convertGravity(Number(result));
-
-  var displayGravity = $('#current-gravity').html();
+  var displayGravity = $('#gravity-num').text();
   if (singleplayer === false) {
     dataChannel.send(JSON.stringify({ 'gravityToProcess': user.changeGravityValue, 'gravityToDisplay': displayGravity }));
   }
 }
 
-//call this to convert gravities above 0;
-function convertGravity(num) {
-  var correctGravity = num;
-  if (num > 2.3) {
-    correctGravity = Math.round(num * -1.2);
-  }
-  user.changeGravityValue = correctGravity;
+function updateGravityDiv(newVal) {
+  $('#gravity-num').text(newVal);
 }
 
-function updateGravityDiv(newVal) {
-  $('#current-gravity').html(newVal);
-}
+$(document).keyup(function(event) {
+  if (event.keyCode === 32) {
+    var velocityNum = Number($('#velocity-num').text());
+    userVelocity = velocityNum;
+    user.spaceBarFlag = true;
+    $('#velocity').fadeOut(700);
+    setTimeout(function() { $('#velocity-num').text(0) }, 700)
+  }
+}).keydown(function(event) {
+  if (event.keyCode == 32) {
+    $('#velocity').fadeIn(400);
+    var velocityNum = Number($('#velocity-num').text());
+    velocityNum++
+    if (velocityNum <= 27) {
+      $('#velocity-num').text(velocityNum);
+    }
+  }
+});
+
+$('#instructions').hide();
+$('#gear').click(function(){
+  $('#instructions').fadeToggle('medium');
+});
 
 // waits til this loads to add the scene
 function addScene() {

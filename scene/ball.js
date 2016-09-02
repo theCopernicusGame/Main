@@ -3,15 +3,15 @@
 var textureLoader = new THREE.TextureLoader();
 var ballGeometry = new THREE.SphereGeometry(.3, 28.8, 14.4);
 var handleCollision = function( collided_with, linearVelocity, angularVelocity ) {
-  if (this.position.x < 4.85 && moved === true) {
+  if (this.position.x < 4.80 && moved === true) {
     this.collisions++;
     switch ( this.collisions ) {
       case 1:
-      if ( ((this.position.x - target.position.x) > -.75) && ((this.position.x - target.position.x) < .75)  && ((this.position.z - target.position.z) < .75)  && ((this.position.z - target.position.z) < .75) ){
+      if ( ((this.position.x - target.position.x) > -.75) && ((this.position.x - target.position.x) < .75)  && ((this.position.z - target.position.z) < .75)  && ((this.position.z - target.position.z) < .75) ) {
         randomizeAndDisplayGravity();
         endTurnAndUpdate(2);
       }
-      else if ( ((this.position.x - target.position.x) > -1.2) && ((this.position.x - target.position.x) < 1.2)  && ((this.position.z - target.position.z) < 1.2)  && ((this.position.z - target.position.z) < 1.2) ){
+      else if ( ((this.position.x - target.position.x) > -1.2) && ((this.position.x - target.position.x) < 1.2)  && ((this.position.z - target.position.z) < 1.2)  && ((this.position.z - target.position.z) < 1.2) ) {
         randomizeAndDisplayGravity();
         endTurnAndUpdate(1);
       }

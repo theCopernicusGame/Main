@@ -29,6 +29,7 @@
     <script type="text/javascript" src="/public/engageTracking.js"></script>
     <script type="text/javascript" src="/lib/handTracking.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
+    <link href="https://fonts.google.com/specimen/Oswald?selection.family=Oswald:400,700" rel="stylesheet">
 
     <title>Copernicus</title>
   </head>
@@ -49,20 +50,40 @@
       <button class='newGame' id="start-tracking">Click to Start Tracking</button>
     </div>
     <div class="loading-container">
-      <div id="container">
 
+      <div id="container">
+        <div id='gear'><img src="/assets/gear.png" alt="Click for instructions" height="50" width="50" /></div>
+        <div id='instructions'>
+        <div id='topInstr'>
+        Hit the target, get points and win!  But once you hit the target, the gravity changes and you need to adjust your velocity, angle or both.  6 points wins!
+        </div>
+        <br>
+        MOVING THE BALL:
+          <ol><li>Use the tracking software
+              <ul>
+                <li>click the 'click to scan hand' button, line up your hand in the cirlce, then once the picture of your hand has been taken, click the 'start tracking button', and three seconds later, you can move your hand across the screen!  Be sure to keep your face out of the video or that will get tracked as well</li>
+              </ul>
+            </li>
+            <li>Use the spacebar
+            <ul>
+                <li>hold down the spacebar and the velocity will increase.  Let it go and the ball is thrown at the velocity you've reached!</li>
+              </ul>
+            </li>
+          </ol>
+        CHANGING THE ANGLE:
+        <ul>
+          <li>Modify the angle in the angle input box by typing in a new number and hitting enter. </li>
+        </ul>
+        </div>
         <div id='bg'>
           <div id="infoPanel">
-            <video id="myVideo" width="160px" height:"120px" preload autoplay loop muted></video>
+            <video id="myVideo" style="width:160px; height:120px" preload autoplay loop muted></video>
             <canvas id="canvas" style="width:160px; height:120px"></canvas>
             <canvas id="picture" style="width:80.5px; height:60.38px"></canvas>
             <canvas id="test" style="width:160px; height:120px"></canvas>
-
             <div id="heightArea">Height: </div>
             <div id="distArea">Distance: </div>
-            <div id='gravity'>
-              Gravity:<p id='current-gravity'>-1.6</p>
-            </div>
+            <div id='gravity'>Gravity: <span id="gravity-num">-1.6</span>m/s<sup>2</sup></p></div>
           </div>
           <div id="signalingArea"></div>
           <button id='throwBall'></button>
@@ -74,13 +95,15 @@
           </div>
 
           <div id='change'>
-            <input id='inputAngle' type="number" name="angle" min="0" max="90" value="45">
-            <p>Angle</p>
-            <br>
-            <input id='inputMass' type="number" name="mass" min="2" max="90" placeholder=".3kg">
-            <p>Mass</p>
+            <div id='angle'>
+              <label for='angle'>Angle: </label>
+              <input id='inputAngle' type="number" name="angle" min="0" max="90" value="45">
+            </div>
           </div>
-
+          <div id='velocity'>
+            <p id='velocity-num'>0</p>
+            m/s
+        </div>
 
         </div> <!-- closes bg -->
       </div> <!-- closes container -->

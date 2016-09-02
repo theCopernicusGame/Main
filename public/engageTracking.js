@@ -9,83 +9,84 @@ $(function() {
   var snapContainer = $('#take-snapshot');
 
   $('#start-scan').click(function() {
-  $('#start-tracking').css('visibility','visible').fadeOut(1).delay(4000).fadeIn(1500);
-  //show frame over video
-  snapContainer.css('display', 'block');
+    $('#start-scan').remove();
+    $('#start-tracking').css('visibility','visible').fadeOut(1).delay(4000).fadeIn(1500);
+    //show frame over video
+    snapContainer.css('display', 'block');
 
-  //display info message
-  allowWebcam.prepend(infoP);
+    //display info message
+    allowWebcam.prepend(infoP);
 
 
-  //capture snapshot of hand && tell user
-  setTimeout(function() {
-    var canvas = document.getElementById('process-image');
-    var canvas2 = document.getElementById('snapShot');
+    //capture snapshot of hand && tell user
+    setTimeout(function() {
+      var canvas = document.getElementById('process-image');
+      var canvas2 = document.getElementById('snapShot');
 
-    var context1 = canvas.getContext('2d');
-    var photo = document.getElementById('whiteCircle')
+      var context1 = canvas.getContext('2d');
+      var photo = document.getElementById('whiteCircle')
 
-    var context2 = canvas2.getContext('2d');
-    var video = document.getElementById('myVideo');
+      var context2 = canvas2.getContext('2d');
+      var video = document.getElementById('myVideo');
 
-      //REMOVE THROWBALL DIV
-      //$('#throwBall').hide();
+        //REMOVE THROWBALL DIV
+        //$('#throwBall').hide();
 
-    var image = context1.drawImage(photo, 0, 0, 160, 120);
-    var imageData = context1.getImageData(0, 0, canvas.width, canvas.height);
+      var image = context1.drawImage(photo, 0, 0, 160, 120);
+      var imageData = context1.getImageData(0, 0, canvas.width, canvas.height);
 
-    var vid = context2.drawImage(video, 0, 0, 160, 120);
-    var videoData = context2.getImageData(0, 0, canvas.width, canvas.height);
+      var vid = context2.drawImage(video, 0, 0, 160, 120);
+      var videoData = context2.getImageData(0, 0, canvas.width, canvas.height);
 
-    var arrRed = [];
-    var arrGreen = [];
-    var arrBlue = [];
+      var arrRed = [];
+      var arrGreen = [];
+      var arrBlue = [];
 
-    for (var i = 0; i < imageData.data.length; i += 4) {
-      if (imageData.data[i] > 235) {
+      for (var i = 0; i < imageData.data.length; i += 4) {
+        if (imageData.data[i] > 235) {
 
-         imageData.data[i] = videoData.data[i];
-         if (imageData.data[i] > 25) {
-           arrRed.push(imageData.data[i]);
-           pixelsNeededIndex.push(i);
-         }
+           imageData.data[i] = videoData.data[i];
+           if (imageData.data[i] > 25) {
+             arrRed.push(imageData.data[i]);
+             pixelsNeededIndex.push(i);
+           }
 
-         imageData.data[i + 1] = videoData.data[i + 1];
-         if (imageData.data[i + 1] > 25) arrGreen.push(imageData.data[i + 1]);
+           imageData.data[i + 1] = videoData.data[i + 1];
+           if (imageData.data[i + 1] > 25) arrGreen.push(imageData.data[i + 1]);
 
-         imageData.data[i + 2] = videoData.data[i + 2];
-         if (imageData.data[i + 2] > 25) arrBlue.push(imageData.data[i + 2]);
+           imageData.data[i + 2] = videoData.data[i + 2];
+           if (imageData.data[i + 2] > 25) arrBlue.push(imageData.data[i + 2]);
+        }
+
       }
 
-    }
+      function average(arr) {
+        let maxLow = {};
 
-    function average(arr) {
-      let maxLow = {};
+        let average = Math.floor(arr.reduce(function(acc, i) {
+          return acc + i;
+        }, 0) / arr.length);
 
-      let average = Math.floor(arr.reduce(function(acc, i) {
-        return acc + i;
-      }, 0) / arr.length);
+        maxLow.lowest = average - 5;
+        maxLow.max = average + 5;
+        return maxLow;
+      }
 
-      maxLow.lowest = average - 5;
-      maxLow.max = average + 5;
-      return maxLow;
-    }
+      let reds = average(arrRed);
+      let greens = average(arrGreen);
+      let blues = average(arrBlue);
 
-    let reds = average(arrRed);
-    let greens = average(arrGreen);
-    let blues = average(arrBlue);
+      minMaxColors.lowRed = reds.lowest;
+      minMaxColors.maxRed = reds.max;
+      minMaxColors.lowGreen = greens.lowest;
+      minMaxColors.maxGreen = greens.max;
+      minMaxColors.lowBlue = blues.lowest;
+      minMaxColors.maxBlue = blues.max;
 
-    minMaxColors.lowRed = reds.lowest;
-    minMaxColors.maxRed = reds.max;
-    minMaxColors.lowGreen = greens.lowest;
-    minMaxColors.maxGreen = greens.max;
-    minMaxColors.lowBlue = blues.lowest;
-    minMaxColors.maxBlue = blues.max;
+      context1.putImageData(imageData, 0, 0);
+      // demo.checkPicture(imageData)
 
-    context1.putImageData(imageData, 0, 0);
-    // demo.checkPicture(imageData)
-
-        transparentCircle.css('backgroundColor', 'green');
+      transparentCircle.css('backgroundColor', 'green');
     }, 4000);
   });
 
