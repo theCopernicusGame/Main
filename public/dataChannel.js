@@ -12,9 +12,9 @@ var signalingArea = document.querySelector("#signalingArea");
 // iceServers connects to development server hosted by Google, negotiates NAT/firewalls
 // iceServers (STUN or TURN) technically not required in dev environment
 var configuration = {
-    'iceServers': [{
-        'url': 'stun:stun.l.google.com:19302'
-    }]
+  'iceServers': [{
+    'url': 'stun:stun.l.google.com:19302'
+  }]
 };
 
 // initializes rtcPeerConn variable for P2P connection object
@@ -23,9 +23,9 @@ var rtcPeerConn;
 var dataChannel;
 var singleplayer = false;
 var dataChannelOptions = {
-    reliable: false,
-    ordered: false, //no guaranteed delivery, unreliable but faster
-    maxRetransmitTime: 1000, //milliseconds
+  reliable: false,
+  ordered: false, //no guaranteed delivery, unreliable but faster
+  maxRetransmitTime: 1000, //milliseconds
 };
 
 var keyIndex = window.location.href.indexOf('game/') + 5;
@@ -55,78 +55,78 @@ if (singleplayer === false) io.emit('ready', {"signal_room": SIGNAL_ROOM });
 if (singleplayer === false) io.emit('signal',{ "type": "user_here", "message": "Let's play the CopernicusGame!", "room": SIGNAL_ROOM });
 
 io.on('signaling_message', function(data) {
-    if (data.type === "user_here") displaySignalMessage('Player 2 is joining...');
-    setTimeout(transitionGameMessages, 10000);
+  if (data.type === "user_here") displaySignalMessage('Player 2 is joining...');
+  setTimeout(transitionGameMessages, 10000);
 
-    peerFound = true;
+  peerFound = true;
 
-    // set up the RTC Peer Connection object
-    if (!rtcPeerConn || rtcPeerConn.signalingState === 'closed') {
-      startSignaling();
+  // set up the RTC Peer Connection object
+  if (!rtcPeerConn || rtcPeerConn.signalingState === 'closed') {
+    startSignaling();
+  }
+
+  // if user isn't the first user to join the page, peerConnect obj is already set up, so simply respond with description
+  if (data.type != "user_here") {
+    var message = JSON.parse(data.message);
+    if (message.sdp) {
+      sendRemoteDesc(message.sdp);
     }
-
-    // if user isn't the first user to join the page, peerConnect obj is already set up, so simply respond with description
-    if (data.type != "user_here") {
-        var message = JSON.parse(data.message);
-        if (message.sdp) {
-            sendRemoteDesc(message.sdp);
-        }
-        // if descriptions for each peer already set up, set ICE candidates
-        else {
-            rtcPeerConn.addIceCandidate(new RTCIceCandidate(message.candidate));
-        }
+    // if descriptions for each peer already set up, set ICE candidates
+    else {
+      rtcPeerConn.addIceCandidate(new RTCIceCandidate(message.candidate));
     }
+  }
 
 });
 
 function startSignaling() {
-    rtcPeerConn = new webkitRTCPeerConnection(configuration, {optional: []});
-    dataChannel = rtcPeerConn.createDataChannel('gameMessages', dataChannelOptions);
+  rtcPeerConn = new webkitRTCPeerConnection(configuration, {optional: []});
+  dataChannel = rtcPeerConn.createDataChannel('gameMessages', dataChannelOptions);
 
-    // send any ice candidates to the other peer
-    rtcPeerConn.onicecandidate = function (evt) {
-        if (evt.candidate && rtcPeerConn.remoteDescription.type.length > 0) {
-            io.emit('signal',{"type":"ice candidate", "message": JSON.stringify({ 'candidate': evt.candidate }), "room":SIGNAL_ROOM});
-        };
+  // send any ice candidates to the other peer
+  rtcPeerConn.onicecandidate = function (evt) {
+    if (evt.candidate && rtcPeerConn.remoteDescription.type.length > 0) {
+      io.emit('signal',{"type":"ice candidate", "message": JSON.stringify({ 'candidate': evt.candidate }), "room":SIGNAL_ROOM});
     };
+  };
 
-    // let the 'negotiationneeded' event trigger offer generation
-    rtcPeerConn.onnegotiationneeded = function () {
-      if (rtcPeerConn.remoteDescription.type.length === 0) rtcPeerConn.createOffer(sendLocalDesc, logError);
+  // let the 'negotiationneeded' event trigger offer generation
+  rtcPeerConn.onnegotiationneeded = function () {
+    if (rtcPeerConn.remoteDescription.type.length === 0) rtcPeerConn.createOffer(sendLocalDesc, logError);
+  }
+
+  // let these dataChannel events trigger dataChannel methods
+  dataChannel.onerror = logError;
+  dataChannel.onmessage = receiveDataChannelMessage;
+  dataChannel.onopen = dataChannelStateChanged;
+  dataChannel.onclose = restartConnection;
+  rtcPeerConn.ondatachannel = receiveDataChannel;
+  rtcPeerConn.oniceconnectionstatechange = function() {
+    if (rtcPeerConn.iceConnectionState == 'disconnected') {
+      displaySignalMessage('Your friend has disconnected!');
+      $('#throwBall').animate({ opacity: 0 });
+      $('#signalingArea').animate({ marginTop: '2.48%' });
+      peerFound = false;
+      rtcPeerConn.close();
     }
-
-    // let these dataChannel events trigger dataChannel methods
-    dataChannel.onerror = logError;
-    dataChannel.onmessage = receiveDataChannelMessage;
-    dataChannel.onopen = dataChannelStateChanged;
-    dataChannel.onclose = restartConnection;
-    rtcPeerConn.ondatachannel = receiveDataChannel;
-    rtcPeerConn.oniceconnectionstatechange = function() {
-      if (rtcPeerConn.iceConnectionState == 'disconnected') {
-          displaySignalMessage('Your friend has disconnected!');
-          $('#throwBall').animate({ opacity: 0 });
-          $('#signalingArea').animate({ marginTop: '2.48%' });
-          peerFound = false;
-          rtcPeerConn.close();
-        }
-      }
+  }
 }
 
 // sends local description
 function sendLocalDesc(desc) {
-    rtcPeerConn.setLocalDescription(desc, function () {
-        io.emit('signal',{"type":"SDP", "message": JSON.stringify({ 'sdp': rtcPeerConn.localDescription }), "room":SIGNAL_ROOM});
-    }, logError);
+  rtcPeerConn.setLocalDescription(desc, function () {
+    io.emit('signal',{"type":"SDP", "message": JSON.stringify({ 'sdp': rtcPeerConn.localDescription }), "room":SIGNAL_ROOM});
+  }, logError);
 }
 
 // sends remote description
 function sendRemoteDesc(desc) {
-    rtcPeerConn.setRemoteDescription(new RTCSessionDescription(desc), function () {
-        // if we received an offer, we need to answer
-        if (rtcPeerConn.remoteDescription.type == 'offer') {
-            rtcPeerConn.createAnswer(sendLocalDesc, logError);
-        }
-    }, logError);
+  rtcPeerConn.setRemoteDescription(new RTCSessionDescription(desc), function () {
+    // if we received an offer, we need to answer
+    if (rtcPeerConn.remoteDescription.type == 'offer') {
+      rtcPeerConn.createAnswer(sendLocalDesc, logError);
+    }
+  }, logError);
 }
 
 function restartConnection() {
@@ -138,13 +138,13 @@ function restartConnection() {
 
 //Data Channel Specific methods
 function dataChannelStateChanged() {
-    if (dataChannel.readyState === 'open') {
-        dataChannel.onmessage = receiveDataChannelMessage;
-    }
+  if (dataChannel.readyState === 'open') {
+    dataChannel.onmessage = receiveDataChannelMessage;
+  }
 }
 
 function receiveDataChannel(event) {
-    dataChannel = event.channel;
+  dataChannel = event.channel;
 }
 
 function receiveDataChannelMessage(event) {
