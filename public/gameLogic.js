@@ -11,7 +11,6 @@ function chooseUser() {
   }
 }
 
-
 function setUser() {
   user.player = chooseUser()[0];
   user.myTurn = chooseUser()[1];
@@ -34,13 +33,14 @@ function endTurnAndUpdate(points) {
   user.spaceBarFlag = false;
   user.trackFlag = false;
   user.checkMatches = 0;
+
   graphMotion();
+
   user.points += points;
   if (singleplayer === true) $('#p1OnlyPoints').text(user.points);
   else if (user.player === "user_1") $('#p1Points').text(user.points);
   else $('#p2Points').text(user.points);
-  if (singleplayer === false) 
-    dataChannel.send(JSON.stringify({ 'points': points }));
+  if (singleplayer === false) dataChannel.send(JSON.stringify({ 'points': points }));
 
   setTimeout(function() {
     moved = false;
@@ -56,8 +56,8 @@ function endTurnAndUpdate(points) {
     scene.remove(ball);
     addBall();
     if (user.points > 5) endGame(user.player, user.points);
-  }, 2000); 
-  
+  }, 2000);
+
 }
 
 function updateAndStartTurn() {
@@ -101,9 +101,7 @@ function restartGame() {
   if (user.myTurn === true) {
     peerFound = false;
     scene.remove(ball);
-    if (singleplayer === false){
-      dataChannel.send(JSON.stringify({ 'restart': true })); 
-    }
+    if (singleplayer === false) dataChannel.send(JSON.stringify({ 'restart': true }))
     setUser();
     addBall();
     peerFound = true;

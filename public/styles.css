@@ -41,8 +41,9 @@ body {
 #gear {
   position: absolute;
   left: 0px;
-  margin-top: 50%;
-  margin-left: 1%;
+  bottom: 0px;
+  margin-left: 20px;
+  margin-bottom: 20px;
   z-index: 9998;
 }
 
@@ -56,32 +57,20 @@ body {
  }
 
 #change {
-position: absolute;
-right: 0px;
-bottom: 0px;
-margin-right: 1.49%;
-margin-bottom: 5%;
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  margin-right: 1.49%;
+  margin-bottom: 5%;
 }
 
 #angle {
  display: table-cell;
  vertical-align: middle;
- height: 50px;
 }
 
 #angle input {
    font-size: 20px;
-}
-
-#massLine{
-  margin-left: 2%;
-}
-#inputMass {
- margin-top: .5%;
-}
-
-#inputGravity {
- margin-top: 1%;
 }
 
 /* choose game buttons */
@@ -335,7 +324,6 @@ margin-left: 6.5%;
   right: 0px;
   margin-top: 12%;
   margin-right: 1.49%;
-  width: 30%;
 }
 
 #v0Div {
