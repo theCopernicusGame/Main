@@ -67,8 +67,8 @@ $(function() {
           return acc + i;
         }, 0) / arr.length);
 
-        maxLow.lowest = average - 5;
-        maxLow.max = average + 5;
+        maxLow.lowest = average - 2;
+        maxLow.max = average + 2;
         return maxLow;
       }
 
