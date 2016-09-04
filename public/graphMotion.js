@@ -16,6 +16,8 @@ function onWindowResize() {
 window.onresize = onWindowResize;
 
 var layout = {
+  paper_bgcolor: 'transparent', 
+  plot_bgcolor: 'transparent', 
   yaxis: {title: "Vertical Displacement (m)"},
   xaxis: {title: "Horizontal Displacement (m)"},
   autosize: false,
@@ -24,7 +26,7 @@ var layout = {
   font: {
     family: "Fjalla One, sans-serif",
     size: 10,
-    color: "black"
+    color: "white"
   },
   margin: { t: 20, b: 40, r: 20, l: 50 },
 }

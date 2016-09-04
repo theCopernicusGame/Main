@@ -1,6 +1,8 @@
 var light = new THREE.PointLight( 0xFAFAFA, 1);
 light.position.set( 0, 0, 0 );
 
+var searchLight = new THREE.PointLight( 0xFAFAFA, 3);
+light.position.set( -45, 5, -110 );
 
 
 var sunLight1 = new THREE.SpotLight(0xFFFFFF, 4);
@@ -46,8 +48,8 @@ sunLight5.decay = 1;
 var sunLight6 = new THREE.SpotLight(0xFFFFFF, 2);
 sunLight6.position.set(80, 50, 80);
 sunLight6.target = theSun;
-sunLight6.angle = .5;  
-sunLight6.distance = 100; 
+sunLight6.angle = .6;  
+sunLight6.distance = 130; 
 
 
 var sunLight7 = new THREE.SpotLight(0xFFFFFF, 1.1);
@@ -104,6 +106,9 @@ lightHelper5 = new THREE.SpotLightHelper( sunLight5 );
 lightHelper9 = new THREE.SpotLightHelper( sunLight9 );
 lightHelper6 = new THREE.SpotLightHelper( sunLight6 );
 lightHelper7 = new THREE.SpotLightHelper( sunLight7 );
+lightHelper8 = new THREE.SpotLightHelper (sunLight8); 
+lightHelper10 = new THREE.SpotLightHelper (sunLight10); 
+lightHelper11 = new THREE.SpotLightHelper (sunLight11); 
 lightHelper12 = new THREE.SpotLightHelper (sunLight12); 
    
      

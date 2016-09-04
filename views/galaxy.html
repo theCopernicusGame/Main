@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="./public/styles.css"><link>
     <title>Welcome to Copernicus</title>
     <script type="text/javascript" src="./lib/three.min.js"></script>
@@ -19,25 +19,68 @@
     <script type="text/javascript" src="./galaxyScene/neptune.js"></script>
     <script type="text/javascript" src="./public/chooseGame.js"></script>
 
+
+      <!-- BOOTSTRAP FOR RESPONSIVE DIVS -->
+  <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> 
+<!-- End of Bootstrap -->
+
   </head>
 
   <body>
-    <div id="containerG">
-      <div id='banner'>Copernicus</div>
-      <br>
-      <div id='chooseGame'>
-        <div id="singleplayer">
+
+      <div class="container-fluid"> <!-- If Needed Left and Right Padding in 'md' and 'lg' screen means use container class -->
+     <div class="row top top-buffer"></div>
+        <div class="row">
+          <div class="col-md-4">  
+          </div>
+          <div class="col-md-4" id='banner'>
+            Copernicus
+          </div>
+          <div class="col-md-4"> 
+          </div>
+        </div>
+        <div class="row top underBanner-buffer"></div>
+      <div class="row row-buttons">
+        <div class="col-md-4"></div>
+        <div class="col-md-2" id='onePlayerCol'>
           <button class='newGame' id="onePlayer">One Player Game</button>
-          <button class='newGame' id="emptyButton">Join a game!</button>
-          <button class='newGame' id="emptyButton">Start a game!</button>
         </div>
-        <div id="multiplayer">
+         <div class="col-md-2" id='twoPlayerCol'>
           <button class='newGame' id="twoPlayer">Two Player Game</button>
-          <a href="/game"><button class='newGame' id="joinGame" disabled>Join a game!</button></a>
-          <a href="/game"><button class='newGame' id="startGame" disabled>Start a game!</button></a>
         </div>
+        <div class="col-md-4"></div>
+      </div>
+       <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-2"></div>
+         <div class="col-md-2" id='twoPlayerCol'>
+             <a href="/game"><button class='newGame' id="joinGame" disabled>Join a game</button></a>
+        </div>
+        <div class="col-md-4"></div>
+      </div>
+      <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-2"></div>
+        <div class="col-md-2" id='twoPlayerCol'>
+            <a href="/game"><button class='newGame' id="startGame" disabled>Start a game</button></a>
+        </div>
+        <div class="col-md-4"></div>
+      </div>
+        
+
+     <div id="containerG">
+        </div>
+     
       </div>
     </div>
+   
 
     <script type="text/javascript" src="./galaxyScene/galaxyScene.js"></script>
   </body>
