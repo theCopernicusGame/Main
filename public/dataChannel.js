@@ -29,6 +29,8 @@ var dataChannelOptions = {
 };
 
 var keyIndex = window.location.href.indexOf('game/') + 5;
+
+//the name of the room you entered
 var SIGNAL_ROOM = window.location.href.split('').splice(keyIndex).join('');
 
 if (SIGNAL_ROOM === "singleplayer") singleplayer = true;
@@ -55,9 +57,9 @@ if (singleplayer === false) io.emit('ready', {"signal_room": SIGNAL_ROOM });
 if (singleplayer === false) io.emit('signal',{ "type": "user_here", "message": "Let's play the CopernicusGame!", "room": SIGNAL_ROOM });
 
 io.on('signaling_message', function(data) {
+    //data type for player 2 is SDP
     if (data.type === "user_here") displaySignalMessage('Player 2 is joining...');
     setTimeout(transitionGameMessages, 10000);
-
     peerFound = true;
 
     // set up the RTC Peer Connection object
@@ -68,12 +70,15 @@ io.on('signaling_message', function(data) {
     // if user isn't the first user to join the page, peerConnect obj is already set up, so simply respond with description
     if (data.type != "user_here") {
         var message = JSON.parse(data.message);
+        console.log('mess', message.sdp);
         if (message.sdp) {
-            sendRemoteDesc(message.sdp);
+          console.log("hello playerr");
+          sendRemoteDesc(message.sdp);
         }
         // if descriptions for each peer already set up, set ICE candidates
         else {
-            rtcPeerConn.addIceCandidate(new RTCIceCandidate(message.candidate));
+          console.log('hello userssss');
+          rtcPeerConn.addIceCandidate(new RTCIceCandidate(message.candidate));
         }
     }
 
@@ -83,14 +88,14 @@ function startSignaling() {
     rtcPeerConn = new webkitRTCPeerConnection(configuration, {optional: []});
     dataChannel = rtcPeerConn.createDataChannel('gameMessages', dataChannelOptions);
 
-    // send any ice candidates to the other peer
+    // send any ice candidates to the other peer //active for player 2
     rtcPeerConn.onicecandidate = function (evt) {
         if (evt.candidate && rtcPeerConn.remoteDescription.type.length > 0) {
-            io.emit('signal',{"type":"ice candidate", "message": JSON.stringify({ 'candidate': evt.candidate }), "room":SIGNAL_ROOM});
+          io.emit('signal',{"type":"ice candidate", "message": JSON.stringify({ 'candidate': evt.candidate }), "room":SIGNAL_ROOM});
         };
     };
 
-    // let the 'negotiationneeded' event trigger offer generation
+    // let the 'negotiationneeded' event trigger offer generation //only happens to first person
     rtcPeerConn.onnegotiationneeded = function () {
       if (rtcPeerConn.remoteDescription.type.length === 0) rtcPeerConn.createOffer(sendLocalDesc, logError);
     }
@@ -106,6 +111,7 @@ function startSignaling() {
           displaySignalMessage('Your friend has disconnected!');
           $('#throwBall').animate({ opacity: 0 });
           $('#signalingArea').animate({ marginTop: '2.48%' });
+          console.log("hello");
           peerFound = false;
           rtcPeerConn.close();
         }
@@ -121,9 +127,11 @@ function sendLocalDesc(desc) {
 
 // sends remote description
 function sendRemoteDesc(desc) {
+  console.log('yannnnnnn');
     rtcPeerConn.setRemoteDescription(new RTCSessionDescription(desc), function () {
         // if we received an offer, we need to answer
         if (rtcPeerConn.remoteDescription.type == 'offer') {
+          console.log('#player_num');
             rtcPeerConn.createAnswer(sendLocalDesc, logError);
         }
     }, logError);
@@ -183,6 +191,7 @@ function displaySignalMessage(message) {
 
 function transitionGameMessages() {
   $('#signalingArea').animate({ marginTop: '80%' }, 1000);
+  //this line is unnessesary were never geting here if its singl player.
   if (singleplayer === false) $('#pointsDiv').animate({ opacity: 1 });
   if (user.myTurn === false) $('#throwBall').text("Please wait for the other player to throw!").animate({ opacity: 1 });
 }
