@@ -5,7 +5,6 @@ var user = {};
 var turnEnded = false;
 var moved = false;
 
->>>>>>> f59bbf12c1600f0784565b3c02d79cffdbc0324d
 function chooseUser() {
   if (peerFound === true) {
     return ["user_2", false];
@@ -93,18 +92,13 @@ function updateOtherPoints() {
   else $('#p1Points').text(user.otherPoints);
 }
 
-<<<<<<< HEAD
-function checkForeverFall() {
-  if (ball.position.y < -1 && turnEnded === false) {
-    endTurnAndUpdate(0);
-=======
 function checkBadThrow() {
   if (ball.position.y < -1) {
     endTurnAndUpdate(0);
   // } else if ((performance.now() - t)/1000 > 15) {
   //   endTurnAndUpdate(0);
   // }
->>>>>>> f59bbf12c1600f0784565b3c02d79cffdbc0324d
+
   }
 }
 
@@ -117,45 +111,7 @@ function endGame(player, points){
   }, 3000);
 }
 
-<<<<<<< HEAD
-function restartGame(points) {
-  clearTimeout(user.turnTimer);
-  user.newThrow = true;
-  user.collisions = 0;
-  user.changeGravityFlag = false;
-  turnEnded = true;
-  user.points = 0;
-  user.pointFlag = false;
-  if (singleplayer === true) $('#p1OnlyPoints').text(user.points);
-  else {
-    $('#p1Points').text(user.points);
-    $('#p2Points').text(user.points);
-  }
-    setTimeout(function() {
-      var displayGravity = $('#current-gravity').html();
-      if (singleplayer === false) dataChannel.send(JSON.stringify({ 'points': points, 'gravityToProcess': user.changeGravityValue, 'gravityToDisplay': displayGravity }));
-    }, 500);
-    setTimeout(function() {
-      moved = false;
-      if (singleplayer === false) {
-        dataChannel.send(JSON.stringify({ 'moved': moved }));
-        dataChannel.send(JSON.stringify({ 'turn': user.myTurn }));
-        user.myTurn = false;
-        $('#throwBall').text('Please wait for other player to throw!').animate({ opacity: 1 })
-      } else user.spaceBarFlag = true;
-      user.pointFlag = true;
-      scene.remove(ball);
-      turnEnded = false;
-      addBall();
-      $('#end').animate({ opacity: 0 });
-      if (singleplayer === true) user.checkMatches = 0;
-    }, 1500);
-}
 
-
-function addScene() {
-  $('#gamescript').append( `<script type=` + `"text/javascript"` + ` src=` + `"/scene/scene.js"` + `></script>` );
-=======
 function restartGame() {
   turnEnded = false;
   moved = false;
@@ -175,7 +131,7 @@ function restartGame() {
    else if (user.player === "user_1") $('#p1Points').text(user.points);
    else $('#p2Points').text(user.points);
    $('#end').animate({ opacity: 0 }, 500);
->>>>>>> f59bbf12c1600f0784565b3c02d79cffdbc0324d
+
 }
 
 setTimeout(addScene, 2000);
