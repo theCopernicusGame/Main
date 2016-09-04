@@ -2,6 +2,7 @@
 
 var user = {};
 var turnEnded = false;
+var moved = false;
 
 function chooseUser() {
   if (peerFound === true) {
@@ -62,7 +63,7 @@ function endTurnAndUpdate(points) {
 
 function updateAndStartTurn() {
   turnEnded = false;
-  user.spaceBarFlag = true;
+  user.trackFlag = false;
 
   user.myTurn = received.turn;
   $('#throwBall').animate({ opacity: 0 });
