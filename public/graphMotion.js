@@ -4,14 +4,29 @@ var count = 1;
 var v0;
 var t;
 var GRAPH = document.getElementById('line-graph');
+var width = window.innerWidth
+var height = window.innerHeight;
+
+function onWindowResize() {
+   width = window.innerWidth
+   height = window.innerHeight;
+}
+
+// in case window size changes
+window.onresize = onWindowResize;
 
 var layout = {
+  paper_bgcolor: 'transparent', 
+  plot_bgcolor: 'transparent', 
   yaxis: {title: "Vertical Displacement (m)"},
   xaxis: {title: "Horizontal Displacement (m)"},
+  autosize: false,
+  width: width * .3,
+  height: height * .5,
   font: {
     family: "Fjalla One, sans-serif",
     size: 10,
-    color: "black"
+    color: "white"
   },
   margin: { t: 20, b: 40, r: 20, l: 50 },
 }

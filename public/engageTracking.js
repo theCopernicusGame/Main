@@ -9,6 +9,7 @@ $(function() {
   var snapContainer = $('#take-snapshot');
 
   $('#start-scan').click(function() {
+    $('#line-graph').animate({ opacity: 0 });
     $('#start-scan').remove();
     $('#start-tracking').css('visibility','visible').fadeOut(1).delay(4000).fadeIn(1500);
     //show frame over video
@@ -67,8 +68,8 @@ $(function() {
           return acc + i;
         }, 0) / arr.length);
 
-        maxLow.lowest = average - 5;
-        maxLow.max = average + 5;
+        maxLow.lowest = average - 2;
+        maxLow.max = average + 2;
         return maxLow;
       }
 

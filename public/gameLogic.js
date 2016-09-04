@@ -3,7 +3,9 @@
 
 var user = {};
 var turnEnded = false;
-console.log('peer', peerFound);
+var moved = false;
+
+>>>>>>> f59bbf12c1600f0784565b3c02d79cffdbc0324d
 function chooseUser() {
   if (peerFound === true) {
     return ["user_2", false];
@@ -13,27 +15,18 @@ function chooseUser() {
 }
 
 
-//function setUser() {
+function setUser() {
   user.player = chooseUser()[0];
   user.myTurn = chooseUser()[1];
-  user.pointFlag = true;
   user.trackFlag = false;
   user.points = 0;
   user.otherPoints = 0;
   user.spaceBarFlag = false;
   user.changeGravityValue = -1.6; //Moon gravity times multiplier for physijs Y coordinate
-  user.changeGravityFlag = false;
-  user.setMass = 1;
   user.checkMatches = 0;
-  user.turnNumber = 1;
-  user.usedSpaceBar = false;
-  user.collisions = 0;
-  user.newThrow = true;
-  user.turnTimer;
-  user.velocity;
-//}
+}
 
-//setUser();
+setUser();
 
 
 if (singleplayer === true) $('#pointsDivOnePlayer').css('opacity', '1' );
@@ -41,10 +34,12 @@ if (singleplayer === true) $('#pointsDivOnePlayer').css('opacity', '1' );
 if (user.player === "user_2") displaySignalMessage("You've joined Player 1!");
 
 function endTurnAndUpdate(points) {
-  console.log('singleplayer', singleplayer);
-  clearTimeout(user.turnTimer);
-  user.newThrow = true;
-  user.collisions = 0;
+  turnEnded = true;
+  user.spaceBarFlag = false;
+  user.trackFlag = false;
+  user.checkMatches = 0;
+
+  graphMotion();
 
   turnEnded = true;
   user.points += points;
@@ -74,15 +69,15 @@ function endTurnAndUpdate(points) {
     scene.remove(ball);
     turnEnded = false;
     if (user.points > 5) endGame(user.player, user.points);
-    addBall();
-    if (singleplayer === true) user.checkMatches = 0;
-  }, 2000)
+  }, 2000);
+
 }
 
 function updateAndStartTurn() {
+  turnEnded = false;
+  user.trackFlag = false;
   user.myTurn = received.turn;
 
-  user.checkMatches = 0;
   if (user.myTurn === true) $('#throwBall').animate({ opacity: 0 });
 
   scene.remove(ball2);
@@ -98,9 +93,18 @@ function updateOtherPoints() {
   else $('#p1Points').text(user.otherPoints);
 }
 
+<<<<<<< HEAD
 function checkForeverFall() {
   if (ball.position.y < -1 && turnEnded === false) {
     endTurnAndUpdate(0);
+=======
+function checkBadThrow() {
+  if (ball.position.y < -1) {
+    endTurnAndUpdate(0);
+  // } else if ((performance.now() - t)/1000 > 15) {
+  //   endTurnAndUpdate(0);
+  // }
+>>>>>>> f59bbf12c1600f0784565b3c02d79cffdbc0324d
   }
 }
 
@@ -110,9 +114,10 @@ function endGame(player, points){
   $('#end').animate({ opacity: 1 });
   setTimeout(function(){
     restartGame();
-  }, 2500);
+  }, 3000);
 }
 
+<<<<<<< HEAD
 function restartGame(points) {
   clearTimeout(user.turnTimer);
   user.newThrow = true;
@@ -150,6 +155,27 @@ function restartGame(points) {
 
 function addScene() {
   $('#gamescript').append( `<script type=` + `"text/javascript"` + ` src=` + `"/scene/scene.js"` + `></script>` );
+=======
+function restartGame() {
+  turnEnded = false;
+  moved = false;
+  if (user.myTurn === true) {
+    peerFound = false;
+    scene.remove(ball);
+    if (singleplayer === false) dataChannel.send(JSON.stringify({ 'restart': true }))
+    setUser();
+    addBall();
+    peerFound = true;
+  } else {
+    scene.remove(ball2);
+    setUser();
+    addBall();
+  }
+   if (singleplayer === true) $('#p1OnlyPoints').text(user.points);
+   else if (user.player === "user_1") $('#p1Points').text(user.points);
+   else $('#p2Points').text(user.points);
+   $('#end').animate({ opacity: 0 }, 500);
+>>>>>>> f59bbf12c1600f0784565b3c02d79cffdbc0324d
 }
 
 setTimeout(addScene, 2000);

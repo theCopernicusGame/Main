@@ -1,4 +1,3 @@
-console.log('in gScene'); 
 var renderer, scene, camera;
     theSun,
     theEarthAndMoon,
