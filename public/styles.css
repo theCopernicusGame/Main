@@ -1,15 +1,18 @@
 body {
-   font-size:20px;
    color: #fff;
    background-image:url('/assets/starfield2.jpg');
    margin: 0px;
    overflow: hidden;
-   font-family: 'Fjalla One', sans-serif;
+   font-family:  'Roboto Condensed', sans-serif; 
    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
  }
 
 #containerG {
-  position: relative;
+  position: absolute;
+  top: 5%;
+  left: 0px;
+  z-index: -1;
+
 }
 
 #topInstr{
@@ -21,14 +24,24 @@ body {
   margin-right: 20% ;
 }
 
+.modal-body, .modal-title{
+  color: #000; 
+  text-shadow: none; 
+  font-family: sans-serif; 
+  z-index: 9999;  
+}
+
+.modal-backdrop{
+  z-index: 0; 
+}
+
 #pointsDivOnePlayer{
   opacity: 0;
   position: absolute;
   right: 0px;
   margin-top: 3%; /* 20px / 808px */
   margin-right: 1.49%; /* 20px / 1440px */
-  border: 3px solid white;
-  border-radius: 10px;
+
   background: rgba(0,0,128, .1);
   color: #FFF;
   text-align: center;
@@ -39,21 +52,30 @@ body {
 }
 
 #gear {
-  position: absolute;
-  left: 0px;
-  bottom: 0px;
-  margin-left: 20px;
-  margin-bottom: 20px;
-  z-index: 9998;
+  z-index: 10;
+  cursor: pointer;
+  border: none; 
+   background: rgba(0,0,128, .1);
+   color: #FFF ;
+   margin-left: -1%; 
+
 }
 
 #banner {
-  position: absolute;
-  left: 50%;
-  margin-left: -121px;
-  font-size: 280%;
+  letter-spacing: 5px;
+  font-size: 310%;
   margin-top: 1%;
   text-align: center;
+  color: #FFF;
+  font-family: 'Roboto Condensed', sans-serif; 
+ }
+
+ #roomName {
+  font-size: 226%;
+  margin-top: 1%;
+  text-align: center;
+  color: #FFF;
+  font-family: 'Roboto Condensed', sans-serif; 
  }
 
 #change {
@@ -65,35 +87,50 @@ body {
 }
 
 #angle {
- display: table-cell;
- vertical-align: middle;
+ 
+ 
+ margin-bottom: -.5%; 
 }
 
 #angle input {
-   font-size: 20px;
+    color: white;
+    background: rgba(0,0,128, .1);
+    border: none;
+    font-size: 100%;
+
 }
 
 /* choose game buttons */
 #chooseGame {
+  outline:none;
+  cursor: pointer;
   position: absolute;
   left: 50%;
   margin-top: 6%;
   margin-left: -123.415px;
  }
 
-#onePlayer {
+/*#onePlayer {
   position: relative;
- }
-
+  top: -20px;
+  margin-left: 14%;
+*/
+ 
 #twoPlayer {
-  position: relative;
+  z-index: 3; 
+  text-align: left; 
 }
 
+#twoPlayerCol{
+  z-index: 1; 
+}
+
+
 #multiplayer {
-  position: relative;
+/*  position: relative;
   display: inline-block;
   width: 121.16px;
-  padding-bottom: 5px;
+  padding-bottom: 5px;*/
 }
 
 #singleplayer {
@@ -108,54 +145,48 @@ body {
 }
 
  #joinGame {
-   width: 121.16px;
    opacity: 0;
-   margin-top: 7px;
+    z-index: 9;
+   text-align: center; 
+ }
+
+ .row-buttons{
+  z-index: 8; 
  }
 
  #startGame {
-   width: 121.16px;
    opacity: 0;
-   margin-top: 7px;
+    text-align: center; 
+    z-index: 9; 
+
  }
 
 .newGame {
+  cursor: pointer;
   outline: none;
-  border:1px solid #616261; -webkit-border-radius: 3px; -moz-border-radius: 3px;border-radius: 3px;font-size:12px;font-family:arial, helvetica, sans-serif; padding: 10px 10px 10px 10px; text-decoration:none; display:inline-block;text-shadow: -1px -1px 0 rgba(0,0,0,0.3);font-weight:bold; color: #FFFFFF;
-  background-color: #7d7e7d; background-image: -webkit-gradient(linear, left top, left bottom, from(#7d7e7d), to(#0e0e0e));
-  background-image: -webkit-linear-gradient(top, #7d7e7d, #0e0e0e);
-  background-image: -moz-linear-gradient(top, #7d7e7d, #0e0e0e);
-  background-image: -ms-linear-gradient(top, #7d7e7d, #0e0e0e);
-  background-image: -o-linear-gradient(top, #7d7e7d, #0e0e0e);
-  background-image: linear-gradient(to bottom, #7d7e7d, #0e0e0e);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#7d7e7d, endColorstr=#0e0e0e);
+ background: rgba(0,0,128, .1);
+ border: none;
+ color: #fff; 
+ margin-top: -10px;
+ z-index: 9998; 
+ font-family: 'Roboto Condensed', sans-serif; 
 }
-
-.newGame:hover {
-  border:1px solid #4a4b4a;
-  background-color: #646464; background-image: -webkit-gradient(linear, left top, left bottom, from(#646464), to(#282828));
-  background-image: -webkit-linear-gradient(top, #646464, #282828);
-  background-image: -moz-linear-gradient(top, #646464, #282828);
-  background-image: -ms-linear-gradient(top, #646464, #282828);
-  background-image: -o-linear-gradient(top, #646464, #282828);
-  background-image: linear-gradient(to bottom, #646464, #282828);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#646464, endColorstr=#282828);
-}
-
-
 #start-tracking{
   visibility: hidden;
 }
 
-#searchBar {
+/*#searchBar {
   position: absolute;
   top: 40%;
   left: 50%;
   margin-left: -203px;
   font-size: 40px;
   text-align: center;
-}
+}*/
 
 #room {
-  text-align: center;
+  color: #000;
+  padding-left: 5px; 
   width: 400px;
   height: 50px;
   font-size: 100%;
@@ -187,7 +218,7 @@ body {
   background: #dfdfdf;
   height: 100%;
   width: 100%;
-  z-index: 1000;
+  z-index: 1;
   background-image:url('/assets/starfield2.jpg');
 }
 
@@ -219,13 +250,12 @@ body {
   width: 20%;
   margin-left: -10%;
   margin-top: 2.48%;
-  border: 3px solid white;
-  border-radius: 10px;
+
   background: rgba(0,0,128, .1);
   color: #FFF;
   text-align: center;
   vertical-align: middle;
-  font-size: 150%;
+  font-size: 100%;
   padding-top: 1%;
   padding-bottom: 1%;
 }
@@ -304,7 +334,7 @@ body {
 }
 
 #p1Points, #p2Points, #p1OnlyPoints {
-  font-size: 130%;
+ 
   font-weight: bolder;
 }
 
@@ -315,32 +345,39 @@ margin-left: 6.5%;
 #p2Points{
  margin-left: 5.5%;
 }
+.top-buffer { 
+  margin-top: 2%;
+}
+
+.top-bigSpace { 
+  margin-top: 10%;
+}
+.underBanner-buffer { 
+  margin-top: 1%;
+}
 
 #line-graph {
   opacity: 0;
-  font-family: 'Fjalla One', sans-serif;
+  font-family: sans-serif;
   text-shadow: 0px 0px #FFF;
   position: absolute;
   right: 0px;
   margin-top: 12%;
   margin-right: 1.49%;
 }
+#onePlayerCol{
+  text-align: right; 
+}
+
 
 #v0Div {
-  position: absolute;
+ 
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-  right: 0px;
-  margin-top: 2%;
-  margin-right: 2%;
 }
 
 #tDiv {
-  position: absolute;
+  
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-  right: 0px;
-  margin-top: 9.5%;
-  margin-right: 2%;
-
 }
 
 #bg {
@@ -382,8 +419,14 @@ margin-left: 6.5%;
 
 #start-scan {
   visibility: hidden;
+  border: none;
+  font-size: 70%;
 }
 
+.svg-container{
+  background: rgba(0,0,128, .1);
+  color: #FFF; 
+}
 
 #hand-info {
   margin-top: -20px;
@@ -401,6 +444,9 @@ margin-left: 6.5%;
   margin-left: 5px;
   padding: 0;
 }
+#gravity{
+  margin-bottom: -3%; 
+}
 
 #velocity {
   z-index: 6000;
@@ -413,6 +459,7 @@ margin-left: 6.5%;
   border-radius: 10px;
   display: none;
 }
+
 
 #velocity-num {
   display: inline-block;

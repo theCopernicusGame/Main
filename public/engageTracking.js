@@ -9,6 +9,7 @@ $(function() {
   var snapContainer = $('#take-snapshot');
 
   $('#start-scan').click(function() {
+    $('#line-graph').animate({ opacity: 0 });
     $('#start-scan').remove();
     $('#start-tracking').css('visibility','visible').fadeOut(1).delay(4000).fadeIn(1500);
     //show frame over video

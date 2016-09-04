@@ -2,20 +2,12 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 
-  <!-- BOOTSTRAP FOR RESPONSIVE DIVS -->
-  <!-- Latest compiled and minified CSS -->
-<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
--->
 
-<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
- -->
-<!-- Latest compiled and minified JavaScript -->
-<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>  -->
-<!-- End of Bootstrap -->
 
     <link rel="stylesheet" type="text/css" href="/public/styles.css">
     <script src="/socket.io/socket.io.js"></script>
@@ -28,8 +20,7 @@
     <script type="text/javascript" src="/lib/cv.js"></script>
     <script type="text/javascript" src="/public/engageTracking.js"></script>
     <script type="text/javascript" src="/lib/handTracking.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
-    <link href="https://fonts.google.com/specimen/Oswald?selection.family=Oswald:400,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
 
     <title>Copernicus</title>
   </head>
@@ -45,18 +36,65 @@
       <img  id="transparent-circle" src="/assets/transparentCircle.png">
     </div>
     <div id="allow-webcam">
-      <button class='newGame' id="start-scan">Click to Scan Hand</button>
+      <button class='newGame' id="start-scan">To Throw: Click to Scan Hand or Press SpaceBar</button>
       <br>
       <button class='newGame' id="start-tracking">Click to Start Tracking</button>
     </div>
     <div class="loading-container">
 
       <div id="container">
-        <div id='gear'><img src="/assets/gear.png" alt="Click for instructions" height="50" width="50" /></div>
-        <div id='instructions'>
-        <div id='topInstr'>
-        Hit the target, get points and win!  But once you hit the target, the gravity changes and you need to adjust your velocity, angle or both.  6 points wins!
+       
+   
+        <div id='bg'>
+          <div id="infoPanel">
+            <video id="myVideo" style="width:160px; height:120px" preload autoplay loop muted></video>
+            <canvas id="canvas" style="width:160px; height:120px"></canvas>
+            <canvas id="picture" style="width:80.5px; height:60.38px"></canvas>
+            <canvas id="test" style="width:160px; height:120px"></canvas>
+             <div id='angle'>
+              <label for='angle'>Angle: </label>
+              <input id='inputAngle' type="number" name="angle" min="0" max="90" value="45">
+            </div>
+             <div id='gravity'>Gravity: <span id="gravity-num">-1.6</span>m/s<sup>2</sup></p></div>
+            <div id="heightArea">Height: </div>
+            <div id="distArea">Distance: </div>
+            <div id="v0Div">Initial Velocity: -</div>
+            <div id="tDiv">Time: -</div>
+           <!--  <div id='gear'>How to Play</div> -->
+            <button id='gear' data-toggle="modal" data-target="#myModal">How to Play</button>
+
+          </div>
+          <div id="signalingArea"></div>
+          <button id='throwBall'></button>
+          <div id='pointsDiv'>Player 1 Points: <span id='p1Points'>0</span><br>Player 2 Points: <span id='p2Points'>0</span></div>
+          <div id='pointsDivOnePlayer'>Player 1 Points: <span id='p1OnlyPoints'>0</span></div>
+          <div id="line-graph">
+            <!-- <div id="v0Div">Initial Velocity: -</div>
+            <div id="tDiv">Time: -</div> -->
+          </div>
+          
+        
+          </div>
+          <div id='velocity'>
+            <p id='velocity-num'>0</p>
+            m/s
         </div>
+
+
+        <!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style='z-index: 9999'>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">How to Play</h4>
+      </div>
+      <div class="modal-body">
+    
+        Hit the target, get points and win!  But once you hit the target, the gravity changes and you need to adjust your velocity, angle or both.  6 points wins!
+       
         <br>
         MOVING THE BALL:
           <ol><li>Use the tracking software
@@ -74,36 +112,15 @@
         <ul>
           <li>Modify the angle in the angle input box by typing in a new number and hitting enter. </li>
         </ul>
-        </div>
-        <div id='bg'>
-          <div id="infoPanel">
-            <video id="myVideo" style="width:160px; height:120px" preload autoplay loop muted></video>
-            <canvas id="canvas" style="width:160px; height:120px"></canvas>
-            <canvas id="picture" style="width:80.5px; height:60.38px"></canvas>
-            <canvas id="test" style="width:160px; height:120px"></canvas>
-            <div id="heightArea">Height: </div>
-            <div id="distArea">Distance: </div>
-            <div id='gravity'>Gravity: <span id="gravity-num">-1.6</span>m/s<sup>2</sup></p></div>
-          </div>
-          <div id="signalingArea"></div>
-          <button id='throwBall'></button>
-          <div id='pointsDiv'>Player 1 Points: <span id='p1Points'>0</span><br>Player 2 Points: <span id='p2Points'>0</span></div>
-          <div id='pointsDivOnePlayer'>Player 1 Points: <span id='p1OnlyPoints'>0</span></div>
-          <div id="line-graph">
-            <div id="v0Div">Initial Velocity: -</div>
-            <div id="tDiv">Time: -</div>
-          </div>
+  
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      
+      </div>
+    </div>
+  </div>
+</div>
 
-          <div id='change'>
-            <div id='angle'>
-              <label for='angle'>Angle: </label>
-              <input id='inputAngle' type="number" name="angle" min="0" max="90" value="45">
-            </div>
-          </div>
-          <div id='velocity'>
-            <p id='velocity-num'>0</p>
-            m/s
-        </div>
 
         </div> <!-- closes bg -->
       </div> <!-- closes container -->
@@ -121,6 +138,10 @@
     <script type="text/javascript" src="/scene/physicsFloor.js"></script>
     <script type="text/javascript" src="/scene/astronaut.js"></script>
     <script id="spotlight" type="text/javascript" src="/scene/spotlight.js"></script>
+  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js" integrity="sha384-ux8v3A6CPtOTqOzMKiuo3d/DomGaaClxFYdCu2HPMBEkf6x2xiDyJ7gkXU0MWwaD" crossorigin="anonymous"></script>
 
   </body>
 
