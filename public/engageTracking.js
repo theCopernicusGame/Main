@@ -7,16 +7,23 @@ $(function() {
   var allowWebcam = $('#allow-webcam');
   var transparentCircle = $('#transparent-circle');
   var snapContainer = $('#take-snapshot');
+  //modal functionality - fadeout for click to scan hand button, then fade back in when done reading how to play
   $('#gear').click(function(){
+    $('#bg').animate({ opacity: .3 });
     $('#start-scan').animate({ opacity: 0 });
   }); 
   $('.btn-secondary').click(function(){
      $('#start-scan').animate({ opacity: 1 });
+      $('#bg').animate({ opacity: 1 });
   }); 
    $('#myModal').click(function(){
      $('#start-scan').animate({ opacity: 1 });
+      $('#bg').animate({ opacity: 1 });
   }); 
 
+
+
+   //scan hand and start scanning functionality
   $('#start-scan').click(function() {
     $('#line-graph').animate({ opacity: 0 });
     $('#start-scan').remove();
