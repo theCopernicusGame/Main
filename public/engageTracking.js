@@ -7,6 +7,15 @@ $(function() {
   var allowWebcam = $('#allow-webcam');
   var transparentCircle = $('#transparent-circle');
   var snapContainer = $('#take-snapshot');
+  $('#gear').click(function(){
+    $('#start-scan').animate({ opacity: 0 });
+  }); 
+  $('.btn-secondary').click(function(){
+     $('#start-scan').animate({ opacity: 1 });
+  }); 
+   $('#myModal').click(function(){
+     $('#start-scan').animate({ opacity: 1 });
+  }); 
 
   $('#start-scan').click(function() {
     $('#line-graph').animate({ opacity: 0 });

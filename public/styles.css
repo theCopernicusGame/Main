@@ -24,11 +24,11 @@ body {
   margin-right: 20% ;
 }
 
-.modal-body, .modal-title{
+.modal-body, .modal-title, .modal-content{
   color: #000; 
   text-shadow: none; 
   font-family: sans-serif; 
-  z-index: 9999;  
+  z-index: 10;  
 }
 
 .modal-backdrop{
@@ -53,6 +53,7 @@ body {
 
 #gear {
   z-index: 10;
+  outline: none;
   cursor: pointer;
   border: none; 
    background: rgba(0,0,128, .1);
@@ -418,9 +419,10 @@ margin-left: 6.5%;
 }
 
 #start-scan {
-  visibility: hidden;
+  visibility: hidden; 
   border: none;
   font-size: 70%;
+  z-index: 2; 
 }
 
 .svg-container{
