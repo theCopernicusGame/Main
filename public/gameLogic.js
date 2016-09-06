@@ -23,8 +23,7 @@ function setUser() {
   user.checkMatches = 0;
 }
 
-setUser(); 
-//whoCanThrow();     
+setUser();    
  
 if (singleplayer === true) $('#pointsDivOnePlayer').animate({ opacity: 1 });
 
@@ -74,12 +73,10 @@ function updateAndStartTurn() {
   scene.remove(ball2);
   addBall();
   $('#start-tracking').attr("disabled", false);
- // whoCanThrow(); 
+
 }
 
 //ensure player cannot throw ball with spacebar when it's not their turn
-  // if (user.myTurn === true){
-  //   console.log('in who can throw', user.player); 
     $(document).keyup(function(event) {
       console.log('user.player', user.player); 
       if (event.keyCode === 32 && user.myTurn === true) {
@@ -99,12 +96,6 @@ function updateAndStartTurn() {
         }
       }
     });
- // }
-//   else {
-//     $(document).off('keydown'); 
-//     $(document).off('keyup'); 
-//   }
-// }; 
 
 function updateOtherPoints() {
   user.otherPoints += received.points;
