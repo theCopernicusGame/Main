@@ -15,6 +15,7 @@ body {
 
 }
 
+
 #topInstr{
   text-align: center;
   font-weight: 700;
@@ -24,12 +25,23 @@ body {
   margin-right: 20% ;
 }
 
-.modal-body, .modal-title{
+.modal-body, .modal-title, .modal-content{
   color: #000; 
   text-shadow: none; 
   font-family: sans-serif; 
-  z-index: 9999;  
+  z-index: 10;  
+   
 }
+
+  .modal-header, h4, .close {
+      background-color: #5cb85c;
+      color:white !important;
+      text-align: center;
+      font-size: 30px;
+  }
+/*  .modal-footer {
+      background-color: #f9f9f9;
+  }*/
 
 .modal-backdrop{
   z-index: 0; 
@@ -53,6 +65,7 @@ body {
 
 #gear {
   z-index: 10;
+  outline: none;
   cursor: pointer;
   border: none; 
    background: rgba(0,0,128, .1);
@@ -87,9 +100,7 @@ body {
 }
 
 #angle {
- 
- 
- margin-bottom: -.5%; 
+ margin-bottom: -2%; 
 }
 
 #angle input {
@@ -220,6 +231,10 @@ body {
   width: 100%;
   z-index: 1;
   background-image:url('/assets/starfield2.jpg');
+}
+
+#distArea {
+  margin-bottom: -.1%; 
 }
 
 #canvasloader-container {
@@ -371,12 +386,12 @@ margin-left: 6.5%;
 
 
 #v0Div {
- 
+ margin-bottom: -.2%; 
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
 #tDiv {
-  
+  margin-bottom: -.6%; 
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
@@ -418,14 +433,19 @@ margin-left: 6.5%;
 }
 
 #start-scan {
-  visibility: hidden;
+  visibility: hidden; 
   border: none;
   font-size: 70%;
+  z-index: 2; 
 }
 
 .svg-container{
   background: rgba(0,0,128, .1);
   color: #FFF; 
+}
+
+#heightArea {
+  margin-bottom: -.5%; 
 }
 
 #hand-info {
