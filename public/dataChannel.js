@@ -94,6 +94,7 @@ function startSignaling() {
 
   // let the 'negotiationneeded' event trigger offer generation
   rtcPeerConn.onnegotiationneeded = function () {
+    //offer is created here by player 1
     if (rtcPeerConn.remoteDescription.type.length === 0) rtcPeerConn.createOffer(sendLocalDesc, logError);
   }
 
