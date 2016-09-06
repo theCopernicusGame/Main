@@ -21,6 +21,7 @@ function setUser() {
   user.spaceBarFlag = false;
   user.changeGravityValue = -1.6; //Moon gravity times multiplier for physijs Y coordinate
   user.checkMatches = 0;
+  user.canIThrow = chooseUser()[1];
 }
 
 setUser();    
@@ -65,7 +66,7 @@ function endTurnAndUpdate(points) {
 function updateAndStartTurn() {
   turnEnded = false;
   user.trackFlag = false;
-
+  user.canIThrow = true; 
   user.myTurn = received.turn;
    console.log('in start turn', user.myTurn); 
   $('#throwBall').animate({ opacity: 0 });
@@ -79,20 +80,22 @@ function updateAndStartTurn() {
 //ensure player cannot throw ball with spacebar when it's not their turn
     $(document).keyup(function(event) {
       console.log('user.player', user.player); 
-      if (event.keyCode === 32 && user.myTurn === true) {
+      if (event.keyCode === 32 && user.myTurn === true && user.canIThrow === true) {
         var velocityNum = Number($('#velocity-num').text());
         userVelocity = velocityNum;
+        user.canIThrow = false; 
         user.spaceBarFlag = true;
         $('#velocity').fadeOut(700);
         setTimeout(function() { $('#velocity-num').text(0) }, 700); 
       }
     }).keydown(function(event) {
-      if (event.keyCode == 32 && user.myTurn === true) {
+      if (event.keyCode == 32 && user.myTurn === true && user.canIThrow === true) {
         $('#velocity').fadeIn(400);
         var velocityNum = Number($('#velocity-num').text());
-        velocityNum++
+        velocityNum += .5;
+        var showNum = parseFloat(velocityNum).toFixed(1);  
         if (velocityNum <= 27) {
-          $('#velocity-num').text(velocityNum);
+          $('#velocity-num').text(showNum);
         }
       }
     });
