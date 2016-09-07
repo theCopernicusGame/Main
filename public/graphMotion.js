@@ -4,6 +4,7 @@ var count = 1;
 var v0;
 var t;
 var GRAPH = document.getElementById('line-graph');
+var maxHeight = 0;
 var width = window.innerWidth
 var height = window.innerHeight;
 
@@ -16,8 +17,8 @@ function onWindowResize() {
 window.onresize = onWindowResize;
 
 var layout = {
-  paper_bgcolor: 'transparent', 
-  plot_bgcolor: 'transparent', 
+  paper_bgcolor: 'transparent',
+  plot_bgcolor: 'transparent',
   yaxis: {title: "Vertical Displacement (m)"},
   xaxis: {title: "Horizontal Displacement (m)"},
   autosize: false,
@@ -28,7 +29,7 @@ var layout = {
     size: 10,
     color: "white"
   },
-  margin: { t: 20, b: 40, r: 20, l: 50 },
+  margin: { t: 20, b: 40, r: 20, l: 50 }
 }
 
 var savedPos = {};
@@ -38,14 +39,29 @@ savedPos.y = [];
 function storePosition() {
   savedPos.x.push(5 - ball.position.x);
   savedPos.y.push(ball.position.y - .3);
+  if (ball.position.y - .3 > maxHeight) maxHeight = (Math.ceil((ball.position.y - .3) * 2) / 2).toFixed(1);
 }
 
 function graphMotion() {
   t = parseFloat((performance.now() - t)/1000).toFixed(3);
-  Plotly.plot( GRAPH, [{
-  x: savedPos.x,
-  y: savedPos.y,
-  name: 'Throw ' + count }],
+  if (count > 1) Plotly.deleteTraces(GRAPH, GRAPH.data.length - 1);
+  Plotly.plot( GRAPH, [
+    {
+      x: savedPos.x,
+      y: savedPos.y,
+      name: 'Throw ' + count
+    },
+    {
+      x: [13, 13],
+      y: [0, maxHeight],
+      name: 'Target',
+      mode: 'lines',
+      line: {
+        dash: 'dot',
+        width: 4
+      }
+    }
+  ],
   layout,
   {displayModeBar: false} );
   $('#line-graph').animate({ opacity: 1 });

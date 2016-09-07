@@ -12,8 +12,8 @@ body {
   top: 5%;
   left: 0px;
   z-index: -1;
-
 }
+
 #closeGif{
   position: absolute;
   top: 67%;
@@ -21,7 +21,6 @@ body {
   font-size: 150%;
   color: #FFF;
   z-index: 8700;
-
 }
 
 #topInstr{
@@ -33,9 +32,6 @@ body {
   margin-right: 20% ;
 }
 
-
-
-
 .modal-body, .modal-title, .modal-content{
   color: #000;
   text-shadow: none;
@@ -44,12 +40,12 @@ body {
 
 }
 
-  .modal-header, h4, .close {
-      background-color: #5cb85c;
-      color:white !important;
-      text-align: center;
-      font-size: 30px;
-  }
+.modal-header, h4, .close {
+  background-color: #5cb85c;
+  color:white !important;
+  text-align: center;
+  font-size: 30px;
+}
 /*  .modal-footer {
       background-color: #f9f9f9;
   }*/
@@ -81,6 +77,15 @@ body {
   text-align: center;
 }
 
+#gif {
+  position: absolute;
+  width: 33%;
+  top: 33%;
+  left: 33%;
+  z-index: 4000;
+  pointer-events: none;
+}
+
 #banner {
   letter-spacing: 5px;
   font-size: 310%;
@@ -90,13 +95,13 @@ body {
   font-family: 'Roboto Condensed', sans-serif;
  }
 
- #roomName {
+#roomName {
   font-size: 226%;
   margin-top: 1%;
   text-align: center;
   color: #FFF;
   font-family: 'Roboto Condensed', sans-serif;
- }
+}
 
 #change {
   position: absolute;
