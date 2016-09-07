@@ -29,6 +29,8 @@ var dataChannelOptions = {
 };
 
 var keyIndex = window.location.href.indexOf('game/') + 5;
+
+//the name of the room you entered
 var SIGNAL_ROOM = window.location.href.split('').splice(keyIndex).join('');
 
 if (SIGNAL_ROOM === "singleplayer") singleplayer = true;
@@ -64,6 +66,7 @@ io.on('signaling_message', function(data) {
     startSignaling();
   }
 
+
   // if user isn't the first user to join the page, peerConnect obj is already set up, so simply respond with description
   if (data.type != "user_here") {
     var message = JSON.parse(data.message);
@@ -91,6 +94,7 @@ function startSignaling() {
 
   // let the 'negotiationneeded' event trigger offer generation
   rtcPeerConn.onnegotiationneeded = function () {
+    //offer is created here by player 1
     if (rtcPeerConn.remoteDescription.type.length === 0) rtcPeerConn.createOffer(sendLocalDesc, logError);
   }
 
@@ -182,6 +186,7 @@ function displaySignalMessage(message) {
 
 function transitionGameMessages() {
   $('#signalingArea').animate({ marginTop: '80%' }, 1000);
+  //this line is unnessesary were never geting here if its singl player.
   if (singleplayer === false) $('#pointsDiv').animate({ opacity: 1 });
   if (user.myTurn === false) $('#throwBall').text("Please wait for the other player to throw!").animate({ opacity: 1 });
 }

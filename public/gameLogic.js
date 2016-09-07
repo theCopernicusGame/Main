@@ -39,8 +39,6 @@ function endTurnAndUpdate(points) {
   graphMotion();
   updateMyPoints();
 
-  if (singleplayer === false) dataChannel.send(JSON.stringify({ 'points': points }));
-
   setTimeout(function() {
     moved = false;
     turnEnded = false;
@@ -50,8 +48,8 @@ function endTurnAndUpdate(points) {
       dataChannel.send(JSON.stringify({ 'turn': user.myTurn }));
       user.myTurn = false;
       $('#throwBall').text('Please wait for other player to throw!').animate({ opacity: 1 })
-    }
-    if (singleplayer === true) user.canIThrow = true;
+    } else user.canIThrow = true;
+
     scene.remove(ball);
     addBall();
     if (user.points > 5) endGame(user.player, user.points);
@@ -97,7 +95,8 @@ $(document).keyup(function(event) {
 function updateMyPoints() {
   user.points += points;
   if (singleplayer === true) $('#p1OnlyPoints').text(user.points);
-  else if (user.player === "user_1") $('#p1Points').text(user.points);
+  else dataChannel.send(JSON.stringify({ 'points': points }));
+  if (user.player === "user_1") $('#p1Points').text(user.points);
   else $('#p2Points').text(user.points);
 }
 
@@ -148,12 +147,11 @@ function restartGame() {
 
 // when user hits target call this and -send through dataChannel
 function randomizeAndDisplayGravity() {
-  // from -0.1 to -9.8
-  var randomNum = -(Math.random() * (9.8 - .01) + .01).toFixed(3);
+  // from -1.6 to -9.8
+  var randomNum = -(Math.random() * (9.8 - 1.6) + 1.6).toFixed(3);
 
   updateGravityDiv(randomNum);
   user.changeGravityValue = randomNum;
-
   var displayGravity = $('#gravity-num').text();
   if (singleplayer === false) {
     dataChannel.send(JSON.stringify({ 'gravityToProcess': user.changeGravityValue, 'gravityToDisplay': displayGravity }));
