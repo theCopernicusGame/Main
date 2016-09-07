@@ -61,6 +61,8 @@ function endTurnAndUpdate(points) {
 
     scene.remove(ball);
     addBall();
+    $('#tracking-container').css('visibility', 'visible');
+    $('#tracking-container iframe').css('visibility', 'hidden');
     if (user.points > 5) endGame(user.player, user.points);
   }, 2000);
 
@@ -72,13 +74,10 @@ function updateAndStartTurn() {
   user.canIThrow = true;
   user.myTurn = received.turn;
 
-
-   console.log('in start turn', user.myTurn);
   $('#throwBall').animate({ opacity: 0 });
 
   scene.remove(ball2);
   addBall();
-  $('#start-tracking').attr("disabled", false);
 
 }
 

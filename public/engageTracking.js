@@ -3,8 +3,7 @@
 var minMaxColors = {}, pixelsNeededIndex = [];
 
 $(function() {
-  var gif = $('<iframe src="//giphy.com/embed/gNqDMBFhC06wE" width="480" height="270" frameBorder="0" id="gif" class="giphy-embed"></iframe>');
-  var infoP = $('<p id="hand-info">Place hand over circle to correctly scan pixelation.</p>');
+  var swipeNum = $('#swipe-num');
   var allowWebcam = $('#allow-webcam');
   var transparentCircle = $('#transparent-circle');
   var snapContainer = $('#take-snapshot');
@@ -31,20 +30,13 @@ $(function() {
 
    //scan hand and start scanning functionality
   $('#start-scan').click(function() {
-    $('#myVideo').css('visibility', 'visible');
+    $('#show-video').css('visibility', 'visible');
     $('#take-snapshot').css('visibility', 'visible');
-    $('#take-snapshot').css('z-index', 8999);
-    $('#transparent-circle').css('visibility', 'visible');
-    $('#transparent-circle').css('z-index', 9000);
-    $('#show-video').css('z-index', 8000);
     $('#line-graph').animate({ opacity: 0 });
     $('#start-scan').remove();
-    $('#start-tracking').css('visibility','visible').fadeOut(1).delay(4000).fadeIn(1500);
+
     //show frame over video
     snapContainer.css('display', 'block');
-
-    //display info message
-    allowWebcam.prepend(infoP);
 
 
     //capture snapshot of hand && tell user
@@ -116,48 +108,49 @@ $(function() {
       // demo.checkPicture(imageData)
 
       transparentCircle.css('backgroundColor', 'green');
-      $('#myVideo').fadeOut(1000).css('z-index', '-1');
-       $('#take-snapshot').fadeOut(1000).css('z-index', '-1');
+      $('#show-video p').html('GREAT!');
+      setTimeout(function() {
+        $('#show-video').fadeOut(900);
+        $('#take-snapshot').fadeOut(1000);
+        showTracking();
+      }, 2000)
     }, 6000);
   });
 
+  function showTracking() {
+    $('#tracking-container').css('visibility','visible').fadeIn(600);
+  }
+
+
   $('#start-tracking').click(function() {
-
      //add instructional hand-swiping gif to screen with button to remove it
-    $('#bg').animate({ opacity: .3 }, 700);
-      $('#show-video').prepend(gif);
-      $('#gif').fadeOut(0).fadeIn(700).animate({opacity: 1});
-      setTimeout(function(){
-        $('#show-video').prepend(closeGif);
-        $('#closeGif').fadeOut(0).fadeIn(700).animate({opacity: 1});
+      $('#swipe-countdown').css('visibility', 'visible');
 
-        $('#closeGif').click(function(){
-          $('#gif').remove();
-          $('#closeGif').remove();
-           $('#bg').animate({ opacity: 1 });
+          //start tracking software on countdown
+          if (singleplayer === false) $('#start-tracking').attr("disabled", true);
+          var text = [3,2,1,"SWIPE!"];
+          var wordCounter = 0;
+          var countDown = setInterval(change, 1200);
 
-            //start tracking software on countdown
-            if (singleplayer === false) $('#start-tracking').attr("disabled", true);
-            var text = ["Tracking starts in 3 seconds!", "Tracking starts in 2 seconds!", "Tracking starts in 1 second!"];
-            var wordCounter = 0;
-            var countDown = setInterval(change, 1200);
-            function change() {
-            infoP.css('backgroundColor', 'rgba(40,40,40,0.9)');
-            infoP.fadeOut(0).fadeIn(1000);
-            infoP.text(text[wordCounter]);
+          function change() {
+            $('#tracking-container').css('visibility', 'hidden');
+
+            swipeNum.fadeOut(0).fadeIn(1000);
+            swipeNum.text(text[wordCounter]);
+
             wordCounter++;
             if(wordCounter > text.length) {
-            startTracking();
-            clearInterval(countDown);
-            infoP.css('backgroundColor', 'rgba(0,0,0,0)');
+              startTracking();
+              clearInterval(countDown);
+              swipeNum.html("");
             }
-            }
+          }
 
     //remove info box
     setTimeout(function() {
-      infoP.text('');
+      $('#swipe-countdown').css('visibility', 'hidden');
       snapContainer.fadeOut();
-    }, 5000);
+    }, 6000);
 
     function startTracking() {
       setTimeout(function() {
@@ -166,10 +159,6 @@ $(function() {
       }, 1500);
     }
 
-
-
-        });
-        }, 4000);
       //end instructional gif code
 
 
