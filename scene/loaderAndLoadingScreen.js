@@ -33,7 +33,7 @@ var objLoader = new THREE.OBJLoader(objManager);
 var textureLoader = new THREE.TextureLoader();
 
 $(document).ready(function () {
-  if ($('.loading-container').length) {
+  if ($('.loading-container').length){
 
     var $imgloader = $('.loading-container');
     var $loadingimg = $('<div id="canvasloader-container" class="onepix-imgloader"><p>Your galaxy is loading...</p></div>');

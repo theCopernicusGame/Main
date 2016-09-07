@@ -32,11 +32,14 @@
       <canvas id="process-video" style="width:160px; height:120px"></canvas>
       <canvas id="process-image" style="width:160px; height:120px"></canvas>
     </div>
-    <div id="take-snapshot">
+    <div id="take-snapshot" >
       <img  id="transparent-circle" src="/assets/transparentCircle.png">
     </div>
+    <div id="show-video" style='height: 100%; width: 100%'>
+      <video id="myVideo" preload autoplay loop muted></video>
+    </div>
     <div id="allow-webcam">
-      <button class='newGame' id="start-scan">To Throw: Click to Scan Hand or Press SpaceBar</button>
+      <button class='newGame' id="start-scan"> Use Handtracking to Throw Ball</button>
       <br>
       <button class='newGame' id="start-tracking">Click to Start Tracking</button>
     </div>
@@ -45,9 +48,9 @@
       <div id="container">
        
    
-        <div id='bg'>
+        
           <div id="infoPanel">
-            <video id="myVideo" style="width:160px; height:120px" preload autoplay loop muted></video>
+            
             <canvas id="canvas" style="width:160px; height:120px"></canvas>
             <canvas id="picture" style="width:80.5px; height:60.38px"></canvas>
             <canvas id="test" style="width:160px; height:120px"></canvas>
@@ -62,8 +65,9 @@
             <div id="tDiv">Time:</div>
            <!--  <div id='gear'>How to Play</div> -->
             <button id='gear' data-toggle="modal" data-target="#myModal">How to Play</button>
-
+          
           </div>
+          <div id='bg'>
           <div id="signalingArea"></div>
           <button id='throwBall'></button>
           <div id='pointsDiv'>Player 1 Points: <span id='p1Points'>0</span><br>Player 2 Points: <span id='p2Points'>0</span></div>
