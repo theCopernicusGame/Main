@@ -35,19 +35,18 @@
     <div id="take-snapshot">
       <img  id="transparent-circle" src="/assets/transparentCircle.png">
     </div>
+    <div id="show-video">
+      <video id="myVideo" preload autoplay loop muted></video>
+    </div>
     <div id="allow-webcam">
-      <button class='newGame' id="start-scan">To Throw: Click to Scan Hand or Press SpaceBar</button>
+      <button class='newGame' id="start-scan"> Use Handtracking to Throw Ball</button>
       <br>
       <button class='newGame' id="start-tracking">Click to Start Tracking</button>
     </div>
     <div class="loading-container">
 
       <div id="container">
-       
-   
-        <div id='bg'>
           <div id="infoPanel">
-            <video id="myVideo" style="width:160px; height:120px" preload autoplay loop muted></video>
             <canvas id="canvas" style="width:160px; height:120px"></canvas>
             <canvas id="picture" style="width:80.5px; height:60.38px"></canvas>
             <canvas id="test" style="width:160px; height:120px"></canvas>
@@ -61,9 +60,12 @@
             <div id="v0Div">Initial Velocity:</div>
             <div id="tDiv">Time:</div>
            <!--  <div id='gear'>How to Play</div> -->
-            <button id='gear' data-toggle="modal" data-target="#myModal">How to Play</button>
-
           </div>
+          <div id="how-to-play">
+            <p id="gear">How to Play</p>
+            <img id='gear-img' src="/assets/instructions.png" data-toggle="modal" data-target="#myModal">
+          </div>
+          <div id='bg'>
           <div id="signalingArea"></div>
           <button id='throwBall'></button>
           <div id='pointsDiv'>Player 1 Points: <span id='p1Points'>0</span><br>Player 2 Points: <span id='p2Points'>0</span></div>
@@ -72,8 +74,8 @@
             <!-- <div id="v0Div">Initial Velocity: -</div>
             <div id="tDiv">Time: -</div> -->
           </div>
-          
-        
+
+
           </div>
           <div id='velocity'>
             <p id='velocity-num'>0</p>
@@ -92,9 +94,9 @@
         <h4 class="modal-title" id="myModalLabel">How to Play</h4>
       </div>
       <div class="modal-body">
-    
+
         Hit the target, get points and win!  But once you hit the target, the gravity changes and you need to adjust your velocity, angle or both.  6 points wins!
-       
+
         <br>
         MOVING THE BALL:
           <ol><li>Use the tracking software
@@ -112,10 +114,9 @@
         <ul>
           <li>Modify the angle in the angle input box by typing in a new number and hitting enter. </li>
         </ul>
-  
+
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      
       </div>
     </div>
   </div>
@@ -138,7 +139,7 @@
     <script type="text/javascript" src="/scene/physicsFloor.js"></script>
     <script type="text/javascript" src="/scene/astronaut.js"></script>
     <script id="spotlight" type="text/javascript" src="/scene/spotlight.js"></script>
-  
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js" integrity="sha384-ux8v3A6CPtOTqOzMKiuo3d/DomGaaClxFYdCu2HPMBEkf6x2xiDyJ7gkXU0MWwaD" crossorigin="anonymous"></script>

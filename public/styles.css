@@ -14,7 +14,15 @@ body {
   z-index: -1;
 
 }
+#closeGif{
+  position: absolute;
+  top: 67%;
+  left: 60%;
+  font-size: 150%;
+  color: #FFF;
+  z-index: 8700;
 
+}
 
 #topInstr{
   text-align: center;
@@ -25,11 +33,14 @@ body {
   margin-right: 20% ;
 }
 
+
+
+
 .modal-body, .modal-title, .modal-content{
   color: #000;
   text-shadow: none;
   font-family: sans-serif;
-  z-index: 10;
+  z-index: 11000;
 
 }
 
@@ -54,7 +65,7 @@ body {
   margin-top: 3%; /* 20px / 808px */
   margin-right: 1.49%; /* 20px / 1440px */
 
-  background: rgba(0,0,128, .1);
+  background: rgba(0,0,128, 0);
   color: #FFF;
   text-align: center;
   width: 30%;
@@ -64,14 +75,19 @@ body {
 }
 
 #gear {
-  z-index: 10;
-  outline: none;
-  cursor: pointer;
-  border: none;
-   background: rgba(0,0,128, .1);
-   color: #FFF ;
-   margin-left: -1%;
+  color: #FFF;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
 
+#gif{
+  position: absolute;
+  width: 33%;
+  top: 33%;
+  left: 33%;
+  z-index: 4000;
+  pointer-events: none;
 }
 
 #banner {
@@ -104,6 +120,7 @@ body {
 }
 
 #angle input {
+    cursor: pointer;
     color: white;
     background: rgba(0,0,128, .1);
     border: none;
@@ -229,8 +246,8 @@ body {
   background: #dfdfdf;
   height: 100%;
   width: 100%;
-  z-index: 1;
-  background-image:url('/assets/test2.jpg');
+  z-index: 6501;
+  background-image:url('/assets/starfield2.jpg');
 }
 
 #distArea {
@@ -256,6 +273,7 @@ body {
   position: absolute;
   padding-top: 20px;
   padding-left: 20px;
+  z-index: 7005;
 }
 
 #signalingArea {
@@ -266,7 +284,7 @@ body {
   margin-left: -10%;
   margin-top: 2.48%;
 
-  background: rgba(0,0,128, .1);
+  background: rgba(0,0,128, 0);
   color: #FFF;
   text-align: center;
   vertical-align: middle;
@@ -321,7 +339,7 @@ body {
   margin-left: -10%;
   border: 3px solid white;
   border-radius: 10px;
-  background: rgba(0,0,128, .1);
+  background: rgba(0,0,128, 0);
   color: #FFF;
   text-align: center;
   vertical-align: middle;
@@ -339,7 +357,7 @@ body {
   margin-right: 1.49%; /* 20px / 1440px */
   border: 3px solid white;
   border-radius: 10px;
-  background: rgba(0,0,128, .1);
+  background: rgba(0,0,128, 0);
   color: #FFF;
   text-align: center;
   width: 30%;
@@ -399,35 +417,20 @@ margin-left: 6.5%;
   z-index: 1000;
 }
 
-/*container that holds the circle png over the video*/
-#take-snapshot {
-  position:absolute;
-  width: 160px;
-  height: 120px;
-  border: 1px solid #999;
-  z-index: 2000;
-  display: none;
-  margin-top: 20px;
-  margin-left: 20px;
-}
 
 /*shows over video footage*/
-#transparent-circle {
-  width: 100%;
-  height: 100%;
-  opacity: 0.94;
-}
+
 
 /*container holding items that user does not need to see*/
 #items-to-be-hidden {
   position: absolute;
-  margin-left: 200px;
-  margin-top: 200px;
+  width: 100%;
+  /*margin-left: 200px;*/
 }
 
 #allow-webcam {
   position: absolute;
-  z-index: 4000;
+  z-index: 8500;
   margin-left: 200px;
   margin-top: 70px;
 }
@@ -436,11 +439,11 @@ margin-left: 6.5%;
   visibility: hidden;
   border: none;
   font-size: 70%;
-  z-index: 2;
+  z-index: 8500;
 }
 
 .svg-container{
-  background: rgba(0,0,128, .1);
+  background: rgba(0,0,128, 0);
   color: #FFF;
 }
 
@@ -485,4 +488,50 @@ margin-left: 6.5%;
   display: inline-block;
   font-size: 25px;
   margin: 4px 0;
+}
+
+#show-video {
+  visibility: hidden;
+  width: 20%;
+  margin-top: 5%;
+  margin-left: 40%;
+  position: absolute;
+  z-index: 7999;
+}
+
+#myVideo,
+#transparent-circle {
+  width: 100%;
+}
+
+#transparent-circle {
+  opacity: 0.94;
+  z-index: 4001;
+}
+
+/*container that holds the circle png over the video*/
+#take-snapshot {
+  visibility: hidden;
+  position:absolute;
+  width: 20%;
+  margin-left: 40%;
+  margin-top: 5%;
+  z-index: 8000;
+  border: 1px solid #999;
+}
+
+#how-to-play {
+  position: absolute;
+  z-index: 5000;
+  bottom: 5%;
+  margin-left: 20px;
+  opacity: 0.8;
+}
+
+#how-to-play img {
+  display: block;
+  width: 60px;
+  margin: 0 auto;
+  padding: 0;
+  cursor: pointer;
 }

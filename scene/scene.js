@@ -87,18 +87,18 @@ objLoader.load( '/assets/astronaut/Astronaut.obj', function ( object ) {
 });
 
 // add hand
-objLoader.load( '/assets/astronaut/player1_hand.obj', function ( object ) {
-  object.traverse( function ( child ) {
-       if ( child instanceof THREE.Mesh ) {
-        child.material.map = imageMap;
-        child.material.normalMap = normalMap;
-        child.material.specualarMap = specMap;
-        child.castShadow = true;
-      }
-    });
-
-  scene.add( object );
-});
+// objLoader.load( '/assets/astronaut/player1_hand.obj', function ( object ) {
+//   object.traverse( function ( child ) {
+//        if ( child instanceof THREE.Mesh ) {
+//         child.material.map = imageMap;
+//         child.material.normalMap = normalMap;
+//         child.material.specualarMap = specMap;
+//         child.castShadow = true;
+//       }
+//     });
+//
+//   scene.add( object );
+// });
 
 // add moon floor
 var floorImage = new THREE.Texture();
