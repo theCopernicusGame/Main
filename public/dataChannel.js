@@ -162,7 +162,7 @@ function receiveDataChannelMessage(event) {
   } else if (received.hasOwnProperty('points')) {
     updateOtherPoints();
   } else if (received.hasOwnProperty('gravityToProcess')) {
-    user.changeGravityValue = received.gyravityToProcess;
+    user.changeGravityValue = received.gravityToProcess;
     user.changeGravityFlag = true;
     updateGravityDiv(received.gravityToDisplay);
   } else if (received.hasOwnProperty('restart')) {
