@@ -115,11 +115,15 @@ body {
   margin-bottom: 5%;
 }
 
-#angle {
- margin-bottom: -2%;
+
+.angle {
+  position: absolute;
+  top: 100%;
+  left: 2%;
+ 
 }
 
-#angle input {
+.angle input {
     cursor: pointer;
     color: white;
     background: rgba(0,0,128, .1);
@@ -348,6 +352,11 @@ body {
   padding-bottom: 1%;
 }
 
+#displayData{
+position: absolute;
+top: 2%;
+left: 2%;
+}
 
 #pointsDiv {
   opacity: 0;
@@ -404,13 +413,11 @@ margin-left: 6.5%;
 
 
 #v0Div {
- margin-bottom: -.2%;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+ margin-bottom: -.2%; 
 }
 
 #tDiv {
-  margin-bottom: -.6%;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  margin-bottom: -.6%; 
 }
 
 #bg {
@@ -535,3 +542,11 @@ margin-left: 6.5%;
   padding: 0;
   cursor: pointer;
 }
+
+.test{
+  color: #FFF;
+}
+
+
+
+
