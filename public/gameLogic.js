@@ -54,6 +54,7 @@ function endTurnAndUpdate(points) {
     addBall();
     $('#tracking-container').css('visibility', 'visible');
     $('#tracking-container iframe').css('visibility', 'hidden');
+     $('#start-tracking').animate({opacity: 1}, 500);
     if (user.points > 5) endGame(user.player, user.points);
   }, 2000);
 
@@ -85,6 +86,7 @@ $(document).keyup(function(event) {
 }).keydown(function(event) {
   if (event.keyCode == 32 && user.myTurn === true && user.canIThrow === true) {
     $('#velocity').fadeIn(400);
+    $('#start-tracking').animate({opacity: 0}); 
     var velocityNum = Number($('#velocity-num').text());
     velocityNum += .5;
     var showNum = parseFloat(velocityNum).toFixed(1);
