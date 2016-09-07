@@ -6,7 +6,7 @@ var brightCounter = 0;
 var baloon = $('.fadeBright');
      function runIt() {
       brightCounter++; 
-      if (brightCounter < 3){
+      if (brightCounter < 4){
        baloon.animate({opacity:'1'}, 1500);
        baloon.animate({opacity:'0.2'}, 1500, runIt);
        }

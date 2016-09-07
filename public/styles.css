@@ -294,7 +294,7 @@ body {
   position: absolute;
   opacity: 0;
   z-index: 9999;
-  margin-top: 20.48%;
+  margin-top: 15.48%;
   margin-left: 33%;
   border: 3px solid white;
   border-radius: 10px;
@@ -501,6 +501,7 @@ margin-left: 6.5%;
 
 #show-video p {
   margin-top: 20px;
+  text-align: center; 
 }
 
 #myVideo,
@@ -547,6 +548,7 @@ margin-left: 6.5%;
   width: 100%;
   z-index: 8000;
   visibility: hidden;
+  margin-top: -10%; 
 }
 
 #tracking-container iframe {
@@ -558,6 +560,7 @@ margin-left: 6.5%;
 #start-tracking {
   display: block;
   margin: 0 auto;
+  margin-top: 30.5%;
   background-color: rgba(0,0,128, 0.3);
   color: #FFF;
   border: 1px solid rgba(255,255, 255, 0.4);

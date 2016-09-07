@@ -14,25 +14,32 @@ $(function() {
     $('#infoPanel').animate({ opacity: .3 });
     $('#how-to-play').animate({ opacity: .3 });
     $('#start-scan').animate({ opacity: 0 });
+    $('#start-tracking').animate({ opacity: 0 });
   });
   $('.btn-secondary').click(function(){
     $('#start-scan').animate({ opacity: 1 });
     $('#bg').animate({ opacity: 1 });
+     $('#start-tracking').animate({ opacity: 1 });
   });
    $('#myModal').click(function(){
      $('#infoPanel').animate({ opacity: 1 });
      $('#how-to-play').animate({ opacity: 1 });
      $('#start-scan').animate({ opacity: 1 });
      $('#bg').animate({ opacity: 1 });
+      $('#start-tracking').animate({ opacity: 1 });
   });
 
 
 
    //scan hand and start scanning functionality
   $('#start-scan').click(function() {
+    $('#line-graph').animate({ opacity: 0 });
     $('#show-video').css('visibility', 'visible');
     $('#take-snapshot').css('visibility', 'visible');
     $('#line-graph').animate({ opacity: 0 });
+     $('#bg').animate({ opacity: .3 });
+    $('#infoPanel').animate({ opacity: .3 });
+    $('#how-to-play').animate({ opacity: .3 });
     $('#start-scan').remove();
 
     //show frame over video
@@ -108,21 +115,27 @@ $(function() {
       // demo.checkPicture(imageData)
 
       transparentCircle.css('backgroundColor', 'green');
-      $('#show-video p').html('GREAT!');
+      $('#show-video p').text('GREAT!').css('text-align', 'center');
       setTimeout(function() {
-        $('#show-video').fadeOut(900);
-        $('#take-snapshot').fadeOut(1000);
+        $('#show-video').animate({ opacity: 0 }, 500);
+        $('#take-snapshot').animate({ opacity: 0 }, 1000);
         showTracking();
-      }, 2000)
+      }, 1000); 
     }, 6000);
   });
 
   function showTracking() {
-    $('#tracking-container').css('visibility','visible').fadeIn(600);
+    $('#tracking-container').css('visibility','visible').fadeOut(0).delay(1500).fadeIn(1000);
+
   }
 
 
   $('#start-tracking').click(function() {
+     $('#line-graph').animate({ opacity: 0 });
+     $('#tracking-container').css('visibility', 'hidden');
+    $('#infoPanel').animate({ opacity: 1 });
+    $('#how-to-play').animate({ opacity: 1 });
+    $('#bg').animate({ opacity: 1 });
      //add instructional hand-swiping gif to screen with button to remove it
       $('#swipe-countdown').css('visibility', 'visible');
 
@@ -133,8 +146,6 @@ $(function() {
           var countDown = setInterval(change, 1200);
 
           function change() {
-            $('#tracking-container').css('visibility', 'hidden');
-
             swipeNum.fadeOut(0).fadeIn(1000);
             swipeNum.text(text[wordCounter]);
 
