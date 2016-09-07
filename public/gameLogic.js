@@ -55,7 +55,7 @@ function endTurnAndUpdate(points) {
       console.log('in end turn', user.myTurn); 
       $('#throwBall').text('Please wait for other player to throw!').animate({ opacity: 1 })
     }
-
+    if (singleplayer === true) user.canIThrow = true; 
     scene.remove(ball);
     addBall();
     if (user.points > 5) endGame(user.player, user.points);
