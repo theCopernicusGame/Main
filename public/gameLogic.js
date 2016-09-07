@@ -52,6 +52,8 @@ function endTurnAndUpdate(points) {
 
     scene.remove(ball);
     addBall();
+    $('#tracking-container').css('visibility', 'visible');
+    $('#tracking-container iframe').css('visibility', 'hidden');
     if (user.points > 5) endGame(user.player, user.points);
   }, 2000);
 
@@ -62,11 +64,11 @@ function updateAndStartTurn() {
   user.trackFlag = false;
   user.canIThrow = true;
   user.myTurn = received.turn;
+
   $('#throwBall').animate({ opacity: 0 });
 
   scene.remove(ball2);
   addBall();
-  $('#start-tracking').attr("disabled", false);
 
 }
 
@@ -138,10 +140,9 @@ function restartGame() {
     setUser();
     addBall();
   }
-   if (singleplayer === true) $('#p1OnlyPoints').text(user.points);
-   else if (user.player === "user_1") $('#p1Points').text(user.points);
-   else $('#p2Points').text(user.points);
-   $('#end').animate({ opacity: 0 }, 500);
+  // make sure this works
+  updateMyPoints(user.points);
+  $('#end').animate({ opacity: 0 }, 500);
 }
 
 

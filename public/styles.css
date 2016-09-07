@@ -40,12 +40,12 @@ body {
 
 }
 
-  .modal-header, h4, .close {
-      background-color: #5cb85c;
-      color:white !important;
-      text-align: center;
-      font-size: 30px;
-  }
+.modal-header, h4, .close {
+  background-color: #5cb85c;
+  color:white !important;
+  text-align: center;
+  font-size: 30px;
+}
 /*  .modal-footer {
       background-color: #f9f9f9;
   }*/
@@ -95,13 +95,13 @@ body {
   font-family: 'Roboto Condensed', sans-serif;
  }
 
- #roomName {
+#roomName {
   font-size: 226%;
   margin-top: 1%;
   text-align: center;
   color: #FFF;
   font-family: 'Roboto Condensed', sans-serif;
- }
+}
 
 #change {
   position: absolute;
@@ -111,11 +111,15 @@ body {
   margin-bottom: 5%;
 }
 
-#angle {
- margin-bottom: -2%;
+
+.angle {
+  position: absolute;
+  top: 100%;
+  left: 2%;
+
 }
 
-#angle input {
+.angle input {
     cursor: pointer;
     color: white;
     background: rgba(0,0,128, .1);
@@ -194,9 +198,6 @@ body {
  margin-top: -10px;
  z-index: 9998;
  font-family: 'Roboto Condensed', sans-serif;
-}
-#start-tracking{
-  visibility: hidden;
 }
 
 /*#searchBar {
@@ -344,6 +345,11 @@ body {
   padding-bottom: 1%;
 }
 
+#displayData{
+position: absolute;
+top: 2%;
+left: 2%;
+}
 
 #pointsDiv {
   opacity: 0;
@@ -401,12 +407,10 @@ margin-left: 6.5%;
 
 #v0Div {
  margin-bottom: -.2%;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
 #tDiv {
   margin-bottom: -.6%;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
 #bg {
@@ -495,6 +499,10 @@ margin-left: 6.5%;
   z-index: 7999;
 }
 
+#show-video p {
+  margin-top: 20px;
+}
+
 #myVideo,
 #transparent-circle {
   width: 100%;
@@ -530,4 +538,46 @@ margin-left: 6.5%;
   margin: 0 auto;
   padding: 0;
   cursor: pointer;
+}
+
+
+#tracking-container {
+  position: absolute;
+  display: block;
+  width: 100%;
+  z-index: 8000;
+  visibility: hidden;
+}
+
+#tracking-container iframe {
+  display: block;
+  margin: 0 auto;
+  pointer-events: none;
+}
+
+#start-tracking {
+  display: block;
+  margin: 0 auto;
+  background-color: rgba(0,0,128, 0.3);
+  color: #FFF;
+  border: 1px solid rgba(255,255, 255, 0.4);
+  border-radius: 5px;
+}
+
+#swipe-countdown {
+  position: absolute;
+  width: 100%;
+  z-index: 7000;
+  text-align: center;
+  visibility: hidden;
+}
+
+#swipe-num {
+  margin-top: 5%;
+  padding: 0;
+  font-size: 10rem;
+}
+
+.test{
+  color: #FFF;
 }
