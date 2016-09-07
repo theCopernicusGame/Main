@@ -6,7 +6,7 @@ var brightCounter = 0;
 var angleFader = $('.fadeBright');
 function runIt() {
   brightCounter++;
-  if (brightCounter < 3) {
+  if (brightCounter < 4) {
     angleFader.animate({opacity:'1'}, 1500);
     angleFader.animate({opacity:'0.2'}, 1500, runIt);
   } else angleFader.animate({opacity:'1'}, 1500);
