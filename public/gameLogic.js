@@ -37,7 +37,7 @@ function endTurnAndUpdate(points) {
   user.checkMatches = 0;
 
   graphMotion();
-  updateMyPoints();
+  updateMyPoints(points);
 
   setTimeout(function() {
     moved = false;
@@ -92,7 +92,7 @@ $(document).keyup(function(event) {
   }
 });
 
-function updateMyPoints() {
+function updateMyPoints(points) {
   user.points += points;
   if (singleplayer === true) $('#p1OnlyPoints').text(user.points);
   else dataChannel.send(JSON.stringify({ 'points': points }));

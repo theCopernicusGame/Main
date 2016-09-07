@@ -12,7 +12,7 @@ function onWindowResize() {
 window.addEventListener( 'resize', onWindowResize, false );
 
 //to collect possible user change in angle;
-var userAngle = 45, userVelocity, userGravity, spaceScene, gravityCounter = 0, timeSinceThrow;
+var userAngle = 45, userVelocity, spaceScene;
 var camera, renderer, mesh;
 var keyboard = {};
 scene = new Physijs.Scene;
@@ -180,32 +180,34 @@ function render() {
   }
 
   if (delayedTrackerMatches.trackFlag === true && user.trackFlag === true) {
-    const trackerToVelocityMult = 80.6;
-    userVelocity = (1/delayedTrackerMatches.counter) * trackerToVelocityMult;
-    // if (delayedTrackerMatches.counter > 1 && delayedTrackerMatches.counter <= 4) userVelocity = 21;
-    // else if (delayedTrackerMatches.counter > 4 && delayedTrackerMatches.counter <= 10) userVelocity = 19;
-    // else if (delayedTrackerMatches.counter > 10 && delayedTrackerMatches.counter <= 16) userVelocity = 17;
-    // else if (delayedTrackerMatches.counter > 16 && delayedTrackerMatches.counter <= 21) userVelocity = 15;
-    // else if (delayedTrackerMatches.counter > 21 && delayedTrackerMatches.counter <= 27) userVelocity = 13;
-    // else if (delayedTrackerMatches.counter > 27 && delayedTrackerMatches.counter <= 33) userVelocity = 11;
-    // else if (delayedTrackerMatches.counter > 33 && delayedTrackerMatches.counter <= 39) userVelocity = 8;
-    // else if (delayedTrackerMatches.counter > 39 && delayedTrackerMatches.counter <= 45) userVelocity = 7;
-    // else if (delayedTrackerMatches.counter > 45 && delayedTrackerMatches.counter <= 51) userVelocity = 6;
-    // else if (delayedTrackerMatches.counter > 51 && delayedTrackerMatches.counter < 57) userVelocity = 5.5;
-    // else if (delayedTrackerMatches.counter > 57 && delayedTrackerMatches.counter < 63) userVelocity = 5;
-    // else if (delayedTrackerMatches.counter > 63 && delayedTrackerMatches.counter < 70) userVelocity = 4.5;
-    // else if (delayedTrackerMatches.counter > 70 && delayedTrackerMatches.counter < 78) userVelocity = 4;
-    // else if (delayedTrackerMatches.counter > 78 && delayedTrackerMatches.counter < 86) userVelocity = 3.5;
-    // else if (delayedTrackerMatches.counter > 86 && delayedTrackerMatches.counter < 96) userVelocity = 3;
-    // else if (delayedTrackerMatches.counter > 96 && delayedTrackerMatches.counter < 106) userVelocity = 2.5;
-    // else if (delayedTrackerMatches.counter > 106 && delayedTrackerMatches.counter < 116) userVelocity = 2;
-    // else if (delayedTrackerMatches.counter > 116) userVelocity = 1.5;
-    if (delayedTrackerMatches.counter > 0 && delayedTrackerMatches.counter <= 5) userVelocity = 6.5;
-    if (delayedTrackerMatches.counter > 5 && delayedTrackerMatches.counter <= 10) userVelocity = 6;
-    if (delayedTrackerMatches.counter > 10 && delayedTrackerMatches.counter <= 14) userVelocity = 5.5;
-    if (delayedTrackerMatches.counter > 14 && delayedTrackerMatches.counter <= 19) userVelocity = 5;
-    if (delayedTrackerMatches.counter > 19 && delayedTrackerMatches.counter <= 25) userVelocity = 4.5;
-    if (delayedTrackerMatches.counter > 25) userVelocity = 3.5;
+    var lowLimit, upLimit;
+
+    // find lower tracker matches limit
+    // TODO: need tracking data!!!!!!!
+
+    // find upper tracker matches limit
+
+    // find lower velocity limit
+    if (user.changeGravityValue >= -3.6) lowLimit = 1.5;
+    else if (user.changeGravityValue >= -6) lowLimit = 2.0;
+    else if (user.changeGravityValue >= -8.4) lowLimit = 2.5;
+    else lowLimit = 3.0;
+
+    // calculate upper velocity limit
+    upLimit = ((user.changeGravityValue + 1.6) / .4) * .5 + 9;
+
+    // calculate velocity
+    if (delayedTrackerMatches.counter > 50) delayedTrackerMatches.counter = 50;
+    userVelocity = upLimit - (delayedTrackerMatches.counter / 50) * (upLimit - lowLimit);
+
+    // demo purposes only
+    // if (delayedTrackerMatches.counter > 0 && delayedTrackerMatches.counter <= 5) userVelocity = 6.5;
+    // if (delayedTrackerMatches.counter > 5 && delayedTrackerMatches.counter <= 10) userVelocity = 6;
+    // if (delayedTrackerMatches.counter > 10 && delayedTrackerMatches.counter <= 14) userVelocity = 5.5;
+    // if (delayedTrackerMatches.counter > 14 && delayedTrackerMatches.counter <= 19) userVelocity = 5;
+    // if (delayedTrackerMatches.counter > 19 && delayedTrackerMatches.counter <= 25) userVelocity = 4.5;
+    // if (delayedTrackerMatches.counter > 25) userVelocity = 3.5;
+
     throwProjectile();
   }
 
