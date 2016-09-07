@@ -3,36 +3,40 @@
 var minMaxColors = {}, pixelsNeededIndex = [];
 
 $(function() {
-  var gif = $('<iframe src="//giphy.com/embed/gNqDMBFhC06wE" width="480" height="270" frameBorder="0" id="gif" class="giphy-embed" allowFullScreen></iframe>'); 
+  var gif = $('<iframe src="//giphy.com/embed/gNqDMBFhC06wE" width="480" height="270" frameBorder="0" id="gif" class="giphy-embed"></iframe>');
   var infoP = $('<p id="hand-info">Place hand over circle to correctly scan pixelation.</p>');
   var allowWebcam = $('#allow-webcam');
   var transparentCircle = $('#transparent-circle');
   var snapContainer = $('#take-snapshot');
-  var closeGif = $('<button class="newGame" id="closeGif">Got It!</button>'); 
+  var closeGif = $('<button class="newGame" id="closeGif">Got It!</button>');
   //modal functionality - fadeout for click to scan hand button, then fade back in when done reading how to play
-  $('#gear').click(function(){
+  $('#gear-img').click(function(){
     $('#bg').animate({ opacity: .3 });
+    $('#infoPanel').animate({ opacity: .3 });
+    $('#how-to-play').animate({ opacity: .3 });
     $('#start-scan').animate({ opacity: 0 });
-  }); 
+  });
   $('.btn-secondary').click(function(){
-     $('#start-scan').animate({ opacity: 1 });
-      $('#bg').animate({ opacity: 1 });
-  }); 
+    $('#start-scan').animate({ opacity: 1 });
+    $('#bg').animate({ opacity: 1 });
+  });
    $('#myModal').click(function(){
+     $('#infoPanel').animate({ opacity: 1 });
+     $('#how-to-play').animate({ opacity: 1 });
      $('#start-scan').animate({ opacity: 1 });
-      $('#bg').animate({ opacity: 1 });
-  }); 
+     $('#bg').animate({ opacity: 1 });
+  });
 
 
 
    //scan hand and start scanning functionality
   $('#start-scan').click(function() {
-    $('#myVideo').css('visibility', 'visible'); 
-    $('#take-snapshot').css('visibility', 'visible'); 
+    $('#myVideo').css('visibility', 'visible');
+    $('#take-snapshot').css('visibility', 'visible');
     $('#take-snapshot').css('z-index', 8999);
     $('#transparent-circle').css('visibility', 'visible');
     $('#transparent-circle').css('z-index', 9000);
-    $('#show-video').css('z-index', 8000); 
+    $('#show-video').css('z-index', 8000);
     $('#line-graph').animate({ opacity: 0 });
     $('#start-scan').remove();
     $('#start-tracking').css('visibility','visible').fadeOut(1).delay(4000).fadeIn(1500);
@@ -53,7 +57,7 @@ $(function() {
 
       var context2 = canvas2.getContext('2d');
       var video = document.getElementById('myVideo');
-      console.log('video', video); 
+      console.log('video', video);
         //REMOVE THROWBALL DIV
         //$('#throwBall').hide();
 
@@ -113,7 +117,7 @@ $(function() {
 
       transparentCircle.css('backgroundColor', 'green');
       $('#myVideo').fadeOut(1000).css('z-index', '-1');
-       $('#take-snapshot').fadeOut(1000).css('z-index', '-1');  
+       $('#take-snapshot').fadeOut(1000).css('z-index', '-1');
     }, 6000);
   });
 
@@ -121,15 +125,15 @@ $(function() {
 
      //add instructional hand-swiping gif to screen with button to remove it
     $('#bg').animate({ opacity: .3 }, 700);
-      $('#show-video').prepend(gif); 
-      $('#gif').fadeOut(0).fadeIn(700).animate({opacity: 1}); 
+      $('#show-video').prepend(gif);
+      $('#gif').fadeOut(0).fadeIn(700).animate({opacity: 1});
       setTimeout(function(){
         $('#show-video').prepend(closeGif);
-        $('#closeGif').fadeOut(0).fadeIn(700).animate({opacity: 1});  
-        
+        $('#closeGif').fadeOut(0).fadeIn(700).animate({opacity: 1});
+
         $('#closeGif').click(function(){
           $('#gif').remove();
-          $('#closeGif').remove(); 
+          $('#closeGif').remove();
            $('#bg').animate({ opacity: 1 });
 
             //start tracking software on countdown
@@ -164,11 +168,11 @@ $(function() {
 
 
 
-        }); 
-        }, 4000); 
-      //end instructional gif code 
+        });
+        }, 4000);
+      //end instructional gif code
 
-   
+
   });
 
 });
