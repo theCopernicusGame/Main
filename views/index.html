@@ -56,15 +56,20 @@
             <canvas id="canvas" style="width:160px; height:120px"></canvas>
             <canvas id="picture" style="width:80.5px; height:60.38px"></canvas>
             <canvas id="test" style="width:160px; height:120px"></canvas>
-             <div id='angle'>
-              <label for='angle'>Angle: </label>
+
+            <div id='displayData'>
+              <div id='gravity'>Gravity: <span id="gravity-num">-1.6</span>m/s<sup>2</sup></div>
+              <div id="heightArea">Height: </div>
+              <div id="distArea">Distance: </div>
+              <div id="v0Div">Initial Velocity:</div>
+              <div id="tDiv">Time:</div>
+            </div>
+
+           <div class='angle'>
+              <label class='fadeBright' for="angle">Change the Angle: </label>
               <input id='inputAngle' type="number" name="angle" min="0" max="90" value="45">
             </div>
-            <div id='gravity'>Gravity: <span id="gravity-num">-1.6</span>m/s<sup>2</sup></p></div>
-            <div id="heightArea">Height: </div>
-            <div id="distArea">Distance: </div>
-            <div id="v0Div">Initial Velocity:</div>
-            <div id="tDiv">Time:</div>
+
            <!--  <div id='gear'>How to Play</div> -->
           </div>
           <div id="how-to-play">
