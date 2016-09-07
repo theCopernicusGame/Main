@@ -186,7 +186,6 @@ function displaySignalMessage(message) {
 
 function transitionGameMessages() {
   $('#signalingArea').animate({ marginTop: '80%' }, 1000);
-  //this line is unnessesary were never geting here if its singl player.
   if (singleplayer === false) $('#pointsDiv').animate({ opacity: 1 });
   if (user.myTurn === false) $('#throwBall').text("Please wait for the other player to throw!").animate({ opacity: 1 });
 }

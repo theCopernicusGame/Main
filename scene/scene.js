@@ -1,20 +1,18 @@
 Physijs.scripts.worker = '/lib/physijs_worker.js'; //webworker used to minimize latency re phys.js
 Physijs.scripts.ammo = 'ammo.js';
 
-var brightCounter = 0; 
-//Shimmer functionality for angle input 
-var baloon = $('.fadeBright');
-     function runIt() {
-      brightCounter++; 
-      if (brightCounter < 3){
-       baloon.animate({opacity:'1'}, 1500);
-       baloon.animate({opacity:'0.2'}, 1500, runIt);
-       }
-       else baloon.animate({opacity:'1'}, 1500);
-    }
-    runIt();
+var brightCounter = 0;
+//Shimmer functionality for angle input
+var angleFader = $('.fadeBright');
+function runIt() {
+  brightCounter++;
+  if (brightCounter < 3) {
+    angleFader.animate({opacity:'1'}, 1500);
+    angleFader.animate({opacity:'0.2'}, 1500, runIt);
+  } else angleFader.animate({opacity:'1'}, 1500);
+}
 
-
+runIt();
 
 function onWindowResize() {
    camera.aspect = window.innerWidth / window.innerHeight;
