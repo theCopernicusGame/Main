@@ -24,8 +24,8 @@ function setUser() {
   user.canIThrow = chooseUser()[1];
 }
 
-setUser();    
- 
+setUser();
+
 if (singleplayer === true) $('#pointsDivOnePlayer').animate({ opacity: 1 });
 
 if (user.player === "user_2") displaySignalMessage("You've joined Player 1!");
@@ -39,7 +39,10 @@ function endTurnAndUpdate(points) {
   graphMotion();
 
   user.points += points;
-  if (singleplayer === true) $('#p1OnlyPoints').text(user.points);
+  if (singleplayer === true) {
+    user.canIThrow = true;
+    $('#p1OnlyPoints').text(user.points);
+  }
   else if (user.player === "user_1") $('#p1Points').text(user.points);
   else $('#p2Points').text(user.points);
   if (singleplayer === false) dataChannel.send(JSON.stringify({ 'points': points }));
@@ -52,23 +55,25 @@ function endTurnAndUpdate(points) {
       dataChannel.send(JSON.stringify({ 'moved': moved }));
       dataChannel.send(JSON.stringify({ 'turn': user.myTurn }));
       user.myTurn = false;
-      console.log('in end turn', user.myTurn); 
+      console.log('in end turn', user.myTurn);
       $('#throwBall').text('Please wait for other player to throw!').animate({ opacity: 1 })
     }
-    if (singleplayer === true) user.canIThrow = true; 
+
     scene.remove(ball);
     addBall();
     if (user.points > 5) endGame(user.player, user.points);
   }, 2000);
- 
+
 }
 
 function updateAndStartTurn() {
   turnEnded = false;
   user.trackFlag = false;
-  user.canIThrow = true; 
+  user.canIThrow = true;
   user.myTurn = received.turn;
-   console.log('in start turn', user.myTurn); 
+
+
+   console.log('in start turn', user.myTurn);
   $('#throwBall').animate({ opacity: 0 });
 
   scene.remove(ball2);
@@ -79,21 +84,21 @@ function updateAndStartTurn() {
 
 //ensure player cannot throw ball with spacebar when it's not their turn
     $(document).keyup(function(event) {
-      console.log('user.player', user.player); 
-      if (event.keyCode === 32 && user.myTurn === true && user.canIThrow === true) {
+      console.log('user.player', user.player);
+      if (event.keyCode === 32 && user.canIThrow === true) {
         var velocityNum = Number($('#velocity-num').text());
         userVelocity = velocityNum;
-        user.canIThrow = false; 
+        user.canIThrow = false;
         user.spaceBarFlag = true;
         $('#velocity').fadeOut(700);
-        setTimeout(function() { $('#velocity-num').text(0) }, 700); 
+        setTimeout(function() { $('#velocity-num').text(0) }, 700);
       }
     }).keydown(function(event) {
-      if (event.keyCode == 32 && user.myTurn === true && user.canIThrow === true) {
+      if (event.keyCode == 32 && user.canIThrow === true) {
         $('#velocity').fadeIn(400);
         var velocityNum = Number($('#velocity-num').text());
         velocityNum += .5;
-        var showNum = parseFloat(velocityNum).toFixed(1);  
+        var showNum = parseFloat(velocityNum).toFixed(1);
         if (velocityNum <= 27) {
           $('#velocity-num').text(showNum);
         }
@@ -147,12 +152,11 @@ function restartGame() {
 
 // when user hits target call this and -send through dataChannel
 function randomizeAndDisplayGravity() {
-  // from -0.1 to -9.8
-  var randomNum = -(Math.random() * (9.8 - .01) + .01).toFixed(3);
+  // from -1.6 to -9.8
+  var randomNum = -(Math.random() * (9.8 - 1.6) + 1.6).toFixed(3);
 
   updateGravityDiv(randomNum);
   user.changeGravityValue = randomNum;
-
   var displayGravity = $('#gravity-num').text();
   if (singleplayer === false) {
     dataChannel.send(JSON.stringify({ 'gravityToProcess': user.changeGravityValue, 'gravityToDisplay': displayGravity }));

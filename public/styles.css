@@ -3,7 +3,7 @@ body {
    background-image:url('/assets/starfield2.jpg');
    margin: 0px;
    overflow: hidden;
-   font-family:  'Roboto Condensed', sans-serif; 
+   font-family:  'Roboto Condensed', sans-serif;
    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
  }
 
@@ -18,9 +18,9 @@ body {
   position: absolute;
   top: 67%;
   left: 60%;
-  font-size: 150%; 
+  font-size: 150%;
   color: #FFF;
-  z-index: 8700; 
+  z-index: 8700;
 
 }
 
@@ -33,26 +33,14 @@ body {
   margin-right: 20% ;
 }
 
-#myVideo{
-  width: 30%;
-}
 
-/*container that holds the circle png over the video*/
-#take-snapshot {
-  position:absolute;
-  width: 92%;
-  left: 8%;
-  height: 100%;
-  z-index: 8000;
-  /*border: 1px solid #999;*/
- 
-}
+
 
 .modal-body, .modal-title, .modal-content{
-  color: #000; 
-  text-shadow: none; 
-  font-family: sans-serif; 
-  z-index: 11000;  
+  color: #000;
+  text-shadow: none;
+  font-family: sans-serif;
+  z-index: 11000;
 
 }
 
@@ -67,7 +55,7 @@ body {
   }*/
 
 .modal-backdrop{
-  z-index: 0; 
+  z-index: 0;
 }
 
 #pointsDivOnePlayer{
@@ -87,22 +75,19 @@ body {
 }
 
 #gear {
-  z-index: 10;
-  outline: none;
-  cursor: pointer;
-  border: none; 
-   background: rgba(0,0,128, 0);
-   color: #FFF ;
-   margin-left: -1%; 
-
+  color: #FFF;
+  margin: 0;
+  padding: 0;
+  text-align: center;
 }
+
 #gif{
   position: absolute;
-  width: 33%; 
+  width: 33%;
   top: 33%;
   left: 33%;
   z-index: 4000;
-  pointer-events: none; 
+  pointer-events: none;
 }
 
 #banner {
@@ -111,7 +96,7 @@ body {
   margin-top: 1%;
   text-align: center;
   color: #FFF;
-  font-family: 'Roboto Condensed', sans-serif; 
+  font-family: 'Roboto Condensed', sans-serif;
  }
 
  #roomName {
@@ -119,7 +104,7 @@ body {
   margin-top: 1%;
   text-align: center;
   color: #FFF;
-  font-family: 'Roboto Condensed', sans-serif; 
+  font-family: 'Roboto Condensed', sans-serif;
  }
 
 #change {
@@ -129,6 +114,7 @@ body {
   margin-right: 1.49%;
   margin-bottom: 5%;
 }
+
 
 .angle {
   position: absolute;
@@ -161,14 +147,14 @@ body {
   top: -20px;
   margin-left: 14%;
 */
- 
+
 #twoPlayer {
-  z-index: 3; 
-  text-align: left; 
+  z-index: 3;
+  text-align: left;
 }
 
 #twoPlayerCol{
-  z-index: 1; 
+  z-index: 1;
 }
 
 
@@ -193,17 +179,17 @@ body {
  #joinGame {
    opacity: 0;
     z-index: 9;
-   text-align: center; 
+   text-align: center;
  }
 
  .row-buttons{
-  z-index: 8; 
+  z-index: 8;
  }
 
  #startGame {
    opacity: 0;
-    text-align: center; 
-    z-index: 9; 
+    text-align: center;
+    z-index: 9;
 
  }
 
@@ -212,10 +198,10 @@ body {
   outline: none;
  background: rgba(0,0,128, .1);
  border: none;
- color: #fff; 
+ color: #fff;
  margin-top: -10px;
- z-index: 9998; 
- font-family: 'Roboto Condensed', sans-serif; 
+ z-index: 9998;
+ font-family: 'Roboto Condensed', sans-serif;
 }
 #start-tracking{
   visibility: hidden;
@@ -232,7 +218,7 @@ body {
 
 #room {
   color: #000;
-  padding-left: 5px; 
+  padding-left: 5px;
   width: 400px;
   height: 50px;
   font-size: 100%;
@@ -269,7 +255,7 @@ body {
 }
 
 #distArea {
-  margin-bottom: -.1%; 
+  margin-bottom: -.1%;
 }
 
 #canvasloader-container {
@@ -291,7 +277,7 @@ body {
   position: absolute;
   padding-top: 20px;
   padding-left: 20px;
-  z-index: 7005; 
+  z-index: 7005;
 }
 
 #signalingArea {
@@ -390,7 +376,7 @@ left: 2%;
 }
 
 #p1Points, #p2Points, #p1OnlyPoints {
- 
+
   font-weight: bolder;
 }
 
@@ -401,14 +387,14 @@ margin-left: 6.5%;
 #p2Points{
  margin-left: 5.5%;
 }
-.top-buffer { 
+.top-buffer {
   margin-top: 2%;
 }
 
-.top-bigSpace { 
+.top-bigSpace {
   margin-top: 10%;
 }
-.underBanner-buffer { 
+.underBanner-buffer {
   margin-top: 1%;
 }
 
@@ -422,7 +408,7 @@ margin-left: 6.5%;
   margin-right: 1.49%;
 }
 #onePlayerCol{
-  text-align: right; 
+  text-align: right;
 }
 
 
@@ -457,19 +443,19 @@ margin-left: 6.5%;
 }
 
 #start-scan {
-  visibility: hidden; 
+  visibility: hidden;
   border: none;
   font-size: 70%;
-  z-index: 8500; 
+  z-index: 8500;
 }
 
 .svg-container{
   background: rgba(0,0,128, 0);
-  color: #FFF; 
+  color: #FFF;
 }
 
 #heightArea {
-  margin-bottom: -.5%; 
+  margin-bottom: -.5%;
 }
 
 #hand-info {
@@ -512,27 +498,133 @@ margin-left: 6.5%;
 }
 
 #show-video {
-  left: 8%; 
+  visibility: hidden;
+  width: 20%;
+  margin-top: 5%;
+  margin-left: 40%;
   position: absolute;
-  z-index: 4000;
+  z-index: 7999;
 }
 
 #myVideo,
 #transparent-circle {
-  visibility: hidden; 
-  width: 20%;
-  margin-left: 32%;
-  margin-top: 10%;
+  width: 100%;
 }
 
 #transparent-circle {
   opacity: 0.94;
-  width: 22%;
-  margin-top: 9%;
   z-index: 4001;
+}
 
+/*container that holds the circle png over the video*/
+#take-snapshot {
+  visibility: hidden;
+  position:absolute;
+  width: 20%;
+  margin-left: 40%;
+  margin-top: 5%;
+  z-index: 8000;
+  border: 1px solid #999;
+}
+
+#how-to-play {
+  position: absolute;
+  z-index: 5000;
+  bottom: 5%;
+  margin-left: 20px;
+  opacity: 0.8;
+}
+
+#how-to-play img {
+  display: block;
+  width: 60px;
+  margin: 0 auto;
+  padding: 0;
+  cursor: pointer;
 }
 
 .test{
   color: #FFF;
 }
+
+.shimmer {
+  /* the shimmer magic */
+    color: rgba(0,0,0,0.2);
+  background: -webkit-gradient(linear,left top,right top,from(#222),to(#222),color-stop(.5,#fff));
+  background: -moz-gradient(linear,left top,right top,from(#222),to(#222),color-stop(.5,#fff));
+  background: gradient(linear,left top,right top,from(#222),to(#222),color-stop(.5,#fff));
+  -webkit-background-size: 125px 100%;
+  -moz-background-size: 125px 100%;
+  background-size: 125px 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
+  -webkit-animation-name: shimmer;
+  -moz-animation-name: shimmer;
+  -webkit-animation-name: shimmer;
+  animation-name: shimmer;
+  -webkit-animation-duration: 2s;
+  -moz-animation-duration: 2s;
+  -webkit-animation-duration: 2s;
+  animation-duration: 2s;
+  -webkit-animation-iteration-count: infinite;
+  -moz-animation-iteration-count: infinite;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-color: #222;
+}
+
+@-moz-keyframes shimmer {
+  0% {
+    background-position: top left;
+  }
+
+  100% {
+    background-position: top right;
+  }
+}
+
+@-webkit-keyframes shimmer {
+  0% {
+    background-position: top left;
+  }
+
+  100% {
+    background-position: top right;
+  }
+}
+
+@-o-keyframes shimmer {
+  0% {
+    background-position: top left;
+  }
+
+  100% {
+    background-position: top right;
+  }
+}
+
+@-ms-keyframes shimmer {
+  0% {
+    background-position: top left;
+  }
+
+  100% {
+    background-position: top right;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: top left;
+  }
+
+  100% {
+    background-position: top right;
+  }
+}
+
+
+
