@@ -1,3 +1,4 @@
+/* body, background, and major wrappers */
 body {
   color: #fff;
   background-image:url('/assets/starfield2.jpg');
@@ -7,6 +8,10 @@ body {
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
+#bg {
+  position: relative;
+}
+
 #containerG {
   position: absolute;
   top: 5%;
@@ -14,74 +19,7 @@ body {
   z-index: -1;
 }
 
-#closeGif{
-  position: absolute;
-  top: 67%;
-  left: 60%;
-  font-size: 150%;
-  color: #FFF;
-  z-index: 8700;
-}
-
-#topInstr{
-  text-align: center;
-  font-weight: 700;
-  font-size: 120%;
-  width: 60%;
-  margin-left: 20%;
-  margin-right: 20% ;
-}
-
-.modal-body, .modal-title, .modal-content{
-  color: #000;
-  text-shadow: none;
-  font-family: sans-serif;
-  z-index: 11000;
-
-}
-
-.modal-header, h4, .close {
-  background-color: #5cb85c;
-  color:white !important;
-  text-align: center;
-  font-size: 30px;
-}
-
-.modal-backdrop{
-  z-index: 0;
-}
-
-#pointsDivOnePlayer{
-  opacity: 0;
-  position: absolute;
-  right: 0px;
-  margin-top: 3%; /* 20px / 808px */
-  margin-right: 1.49%; /* 20px / 1440px */
-  background: rgba(0,0,128, 0);
-  color: #FFF;
-  text-align: center;
-  width: 30%;
-  font-size: 100%;
-  padding-top: 1.5%;
-  padding-bottom: 1.5% ;
-}
-
-#gear {
-  color: #FFF;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-}
-
-#gif {
-  position: absolute;
-  width: 33%;
-  top: 33%;
-  left: 33%;
-  z-index: 4000;
-  pointer-events: none;
-}
-
+/* HOME PAGE */
 #banner {
   letter-spacing: 5px;
   font-size: 310%;
@@ -89,85 +27,21 @@ body {
   text-align: center;
   color: #FFF;
   font-family: 'Roboto Condensed', sans-serif;
- }
-
-#roomName {
-  font-size: 226%;
-  margin-top: 1%;
-  text-align: center;
-  color: #FFF;
-  font-family: 'Roboto Condensed', sans-serif;
 }
 
-#change {
-  position: absolute;
-  right: 0px;
-  bottom: 0px;
-  margin-right: 1.49%;
-  margin-bottom: 5%;
-}
-
-
-.angle {
-  position: absolute;
-  top: 100%;
-  left: 3%;
-}
-
-.angle input {
-  z-index: 10000
-  cursor: pointer;
-  color: white;
-  background: rgba(0,0,128, .1);
-  border: none;
-  font-size: 100%;
-}
-
-/* are these still necessary??? */
 /* choose game buttons */
-#chooseGame {
-  outline:none;
-  cursor: pointer;
-  position: absolute;
-  left: 50%;
-  margin-top: 6%;
-  margin-left: -123.415px;
- }
-
 #twoPlayer {
-  z-index: 3;
   text-align: left;
-}
-
-#twoPlayerCol{
-  z-index: 1;
-}
-
-#singleplayer {
-  position: relative;
-  display: inline-block;
-  width: 121.39px;
-}
-
-#emptyButton {
-  opacity: 0;
-  margin-top: 7px;
 }
 
 #joinGame {
   opacity: 0;
-  z-index: 9;
   text-align: center;
-}
-
-.row-buttons{
-  z-index: 8;
 }
 
 #startGame {
   opacity: 0;
   text-align: center;
-  z-index: 9;
 }
 
 .newGame {
@@ -177,10 +51,10 @@ body {
   border: none;
   color: #fff;
   margin-top: -10px;
-  z-index: 9998;
   font-family: 'Roboto Condensed', sans-serif;
 }
 
+/* CHOOSE A ROOM */
 #searchBar {
   text-align: center;
 }
@@ -194,13 +68,37 @@ body {
   font-size: 40px;
 }
 
-/* loading screen */
+#roomName {
+  font-size: 226%;
+  margin-top: 1%;
+  text-align: center;
+  color: #FFF;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+.top-buffer {
+  margin-top: 2%;
+}
+
+.top-bigSpace {
+  margin-top: 10%;
+}
+
+.underBanner-buffer {
+  margin-top: 1%;
+}
+
+#onePlayerCol{
+  text-align: right;
+}
+
+/* LOADING SCREEN */
 .onepix-imgloader {
   display: inline-block;
   position: absolute;
   top: 40%;
   right: 40%;
-  z-index: 1000;
+  z-index: 5;
   text-align: center;
 }
 
@@ -218,7 +116,7 @@ body {
   background: #dfdfdf;
   height: 100%;
   width: 100%;
-  z-index: 6501;
+  z-index: 5;
   background-image:url('/assets/starfield2.jpg');
 }
 
@@ -232,198 +130,56 @@ body {
   margin-top: -8%;
 }
 
-/* gameplay information */
+/* MAIN GAME PAGE */
+/* instructions for gameplay */
+#how-to-play {
+  position: absolute;
+  bottom: 1%;
+  left: 1%;
+  opacity: 0.8;
+  text-align: center;
+}
+
+#how-to-play img {
+  display: block;
+  width: 60px;
+  cursor: pointer;
+}
+
+.modal-body, .modal-title, .modal-content {
+  color: #000;
+  text-shadow: none;
+  font-family: sans-serif;
+}
+
+.modal-header, h4, .close {
+  background-color: #5cb85c;
+  color: white !important;
+  text-align: center;
+  font-size: 30px;
+}
+
+.modal-backdrop {
+  z-index: 0;
+}
+
+/* left side game data */
 #infoPanel {
   position: absolute;
-  padding-top: 20px;
-  padding-left: 20px;
-  z-index: 7005;
+  top: 1%;
+  left: 1%;
 }
 
-#signalingArea {
-  position: absolute;
-  z-index: -1;
-  left: 50%;
-  width: 20%;
-  margin-left: -10%;
-  margin-top: 2.48%;
-
-  background: rgba(0,0,128, 0);
-  color: #FFF;
-  text-align: center;
-  vertical-align: middle;
-  font-size: 100%;
-  padding-top: 1%;
-  padding-bottom: 1%;
-}
-
-#end {
-  position: absolute;
-  opacity: 0;
-  z-index: 9999;
-  margin-top: 15.48%;
-  margin-left: 33%;
-  border: 3px solid white;
-  border-radius: 10px;
-  background: rgba(0,0,128, .7);
-  color: #FFF;
-  text-align: center;
-  vertical-align: middle;
-  width: 33%;
-  font-size: 200%;
-  padding-top: 1%;
-  padding-bottom: 1%;
-}
-
-#instructions {
-  position: absolute;
-  z-index: 10199;
-  margin-top: 13%;
-  margin-left: 10%;
-  margin-right: 10%;
-  border: 3px solid white;
-  border-radius: 10px;
-  background: rgba(0,0,128, .8);
-  color: #FFF;
-  vertical-align: middle;
-  width: 80%;
-  font-size: 100%;
-  padding-top: 1%;
-  padding-bottom: 1%;
-  padding-left: 2%;
-}
-
-
-#throwBall {
-  opacity: 0;
-  position: absolute;
-  margin-top: 2.48%;
-  left: 50%;
-  width: 20%;
-  margin-left: -10%;
-  border: 3px solid white;
-  border-radius: 10px;
-  background: rgba(0,0,128, 0);
-  color: #FFF;
-  text-align: center;
-  vertical-align: middle;
-  font-size: 150%;
-  padding-top: 1%;
-  padding-bottom: 1%;
-}
-
-#displayData{
-  position: absolute;
-  top: 2%;
-  left: 3%;
-}
-
-#pointsDiv {
-  opacity: 0;
-  position: absolute;
-  right: 0px;
-  margin-top: 3%; /* 20px / 808px */
-  margin-right: 1.49%; /* 20px / 1440px */
-  border: 3px solid white;
-  border-radius: 10px;
-  background: rgba(0,0,128, 0);
-  color: #FFF;
-  text-align: center;
-  width: 30%;
-  font-size: 100%;
-  padding-top: 1.5%;
-  padding-bottom: 1.5% ;
-}
-
-#p1Points, #p2Points, #p1OnlyPoints {
-  font-weight: bolder;
-}
-
-#p1Points{
-margin-left: 6.5%;
-}
-
-#p2Points{
- margin-left: 5.5%;
-}
-
-.top-buffer {
-  margin-top: 2%;
-}
-
-.top-bigSpace {
-  margin-top: 10%;
-}
-
-.underBanner-buffer {
-  margin-top: 1%;
-}
-
-#line-graph {
-  opacity: 0;
-  font-family: sans-serif;
-  text-shadow: 0px 0px #FFF;
-  position: absolute;
-  right: 0px;
-  margin-top: 12%;
-  margin-right: 1.49%;
-}
-
-#onePlayerCol{
-  text-align: right;
-}
-
-#bg {
-  position: relative;
-  z-index: 1000;
-}
-/*shows over video footage*/
-
-
-/*container holding items that user does not need to see*/
-#items-to-be-hidden {
-  position: absolute;
-  width: 100%;
-}
-
-#allow-webcam {
-  position: absolute;
-  z-index: 8500;
-  margin-left: 200px;
-  margin-top: 70px;
-}
-
-#start-scan {
-  visibility: hidden;
+.angle input {
+  cursor: pointer;
+  color: white;
+  background: rgba(0,0,128, .1);
   border: none;
   font-size: 100%;
-  z-index: 8500;
 }
 
-.svg-container{
-  background: rgba(0,0,128, 0);
-  color: #FFF;
-}
-
-#hand-info {
-  margin-top: -20px;
-  width: 140px;
-  height: 55px;
-  font-size: 16px;
-  letter-spacing: 1px;
-  padding: 5px 10px;
-  background-color: rgba(40,40,40, 0.9);
-  border-radius: 7px;
-}
-
-#current-gravity {
-  display: inline-block;
-  margin-left: 5px;
-  padding: 0;
-}
-
+/* spacebar velocity and velocity-num divs */
 #velocity {
-  z-index: 6000;
   position: absolute;
   top: 80%;
   left: 60%;
@@ -440,13 +196,114 @@ margin-left: 6.5%;
   margin: 4px 0;
 }
 
+/* right side game data */
+.svg-container {
+  background: rgba(0,0,128, 0);
+  color: #FFF;
+}
+
+#line-graph {
+  opacity: 0;
+  font-family: sans-serif;
+  text-shadow: 0px 0px #FFF;
+  position: absolute;
+  right: 0px;
+  margin-top: 12%;
+  margin-right: 1.49%;
+}
+
+#pointsDivOnePlayer{
+  opacity: 0;
+  position: absolute;
+  right: 0px;
+  margin-top: 1%; /* 20px / 808px */
+  margin-right: 1.49%; /* 20px / 1440px */
+  color: #FFF;
+  text-align: center;
+  font-size: 200%;
+}
+
+#pointsDiv {
+  opacity: 0;
+  position: absolute;
+  right: 0px;
+  margin-top: 1%; /* 20px / 808px */
+  margin-right: 1.49%; /* 20px / 1440px */
+  color: #FFF;
+  text-align: left;
+  font-size: 200%;
+}
+
+#p1Points, #p2Points, #p1OnlyPoints {
+  font-weight: bolder;
+}
+
+/* signaling and turn-based popups */
+#signalingArea {
+  position: absolute;
+  left: 50%;
+  width: 20%;
+  margin-left: -10%;
+  margin-top: 2.48%;
+  color: #FFF;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 200%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  z-index: -1; /* so message slides behind planet */
+}
+
+/*container holding items that user does not need to see*/
+#items-to-be-hidden {
+  visibility: hidden;
+  position: absolute;
+  width: 100%;
+}
+
+/* tracking canvases */
+#trackingCanvas {
+  position: absolute;
+}
+
+.test {
+  color: #FFF;
+}
+
+/* picture taking */
+#allow-webcam {
+  left: 1%;
+}
+
+#start-scan {
+  z-index: 5; /* z-index to push in front of render canvas */
+  font-size: 130%;
+  width: 130px;
+  height: 40px;
+  margin-top: 2%;
+  background-color: rgba(0,0,128, 0.3);
+  color: #FFF;
+  border: 1px solid rgba(255,255, 255, 0.4);
+  border-radius: 5px;
+}
+
+#hand-info {
+  margin-top: -20px;
+  width: 140px;
+  height: 55px;
+  font-size: 16px;
+  letter-spacing: 1px;
+  padding: 5px 10px;
+  background-color: rgba(40,40,40, 0.9);
+  border-radius: 7px;
+}
+
 #show-video {
   visibility: hidden;
   width: 20%;
   margin-top: 5%;
   margin-left: 40%;
   position: absolute;
-  z-index: 7999;
 }
 
 #show-video p {
@@ -458,11 +315,6 @@ margin-left: 6.5%;
   width: 100%;
 }
 
-#transparent-circle {
-  opacity: 0.94;
-  z-index: 4001;
-}
-
 /*container that holds the circle png over the video*/
 #take-snapshot {
   visibility: hidden;
@@ -470,42 +322,43 @@ margin-left: 6.5%;
   width: 20%;
   margin-left: 40%;
   margin-top: 5%;
-  z-index: 8000;
   border: 1px solid #FFF;
+  z-index: 5;
 }
 
-#how-to-play {
-  position: absolute;
-  z-index: 5000;
-  bottom: 2%;
-  left: 2%;
-  opacity: 0.8;
+#transparent-circle {
+  opacity: 0.94;
 }
 
-#how-to-play img {
-  display: block;
-  width: 60px;
-  margin: 0 auto;
-  padding: 0;
-  cursor: pointer;
-}
-
-
+/* holds instructional gif and start-tracking button */
 #tracking-container {
   position: absolute;
   width: 100%;
   visibility: hidden;
 }
 
-#tracking-container iframe {
+#gif {
   position: absolute;
-  margin-top: 3%;
+  height: 250px;
+  width: 500px;
+  margin-top: 20px;
+  left: 50%;
+  margin-left: -250px;
   pointer-events: none;
+}
+
+#closeGif {
+  position: absolute;
+  top: 67%;
+  left: 60%;
+  font-size: 150%;
+  color: #FFF;
 }
 
 #start-tracking {
   position: absolute;
-  margin-top: 30.5%;
+  z-index: 5; /* make button clickable above render canvas */
+  margin-top: 280px;
   left: 50%;
   margin-left: -75px;
   width: 150px;
@@ -527,8 +380,4 @@ margin-left: 6.5%;
   margin-top: 5%;
   padding: 0;
   font-size: 10rem;
-}
-
-.test {
-  color: #FFF;
 }

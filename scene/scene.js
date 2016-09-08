@@ -1,19 +1,6 @@
 Physijs.scripts.worker = '/lib/physijs_worker.js'; //webworker used to minimize latency re phys.js
 Physijs.scripts.ammo = 'ammo.js';
 
-var brightCounter = 0;
-//Shimmer functionality for angle input
-var angleFader = $('.fadeBright');
-function runIt() {
-  brightCounter++;
-  if (brightCounter < 4) {
-    angleFader.animate({opacity:'1'}, 1500);
-    angleFader.animate({opacity:'0.2'}, 1500, runIt);
-  } else angleFader.animate({opacity:'1'}, 1500);
-}
-
-runIt();
-
 function onWindowResize() {
    camera.aspect = window.innerWidth / window.innerHeight;
    camera.updateProjectionMatrix();
