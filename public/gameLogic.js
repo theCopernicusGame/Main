@@ -62,6 +62,7 @@ function updateAndStartTurn() {
   user.trackFlag = false;
   user.canIThrow = true;
   user.myTurn = received.turn;
+  $('#start-tracking').attr("disabled", false);
 
   scene.remove(ball2);
   addBall();
@@ -142,9 +143,10 @@ $(document).keyup(function(event) {
 });
 
 // when user hits target call this and -send through dataChannel
+// for this version, gravity will not exceed 4m/s2
 function randomizeAndDisplayGravity() {
   // from -1.6 to -9.8
-  var randomNum = -(Math.random() * (9.8 - 1.6) + 1.6).toFixed(3);
+  var randomNum = -(Math.random() * (4.0 - 1.6) + 1.6).toFixed(3);
 
   updateGravityDiv(randomNum);
   user.changeGravityValue = randomNum;
@@ -156,6 +158,9 @@ function randomizeAndDisplayGravity() {
 
 function updateGravityDiv(newVal) {
   $('#gravity-num').text(newVal);
+  displaySignalMessage("The gravity has changed to " + newVal + "!");
+  $('#signalingArea').animate({ marginTop: '2.48%' }, 1000);
+  $('#signalingArea').delay(3000).animate({ marginTop: '80%' }, 1000);
 }
 
 // waits til this loads to add the scene

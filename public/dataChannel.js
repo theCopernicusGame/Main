@@ -44,7 +44,7 @@ io = io.connect();
 if (singleplayer === false) {
   displaySignalMessage('Waiting for other player...')
 } else {
-  signalingArea.remove();
+  $('#signalingArea').animate({ marginTop: '80%' });
 }
 
 // emits event to server setting up unique room

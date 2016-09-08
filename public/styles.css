@@ -242,8 +242,8 @@ body {
 #signalingArea {
   position: absolute;
   left: 50%;
-  width: 20%;
-  margin-left: -10%;
+  width: 25%;
+  margin-left: -12.5%;
   margin-top: 2.48%;
   color: #FFF;
   text-align: center;
@@ -332,9 +332,10 @@ body {
 
 /* holds instructional gif and start-tracking button */
 #tracking-container {
+  opacity: 0;
   position: absolute;
   width: 100%;
-  visibility: hidden;
+  /*visibility: hidden;*/
 }
 
 #gif {

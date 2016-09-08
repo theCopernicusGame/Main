@@ -93,8 +93,8 @@ $(function() {
           return acc + i;
         }, 0) / arr.length);
 
-        maxLow.lowest = average - 5;
-        maxLow.max = average + 5;
+        maxLow.lowest = average - 4;
+        maxLow.max = average + 4;
         return maxLow;
       }
 
@@ -123,14 +123,14 @@ $(function() {
   });
 
   function showTracking() {
-    $('#tracking-container').css('visibility','visible').animate({ opacity: 1 });
-    $('#start-tracking').animate({ opacity: 1 });
+    $('#tracking-container').animate({ opacity: 1 }, 1000);
+    $('#start-tracking').animate({ opacity: 1 }, 1000);
   }
 
 
   $('#start-tracking').click(function() {
     $('#line-graph').animate({ opacity: 0 });
-    $('#tracking-container').css('visibility', 'hidden');
+    $('#tracking-container').animate({ opacity: 0 });
     $('#infoPanel').animate({ opacity: 1 });
     $('#how-to-play').animate({ opacity: 1 });
     $('#bg').animate({ opacity: 1 });
@@ -175,8 +175,8 @@ $(function() {
 
 function transitionTracking() {
   if (handScanned === true) {
-    $('#tracking-container').css('visibility', 'visible');
-    $('#tracking-container iframe').css('visibility', 'hidden');
+    $('#tracking-container iframe').remove();
+    $('#tracking-container').animate({ opacity: 1 });
     $('#start-tracking').animate({opacity: 1}, 500);
   }
 }
