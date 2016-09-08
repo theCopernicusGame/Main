@@ -95,8 +95,8 @@ $(function() {
           return acc + i;
         }, 0) / arr.length);
 
-        maxLow.lowest = average - 2;
-        maxLow.max = average + 2;
+        maxLow.lowest = average - 5;
+        maxLow.max = average + 5;
         return maxLow;
       }
 
@@ -120,7 +120,7 @@ $(function() {
         $('#show-video').animate({ opacity: 0 }, 500);
         $('#take-snapshot').animate({ opacity: 0 }, 1000);
         showTracking();
-      }, 1000); 
+      }, 1000);
     }, 6000);
   });
 

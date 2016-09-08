@@ -1,11 +1,11 @@
 body {
-   color: #fff;
-   background-image:url('/assets/starfield2.jpg');
-   margin: 0px;
-   overflow: hidden;
-   font-family:  'Roboto Condensed', sans-serif;
-   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
- }
+  color: #fff;
+  background-image:url('/assets/starfield2.jpg');
+  margin: 0px;
+  overflow: hidden;
+  font-family:  'Roboto Condensed', sans-serif;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
 
 #containerG {
   position: absolute;
@@ -46,9 +46,6 @@ body {
   text-align: center;
   font-size: 30px;
 }
-/*  .modal-footer {
-      background-color: #f9f9f9;
-  }*/
 
 .modal-backdrop{
   z-index: 0;
@@ -60,7 +57,6 @@ body {
   right: 0px;
   margin-top: 3%; /* 20px / 808px */
   margin-right: 1.49%; /* 20px / 1440px */
-
   background: rgba(0,0,128, 0);
   color: #FFF;
   text-align: center;
@@ -115,19 +111,19 @@ body {
 .angle {
   position: absolute;
   top: 100%;
-  left: 2%;
-
+  left: 3%;
 }
 
 .angle input {
-    cursor: pointer;
-    color: white;
-    background: rgba(0,0,128, .1);
-    border: none;
-    font-size: 100%;
-
+  z-index: 10000
+  cursor: pointer;
+  color: white;
+  background: rgba(0,0,128, .1);
+  border: none;
+  font-size: 100%;
 }
 
+/* are these still necessary??? */
 /* choose game buttons */
 #chooseGame {
   outline:none;
@@ -138,12 +134,6 @@ body {
   margin-left: -123.415px;
  }
 
-/*#onePlayer {
-  position: relative;
-  top: -20px;
-  margin-left: 14%;
-*/
-
 #twoPlayer {
   z-index: 3;
   text-align: left;
@@ -151,14 +141,6 @@ body {
 
 #twoPlayerCol{
   z-index: 1;
-}
-
-
-#multiplayer {
-/*  position: relative;
-  display: inline-block;
-  width: 121.16px;
-  padding-bottom: 5px;*/
 }
 
 #singleplayer {
@@ -172,51 +154,44 @@ body {
   margin-top: 7px;
 }
 
- #joinGame {
-   opacity: 0;
-    z-index: 9;
-   text-align: center;
- }
+#joinGame {
+  opacity: 0;
+  z-index: 9;
+  text-align: center;
+}
 
- .row-buttons{
+.row-buttons{
   z-index: 8;
- }
+}
 
- #startGame {
-   opacity: 0;
-    text-align: center;
-    z-index: 9;
-
- }
+#startGame {
+  opacity: 0;
+  text-align: center;
+  z-index: 9;
+}
 
 .newGame {
   cursor: pointer;
   outline: none;
- background: rgba(0,0,128, .1);
- border: none;
- color: #fff;
- margin-top: -10px;
- z-index: 9998;
- font-family: 'Roboto Condensed', sans-serif;
+  background: rgba(0,0,128, .1);
+  border: none;
+  color: #fff;
+  margin-top: -10px;
+  z-index: 9998;
+  font-family: 'Roboto Condensed', sans-serif;
 }
 
-/*#searchBar {
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  margin-left: -203px;
-  font-size: 40px;
+#searchBar {
   text-align: center;
-}*/
+}
 
 #room {
+  margin: auto;
   color: #000;
-  padding-left: 5px;
+  text-align: center;
   width: 400px;
   height: 50px;
-  font-size: 100%;
-  -webkit-transition: width 0.4s ease-in-out;
-  transition: width 0.4s ease-in-out;
+  font-size: 40px;
 }
 
 /* loading screen */
@@ -247,10 +222,6 @@ body {
   background-image:url('/assets/starfield2.jpg');
 }
 
-#distArea {
-  margin-bottom: -.1%;
-}
-
 #canvasloader-container {
   position: absolute;
   width: 30%;
@@ -259,10 +230,6 @@ body {
   margin-left: -15%;
   top: 50%;
   margin-top: -8%;
-}
-
-#bg {
-  position: relative;
 }
 
 /* gameplay information */
@@ -346,9 +313,9 @@ body {
 }
 
 #displayData{
-position: absolute;
-top: 2%;
-left: 2%;
+  position: absolute;
+  top: 2%;
+  left: 3%;
 }
 
 #pointsDiv {
@@ -369,7 +336,6 @@ left: 2%;
 }
 
 #p1Points, #p2Points, #p1OnlyPoints {
-
   font-weight: bolder;
 }
 
@@ -380,6 +346,7 @@ margin-left: 6.5%;
 #p2Points{
  margin-left: 5.5%;
 }
+
 .top-buffer {
   margin-top: 2%;
 }
@@ -387,6 +354,7 @@ margin-left: 6.5%;
 .top-bigSpace {
   margin-top: 10%;
 }
+
 .underBanner-buffer {
   margin-top: 1%;
 }
@@ -400,24 +368,15 @@ margin-left: 6.5%;
   margin-top: 12%;
   margin-right: 1.49%;
 }
+
 #onePlayerCol{
   text-align: right;
 }
 
-
-#v0Div {
- margin-bottom: -.2%;
-}
-
-#tDiv {
-  margin-bottom: -.6%;
-}
-
 #bg {
+  position: relative;
   z-index: 1000;
 }
-
-
 /*shows over video footage*/
 
 
@@ -425,7 +384,6 @@ margin-left: 6.5%;
 #items-to-be-hidden {
   position: absolute;
   width: 100%;
-  /*margin-left: 200px;*/
 }
 
 #allow-webcam {
@@ -438,17 +396,13 @@ margin-left: 6.5%;
 #start-scan {
   visibility: hidden;
   border: none;
-  font-size: 70%;
+  font-size: 100%;
   z-index: 8500;
 }
 
 .svg-container{
   background: rgba(0,0,128, 0);
   color: #FFF;
-}
-
-#heightArea {
-  margin-bottom: -.5%;
 }
 
 #hand-info {
@@ -467,9 +421,6 @@ margin-left: 6.5%;
   margin-left: 5px;
   padding: 0;
 }
-#gravity{
-  margin-bottom: -3%;
-}
 
 #velocity {
   z-index: 6000;
@@ -482,7 +433,6 @@ margin-left: 6.5%;
   border-radius: 10px;
   display: none;
 }
-
 
 #velocity-num {
   display: inline-block;
@@ -501,11 +451,10 @@ margin-left: 6.5%;
 
 #show-video p {
   margin-top: 20px;
-  text-align: center; 
+  text-align: center;
 }
 
-#myVideo,
-#transparent-circle {
+#myVideo, #transparent-circle {
   width: 100%;
 }
 
@@ -528,8 +477,8 @@ margin-left: 6.5%;
 #how-to-play {
   position: absolute;
   z-index: 5000;
-  bottom: 5%;
-  margin-left: 20px;
+  bottom: 2%;
+  left: 2%;
   opacity: 0.8;
 }
 
@@ -544,23 +493,23 @@ margin-left: 6.5%;
 
 #tracking-container {
   position: absolute;
-  display: block;
   width: 100%;
-  z-index: 8000;
   visibility: hidden;
-  margin-top: -10%; 
 }
 
 #tracking-container iframe {
-  display: block;
-  margin: 0 auto;
+  position: absolute;
+  margin-top: 3%;
   pointer-events: none;
 }
 
 #start-tracking {
-  display: block;
-  margin: 0 auto;
+  position: absolute;
   margin-top: 30.5%;
+  left: 50%;
+  margin-left: -75px;
+  width: 150px;
+  height: 30px;
   background-color: rgba(0,0,128, 0.3);
   color: #FFF;
   border: 1px solid rgba(255,255, 255, 0.4);
@@ -570,7 +519,6 @@ margin-left: 6.5%;
 #swipe-countdown {
   position: absolute;
   width: 100%;
-  z-index: 7000;
   text-align: center;
   visibility: hidden;
 }
@@ -581,6 +529,6 @@ margin-left: 6.5%;
   font-size: 10rem;
 }
 
-.test{
+.test {
   color: #FFF;
 }
