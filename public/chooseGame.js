@@ -4,7 +4,6 @@ $(function() {
 
   $("#twoPlayer").click(function() {
     if (showing === false) {
-      console.log('in Clicked TwoPL'); 
       $("#joinGame").animate({ opacity: 1 }).attr("disabled", false);
       $("#startGame").animate({ opacity: 1 }).attr("disabled", false);
       showing = true;

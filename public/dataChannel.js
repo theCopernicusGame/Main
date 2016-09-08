@@ -158,7 +158,7 @@ function receiveDataChannelMessage(event) {
   } else if (received.hasOwnProperty('moved')) {
     moved = received.moved;
   } else if (received.hasOwnProperty('turn')) {
-      updateAndStartTurn();
+    updateAndStartTurn();
   } else if (received.hasOwnProperty('points')) {
     updateOtherPoints();
   } else if (received.hasOwnProperty('gravityToProcess')) {

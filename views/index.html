@@ -37,18 +37,17 @@
     </div>
     <div id="show-video">
       <video id="myVideo" preload autoplay loop muted></video>
-      <p>Place hand inside Circle to correctly scan</p>
+      <p>Place hand inside circle to scan!</p>
     </div>
     <div id='tracking-container'>
-      
       <iframe src="//giphy.com/embed/gNqDMBFhC06wE" width="350" height="240" frameBorder="0" id="gif" class="giphy-embed"></iframe>
-       <button id="start-tracking">Start Tracking</button>
+      <button id="start-tracking">Start Tracking</button>
     </div>
     <div id='swipe-countdown'>
       <p id="swipe-num"></p>
     </div>
     <div id="allow-webcam">
-      <button class='newGame' id="start-scan"> Use Handtracking to Throw Ball</button>
+      <button class='newGame' id="start-scan">Use handtracking to throw the ball</button>
     </div>
     <div class="loading-container">
 
@@ -67,78 +66,71 @@
             </div>
 
            <div class='angle'>
-              <label class='fadeBright' for="angle">Change the Angle: </label>
+              <label class='fadeBright' for="angle">Adjust the Angle: </label>
               <input id='inputAngle' type="number" name="angle" min="0" max="90" value="45">
             </div>
-
-           <!--  <div id='gear'>How to Play</div> -->
           </div>
+
           <div id="how-to-play">
             <p id="gear">How to Play</p>
             <img id='gear-img' src="/assets/instructions.png" data-toggle="modal" data-target="#myModal">
           </div>
           <div id='bg'>
-          <div id="signalingArea"></div>
-          <button id='throwBall'></button>
-          <div id='pointsDiv'>Player 1 Points: <span id='p1Points'>0</span><br>Player 2 Points: <span id='p2Points'>0</span></div>
-          <div id='pointsDivOnePlayer'>Player 1 Points: <span id='p1OnlyPoints'>0</span></div>
-          <div id="line-graph">
-            <!-- <div id="v0Div">Initial Velocity: -</div>
-            <div id="tDiv">Time: -</div> -->
+            <div id="signalingArea"></div>
+            <button id='throwBall'></button>
+            <div id='pointsDiv'>Player 1 Points: <span id='p1Points'>0</span><br>Player 2 Points: <span id='p2Points'>0</span></div>
+            <div id='pointsDivOnePlayer'>Player 1 Points: <span id='p1OnlyPoints'>0</span></div>
+            <div id="line-graph"></div>
+            <div id='velocity'>
+              <p id='velocity-num'>0</p>
+              m/s
+            </div>
           </div>
 
+          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  <h4 class="modal-title" id="myModalLabel">How to Play</h4>
+                </div>
+                <div class="modal-body">
 
+                  Hit the target, get points and win! The twist: once you hit the target, the gravity changes and you need to adjust your velocity, angle, or both using the information given to you.  6 points wins!
+                  <br>
+                  <br>
+                  THROWING THE BALL:
+                    <ul>
+                      <li>Use the tracking software
+                        <ul>
+                          <li>Click the 'click to scan hand' button, line up your hand in the circle, and wait for the green light.</li>
+                          <li>Once the picture has been taken, wait three seconds and move your hand across the screen to throw the ball! Be sure to keep your face out of the video or that will get tracked as well.</li>
+                        </ul>
+                      </li>
+                      <li>Use the spacebar
+                        <ul>
+                          <li>Hold down the spacebar and watch the velocity increase. Let it go and the ball is thrown at the velocity you've reached!</li>
+                        </ul>
+                      </li>
+                    </ul>
+                  CHANGING THE ANGLE:
+                  <ul>
+                    <li>Modify the angle in the angle input box by typing in a new number and hitting enter.</li>
+                  </ul>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
           </div>
-          <div id='velocity'>
-            <p id='velocity-num'>0</p>
-            m/s
         </div>
 
-
-        <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title" id="myModalLabel">How to Play</h4>
       </div>
-      <div class="modal-body">
 
-        Hit the target, get points and win!  But once you hit the target, the gravity changes and you need to adjust your velocity, angle or both.  6 points wins!
-        <br>
-        <br>
-        MOVING THE BALL:
-          <ol><li>Use the tracking software
-              <ul>
-                <li>click the 'click to scan hand' button, line up your hand in the cirlce, then once the picture of your hand has been taken, click the 'start tracking button', and three seconds later, you can move your hand across the screen!  Be sure to keep your face out of the video or that will get tracked as well</li>
-              </ul>
-            </li>
-            <li>Use the spacebar
-            <ul>
-                <li>hold down the spacebar and the velocity will increase.  Let it go and the ball is thrown at the velocity you've reached!</li>
-              </ul>
-            </li>
-          </ol>
-        CHANGING THE ANGLE:
-        <ul>
-          <li>Modify the angle in the angle input box by typing in a new number and hitting enter. </li>
-        </ul>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
     </div>
-  </div>
-</div>
-
-
-        </div> <!-- closes bg -->
-      </div> <!-- closes container -->
-
-    </div> <!-- closes loading-container -->
 
     <script type="text/javascript" src="/public/dataChannel.js"></script>
     <script type="text/javascript" src="/public/changeItems.js"></script>
@@ -153,8 +145,8 @@
     <script id="spotlight" type="text/javascript" src="/scene/spotlight.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js" integrity="sha384-ux8v3A6CPtOTqOzMKiuo3d/DomGaaClxFYdCu2HPMBEkf6x2xiDyJ7gkXU0MWwaD" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js" integrity="sha384-ux8v3A6CPtOTqOzMKiuo3d/DomGaaClxFYdCu2HPMBEkf6x2xiDyJ7gkXU0MWwaD" crossorigin="anonymous"></script>
 
   </body>
 
