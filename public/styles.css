@@ -332,9 +332,10 @@ body {
 
 /* holds instructional gif and start-tracking button */
 #tracking-container {
+  opacity: 0;
   position: absolute;
   width: 100%;
-  visibility: hidden;
+  /*visibility: hidden;*/
 }
 
 #gif {
