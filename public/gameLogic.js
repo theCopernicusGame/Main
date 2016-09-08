@@ -156,6 +156,9 @@ function randomizeAndDisplayGravity() {
 
 function updateGravityDiv(newVal) {
   $('#gravity-num').text(newVal);
+  displaySignalMessage("The gravity has changed!");
+  $('#signalingArea').animate({ marginTop: '2.48%' }, 1000);
+  $('#signalingArea').delay(3000).animate({ marginTop: '80%' }, 1000);
 }
 
 // waits til this loads to add the scene
