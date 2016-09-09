@@ -1,7 +1,9 @@
 /* body, background, and major wrappers */
 body {
   color: #fff;
-  background-image:url('/assets/starfield2.jpg');
+  background-image:url('/assets/marssky.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
   margin: 0px;
   overflow: hidden;
   font-family:  'Roboto Condensed', sans-serif;
@@ -118,6 +120,7 @@ body {
   width: 100%;
   z-index: 5;
   background-image:url('/assets/starfield2.jpg');
+  transition: background 1s ease-out;
 }
 
 #canvasloader-container {
@@ -372,6 +375,7 @@ body {
 #swipe-countdown {
   opacity: 0;
   position: absolute;
+  z-index: 5; /*pushing numbers in front of foreground*/
   width: 100%;
   text-align: center;
 }

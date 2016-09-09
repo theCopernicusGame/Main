@@ -86,42 +86,27 @@ objLoader.load( '/assets/astronaut/Astronaut.obj', function ( object ) {
   scene.add(object);
 });
 
-// add hand
-// objLoader.load( '/assets/astronaut/player1_hand.obj', function ( object ) {
-//   object.traverse( function ( child ) {
-//        if ( child instanceof THREE.Mesh ) {
-//         child.material.map = imageMap;
-//         child.material.normalMap = normalMap;
-//         child.material.specualarMap = specMap;
-//         child.castShadow = true;
-//       }
-//     });
-//
-//   scene.add( object );
-// });
-
 // add moon floor
 var floorImage = new THREE.Texture();
 var floorMap = new THREE.Texture();
 
-imgLoader.load('/assets/finalMoonPics/moonTexture.png', function(img) {
+imgLoader.load('/assets/finalMoonPics/marsColor.bmp', function(img) {
   floorImage.image = img;
-  floorImage.image.wrapS = THREE.RepeatWrapping;
-  floorImage.image.wrapT = THREE.RepeatWrapping;
   floorImage.needsUpdate = true;
 });
 
 
-imgLoader.load('/assets/finalMoonPics/moonNormals.jpeg', function(img) {
+imgLoader.load('/assets/finalMoonPics/marsNormal.jpg', function(img) {
   floorMap.image = img;
   floorMap.needsUpdate = true;
 });
 
-objLoader.load( '/assets/finalMoonPics/moon_floor.obj', function ( object ) {
+objLoader.load( '/assets/finalMoonPics/marsFloor.obj', function ( object ) {
   object.traverse( function ( child ) {
        if ( child instanceof THREE.Mesh ) {
         child.material.map = floorImage;
         child.material.normalMap = floorMap;
+        child.material.normalScale.set(-0.2, -0.2);
         child.receiveShadow = true;
       }
     });
