@@ -47,11 +47,13 @@ function endTurnAndUpdate(points) {
       dataChannel.send(JSON.stringify({ 'moved': moved }));
       dataChannel.send(JSON.stringify({ 'turn': user.myTurn }));
       user.myTurn = false;
-    } else user.canIThrow = true;
+    } else {
+      user.canIThrow = true;
+      transitionTracking();
+    }
 
     scene.remove(ball);
     addBall();
-    transitionTracking();
     if (user.points > 5) endGame(user.player, user.points);
   }, 2000);
 
@@ -62,7 +64,7 @@ function updateAndStartTurn() {
   user.trackFlag = false;
   user.canIThrow = true;
   user.myTurn = received.turn;
-  $('#start-tracking').attr("disabled", false);
+  transitionTracking();
 
   scene.remove(ball2);
   addBall();
@@ -132,7 +134,7 @@ $(document).keyup(function(event) {
 }).keydown(function(event) {
   if (event.keyCode == 32 && user.myTurn === true && user.canIThrow === true) {
     $('#velocity').fadeIn(400);
-    $('#start-tracking').animate({ opacity: 0 });
+    $('#start-tracking').animate({ opacity: 0 }).attr("disabled", true);
     var velocityNum = Number($('#velocity-num').text());
     velocityNum += .5;
     var showNum = parseFloat(velocityNum).toFixed(1);

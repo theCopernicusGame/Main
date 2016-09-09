@@ -8,39 +8,17 @@ $(function() {
   var transparentCircle = $('#transparent-circle');
   var snapContainer = $('#take-snapshot');
   var closeGif = $('<button class="newGame" id="closeGif">Got It!</button>');
-  //modal functionality - fadeout for click to scan hand button, then fade back in when done reading how to play
-  $('#gear-img').click(function(){
-    $('#bg').animate({ opacity: .3 });
-    $('#infoPanel').animate({ opacity: .3 });
-    $('#how-to-play').animate({ opacity: .3 });
-    $('#start-scan').animate({ opacity: 0 });
-    $('#start-tracking').animate({ opacity: 0 });
-  });
-  $('.btn-secondary').click(function(){
-    $('#start-scan').animate({ opacity: 1 });
-    $('#bg').animate({ opacity: 1 });
-    $('#start-tracking').animate({ opacity: 1 });
-  });
-  $('#myModal').click(function(){
-    $('#infoPanel').animate({ opacity: 1 });
-    $('#how-to-play').animate({ opacity: 1 });
-    $('#start-scan').animate({ opacity: 1 });
-    $('#bg').animate({ opacity: 1 });
-    $('#start-tracking').animate({ opacity: 1 });
-  });
-
-
 
    //scan hand and start scanning functionality
   $('#start-scan').click(function() {
     handScanned = true;
     $('#line-graph').animate({ opacity: 0 });
-    $('#show-video').css('visibility', 'visible');
-    $('#take-snapshot').css('visibility', 'visible');
+    $('#show-video').animate({ opacity: 1 });
+    $('#take-snapshot').animate({ opacity: 1 });
     $('#line-graph').animate({ opacity: 0 });
     $('#bg').animate({ opacity: .3 });
-    $('#infoPanel').animate({ opacity: .3 });
-    $('#how-to-play').animate({ opacity: .3 });
+    $('#how-to-play').animate({ opacity: 1 }); // figure out how to keep this opaque
+    $('#start-tracking').attr("disabled", false);
     $('#start-scan').remove();
 
     //show frame over video
@@ -110,42 +88,41 @@ $(function() {
       minMaxColors.maxBlue = blues.max;
 
       context1.putImageData(imageData, 0, 0);
-      // demo.checkPicture(imageData)
 
       transparentCircle.css('backgroundColor', 'green');
       $('#show-video p').text('GREAT!').css('text-align', 'center');
       setTimeout(function() {
-        $('#show-video').animate({ opacity: 0 }, 500);
-        $('#take-snapshot').animate({ opacity: 0 }, 1000);
+        $('#show-video').animate({ opacity: 0 }, 250);
+        $('#take-snapshot').animate({ opacity: 0 }, 500);
         showTracking();
       }, 1000);
     }, 6000);
   });
 
   function showTracking() {
-    $('#tracking-container').animate({ opacity: 1 }, 1000);
-    $('#start-tracking').animate({ opacity: 1 }, 1000);
+    $('#tracking-container').delay(500).animate({ opacity: 1 }, 1000);
+    $('#start-tracking').delay(500).animate({ opacity: 1 }, 1000);
   }
 
-
-  $('#start-tracking').click(function() {
+  $('#start-tracking').on('mousedown', function(event) {
+    event.preventDefault(); // fixes spacebar event triggering by removing autofocus
     $('#line-graph').animate({ opacity: 0 });
     $('#tracking-container').animate({ opacity: 0 });
     $('#infoPanel').animate({ opacity: 1 });
     $('#how-to-play').animate({ opacity: 1 });
     $('#bg').animate({ opacity: 1 });
-     // add instructional hand-swiping gif to screen with button to remove it
-    $('#swipe-countdown').css('visibility', 'visible');
+    if (singleplayer === false) $('#start-tracking').attr("disabled", true); // gotta put this somewhere else, because on multiplayer button disappears but is still clickable
 
     //start tracking software on countdown
-    if (singleplayer === false) $('#start-tracking').attr("disabled", true);
+    $('#swipe-countdown').animate({ opacity: 1 });
     var text = [3,2,1,"SWIPE!"];
     var wordCounter = 0;
     var countDown = setInterval(change, 1200);
 
     function change() {
-      swipeNum.fadeOut(0).fadeIn(1000);
+      swipeNum.animate({ opacity: 1 });
       swipeNum.text(text[wordCounter]);
+      swipeNum.animate({ opacity: 0 });
 
       wordCounter++;
       if(wordCounter > text.length) {
@@ -157,7 +134,7 @@ $(function() {
 
     //remove info box
     setTimeout(function() {
-      $('#swipe-countdown').css('visibility', 'hidden');
+      $('#swipe-countdown').animate({ opacity: 0 })
       snapContainer.fadeOut();
     }, 6000);
 
@@ -177,6 +154,6 @@ function transitionTracking() {
   if (handScanned === true) {
     $('#tracking-container iframe').remove();
     $('#tracking-container').animate({ opacity: 1 });
-    $('#start-tracking').animate({opacity: 1}, 500);
+    $('#start-tracking').animate({opacity: 1}, 500).attr("disabled", false);
   }
 }

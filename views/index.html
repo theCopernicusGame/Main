@@ -5,9 +5,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
-
-
+    <script type="text/javascript" src="/lib/adapter.js"></script>
 
     <link rel="stylesheet" type="text/css" href="/public/styles.css">
     <script src="/socket.io/socket.io.js"></script>
@@ -44,7 +42,7 @@
         </div>
         <div id='tracking-container'>
           <iframe src="//giphy.com/embed/gNqDMBFhC06wE" frameBorder="0" id="gif" class="giphy-embed"></iframe>
-          <button id="start-tracking">Start Tracking</button>
+          <button id="start-tracking" type="button">Start Tracking</button>
         </div>
         <div id='swipe-countdown'>
           <p id="swipe-num"></p>
@@ -67,7 +65,7 @@
             </div>
             <br>
             <div class='angle'>
-              <label class="fadeBright" for="angle">Adjust the Angle: </label> 
+              <label class="fadeBright" for="angle">Adjust the Angle: </label>
               <input id='inputAngle' type="number" name="angle" min="0" max="90" value="45">
             </div>
             <div id="allow-webcam">
