@@ -1,9 +1,9 @@
 /* body, background, and major wrappers */
 body {
   color: #fff;
-  background-image:url('/assets/marssky.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
+  background-image:url('/assets/starfield2.jpg');
+  /*background-repeat: no-repeat;
+  background-size: cover;*/
   margin: 0px;
   overflow: hidden;
   font-family:  'Roboto Condensed', sans-serif;

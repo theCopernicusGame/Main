@@ -40,7 +40,7 @@ camera.lookAt(new THREE.Vector3(0,3,0))
 
 
 // add earth w/ clouds to scene
-scene.add( earth );
+// scene.add( earth );
 
 // add ball
 addBall = function() {
