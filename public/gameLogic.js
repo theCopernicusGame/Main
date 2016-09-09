@@ -49,9 +49,9 @@ function endTurnAndUpdate(points) {
       user.myTurn = false;
     } else {
       user.canIThrow = true;
-      $('#start-tracking').attr("disabled", true);
+      transitionTracking();
     }
-    
+
     scene.remove(ball);
     addBall();
     if (user.points > 5) endGame(user.player, user.points);
