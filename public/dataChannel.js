@@ -5,10 +5,7 @@ var heightArea = document.querySelector("#heightArea");
 var distArea = document.querySelector("#distArea");
 var signalingArea = document.querySelector("#signalingArea");
 
-// *we need to create our own stun server, look into toolio
-// *set room name = to random string from req.params url
 // signaling variables setup:
-// SIGNAL_ROOM = name of room we test our game in, soon to be programmatic for multiple rooms/users
 // iceServers connects to development server hosted by Google, negotiates NAT/firewalls
 // iceServers (STUN or TURN) technically not required in dev environment
 var configuration = {
@@ -93,7 +90,8 @@ function startSignaling() {
   };
 
   // let the 'negotiationneeded' event trigger offer generation
-  rtcPeerConn.onnegotiationneeded = function () {
+  rtcPeerConn.onnegotiationneeded = function (event) {
+    console.log(event);
     //offer is created here by player 1
     if (rtcPeerConn.remoteDescription.type.length === 0) rtcPeerConn.createOffer(sendLocalDesc, logError);
   }
