@@ -7,6 +7,19 @@ body {
    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
  }
 
+ 
+ .recordAudio{
+  font-size: 200%;
+    cursor: pointer;
+  outline: none;
+ background: rgba(0,0,128, .1);
+ border: none;
+ color: #fff;
+ margin-top: -10px;
+ z-index: 9998;
+ font-family: 'Roboto Condensed', sans-serif; 
+ }
+
 #containerG {
   position: absolute;
   top: 5%;
@@ -116,6 +129,7 @@ body {
   position: absolute;
   top: 100%;
   left: 2%;
+  z-index: 9999; 
 
 }
 

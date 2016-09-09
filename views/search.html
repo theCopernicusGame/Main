@@ -1,76 +1,87 @@
 <!DOCTYPE html>
 <html>
   <head>
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-        <script type="text/javascript" src="./lib/three.min.js"></script>
-    <script type="text/javascript" src="./galaxyScene/earthAndMoon.js"></script>
-    <script type="text/javascript" src="./galaxyScene/sun.js"></script>
-    <script type="text/javascript" src="./galaxyScene/jupiter.js"></script>
-    <script type="text/javascript" src="./galaxyScene/mars.js"></script>
-    <script type="text/javascript" src="./galaxyScene/lights.js"></script>
-    <script type="text/javascript" src="./galaxyScene/mercury.js"></script>
-    <script type="text/javascript" src="./galaxyScene/saturn.js"></script>
-    <script type="text/javascript" src="./galaxyScene/uranus.js"></script>
-    <script type="text/javascript" src="./galaxyScene/bigVenus.js"></script>
-    <script type="text/javascript" src="./galaxyScene/neptune.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script type="text/javascript" src="./lib/three.min.js"></script>
     <script type="text/javascript" src="./public/chooseGame.js"></script>
 
-<!-- BOOTSTRAP FOR RESPONSIVE DIVS -->
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <!-- WEBRTC AUDIO EXAMPLE SCRIPTS -->
+    <script type="text/javascript" src="/lib/common.js"></script>
+    <script type="text/javascript" src="/lib/adapter.js"></script>
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
-<!-- Latest compiled and minified JavaScript -->
- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> 
-<!-- End of Bootstrap -->
+
+    <!-- BOOTSTRAP FOR RESPONSIVE DIVS -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> 
+    <!-- End of Bootstrap -->
 
     <meta charset="UTF-8">
  
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="./public/styles.css"><link>
     <title>Copernicus</title>
-    <script type="text/javascript" src="./lib/three.min.js"></script>
-    <script type="text/javascript" src="./public/chooseGame.js"></script>
-    <script type="text/javascript" src="./lib/three.min.js"></script>
-    <script type="text/javascript" src="./galaxyScene/earthAndMoon.js"></script>
-        <script type="text/javascript" src="./galaxyScene/sun.js"></script>
-     <script type="text/javascript" src="./galaxyScene/venus.js"></script>
-         <script type="text/javascript" src="./galaxyScene/lights.js"></script>
 
   </head>
 
   <body>
 
 
-      <div class="container-fluid"> <!-- If Needed Left and Right Padding in 'md' and 'lg' screen means use container class -->
-     <div class="row top top-bigSpace"></div>
+    <div class="container-fluid"> <!-- If Needed Left and Right Padding in 'md' and 'lg' screen means use container class -->
+      <div class="row top top-bigSpace"></div>
         <div class="row">
-          <div class="col-md-2">  
-          </div>
+          <div class="col-md-2"></div>
           <div class="col-md-8" id='roomName'>
             Enter your room name:
           </div>
-          <div class="col-md-2"> 
-          </div>
+          <div class="col-md-2"></div>
         </div>
-   
         <div class="row">
-          <div class="col-md-4">  
-          </div>
+          <div class="col-md-4"></div>
           <div class="col-md-4">
             <input id="room" type="text" name="rName"><br>
           </div>
-          <div class="col-md-4"> 
-          </div>
+          <div class="col-md-4"></div>
         </div>
-
-      <div id="searchBar"></div>
-
+        <div id="searchBar"></div>
+         <div class="row top top-bigSpace"></div>
     </div>
-    <div id='#containerS'></div>
+
+
+
+<!-- START OF GOOGLE WEBRTC AUDIO CONNECTION CODE -->
+
+  
+  <div id="container">
+    <div id="audio">
+      <div>
+      <!-- Below is code for player's own audio, not currently necessary -->
+      <!--   <div class="label">Local audio:</div><audio id="audio1" autoplay controls muted></audio> -->
+      </div>
+      <div>
+      <!--THE BELOW AUTOPLAYS THE AUDIO THAT'S BEEN SENT OVER WEBRTC - HELPFUL FOR TESTING -->
+        <div class="label"></div><audio id="audio2" autoplay></audio>
+      </div>
+    </div>
+
+    <div id="buttons">
+      <button class='newGame' id="callButton">Talk to the other player!</button>
+      <button class='newGame' id="hangupButton">Hang Up</button>
+    </div>
+
+  </div>
+
+
+ <!-- END OF GOOGLE WEBRTC AUDIO CONNECTION CODE --> 
+
 
       <script type="text/javascript" src="./galaxyScene/searchScreenScene.js"></script>
+
   </body>
 
 </html>
