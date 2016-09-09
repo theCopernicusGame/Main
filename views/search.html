@@ -1,19 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-        <script type="text/javascript" src="./lib/three.min.js"></script>
-    <script type="text/javascript" src="./galaxyScene/earthAndMoon.js"></script>
-    <script type="text/javascript" src="./galaxyScene/sun.js"></script>
-    <script type="text/javascript" src="./galaxyScene/jupiter.js"></script>
-    <script type="text/javascript" src="./galaxyScene/mars.js"></script>
-    <script type="text/javascript" src="./galaxyScene/lights.js"></script>
-    <script type="text/javascript" src="./galaxyScene/mercury.js"></script>
-    <script type="text/javascript" src="./galaxyScene/saturn.js"></script>
-    <script type="text/javascript" src="./galaxyScene/uranus.js"></script>
-    <script type="text/javascript" src="./galaxyScene/bigVenus.js"></script>
-    <script type="text/javascript" src="./galaxyScene/neptune.js"></script>
-    <script type="text/javascript" src="./public/chooseGame.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script type="text/javascript" src="./lib/three.min.js"></script>
+    <script type="text/javascript" src="./public/divManipulation.js"></script>
+
+
+        <!-- WEBRTC AUDIO EXAMPLE SCRIPTS -->
+    <script type="text/javascript" src="/lib/common.js"></script>
+    <script type="text/javascript" src="/lib/adapter.js"></script>
 
     <!-- BOOTSTRAP FOR RESPONSIVE DIVS -->
     <!-- Latest compiled and minified CSS -->
@@ -22,7 +17,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
     <!-- Latest compiled and minified JavaScript -->
-     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
     <!-- End of Bootstrap -->
 
     <meta charset="UTF-8">
@@ -30,13 +26,6 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="./public/styles.css"><link>
     <title>Copernicus</title>
-    <script type="text/javascript" src="./lib/three.min.js"></script>
-    <script type="text/javascript" src="./public/divManipulation.js"></script>
-    <script type="text/javascript" src="./lib/three.min.js"></script>
-    <script type="text/javascript" src="./galaxyScene/earthAndMoon.js"></script>
-    <script type="text/javascript" src="./galaxyScene/sun.js"></script>
-    <script type="text/javascript" src="./galaxyScene/venus.js"></script>
-    <script type="text/javascript" src="./galaxyScene/lights.js"></script>
 
   </head>
 
@@ -57,14 +46,13 @@
             <div id="searchBar">
               <input id="room" type="text" name="rName"><br>
             </div>
+
           </div>
           <div class="col-md-4"></div>
         </div>
-
+        <div id="searchBar"></div>
+         <div class="row top top-bigSpace"></div>
     </div>
-    <div id='#containerS'></div>
-
-    <script type="text/javascript" src="./galaxyScene/searchScreenScene.js"></script>
 
   </body>
 

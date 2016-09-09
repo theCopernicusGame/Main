@@ -302,11 +302,11 @@ body {
 }
 
 #show-video {
-  visibility: hidden;
+  opacity: 0;
+  position: absolute;
   width: 20%;
   margin-top: 5%;
   margin-left: 40%;
-  position: absolute;
 }
 
 #show-video p {
@@ -320,12 +320,12 @@ body {
 
 /*container that holds the circle png over the video*/
 #take-snapshot {
-  visibility: hidden;
+  opacity: 0;
   position:absolute;
   width: 20%;
-  margin-left: 40%;
   margin-top: 5%;
-  border: 1px solid #FFF;
+  margin-left: 40%;
+  border: 2px solid #FFF;
   z-index: 5;
 }
 
@@ -338,7 +338,6 @@ body {
   opacity: 0;
   position: absolute;
   width: 100%;
-  /*visibility: hidden;*/
 }
 
 #gif {
@@ -374,14 +373,15 @@ body {
 }
 
 #swipe-countdown {
+  opacity: 0;
   position: absolute;
   z-index: 5; /*pushing numbers in front of foreground*/
   width: 100%;
   text-align: center;
-  visibility: hidden;
 }
 
 #swipe-num {
+  opacity: 0;
   margin-top: 5%;
   padding: 0;
   font-size: 10rem;
