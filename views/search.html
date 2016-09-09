@@ -3,12 +3,12 @@
   <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script type="text/javascript" src="./lib/three.min.js"></script>
-    <script type="text/javascript" src="./public/chooseGame.js"></script>
+    <script type="text/javascript" src="./public/divManipulation.js"></script> 
+
 
         <!-- WEBRTC AUDIO EXAMPLE SCRIPTS -->
     <script type="text/javascript" src="/lib/common.js"></script>
     <script type="text/javascript" src="/lib/adapter.js"></script>
-
 
 
     <!-- BOOTSTRAP FOR RESPONSIVE DIVS -->
@@ -18,11 +18,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
     <!-- Latest compiled and minified JavaScript -->
-     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> 
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
     <!-- End of Bootstrap -->
 
     <meta charset="UTF-8">
- 
+
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="./public/styles.css"><link>
     <title>Copernicus</title>
@@ -31,27 +32,28 @@
 
   <body>
 
-
     <div class="container-fluid"> <!-- If Needed Left and Right Padding in 'md' and 'lg' screen means use container class -->
       <div class="row top top-bigSpace"></div>
+      <div class="row top top-bigSpace"></div>
         <div class="row">
-          <div class="col-md-2"></div>
-          <div class="col-md-8" id='roomName'>
-            Enter your room name:
-          </div>
-          <div class="col-md-2"></div>
+          <div class="col-md-4"></div>
+          <div class="col-md-4" id='roomName'>Enter your room name:</div>
+          <div class="col-md-4"></div>
         </div>
+
         <div class="row">
           <div class="col-md-4"></div>
           <div class="col-md-4">
-            <input id="room" type="text" name="rName"><br>
+            <div id="searchBar">
+              <input id="room" type="text" name="rName"><br>
+            </div>
+
           </div>
           <div class="col-md-4"></div>
         </div>
         <div id="searchBar"></div>
          <div class="row top top-bigSpace"></div>
     </div>
-
 
 
 <!-- START OF GOOGLE WEBRTC AUDIO CONNECTION CODE -->
@@ -79,8 +81,8 @@
 
  <!-- END OF GOOGLE WEBRTC AUDIO CONNECTION CODE --> 
 
-
       <script type="text/javascript" src="./galaxyScene/searchScreenScene.js"></script>
+
 
   </body>
 

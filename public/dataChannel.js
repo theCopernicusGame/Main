@@ -44,7 +44,7 @@ io = io.connect();
 if (singleplayer === false) {
   displaySignalMessage('Waiting for other player...')
 } else {
-  signalingArea.remove();
+  $('#signalingArea').animate({ marginTop: '80%' });
 }
 
 // emits event to server setting up unique room
@@ -158,7 +158,7 @@ function receiveDataChannelMessage(event) {
   } else if (received.hasOwnProperty('moved')) {
     moved = received.moved;
   } else if (received.hasOwnProperty('turn')) {
-      updateAndStartTurn();
+    updateAndStartTurn();
   } else if (received.hasOwnProperty('points')) {
     updateOtherPoints();
   } else if (received.hasOwnProperty('gravityToProcess')) {
@@ -186,7 +186,6 @@ function displaySignalMessage(message) {
 
 function transitionGameMessages() {
   $('#signalingArea').animate({ marginTop: '80%' }, 1000);
-  //this line is unnessesary were never geting here if its singl player.
   if (singleplayer === false) $('#pointsDiv').animate({ opacity: 1 });
   if (user.myTurn === false) $('#throwBall').text("Please wait for the other player to throw!").animate({ opacity: 1 });
 }

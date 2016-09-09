@@ -1,6 +1,6 @@
 'use strict';
 
-var minMaxColors = {}, pixelsNeededIndex = [];
+var minMaxColors = {}, pixelsNeededIndex = [], handScanned = false;
 
 $(function() {
   var swipeNum = $('#swipe-num');
@@ -19,25 +19,26 @@ $(function() {
   $('.btn-secondary').click(function(){
     $('#start-scan').animate({ opacity: 1 });
     $('#bg').animate({ opacity: 1 });
-     $('#start-tracking').animate({ opacity: 1 });
+    $('#start-tracking').animate({ opacity: 1 });
   });
-   $('#myModal').click(function(){
-     $('#infoPanel').animate({ opacity: 1 });
-     $('#how-to-play').animate({ opacity: 1 });
-     $('#start-scan').animate({ opacity: 1 });
-     $('#bg').animate({ opacity: 1 });
-      $('#start-tracking').animate({ opacity: 1 });
+  $('#myModal').click(function(){
+    $('#infoPanel').animate({ opacity: 1 });
+    $('#how-to-play').animate({ opacity: 1 });
+    $('#start-scan').animate({ opacity: 1 });
+    $('#bg').animate({ opacity: 1 });
+    $('#start-tracking').animate({ opacity: 1 });
   });
 
 
 
    //scan hand and start scanning functionality
   $('#start-scan').click(function() {
+    handScanned = true;
     $('#line-graph').animate({ opacity: 0 });
     $('#show-video').css('visibility', 'visible');
     $('#take-snapshot').css('visibility', 'visible');
     $('#line-graph').animate({ opacity: 0 });
-     $('#bg').animate({ opacity: .3 });
+    $('#bg').animate({ opacity: .3 });
     $('#infoPanel').animate({ opacity: .3 });
     $('#how-to-play').animate({ opacity: .3 });
     $('#start-scan').remove();
@@ -56,9 +57,6 @@ $(function() {
 
       var context2 = canvas2.getContext('2d');
       var video = document.getElementById('myVideo');
-      console.log('video', video);
-        //REMOVE THROWBALL DIV
-        //$('#throwBall').hide();
 
       var image = context1.drawImage(photo, 0, 0, 160, 120);
       var imageData = context1.getImageData(0, 0, canvas.width, canvas.height);
@@ -95,8 +93,8 @@ $(function() {
           return acc + i;
         }, 0) / arr.length);
 
-        maxLow.lowest = average - 2;
-        maxLow.max = average + 2;
+        maxLow.lowest = average - 4;
+        maxLow.max = average + 4;
         return maxLow;
       }
 
@@ -120,42 +118,42 @@ $(function() {
         $('#show-video').animate({ opacity: 0 }, 500);
         $('#take-snapshot').animate({ opacity: 0 }, 1000);
         showTracking();
-      }, 1000); 
+      }, 1000);
     }, 6000);
   });
 
   function showTracking() {
-    $('#tracking-container').css('visibility','visible').fadeOut(0).delay(1500).fadeIn(1000);
-
+    $('#tracking-container').animate({ opacity: 1 }, 1000);
+    $('#start-tracking').animate({ opacity: 1 }, 1000);
   }
 
 
   $('#start-tracking').click(function() {
-     $('#line-graph').animate({ opacity: 0 });
-     $('#tracking-container').css('visibility', 'hidden');
+    $('#line-graph').animate({ opacity: 0 });
+    $('#tracking-container').animate({ opacity: 0 });
     $('#infoPanel').animate({ opacity: 1 });
     $('#how-to-play').animate({ opacity: 1 });
     $('#bg').animate({ opacity: 1 });
-     //add instructional hand-swiping gif to screen with button to remove it
-      $('#swipe-countdown').css('visibility', 'visible');
+     // add instructional hand-swiping gif to screen with button to remove it
+    $('#swipe-countdown').css('visibility', 'visible');
 
-          //start tracking software on countdown
-          if (singleplayer === false) $('#start-tracking').attr("disabled", true);
-          var text = [3,2,1,"SWIPE!"];
-          var wordCounter = 0;
-          var countDown = setInterval(change, 1200);
+    //start tracking software on countdown
+    if (singleplayer === false) $('#start-tracking').attr("disabled", true);
+    var text = [3,2,1,"SWIPE!"];
+    var wordCounter = 0;
+    var countDown = setInterval(change, 1200);
 
-          function change() {
-            swipeNum.fadeOut(0).fadeIn(1000);
-            swipeNum.text(text[wordCounter]);
+    function change() {
+      swipeNum.fadeOut(0).fadeIn(1000);
+      swipeNum.text(text[wordCounter]);
 
-            wordCounter++;
-            if(wordCounter > text.length) {
-              startTracking();
-              clearInterval(countDown);
-              swipeNum.html("");
-            }
-          }
+      wordCounter++;
+      if(wordCounter > text.length) {
+        startTracking();
+        clearInterval(countDown);
+        swipeNum.html("");
+      }
+    }
 
     //remove info box
     setTimeout(function() {
@@ -169,10 +167,16 @@ $(function() {
         demo.tick();
       }, 1500);
     }
-
-      //end instructional gif code
-
+    //end instructional gif code
 
   });
 
 });
+
+function transitionTracking() {
+  if (handScanned === true) {
+    $('#tracking-container iframe').remove();
+    $('#tracking-container').animate({ opacity: 1 });
+    $('#start-tracking').animate({opacity: 1}, 500);
+  }
+}

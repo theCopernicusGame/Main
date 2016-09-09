@@ -47,14 +47,11 @@ function endTurnAndUpdate(points) {
       dataChannel.send(JSON.stringify({ 'moved': moved }));
       dataChannel.send(JSON.stringify({ 'turn': user.myTurn }));
       user.myTurn = false;
-      $('#throwBall').text('Please wait for other player to throw!').animate({ opacity: 1 })
     } else user.canIThrow = true;
 
     scene.remove(ball);
     addBall();
-    $('#tracking-container').css('visibility', 'visible');
-    $('#tracking-container iframe').css('visibility', 'hidden');
-     $('#start-tracking').animate({opacity: 1}, 500);
+    transitionTracking();
     if (user.points > 5) endGame(user.player, user.points);
   }, 2000);
 
@@ -65,36 +62,11 @@ function updateAndStartTurn() {
   user.trackFlag = false;
   user.canIThrow = true;
   user.myTurn = received.turn;
-
-  $('#throwBall').animate({ opacity: 0 });
+  $('#start-tracking').attr("disabled", false);
 
   scene.remove(ball2);
   addBall();
-
 }
-
-//ensure player cannot throw ball with spacebar when it's not their turn
-$(document).keyup(function(event) {
-  if (event.keyCode === 32 && user.myTurn === true && user.canIThrow === true) {
-    var velocityNum = Number($('#velocity-num').text());
-    userVelocity = velocityNum;
-    user.canIThrow = false;
-    user.spaceBarFlag = true;
-    $('#velocity').fadeOut(700);
-    setTimeout(function() { $('#velocity-num').text(0) }, 700);
-  }
-}).keydown(function(event) {
-  if (event.keyCode == 32 && user.myTurn === true && user.canIThrow === true) {
-    $('#velocity').fadeIn(400);
-    $('#start-tracking').animate({opacity: 0}); 
-    var velocityNum = Number($('#velocity-num').text());
-    velocityNum += .5;
-    var showNum = parseFloat(velocityNum).toFixed(1);
-    if (velocityNum <= 27) {
-      $('#velocity-num').text(showNum);
-    }
-  }
-});
 
 function updateMyPoints(points) {
   user.points += points;
@@ -147,11 +119,34 @@ function restartGame() {
   $('#end').animate({ opacity: 0 }, 500);
 }
 
+//ensure player cannot throw ball with spacebar when it's not their turn
+$(document).keyup(function(event) {
+  if (event.keyCode === 32 && user.myTurn === true && user.canIThrow === true) {
+    var velocityNum = Number($('#velocity-num').text());
+    userVelocity = velocityNum;
+    user.canIThrow = false;
+    user.spaceBarFlag = true;
+    $('#velocity').fadeOut(700);
+    setTimeout(function() { $('#velocity-num').text(0) }, 700);
+  }
+}).keydown(function(event) {
+  if (event.keyCode == 32 && user.myTurn === true && user.canIThrow === true) {
+    $('#velocity').fadeIn(400);
+    $('#start-tracking').animate({ opacity: 0 });
+    var velocityNum = Number($('#velocity-num').text());
+    velocityNum += .5;
+    var showNum = parseFloat(velocityNum).toFixed(1);
+    if (velocityNum <= 27) {
+      $('#velocity-num').text(showNum);
+    }
+  }
+});
 
 // when user hits target call this and -send through dataChannel
+// for this version, gravity will not exceed 4m/s2
 function randomizeAndDisplayGravity() {
   // from -1.6 to -9.8
-  var randomNum = -(Math.random() * (9.8 - 1.6) + 1.6).toFixed(3);
+  var randomNum = -(Math.random() * (4.0 - 1.6) + 1.6).toFixed(3);
 
   updateGravityDiv(randomNum);
   user.changeGravityValue = randomNum;
@@ -163,13 +158,10 @@ function randomizeAndDisplayGravity() {
 
 function updateGravityDiv(newVal) {
   $('#gravity-num').text(newVal);
+  displaySignalMessage("The gravity has changed to " + newVal + "!");
+  $('#signalingArea').animate({ marginTop: '2.48%' }, 1000);
+  $('#signalingArea').delay(3000).animate({ marginTop: '80%' }, 1000);
 }
-
-
-$('#instructions').hide();
-$('#gear').click(function(){
-  $('#instructions').fadeToggle('medium');
-});
 
 // waits til this loads to add the scene
 function addScene() {

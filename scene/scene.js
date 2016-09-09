@@ -1,21 +1,6 @@
 Physijs.scripts.worker = '/lib/physijs_worker.js'; //webworker used to minimize latency re phys.js
 Physijs.scripts.ammo = 'ammo.js';
 
-var brightCounter = 0; 
-//Shimmer functionality for angle input 
-var baloon = $('.fadeBright');
-     function runIt() {
-      brightCounter++; 
-      if (brightCounter < 4){
-       baloon.animate({opacity:'1'}, 1500);
-       baloon.animate({opacity:'0.2'}, 1500, runIt);
-       }
-       else baloon.animate({opacity:'1'}, 1500);
-    }
-    runIt();
-
-
-
 function onWindowResize() {
    camera.aspect = window.innerWidth / window.innerHeight;
    camera.updateProjectionMatrix();
@@ -171,7 +156,7 @@ function render() {
     var xRot = ball.rotation.x
     var yRot = ball.rotation.y
     var zRot = ball.rotation.z;
-    displayPosition('Height: ' + parseFloat(ball.position.y - .3).toFixed(3), 'Distance: ' + parseFloat(5 - ball.position.x).toFixed(3));
+    displayPosition('Height: ' + parseFloat(ball.position.y - .3).toFixed(3) + 'm', 'Distance: ' + parseFloat(5 - ball.position.x).toFixed(3) + 'm');
     if (turnEnded === false) {
       storePosition();
       checkBadThrow();
@@ -198,7 +183,6 @@ function render() {
     var lowLimit, upLimit;
 
     // find lower tracker matches limit
-    // TODO: need tracking data!!!!!!!
 
     // find upper tracker matches limit
 
