@@ -12,6 +12,19 @@ body {
   position: relative;
 }
 
+ 
+/* .recordAudio{
+  font-size: 200%;
+    cursor: pointer;
+  outline: none;
+ background: rgba(0,0,128, .1);
+ border: none;
+ color: #fff;
+ margin-top: -10px;
+ z-index: 9998;
+ font-family: 'Roboto Condensed', sans-serif; 
+ }*/
+
 #containerG {
   position: absolute;
   top: 5%;
@@ -76,6 +89,63 @@ body {
   font-family: 'Roboto Condensed', sans-serif;
 }
 
+
+#change {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  margin-right: 1.49%;
+  margin-bottom: 5%;
+}
+
+
+.angle {
+  position: absolute;
+  top: 100%;
+  left: 2%;
+  z-index: 9999; 
+
+}
+
+
+/* choose game buttons */
+#chooseGame {
+  outline:none;
+  cursor: pointer;
+  position: absolute;
+  left: 50%;
+  margin-top: 6%;
+  margin-left: -123.415px;
+ }
+
+/*#onePlayer {
+  position: relative;
+  top: -20px;
+  margin-left: 14%;
+*/
+
+#twoPlayer {
+  z-index: 3;
+  text-align: left;
+}
+
+#twoPlayerCol{
+  z-index: 1;
+}
+
+
+#multiplayer {
+/*  position: relative;
+  display: inline-block;
+  width: 121.16px;
+  padding-bottom: 5px;*/
+}
+
+#singleplayer {
+  position: relative;
+  display: inline-block;
+  width: 121.39px;
+}
 .top-buffer {
   margin-top: 2%;
 }
