@@ -19,7 +19,7 @@ var configuration = {
 var rtcPeerConn;
 var dataChannel;
 var singleplayer = false;
-var demo = false;
+var isDemo = false;
 var dataChannelOptions = {
   reliable: false,
   ordered: false, //no guaranteed delivery, unreliable but faster
@@ -32,7 +32,9 @@ var keyIndex = window.location.href.indexOf('game/') + 5;
 var SIGNAL_ROOM = window.location.href.split('').splice(keyIndex).join('');
 
 if (SIGNAL_ROOM === "singleplayer") singleplayer = true;
-if (SIGNAL_ROOM === "demo") demo = true;
+if (SIGNAL_ROOM === "demo") {
+  isDemo = true;
+}
 
 // P2P information needed for game logic
 var peerFound = false;

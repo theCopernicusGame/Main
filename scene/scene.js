@@ -43,7 +43,7 @@ camera.lookAt(new THREE.Vector3(0,3,0))
 // scene.add( earth );
 
 // add demo lighting
-if (demo === true) scene.add(ambientLight);
+if (isDemo === true && user.player === "user_1") scene.add(ambientLight);
 
 // add ball
 addBall = function() {
@@ -167,7 +167,7 @@ function render() {
   }
 
   if (delayedTrackerMatches.trackFlag === true && user.trackFlag === true) {
-    if (demo === true) userVelocity = 4.5;
+    if (isDemo === true) userVelocity = 4.5;
     else {
       var lowLimit, upLimit;
 
