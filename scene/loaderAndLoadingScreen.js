@@ -56,9 +56,12 @@ function allItemsLoaded() {
   $('.onepix-imgloader').fadeOut();
   $('.loading-container > *:not(.onepix-imgloader)').fadeTo(35000, 100);
   setTimeout(function() {
-    $('.loading-container').css('background-image', 'inherit');
+    $('.loading-container').css('background-image', 'url(/assets/marssky.jpg)');
     $('.loading-container').css('background-repeat', 'no-repeat');
     $('.loading-container').css('background-size', 'cover');
+    $('body').css('background-image', 'url(/assets/marssky.jpg)');
+    $('body').css('background-repeat', 'no-repeat');
+    $('body').css('background-size', 'cover');
   }, 2000);
   $('#start-scan').css('visibility', 'visible');
 }
