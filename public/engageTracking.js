@@ -117,7 +117,7 @@ $(function() {
     $('#swipe-countdown').animate({ opacity: 1 });
     var text = [3,2,1,"SWIPE!"];
     var wordCounter = 0;
-    var countDown = setInterval(change, 1200);
+    var countDown = setInterval(change, 1500);
 
     function change() {
       swipeNum.animate({ opacity: 1 });
@@ -139,10 +139,8 @@ $(function() {
     }, 6000);
 
     function startTracking() {
-      setTimeout(function() {
         user.trackFlag = true;
         demo.tick();
-      }, 1500);
     }
     //end instructional gif code
 
