@@ -121,7 +121,7 @@ function restartGame() {
   $('#end').animate({ opacity: 0 }, 500);
 }
 
-//ensure player cannot throw ball with spacebar when it's not their turn
+// ensure player cannot throw ball with spacebar when it's not their turn
 $(document).keyup(function(event) {
   if (event.keyCode === 32 && user.myTurn === true && user.canIThrow === true) {
     var velocityNum = Number($('#velocity-num').text());
@@ -156,13 +156,6 @@ function randomizeAndDisplayGravity() {
   if (singleplayer === false) {
     dataChannel.send(JSON.stringify({ 'gravityToProcess': user.changeGravityValue, 'gravityToDisplay': displayGravity }));
   }
-}
-
-function updateGravityDiv(newVal) {
-  $('#gravity-num').text(newVal);
-  displaySignalMessage("The gravity has changed to " + newVal + "!");
-  $('#signalingArea').animate({ marginTop: '2.48%' }, 1000);
-  $('#signalingArea').delay(3000).animate({ marginTop: '80%' }, 1000);
 }
 
 // waits til this loads to add the scene
