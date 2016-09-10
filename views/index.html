@@ -30,12 +30,16 @@
           <canvas id="snapShot" style="width:160px; height:120px"></canvas>
           <canvas id="process-video" style="width:160px; height:120px"></canvas>
           <canvas id="process-image" style="width:160px; height:120px"></canvas>
+
         </div>
         <div id="take-snapshot">
           <img  id="transparent-circle" src="/assets/transparentCircle.png">
         </div>
         <div id="show-video">
-          <video id="myVideo" preload autoplay loop muted></video>
+          <video id="myVideo" preload autoplay loop></video>
+      
+         
+
           <p>Place hand inside circle to scan!</p>
         </div>
         <div id='tracking-container'>
@@ -70,6 +74,11 @@
               <button class='newGame' id="start-scan">Use Webcam</button>
             </div>
           </div>
+          <div id='calling'>
+            <button id="callButton">Chat whicha boy</button>
+            <button id="hangupButton">Shush 'im</button>
+            <audio id="audio" autoplay></audio>
+           </div>
           <div id="how-to-play">
             Instructions
             <img id='gear-img' src="/assets/instructions.png" data-toggle="modal" data-target="#myModal">

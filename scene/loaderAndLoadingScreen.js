@@ -56,7 +56,6 @@ function allItemsLoaded() {
   $('.onepix-imgloader').fadeOut();
   $('.loading-container > *:not(.onepix-imgloader)').fadeTo(35000, 100);
   setTimeout(function() {
-    // David, learn what's happening here, changes in css body {} too
     $('.loading-container').css('background-image', 'url(/assets/marssky.jpg)');
     $('.loading-container').css('background-repeat', 'no-repeat');
     $('.loading-container').css('background-size', 'cover');

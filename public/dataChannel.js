@@ -1,9 +1,18 @@
-// DIRECTIONS, from server
 
+// DIRECTIONS, from server
 // selected elements from index.html that show information, allows for programmatic updating
 var heightArea = document.querySelector("#heightArea");
 var distArea = document.querySelector("#distArea");
 var signalingArea = document.querySelector("#signalingArea");
+
+
+function displaySignalMessage(message) {
+  signalingArea.innerHTML = message;
+}
+function displayPosition(message1, message2) {
+  heightArea.innerHTML = message1;
+  distArea.innerHTML = message2;
+}
 
 // signaling variables setup:
 // iceServers connects to development server hosted by Google, negotiates NAT/firewalls
@@ -17,9 +26,17 @@ var configuration = {
 // initializes rtcPeerConn variable for P2P connection object
 // dataChannel for specific dataChannel object
 var rtcPeerConn;
-var dataChannel;
 var singleplayer = false;
 var isDemo = false;
+
+//ADD offerOptions to createOffer for Audio
+var offerOptions = {
+  offerToReceiveAudio: 1,
+  offerToReceiveVideo: 0,
+  voiceActivityDetection: false
+};
+var remoteStream;
+var localStream;
 var dataChannelOptions = {
   reliable: false,
   ordered: false, //no guaranteed delivery, unreliable but faster
@@ -42,15 +59,24 @@ var peerFound = false;
 // set up socket connection between client and server for signaling
 io = io.connect();
 
+//COLLECTING AUDIO FOR CHAT
+navigator.mediaDevices.getUserMedia({audio: true, video: false}).then(function(stream) {
+  localStream = stream;
+  var audioTracks = localStream.getAudioTracks();
+  // if MediaStream has reference to microphone
+  if (audioTracks[0]) {
+    audioTracks[0].enabled = true;
+  }
+  // emits event to server setting up unique room
+  // DIRECTIONS, to server.js
+  if (singleplayer === false) io.emit('ready', {"signal_room": SIGNAL_ROOM });
+});
+
 if (singleplayer === false) {
   displaySignalMessage('Waiting for other player...')
 } else {
   $('#signalingArea').animate({ marginTop: '80%' });
 }
-
-// emits event to server setting up unique room
-// DIRECTIONS, to server.js
-if (singleplayer === false) io.emit('ready', {"signal_room": SIGNAL_ROOM });
 
 // DIRECTIONS, on setting up unique room
 // sends a first signaling message to anyone in room listening
@@ -59,14 +85,12 @@ if (singleplayer === false) io.emit('signal',{ "type": "user_here", "message": "
 io.on('signaling_message', function(data) {
   if (data.type === "user_here") displaySignalMessage('Player 2 is joining...');
   setTimeout(transitionGameMessages, 10000);
-
   peerFound = true;
 
   // set up the RTC Peer Connection object
   if (!rtcPeerConn || rtcPeerConn.signalingState === 'closed') {
     startSignaling();
   }
-
 
   // if user isn't the first user to join the page, peerConnect obj is already set up, so simply respond with description
   if (data.type != "user_here") {
@@ -79,12 +103,13 @@ io.on('signaling_message', function(data) {
       rtcPeerConn.addIceCandidate(new RTCIceCandidate(message.candidate));
     }
   }
-
 });
 
 function startSignaling() {
   rtcPeerConn = new webkitRTCPeerConnection(configuration, {optional: []});
   dataChannel = rtcPeerConn.createDataChannel('gameMessages', dataChannelOptions);
+
+  rtcPeerConn.addStream(localStream);
 
   // send any ice candidates to the other peer
   rtcPeerConn.onicecandidate = function (evt) {
@@ -95,10 +120,11 @@ function startSignaling() {
 
   // let the 'negotiationneeded' event trigger offer generation
   rtcPeerConn.onnegotiationneeded = function (event) {
-    console.log(event);
     //offer is created here by player 1
-    if (rtcPeerConn.remoteDescription.type.length === 0) rtcPeerConn.createOffer(sendLocalDesc, logError);
-  }
+    if (rtcPeerConn.remoteDescription.type.length === 0){
+     rtcPeerConn.createOffer(sendLocalDesc, logError, offerOptions);
+   }
+  };
 
   // let these dataChannel events trigger dataChannel methods
   dataChannel.onerror = logError;
@@ -106,6 +132,11 @@ function startSignaling() {
   dataChannel.onopen = dataChannelStateChanged;
   dataChannel.onclose = restartConnection;
   rtcPeerConn.ondatachannel = receiveDataChannel;
+
+  rtcPeerConn.onaddstream = function (evt) {
+    audio.src = URL.createObjectURL(evt.stream);
+  };
+
   rtcPeerConn.oniceconnectionstatechange = function() {
     if (rtcPeerConn.iceConnectionState == 'disconnected') {
       displaySignalMessage('Your friend has disconnected!');
@@ -122,6 +153,7 @@ function sendLocalDesc(desc) {
   rtcPeerConn.setLocalDescription(desc, function () {
     io.emit('signal',{"type":"SDP", "message": JSON.stringify({ 'sdp': rtcPeerConn.localDescription }), "room":SIGNAL_ROOM});
   }, logError);
+
 }
 
 // sends remote description
@@ -177,24 +209,13 @@ function logError(error) {
   console.log(error.name + ': ' + error.message);
 }
 
-function displayPosition(message1, message2) {
-  heightArea.innerHTML = message1;
-  distArea.innerHTML = message2;
-}
-
-function displaySignalMessage(message) {
-  signalingArea.innerHTML = message;
-}
-
 function transitionGameMessages() {
   $('#signalingArea').animate({ marginTop: '80%' }, 1000);
   if (singleplayer === false) $('#pointsDiv').animate({ opacity: 1 });
   if (user.myTurn === false) $('#throwBall').text("Please wait for the other player to throw!").animate({ opacity: 1 });
 }
 
-// necessary here
 function addGameLogic() {
   $('#spotlight').append( `<script id=` + `"gamescript"` + `type=` + `"text/javascript"` + ` src=` + `"/public/gameLogic.js"` + `></script>` );
 }
-
 setTimeout(addGameLogic, 2000);
