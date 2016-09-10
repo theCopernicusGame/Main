@@ -181,6 +181,12 @@ body {
   font-size: 100%;
 }
 
+#calling{
+  position: absolute;
+  top: 50%;
+}
+
+
 /* spacebar velocity and velocity-num divs */
 #velocity {
   position: absolute;
