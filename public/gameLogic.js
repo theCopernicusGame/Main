@@ -27,6 +27,10 @@ function setUser() {
 setUser();
 
 if (singleplayer === true) $('#pointsDivOnePlayer').animate({ opacity: 1 });
+if (singleplayer === true){
+    $('#calling').animate({ opacity: 0 });
+    callButton.disabled = true;
+}
 
 if (user.player === "user_2") displaySignalMessage("You've joined Player 1!");
 

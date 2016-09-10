@@ -57,17 +57,17 @@ var peerFound = false;
 io = io.connect();
 
 //COLLECTING AUDIO FOR CHAT
-navigator.mediaDevices.getUserMedia({audio: true, video: false}).then(function(stream) {
-  localStream = stream;
-  var audioTracks = localStream.getAudioTracks();
-  // if MediaStream has reference to microphone
-  if (audioTracks[0]) {
-    audioTracks[0].enabled = true;
-  }
-//   // emits event to server setting up unique room
-//   // DIRECTIONS, to server.js
-  if (singleplayer === false) io.emit('ready', {"signal_room": SIGNAL_ROOM });
-});
+  navigator.mediaDevices.getUserMedia({audio: true, video: false}).then(function(stream) {
+    localStream = stream;
+    var audioTracks = localStream.getAudioTracks();
+    // if MediaStream has reference to microphone
+    if (audioTracks[0]) {
+      audioTracks[0].enabled = true;
+    }
+  //   // emits event to server setting up unique room
+  //   // DIRECTIONS, to server.js
+  io.emit('ready', {"signal_room": SIGNAL_ROOM });
+  });
 
 if (singleplayer === false) {
   displaySignalMessage('Waiting for other player...')
@@ -135,7 +135,7 @@ function startSignaling() {
   rtcPeerConn.onaddstream = function (evt) {
     audio.src = URL.createObjectURL(evt.stream);
   };
-  
+
   rtcPeerConn.oniceconnectionstatechange = function() {
     if (rtcPeerConn.iceConnectionState == 'disconnected') {
       displaySignalMessage('Your friend has disconnected!');
