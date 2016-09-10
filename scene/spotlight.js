@@ -21,3 +21,6 @@ spotlight2.castShadow = true;
 spotlight2.distance = 40;
 spotlight2.fov = 15;
 spotlight2.target.position.set( -.22, 2, -3.8 );
+
+var ambientLight = new THREE.AmbientLight( 0x404040, 2 ); //color, light intensity
+ambientLight.position.set(230, 75, 15);
