@@ -10,10 +10,19 @@ var parameters = {
   intensity: 0
 };
 
-var spotlight =  new THREE.SpotLight( 0xFB9051);
+// var spotlight =  new THREE.SpotLight( 0xFB9051);
+// spotlight.intesity = parameters.intensity;
+// spotlight.castShadow = true;
+// spotlight.position.set(230, 75, 15);
+
+var spotlight =  new THREE.SpotLight( 0xEFD7AD);
 spotlight.intesity = parameters.intensity;
 spotlight.castShadow = true;
 spotlight.position.set(230, 75, 15);
+
+var ambientLight = new THREE.AmbientLight( 0x404040, 2 ); //color, light intensity
+ambientLight.position.set(230, 75, 15);
+
 
 var spotlight2 =  new THREE.SpotLight( 0xBDBDBD );
 spotlight2.position.set(8, 2, 1);

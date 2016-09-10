@@ -119,6 +119,7 @@ scene.add( fakeFloor );
 // add lighting
 scene.add( spotlight );
 scene.add( spotlight2 );
+scene.add( ambientLight );
 
 function render() {
 
