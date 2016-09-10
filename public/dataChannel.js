@@ -1,10 +1,22 @@
-// DIRECTIONS, from server
 
+// DIRECTIONS, from server
 // selected elements from index.html that show information, allows for programmatic updating
 var heightArea = document.querySelector("#heightArea");
 var distArea = document.querySelector("#distArea");
 var signalingArea = document.querySelector("#signalingArea");
+var callButton = document.querySelector('button#callButton');
+var hangupButton = document.querySelector('button#hangupButton');
+hangupButton.disabled = true;
+var audioTracks;
+var audio = document.querySelector('#audio');
 
+function displaySignalMessage(message) {
+  signalingArea.innerHTML = message;
+}
+function displayPosition(message1, message2) {
+  heightArea.innerHTML = message1;
+  distArea.innerHTML = message2;
+}
 // *we need to create our own stun server, look into toolio
 // *set room name = to random string from req.params url
 // signaling variables setup:
@@ -20,8 +32,15 @@ var configuration = {
 // initializes rtcPeerConn variable for P2P connection object
 // dataChannel for specific dataChannel object
 var rtcPeerConn;
-var dataChannel;
 var singleplayer = false;
+//ADD offerOptions to createOffer for Audio
+var offerOptions = {
+  offerToReceiveAudio: 1,
+  offerToReceiveVideo: 0,
+  voiceActivityDetection: false
+};
+var remoteStream;
+var localStream;
 var dataChannelOptions = {
   reliable: false,
   ordered: false, //no guaranteed delivery, unreliable but faster
@@ -41,15 +60,43 @@ var peerFound = false;
 // set up socket connection between client and server for signaling
 io = io.connect();
 
+/* ******************************* */
+
+//COLLECTING AUDIO FOR CHAT
+navigator.mediaDevices.getUserMedia({audio: true, video: false}).then(function(stream) {
+  localStream = stream;
+  var audioTracks = localStream.getAudioTracks();
+  // if MediaStream has reference to microphone
+  if (audioTracks[0]) {
+    audioTracks[0].enabled = true;
+  }
+
+  // emits event to server setting up unique room
+  // DIRECTIONS, to server.js
+  if (singleplayer === false) io.emit('ready', {"signal_room": SIGNAL_ROOM });
+});
+
+callButton.onclick = unmute;
+hangupButton.onclick = hangUp;
+//Start AUDIO
+function unmute(){
+  console.log('UNMUTING AUDIO',audioTracks[0]);
+  audioTracks[0].enabled = true;
+  hangupButton.disabled = false;
+}
+//STOP AUDIO
+function hangUp() {
+  console.log('MUTING AUDIO',audioTracks[0]);
+  audioTracks[0].enabled = false;
+};
+
+/* ******************************* */
+
 if (singleplayer === false) {
   displaySignalMessage('Waiting for other player...')
 } else {
   $('#signalingArea').animate({ marginTop: '80%' });
 }
-
-// emits event to server setting up unique room
-// DIRECTIONS, to server.js
-if (singleplayer === false) io.emit('ready', {"signal_room": SIGNAL_ROOM });
 
 // DIRECTIONS, on setting up unique room
 // sends a first signaling message to anyone in room listening
@@ -58,14 +105,12 @@ if (singleplayer === false) io.emit('signal',{ "type": "user_here", "message": "
 io.on('signaling_message', function(data) {
   if (data.type === "user_here") displaySignalMessage('Player 2 is joining...');
   setTimeout(transitionGameMessages, 10000);
-
   peerFound = true;
 
   // set up the RTC Peer Connection object
   if (!rtcPeerConn || rtcPeerConn.signalingState === 'closed') {
     startSignaling();
   }
-
 
   // if user isn't the first user to join the page, peerConnect obj is already set up, so simply respond with description
   if (data.type != "user_here") {
@@ -78,12 +123,15 @@ io.on('signaling_message', function(data) {
       rtcPeerConn.addIceCandidate(new RTCIceCandidate(message.candidate));
     }
   }
-
 });
 
 function startSignaling() {
   rtcPeerConn = new webkitRTCPeerConnection(configuration, {optional: []});
   dataChannel = rtcPeerConn.createDataChannel('gameMessages', dataChannelOptions);
+
+  rtcPeerConn.addStream(localStream);
+  // console.log(audioTracks);
+  // localStream.addTrack(audioTracks);
 
   // send any ice candidates to the other peer
   rtcPeerConn.onicecandidate = function (evt) {
@@ -95,7 +143,7 @@ function startSignaling() {
   // let the 'negotiationneeded' event trigger offer generation
   rtcPeerConn.onnegotiationneeded = function () {
     //offer is created here by player 1
-    if (rtcPeerConn.remoteDescription.type.length === 0) rtcPeerConn.createOffer(sendLocalDesc, logError);
+    if (rtcPeerConn.remoteDescription.type.length === 0) rtcPeerConn.createOffer(sendLocalDesc, logError, offerOptions);
   }
 
   // let these dataChannel events trigger dataChannel methods
@@ -104,6 +152,16 @@ function startSignaling() {
   dataChannel.onopen = dataChannelStateChanged;
   dataChannel.onclose = restartConnection;
   rtcPeerConn.ondatachannel = receiveDataChannel;
+  rtcPeerConn.onaddstream = function (evt) {
+    console.log('What is evt.stream?', evt.stream);
+    audio.src = URL.createObjectURL(evt.stream);
+    console.log('What is audio.src?', audio.src);
+  };
+  // rtcPeerConn.onaddtrack = function (evt) {
+  //   console.log('What is evt.stream?', evt.stream);
+  //   audio.src = URL.createObjectURL(evt.track);
+  //   console.log('What is audio.src?', audio.src);
+  // };
   rtcPeerConn.oniceconnectionstatechange = function() {
     if (rtcPeerConn.iceConnectionState == 'disconnected') {
       displaySignalMessage('Your friend has disconnected!');
@@ -175,24 +233,15 @@ function logError(error) {
   console.log(error.name + ': ' + error.message);
 }
 
-function displayPosition(message1, message2) {
-  heightArea.innerHTML = message1;
-  distArea.innerHTML = message2;
-}
-
-function displaySignalMessage(message) {
-  signalingArea.innerHTML = message;
-}
-
 function transitionGameMessages() {
   $('#signalingArea').animate({ marginTop: '80%' }, 1000);
   if (singleplayer === false) $('#pointsDiv').animate({ opacity: 1 });
   if (user.myTurn === false) $('#throwBall').text("Please wait for the other player to throw!").animate({ opacity: 1 });
 }
 
-// necessary here
 function addGameLogic() {
   $('#spotlight').append( `<script id=` + `"gamescript"` + `type=` + `"text/javascript"` + ` src=` + `"/public/gameLogic.js"` + `></script>` );
 }
-
 setTimeout(addGameLogic, 2000);
+
+
