@@ -152,7 +152,7 @@ function receiveDataChannelMessage(event) {
   received = JSON.parse(event.data);
   if (received.hasOwnProperty('position')) {
       message = received;
-      displayPosition('Height: ' + parseFloat(message.position[1] - .3).toFixed(3), 'Distance: ' + parseFloat(7 + message.position[0]).toFixed(3));
+      displayPosition('Height: ' + parseFloat(message.position[1] - .3).toFixed(3) + 'm', 'Distance: ' + parseFloat(7 + message.position[0]).toFixed(3) + 'm');
   } else if (received.hasOwnProperty('moved')) {
     moved = received.moved;
   } else if (received.hasOwnProperty('turn')) {
