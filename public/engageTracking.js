@@ -139,10 +139,8 @@ $(function() {
     }, 6000);
 
     function startTracking() {
-      setTimeout(function() {
         user.trackFlag = true;
         demo.tick();
-      }, 1500);
     }
     //end instructional gif code
 

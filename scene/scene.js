@@ -165,24 +165,25 @@ function render() {
   }
 
   if (delayedTrackerMatches.trackFlag === true && user.trackFlag === true) {
-    var lowLimit, upLimit;
 
-    // find lower tracker matches limit
-
-    // find upper tracker matches limit
-
-    // find lower velocity limit
-    if (user.changeGravityValue >= -3.6) lowLimit = 1.5;
-    else if (user.changeGravityValue >= -6) lowLimit = 2.0;
-    else if (user.changeGravityValue >= -8.4) lowLimit = 2.5;
-    else lowLimit = 3.0;
-
-    // calculate upper velocity limit
-    upLimit = ((user.changeGravityValue + 1.6) / .4) * .5 + 9;
-
-    // calculate velocity
-    if (delayedTrackerMatches.counter > 50) delayedTrackerMatches.counter = 50;
-    userVelocity = upLimit - (delayedTrackerMatches.counter / 50) * (upLimit - lowLimit);
+    // var lowLimit, upLimit;
+    //
+    // // find lower tracker matches limit
+    //
+    // // find upper tracker matches limit
+    //
+    // // find lower velocity limit
+    // if (user.changeGravityValue >= -3.6) lowLimit = 1.5;
+    // else if (user.changeGravityValue >= -6) lowLimit = 2.0;
+    // else if (user.changeGravityValue >= -8.4) lowLimit = 2.5;
+    // else lowLimit = 3.0;
+    //
+    // // calculate upper velocity limit
+    // upLimit = ((user.changeGravityValue + 1.6) / .4) * .5 + 9;
+    //
+    // // calculate velocity
+    // if (delayedTrackerMatches.counter > 50) delayedTrackerMatches.counter = 50;
+    // userVelocity = upLimit - (delayedTrackerMatches.counter / 50) * (upLimit - lowLimit);
 
     // demo purposes only
     // if (delayedTrackerMatches.counter > 0 && delayedTrackerMatches.counter <= 5) userVelocity = 6.5;
@@ -191,7 +192,7 @@ function render() {
     // if (delayedTrackerMatches.counter > 14 && delayedTrackerMatches.counter <= 19) userVelocity = 5;
     // if (delayedTrackerMatches.counter > 19 && delayedTrackerMatches.counter <= 25) userVelocity = 4.5;
     // if (delayedTrackerMatches.counter > 25) userVelocity = 3.5;
-
+    userVelocity = 4.5;
     throwProjectile();
   }
 
