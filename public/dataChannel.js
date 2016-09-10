@@ -4,11 +4,8 @@
 var heightArea = document.querySelector("#heightArea");
 var distArea = document.querySelector("#distArea");
 var signalingArea = document.querySelector("#signalingArea");
-var callButton = document.querySelector('button#callButton');
-var hangupButton = document.querySelector('button#hangupButton');
-hangupButton.disabled = true;
-var audioTracks;
-var audio = document.querySelector('#audio');
+
+
 
 function displaySignalMessage(message) {
   signalingArea.innerHTML = message;
@@ -17,8 +14,7 @@ function displayPosition(message1, message2) {
   heightArea.innerHTML = message1;
   distArea.innerHTML = message2;
 }
-// *we need to create our own stun server, look into toolio
-// *set room name = to random string from req.params url
+
 // signaling variables setup:
 // SIGNAL_ROOM = name of room we test our game in, soon to be programmatic for multiple rooms/users
 // iceServers connects to development server hosted by Google, negotiates NAT/firewalls
@@ -60,8 +56,6 @@ var peerFound = false;
 // set up socket connection between client and server for signaling
 io = io.connect();
 
-/* ******************************* */
-
 //COLLECTING AUDIO FOR CHAT
 navigator.mediaDevices.getUserMedia({audio: true, video: false}).then(function(stream) {
   localStream = stream;
@@ -70,27 +64,10 @@ navigator.mediaDevices.getUserMedia({audio: true, video: false}).then(function(s
   if (audioTracks[0]) {
     audioTracks[0].enabled = true;
   }
-
-  // emits event to server setting up unique room
-  // DIRECTIONS, to server.js
+//   // emits event to server setting up unique room
+//   // DIRECTIONS, to server.js
   if (singleplayer === false) io.emit('ready', {"signal_room": SIGNAL_ROOM });
 });
-
-callButton.onclick = unmute;
-hangupButton.onclick = hangUp;
-//Start AUDIO
-function unmute(){
-  console.log('UNMUTING AUDIO',audioTracks[0]);
-  audioTracks[0].enabled = true;
-  hangupButton.disabled = false;
-}
-//STOP AUDIO
-function hangUp() {
-  console.log('MUTING AUDIO',audioTracks[0]);
-  audioTracks[0].enabled = false;
-};
-
-/* ******************************* */
 
 if (singleplayer === false) {
   displaySignalMessage('Waiting for other player...')
@@ -130,8 +107,6 @@ function startSignaling() {
   dataChannel = rtcPeerConn.createDataChannel('gameMessages', dataChannelOptions);
 
   rtcPeerConn.addStream(localStream);
-  // console.log(audioTracks);
-  // localStream.addTrack(audioTracks);
 
   // send any ice candidates to the other peer
   rtcPeerConn.onicecandidate = function (evt) {
@@ -141,10 +116,14 @@ function startSignaling() {
   };
 
   // let the 'negotiationneeded' event trigger offer generation
-  rtcPeerConn.onnegotiationneeded = function () {
+  rtcPeerConn.onnegotiationneeded = function (event) {
+        console.log('ON negotiationneeded***', event); 
+
     //offer is created here by player 1
-    if (rtcPeerConn.remoteDescription.type.length === 0) rtcPeerConn.createOffer(sendLocalDesc, logError, offerOptions);
-  }
+    if (rtcPeerConn.remoteDescription.type.length === 0){
+     rtcPeerConn.createOffer(sendLocalDesc, logError, offerOptions);
+   }
+  }; 
 
   // let these dataChannel events trigger dataChannel methods
   dataChannel.onerror = logError;
@@ -152,16 +131,11 @@ function startSignaling() {
   dataChannel.onopen = dataChannelStateChanged;
   dataChannel.onclose = restartConnection;
   rtcPeerConn.ondatachannel = receiveDataChannel;
+  
   rtcPeerConn.onaddstream = function (evt) {
-    console.log('What is evt.stream?', evt.stream);
     audio.src = URL.createObjectURL(evt.stream);
-    console.log('What is audio.src?', audio.src);
   };
-  // rtcPeerConn.onaddtrack = function (evt) {
-  //   console.log('What is evt.stream?', evt.stream);
-  //   audio.src = URL.createObjectURL(evt.track);
-  //   console.log('What is audio.src?', audio.src);
-  // };
+  
   rtcPeerConn.oniceconnectionstatechange = function() {
     if (rtcPeerConn.iceConnectionState == 'disconnected') {
       displaySignalMessage('Your friend has disconnected!');
@@ -174,10 +148,11 @@ function startSignaling() {
 }
 
 // sends local description
-function sendLocalDesc(desc) {
+function sendLocalDesc(desc) { 
   rtcPeerConn.setLocalDescription(desc, function () {
     io.emit('signal',{"type":"SDP", "message": JSON.stringify({ 'sdp': rtcPeerConn.localDescription }), "room":SIGNAL_ROOM});
   }, logError);
+
 }
 
 // sends remote description
