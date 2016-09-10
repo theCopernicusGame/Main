@@ -2,8 +2,8 @@
 body {
   color: #fff;
   background-image:url('/assets/starfield2.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
+/*  background-repeat: no-repeat;
+  background-size: cover;*/
   margin: 0px;
   overflow: hidden;
   font-family:  'Roboto Condensed', sans-serif;
@@ -180,6 +180,12 @@ body {
   border: none;
   font-size: 100%;
 }
+
+#calling{
+  position: absolute;
+  top: 50%;
+}
+
 
 /* spacebar velocity and velocity-num divs */
 #velocity {
