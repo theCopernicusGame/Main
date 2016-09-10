@@ -1,18 +1,4 @@
-
 // DIRECTIONS, from server
-// selected elements from index.html that show information, allows for programmatic updating
-var heightArea = document.querySelector("#heightArea");
-var distArea = document.querySelector("#distArea");
-var signalingArea = document.querySelector("#signalingArea");
-
-
-function displaySignalMessage(message) {
-  signalingArea.innerHTML = message;
-}
-function displayPosition(message1, message2) {
-  heightArea.innerHTML = message1;
-  distArea.innerHTML = message2;
-}
 
 // signaling variables setup:
 // iceServers connects to development server hosted by Google, negotiates NAT/firewalls
@@ -43,9 +29,8 @@ var dataChannelOptions = {
   maxRetransmitTime: 1000, //milliseconds
 };
 
-var keyIndex = window.location.href.indexOf('game/') + 5;
-
 //the name of the room you entered
+var keyIndex = window.location.href.indexOf('game/') + 5;
 var SIGNAL_ROOM = window.location.href.split('').splice(keyIndex).join('');
 
 if (SIGNAL_ROOM === "singleplayer") singleplayer = true;
@@ -209,12 +194,6 @@ function receiveDataChannelMessage(event) {
 //Logging/Display Methods
 function logError(error) {
   console.log(error.name + ': ' + error.message);
-}
-
-function transitionGameMessages() {
-  $('#signalingArea').animate({ marginTop: '80%' }, 1000);
-  if (singleplayer === false) $('#pointsDiv').animate({ opacity: 1 });
-  if (user.myTurn === false) $('#throwBall').text("Please wait for the other player to throw!").animate({ opacity: 1 });
 }
 
 function addGameLogic() {
