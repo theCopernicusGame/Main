@@ -12,6 +12,7 @@ function unmute(){
   audioTracks[0].enabled = true;
   hangupButton.disabled = false;
 }
+
 //STOP AUDIO
 function hangUp() {
   console.log('MUTING AUDIO',audioTracks[0]);

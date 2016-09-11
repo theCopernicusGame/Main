@@ -24,6 +24,14 @@ function updateGravityDiv(newVal) {
   $('#signalingArea').delay(3000).animate({ marginTop: '80%' }, 1000);
 }
 
+function transitionTracking() {
+  if (handScanned === true) {
+    $('#tracking-container iframe').remove();
+    $('#tracking-container').animate({ opacity: 1 });
+    $('#start-tracking').animate({opacity: 1}, 500).attr("disabled", false);
+  }
+}
+
 $(function() {
 
   var showing = false;
@@ -54,7 +62,7 @@ $(function() {
     }
   });
 
-  //Shimmer functionality for angle input
+  // Shimmer functionality for angle input
   var brightCounter = 0;
   var angleFader = $('.fadeBright');
   function pulse() {
@@ -66,6 +74,12 @@ $(function() {
   }
 
   pulse();
+
+  $("#inputAngle").on("keydown",function search(e) {
+    if (e.keyCode === 13) {
+      userAngle = parseInt($(this).val());
+    }
+  });
 
   // modal functionality - fadeout for click to scan hand button, then fade back in when done reading how to play
   $('#gear-img').click(function(){

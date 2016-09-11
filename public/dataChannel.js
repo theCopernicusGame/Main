@@ -51,7 +51,7 @@ if (singleplayer === false) {
     var audioTracks = localStream.getAudioTracks();
     // if MediaStream has reference to microphone
     if (audioTracks[0]) {
-      audioTracks[0].enabled = true;
+      audioTracks[0].enabled = falsez;
     }
     // emits event to server setting up unique room
     // DIRECTIONS, to server.js
