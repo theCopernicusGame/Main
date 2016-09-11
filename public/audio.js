@@ -1,21 +1,20 @@
-var callButton = document.querySelector('button#callButton');
-var hangupButton = document.querySelector('button#hangupButton');
-hangupButton.disabled = true;
+var unmuteButton = document.querySelector('#unmuteButton');
+var muteButton = document.querySelector('#muteButton');
 var audio = document.querySelector('#audio');
-callButton.onclick = unmute;
-hangupButton.onclick = hangUp;
+
+muteButton.disabled = true;
+unmuteButton.onclick = unmute;
+muteButton.onclick = mute;
 
 //Start AUDIO
 function unmute(){
-  console.log('UNMUTING AUDIO',audioTracks[0]);
   audioTracks[0].enabled = true;
-  hangupButton.disabled = false;
+  muteButton.disabled = false;
   dataChannel.send(JSON.stringify({'unmuted': true}));
 }
 
 //STOP AUDIO
-function hangUp() {
-  console.log('MUTING AUDIO',audioTracks[0]);
+function mute() {
   audioTracks[0].enabled = false;
   dataChannel.send(JSON.stringify({'unmuted': false}));
 };
