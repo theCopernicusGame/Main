@@ -10,9 +10,11 @@ function unmute(){
   console.log('UNMUTING AUDIO',audioTracks[0]);
   audioTracks[0].enabled = true;
   hangupButton.disabled = false;
+  dataChannel.send(JSON.stringify({'unmuted': true}));
 }
 //STOP AUDIO
 function hangUp() {
   console.log('MUTING AUDIO',audioTracks[0]);
   audioTracks[0].enabled = false;
+  dataChannel.send(JSON.stringify({'unmuted': false})); 
 };

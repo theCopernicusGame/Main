@@ -40,7 +40,10 @@ camera.lookAt(new THREE.Vector3(0,3,0))
 
 
 // add earth w/ clouds to scene
-scene.add( earth );
+// scene.add( earth );
+
+// add demo lighting
+if (isDemo === true && user.player === "user_1") scene.add(ambientLight);
 
 // add ball
 addBall = function() {
@@ -70,7 +73,6 @@ scene.add(cap5);
 scene.add(cap6);
 
 // add astronaut
-
 objLoader.load( '/assets/astronaut/Astronaut.obj', function ( object ) {
   object.traverse( function ( child ) {
        if ( child instanceof THREE.Mesh ) {
@@ -165,33 +167,27 @@ function render() {
   }
 
   if (delayedTrackerMatches.trackFlag === true && user.trackFlag === true) {
-    var lowLimit, upLimit;
+    if (isDemo === true) userVelocity = 4.5;
+    else {
+      var lowLimit, upLimit;
 
-    // find lower tracker matches limit
+      // find lower tracker matches limit
 
-    // find upper tracker matches limit
+      // find upper tracker matches limit
 
-    // find lower velocity limit
-    if (user.changeGravityValue >= -3.6) lowLimit = 1.5;
-    else if (user.changeGravityValue >= -6) lowLimit = 2.0;
-    else if (user.changeGravityValue >= -8.4) lowLimit = 2.5;
-    else lowLimit = 3.0;
+      // find lower velocity limit
+      if (user.changeGravityValue >= -3.6) lowLimit = 1.5;
+      else if (user.changeGravityValue >= -6) lowLimit = 2.0;
+      else if (user.changeGravityValue >= -8.4) lowLimit = 2.5;
+      else lowLimit = 3.0;
 
-    // calculate upper velocity limit
-    upLimit = ((user.changeGravityValue + 1.6) / .4) * .5 + 9;
+      // calculate upper velocity limit
+      upLimit = ((user.changeGravityValue + 1.6) / .4) * .5 + 9;
 
-    // calculate velocity
-    if (delayedTrackerMatches.counter > 50) delayedTrackerMatches.counter = 50;
-    userVelocity = upLimit - (delayedTrackerMatches.counter / 50) * (upLimit - lowLimit);
-
-    // demo purposes only
-    // if (delayedTrackerMatches.counter > 0 && delayedTrackerMatches.counter <= 5) userVelocity = 6.5;
-    // if (delayedTrackerMatches.counter > 5 && delayedTrackerMatches.counter <= 10) userVelocity = 6;
-    // if (delayedTrackerMatches.counter > 10 && delayedTrackerMatches.counter <= 14) userVelocity = 5.5;
-    // if (delayedTrackerMatches.counter > 14 && delayedTrackerMatches.counter <= 19) userVelocity = 5;
-    // if (delayedTrackerMatches.counter > 19 && delayedTrackerMatches.counter <= 25) userVelocity = 4.5;
-    // if (delayedTrackerMatches.counter > 25) userVelocity = 3.5;
-
+      // calculate velocity
+      if (delayedTrackerMatches.counter > 50) delayedTrackerMatches.counter = 50;
+      userVelocity = upLimit - (delayedTrackerMatches.counter / 50) * (upLimit - lowLimit);
+    }
     throwProjectile();
   }
 
