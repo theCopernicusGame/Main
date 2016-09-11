@@ -147,11 +147,3 @@ $(function() {
   });
 
 });
-
-function transitionTracking() {
-  if (handScanned === true) {
-    $('#tracking-container iframe').remove();
-    $('#tracking-container').animate({ opacity: 1 });
-    $('#start-tracking').animate({opacity: 1}, 500).attr("disabled", false);
-  }
-}

@@ -12,7 +12,7 @@ function displayPosition(message1, message2) {
 }
 
 function transitionGameMessages() {
-  $('#signalingArea').animate({ marginTop: '80%' }, 1000);
+  signalingArea.animate({ marginTop: '80%' }, 1000);
   if (singleplayer === false) $('#pointsDiv').animate({ opacity: 1 });
   if (user.myTurn === false) $('#throwBall').text("Please wait for the other player to throw!").animate({ opacity: 1 });
 }
@@ -20,8 +20,16 @@ function transitionGameMessages() {
 function updateGravityDiv(newVal) {
   $('#gravity-num').text(newVal);
   displaySignalMessage("The gravity has changed to " + newVal + "!");
-  $('#signalingArea').animate({ marginTop: '2.48%' }, 1000);
-  $('#signalingArea').delay(3000).animate({ marginTop: '80%' }, 1000);
+  signalingArea.animate({ marginTop: '2.48%' }, 1000);
+  signalingArea.delay(3000).animate({ marginTop: '80%' }, 1000);
+}
+
+function transitionTracking() {
+  if (handScanned === true) {
+    $('#tracking-container iframe').remove();
+    $('#tracking-container').animate({ opacity: 1 });
+    $('#start-tracking').animate({opacity: 1}, 500).attr("disabled", false);
+  }
 }
 
 $(function() {
@@ -54,7 +62,7 @@ $(function() {
     }
   });
 
-  //Shimmer functionality for angle input
+  // Shimmer functionality for angle input
   var brightCounter = 0;
   var angleFader = $('.fadeBright');
   function pulse() {
@@ -66,6 +74,12 @@ $(function() {
   }
 
   pulse();
+
+  $("#inputAngle").on("keydown",function search(e) {
+    if (e.keyCode === 13) {
+      userAngle = parseInt($(this).val());
+    }
+  });
 
   // modal functionality - fadeout for click to scan hand button, then fade back in when done reading how to play
   $('#gear-img').click(function(){

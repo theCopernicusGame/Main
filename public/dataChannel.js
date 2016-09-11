@@ -23,6 +23,7 @@ var offerOptions = {
 };
 var remoteStream;
 var localStream;
+var audioTracks;
 var dataChannelOptions = {
   reliable: false,
   ordered: false, //no guaranteed delivery, unreliable but faster
@@ -34,9 +35,7 @@ var keyIndex = window.location.href.indexOf('game/') + 5;
 var SIGNAL_ROOM = window.location.href.split('').splice(keyIndex).join('');
 
 if (SIGNAL_ROOM === "singleplayer") singleplayer = true;
-if (SIGNAL_ROOM === "demo") {
-  isDemo = true;
-}
+if (SIGNAL_ROOM === "demo") isDemo = true;
 
 // P2P information needed for game logic
 var peerFound = false;
@@ -49,7 +48,7 @@ io = io.connect();
 if (singleplayer === false) {
   navigator.mediaDevices.getUserMedia({audio: true, video: false}).then(function(stream) {
     localStream = stream;
-    var audioTracks = localStream.getAudioTracks();
+    audioTracks = localStream.getAudioTracks();
     // if MediaStream has reference to microphone
     if (audioTracks[0]) {
       audioTracks[0].enabled = false;

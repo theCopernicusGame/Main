@@ -16,7 +16,7 @@
     <script type="text/javascript" src="/lib/cv.js"></script>
     <script type="text/javascript" src="/public/engageTracking.js"></script>
     <script type="text/javascript" src="/lib/handTracking.js"></script>
-  <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
 
     <title>Copernicus</title>
   </head>
@@ -73,12 +73,14 @@
             <div id="allow-webcam">
               <button class='newGame' id="start-scan">Use Webcam</button>
             </div>
+            <div id='calling'>
+              <div id="callContainer">
+                <input type="button" id="unmuteButton"/>
+                <input type="button" id="muteButton"/>
+              </div>
+              <audio id="audio" autoplay></audio>
+            </div>
           </div>
-          <div id='calling'>
-            <button id="callButton">Chat whicha boy</button>
-            <button id="hangupButton">Shush 'im</button>
-            <audio id="audio" autoplay></audio>
-           </div>
           <div id="how-to-play">
             Instructions
             <img id='gear-img' src="/assets/instructions.png" data-toggle="modal" data-target="#myModal">
@@ -140,7 +142,6 @@
 
     <script type="text/javascript" src="/public/divManipulation.js"></script>
     <script type="text/javascript" src="/public/dataChannel.js"></script>
-    <script type="text/javascript" src="/public/changeItems.js"></script>
     <script type="text/javascript" src="/public/graphMotion.js"></script>
     <script type="text/javascript" src="/scene/loaderAndLoadingScreen.js"></script>
     <script type="text/javascript" src="/public/audio.js"></script>
