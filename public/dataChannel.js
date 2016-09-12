@@ -23,6 +23,7 @@ var offerOptions = {
 };
 var remoteStream;
 var localStream;
+var audioTracks;
 var dataChannelOptions = {
   reliable: false,
   ordered: false, //no guaranteed delivery, unreliable but faster
@@ -34,9 +35,7 @@ var keyIndex = window.location.href.indexOf('game/') + 5;
 var SIGNAL_ROOM = window.location.href.split('').splice(keyIndex).join('');
 
 if (SIGNAL_ROOM === "singleplayer") singleplayer = true;
-if (SIGNAL_ROOM === "demo") {
-  isDemo = true;
-}
+if (SIGNAL_ROOM === "demo") isDemo = true;
 
 // P2P information needed for game logic
 var peerFound = false;
@@ -44,20 +43,22 @@ var peerFound = false;
 // set up socket connection between client and server for signaling
 io = io.connect();
 
+
 //COLLECTING AUDIO FOR CHAT AND START SIGNALING
 if (singleplayer === false) {
   navigator.mediaDevices.getUserMedia({audio: true, video: false}).then(function(stream) {
     localStream = stream;
-    var audioTracks = localStream.getAudioTracks();
+    audioTracks = localStream.getAudioTracks();
     // if MediaStream has reference to microphone
     if (audioTracks[0]) {
-      audioTracks[0].enabled = true;
+      audioTracks[0].enabled = false;
     }
     // emits event to server setting up unique room
     // DIRECTIONS, to server.js
     io.emit('ready', {"signal_room": SIGNAL_ROOM });
   });
 }
+
 
 if (singleplayer === false) {
   displaySignalMessage('Waiting for other player...')
@@ -188,6 +189,8 @@ function receiveDataChannelMessage(event) {
     updateGravityDiv(received.gravityToDisplay);
   } else if (received.hasOwnProperty('restart')) {
     restartGame();
+  } else if (received.hasOwnProperty('unmuted')) {
+    audioTracks[0].enabled = received.unmuted;
   }
 }
 

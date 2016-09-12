@@ -173,12 +173,6 @@ body {
   left: 1%;
 }
 
-#calling{
-  position: absolute;
-  top: 50%;
-}
-
-
 /* spacebar velocity and velocity-num divs */
 #velocity {
   position: absolute;
@@ -195,6 +189,35 @@ body {
   display: inline-block;
   font-size: 25px;
   margin: 4px 0;
+}
+
+/* audio */
+#calling {
+  margin-top: 20px;
+  position: absolute;
+  background-image: url("/assets/walkieTalkie.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 120px;
+  height: 300px;
+}
+
+#callContainer {
+  margin-top: 200px;
+  margin-left:25px;
+}
+
+#unmuteButton {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  padding: 5px 30px;
+  margin-bottom: 5px;
+}
+
+#muteButton {
+  background-color: #f44336; /* Red */
+  color: white;
+  padding: 5px 30px;
 }
 
 /* right side game data */
