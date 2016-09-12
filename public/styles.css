@@ -1,9 +1,10 @@
 /* body, background, and major wrappers */
 body {
-  color: #fff;
+  color: #E2F4DF;
   background-image:url('/assets/starfield2.jpg');
 /*  background-repeat: no-repeat;
   background-size: cover;*/
+  line-height: 1.2;
   margin: 0px;
   overflow: hidden;
   font-family:  'Roboto Condensed', sans-serif;
@@ -51,7 +52,6 @@ body {
   outline: none;
   background: rgba(0,0,128, .1);
   border: none;
-  color: #fff;
   margin-top: -10px;
   font-family: 'Roboto Condensed', sans-serif;
 }
@@ -173,14 +173,6 @@ body {
   left: 1%;
 }
 
-.angle input {
-  cursor: pointer;
-  color: white;
-  background: rgba(0,0,128, .1);
-  border: none;
-  font-size: 100%;
-}
-
 #calling{
   position: absolute;
   top: 50%;
@@ -227,7 +219,6 @@ body {
   right: 0px;
   margin-top: 1%; /* 20px / 808px */
   margin-right: 1.49%; /* 20px / 1440px */
-  color: #FFF;
   text-align: center;
   font-size: 200%;
 }
@@ -238,7 +229,6 @@ body {
   right: 0px;
   margin-top: 1%; /* 20px / 808px */
   margin-right: 1.49%; /* 20px / 1440px */
-  color: #FFF;
   text-align: left;
   font-size: 200%;
 }
@@ -292,8 +282,9 @@ body {
   margin-top: 2%;
   background-color: rgba(0,0,128, 0.3);
   color: #FFF;
-  border: 1px solid rgba(255,255, 255, 0.4);
   border-radius: 5px;
+  box-shadow: 0 0 8px #FFF, inset 0 0 8px #FFF;
+  -webkit-animation: pulse 2s linear 1s infinite;
 }
 
 #hand-info {
@@ -361,7 +352,6 @@ body {
   top: 67%;
   left: 60%;
   font-size: 150%;
-  color: #FFF;
 }
 
 #start-tracking {
@@ -391,4 +381,77 @@ body {
   margin-top: 5%;
   padding: 0;
   font-size: 10rem;
+}
+
+#displayData {
+  font-size: 20px;
+}
+
+.info-data {
+  font-size: 20px;
+}
+
+.info-data div:nth-child(2) {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+
+.info-data div {
+  vertical-align: middle;
+}
+
+@-webkit-keyframes pulse {
+  0% { box-shadow:0 0 8px #0BFF54, inset 0 0 8px #FFF; }
+  50% { box-shadow:0 0 16px #0BFF54, inset 0 0 14px #FFF; }
+  100% { box-shadow:0 0 8px #0BFF54, inset 0 0 8px #FFF; }
+}
+
+.glowing-circle {
+  display: inline-block;
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  box-shadow: 0 0 8px #FFF, inset 0 0 8px #FFF;
+  -webkit-animation: pulse 2s linear 1s infinite;
+}
+
+
+
+.angle {
+  font-size: 20px;
+  left: 20%;
+  bottom: 7%;
+  position: absolute;
+  color: #E2F4DF;
+}
+
+.angle label {
+  margin: 7px 0;
+}
+
+.angle-arrows {
+  cursor: pointer;
+  display: block;
+  width: 25px;
+  margin-left: 115px;
+}
+
+.angle input {
+  cursor: pointer;
+  background: rgba(0,0,128, .1);
+  border: none;
+  font-size: 20px;
+  text-align: center;
+  border-radius: 50%;
+  width: 40px;
+  padding: 2px;
+  color: #E2F4DF;
+  box-shadow: 0 0 8px #FFF, inset 0 0 8px #FFF;
+  -webkit-animation: pulse 2s linear 1s infinite;
+}
+
+.angle input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }

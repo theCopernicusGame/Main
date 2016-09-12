@@ -77,4 +77,16 @@ $(function() {
     $('#start-tracking').animate({ opacity: 1 });
   });
 
+  //change up/down buttons of the angle..
+  $( ".angle" ).on( "click", "img", function( event ) {
+    var input = $('#inputAngle');
+    var id = event.target.id
+    var inputNum = Number(input.val());
+    if (id === 'up-arrow' && inputNum < 90) {
+      return input.val(inputNum + 1);
+    } else if (id === 'down-arrow' && inputNum > 1) {
+      return input.val(inputNum - 1);
+    }
+  });
+
 });
