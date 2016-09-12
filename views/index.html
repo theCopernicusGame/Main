@@ -58,18 +58,31 @@
         <div id='bg'>
 
           <div id="infoPanel">
-            <div id='displayData'>
+            <div class='info-data'>
+              <div class='glowing-circle cir1'></div>
               <div id='gravity'>Gravity: <span id="gravity-num">-1.6</span>m/s<sup>2</sup></div>
-              <div id="heightArea">Height: </div>
-              <div id="distArea">Distance: </div>
-              <div id="v0Div">Initial Velocity: </div>
-              <div id="tDiv">Time: </div>
+            </div>
+            <div id='displayData'>
+              <div class='info-data'>
+                <div class='glowing-circle cir2'></div>
+                <div id="heightArea">Height: </div>
+              </div>
+              <div class='info-data'>
+                <div class='glowing-circle cir3'></div>
+                <div id="distArea">Distance: </div>
+              </div>
+              <div class='info-data'>
+                <div class='glowing-circle cir4'></div>
+                <div id="tDiv">Time: </div>
+              </div>
+              <div class='info-data'>
+                <div class='glowing-circle cir5'></div>
+                <div id="v0Div">Initial Velocity: </div>
+              </div>
             </div>
             <br>
-            <div class='angle'>
-              <label class="fadeBright" for="angle">Adjust the Angle: </label>
-              <input id='inputAngle' type="number" name="angle" min="0" max="90" value="45">
-            </div>
+            <br>
+            <br>
             <div id="allow-webcam">
               <button class='newGame' id="start-scan">Use Webcam</button>
             </div>
@@ -81,6 +94,12 @@
               <audio id="audio" autoplay></audio>
             </div>
           </div>
+           <div class='angle'>
+             <img  id='up-arrow' class="angle-arrows" src='/assets/up_arrow.png' alt='up arrow'>
+             <label class="fadeBright" for="angle">Throw Angle: </label>
+             <input id='inputAngle' type="number" name="angle" value="45">
+             <img id='down-arrow' class="angle-arrows" src='/assets/down_arrow.png' alt='down arrow'>
+           </div>
           <div id="how-to-play">
             Instructions
             <img id='gear-img' src="/assets/instructions.png" data-toggle="modal" data-target="#myModal">
