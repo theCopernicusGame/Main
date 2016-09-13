@@ -1,7 +1,6 @@
 'use strict'
 var chai = require('chai'); 
 var chaiHttp = require('chai-http');
-// var utils = require('./utils');
 var should = chai.should(); 
 var request = require('supertest'); 
 // var exportObj = require('./../Server/Nurse/nurseMdl');
@@ -28,7 +27,15 @@ describe('ROUTE TESTING', function() {
                 res.should.have.status(200); 
                 done();
                 }); 
-            }); 
+            });
+        it('should return 400 status on request to non-existant page', function(done){
+            chai.request(url)
+            .get('/testing')
+            .end(function(err,res){
+                err.should.exist; 
+                done();
+                }); 
+            });      
     }); 
     
     describe('Choose Game Page', function(){
@@ -40,18 +47,7 @@ describe('ROUTE TESTING', function() {
                 res.should.have.status(200); 
                 done();
                 }); 
-            });
-        it('should send player to room when player enters room name on choose game page', function(done){
-            var n = 'testGame'; 
-            chai.request(url)
-                .post('/game')
-                .type('form')
-                .send(n)
-                .end(function(err, res) {
-                res.should.have.status(200)
-                done(); 
-            }); 
-        });   
+            });  
     });
       describe('Game Page', function(){
         it('should return 200 status on request to 1-player game page', function(done){
@@ -71,14 +67,7 @@ describe('ROUTE TESTING', function() {
                 res.should.have.status(200); 
                 done();
                 }); 
-            });  
+            });     
     });  
-      // it('should return 400 status on request to non-existant page', function(done){
-      //       chai.request(url)
-      //       .get('/testing')
-      //       .end(function(err,res){
-      //           res.should.have.status(404); 
-      //           done();
-      //           })
-      //       })
+      
 }); 
