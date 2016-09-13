@@ -37,6 +37,8 @@ var SIGNAL_ROOM = window.location.href.split('').splice(keyIndex).join('');
 if (SIGNAL_ROOM === "singleplayer") singleplayer = true;
 if (SIGNAL_ROOM === "demo") isDemo = true;
 
+if (isDemo === true) $("#calling").hide();
+
 // P2P information needed for game logic
 var peerFound = false;
 
