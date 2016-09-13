@@ -2,7 +2,7 @@
 //THE FOLLOWING IS TRACKING HANDS USING JS-HANDTRACKING
 
 var DEMO = function(){
-  startTime = undefined, endTime = undefined;
+  var startTime = undefined, endTime = undefined;
   this.startTime = startTime; this.endTime = endTime, this.trackerMatches = undefined;
 };
 
@@ -155,4 +155,9 @@ function waitABit(){
     delayedTrackerMatches.counter = trackerMatches.counter;
     delayedTrackerMatches.trackFlag = true;
   }, 1000);
+}
+
+if (typeof exports !== 'undefined')
+{
+  module.exports = {DEMO}; 
 }
