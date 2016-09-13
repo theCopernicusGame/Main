@@ -3,11 +3,6 @@ var expect = require('chai').expect;
 var deepEqual = require('chai').deepEqual; 
 
 
-describe('testing mocha chai exists', function(){
-    it('should pass true === true', function(){
-        expect(true).to.be.true; 
-    }); 
-}); 
 
 describe('REFERENCE: Mocha Functionality/Syntax', function(){
     var word = 'hello';
