@@ -206,3 +206,8 @@ function addGameLogic() {
   $('#spotlight').append( `<script id=` + `"gamescript"` + `type=` + `"text/javascript"` + ` src=` + `"/public/gameLogic.js"` + `></script>` );
 }
 setTimeout(addGameLogic, 2000);
+
+if (typeof exports !== 'undefined')
+{
+  module.exports = {peerFound}; 
+}

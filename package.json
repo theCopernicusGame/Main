@@ -4,7 +4,7 @@
   "description": "An educational game that teaches kinematics through interactive gameplay with the webcam and another player.",
   "main": "server.js",
   "scripts": {
-    "test": "test",
+    "test": "./node_modules/mocha/bin/mocha ./testing",
     "start": "nodemon backend/server.js"
   },
   "keywords": [
@@ -15,13 +15,18 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "browserify": "^5.13.1",
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
     "coffee-script": "^1.10.0",
     "connect": "^3.4.1",
     "cookie-parser": "^1.4.3",
     "ejs": "^2.5.1",
     "express": "^4.14.0",
     "express.io": "^1.1.13",
+    "http": "0.0.0",
+    "mocha": "^3.0.2",
     "nodemon": "^1.10.0",
+    "supertest": "^2.0.0",
     "workerify": "^0.3.0"
   },
   "repository": {
@@ -30,5 +35,7 @@
   },
   "engines": {
     "node": "6.2.0"
+  },
+  "devDependencies": {
   }
 }
