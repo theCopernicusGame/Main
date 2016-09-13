@@ -129,7 +129,6 @@ function restartGame() {
 // ensure player cannot throw ball with spacebar when it's not their turn
 $(document).keyup(function(event) {
   if (event.keyCode === 32 && user.myTurn === true && user.canIThrow === true) {
-    console.log('ANGLE**', $('#inputAngle').val())
     var velocityNum = Number($('#velocity-num').text());
     userVelocity = velocityNum;
     user.canIThrow = false;
