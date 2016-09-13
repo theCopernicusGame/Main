@@ -1,8 +1,9 @@
-'use strict';
+// 'use strict';
 
 var user = {};
 var turnEnded = false;
 var moved = false;
+
 
 function chooseUser() {
   if (peerFound === true) {
@@ -169,3 +170,9 @@ function addScene() {
 }
 
 setTimeout(addScene, 2000);
+
+
+if (typeof exports !== 'undefined')
+{
+  module.exports = {chooseUser, setUser}; 
+}
