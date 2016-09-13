@@ -1,4 +1,4 @@
-// 'use strict';
+'use strict';
 
 var user = {};
 var turnEnded = false;
@@ -174,5 +174,5 @@ setTimeout(addScene, 2000);
 
 if (typeof exports !== 'undefined')
 {
-  module.exports = {chooseUser, setUser}; 
+  module.exports = {chooseUser, setUser};
 }
