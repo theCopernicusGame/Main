@@ -1,16 +1,16 @@
-'use strict'; 
+
 
 var peerFound; 
 
-function chooseUser() {
-  if (peerFound === true) {
+function chooseUser(userFound) {
+  if (userFound === true) {
     return ["user_2", false];
   } else {
     return ["user_1", true];
   }
 }
 
-var user = {}, resArr = []; 
+var user = {}, resArr = [], turnEnded, moved, peerFound, singleplayer;  
 
 function setUser() {
   user.player = chooseUser()[0];
@@ -26,9 +26,50 @@ function setUser() {
 }
 
 
+function endTurnAndUpdate(points, bool) {
+  user.points = 0; 
+  turnEnded = true;
+  user.spaceBarFlag = false;
+  user.trackFlag = false;
+  user.checkMatches = 0;
+  user.turnEnded = true;
+  user.points += points;  
+  if (bool === false) {
+      user.myTurn = false;
+  } else {
+    user.canIThrow = true;
+  }
+  return user; 
+}
+
+function updateAndStartTurn() {
+  user. turnEnded = false;
+  user.trackFlag = false;
+  user.canIThrow = true;
+  return user; 
+}
+
+function restartGame(myTurn) {
+  user.turnEnded = false;
+  moved = false;
+  if (myTurn === true) {
+    user.canIThrow = true;
+  } else {
+    user.canIThrow = false;
+  }
+  return user; 
+}
+
+function randomizeAndDisplayGravity() {
+  // from -1.6 to -9.8
+  var randomNum = -(Math.random() * (4.0 - 1.6) + 1.6).toFixed(3);
+  user.changeGravityValue = randomNum;
+  return user; 
+}
+
 
 
 if (typeof exports !== 'undefined')
 {
-  module.exports = {chooseUser, setUser}; 
+  module.exports = {chooseUser, setUser, endTurnAndUpdate, updateAndStartTurn, restartGame, randomizeAndDisplayGravity}; 
 }
