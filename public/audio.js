@@ -1,3 +1,4 @@
+$(function() {
 var unmuteButton = document.querySelector('#unmuteButton');
 var muteButton = document.querySelector('#muteButton');
 var audio = document.querySelector('#audio');
@@ -18,3 +19,5 @@ function mute() {
   audioTracks[0].enabled = false;
   dataChannel.send(JSON.stringify({'unmuted': false}));
 };
+
+});
