@@ -5,6 +5,7 @@ var sceneObjects = require('../scene/sceneObjects');
 var peerFound, resArr = []; 
  
 
+describe('TESTING OBJECTS IN SCENE', function(){
   
 describe('ball object', function(){
   it('should exist', function(done){
@@ -83,13 +84,114 @@ describe('ball object', function(){
   expect([testObj]).to.deep.include.members([{'collisions': 0}]); 
   done(); 
   });  
-}); 
+});
 describe('earth object', function(){
   it('should exist', function(done){
       var output = sceneObjects.earthBuilder(); 
       expect(output).to.exist; 
       done(); 
   });
-    }); 
+    it('should contain geometry property', function(done){
+      var output = sceneObjects.ballBuilder(); 
+      expect(output).to.have.any.keys('geometry'); 
+      done(); 
+  });
+  it('should contain position property', function(done){
+      var output = sceneObjects.ballBuilder(); 
+      resArr = []; 
+      for (var x in output){
+        if (x === 'position') resArr.push(output[x]); 
+      }
+      expect(output).to.have.any.keys('position'); 
+      done(); 
+  });
+  it('position property should be set to {x: -300, y: -10, z: 80}', function(done){
+      var output = sceneObjects.earthBuilder(); 
+      var testObj = {}; 
+      for (var x in output){
+        if (x === 'position'){
+          for (var inner in output[x]){
+              if (inner === 'x') testObj[inner] = output[x][inner];
+              else if (inner === 'y') testObj[inner] = output[x][inner];
+              else if (inner === 'z') testObj[inner] = output[x][inner];
+          }   
+        }
+      }
+      expect([testObj]).to.deep.include.members([{'x': -300, 'y': -10, 'z': 80}]); 
+      done(); 
+  });
+  it('should have parameters radius: 36, widthSegments: 28.8, heightSegments: 14.4', function(done){
+    var output = sceneObjects.earthBuilder(); 
+    var testObj = {}; 
+    for (var x in output){
+      if (x === 'geometry'){
+        for (var y in output[x])
+          if (y === 'parameters'){
+            for (var inner in output[x][y]){
+              if (inner === 'radius') testObj[inner] = output[x][y][inner];
+              else if (inner === 'widthSegments') testObj[inner] = output[x][y][inner];
+              else if (inner === 'heightSegments') testObj[inner] = output[x][y][inner];
+          }
+        }   
+      }
+    }
+    expect([testObj]).to.deep.include.members([{'radius': 36, 'widthSegments': 28.8, 'heightSegments': 14.4}]);
+    done(); 
+  });
+  it('should contain materials property', function(done){
+    var output = sceneObjects.earthBuilder();
+    expect(output).to.have.any.keys('material'); 
+    done(); 
+  });
+}); 
+describe('light object', function(){
+  it('should exist', function(done){
+      var output = sceneObjects.lightBuilder(); 
+      expect(output).to.exist; 
+      done(); 
+  });
+  it("should be type 'Spotlight'", function(done){
+      var output = sceneObjects.lightBuilder();
+      var testObj = {};  
+      for (var x in output){
+        if (x === 'type') testObj[x] = output[x];
+      }
+      expect([testObj]).to.deep.include.members([{'type': 'SpotLight'}]); 
+      done(); 
+  });
+  it('should contain position property', function(done){
+      var output = sceneObjects.lightBuilder(); 
+      resArr = []; 
+      for (var x in output){
+        if (x === 'position') resArr.push(output[x]); 
+      }
+      expect(output).to.have.any.keys('position'); 
+      done(); 
+  });
+  it('position property should be set to {x: -230, y: 75, z: 15}', function(done){
+      var output = sceneObjects.lightBuilder(); 
+      var testObj = {}; 
+      for (var x in output){
+        if (x === 'position'){
+          for (var inner in output[x]){
+              if (inner === 'x') testObj[inner] = output[x][inner];
+              else if (inner === 'y') testObj[inner] = output[x][inner];
+              else if (inner === 'z') testObj[inner] = output[x][inner];
+          }   
+        }
+      }
+      expect([testObj]).to.deep.include.members([{'x': 230, 'y': 75, 'z': 15}]); 
+      done(); 
+  });     
+  it('should contain geometry property', function(done){
+    var output = sceneObjects.lightBuilder(); 
+    expect(output).to.have.any.keys('color'); 
+    done(); 
+  });
+});
+}); 
+
+
+
 
 

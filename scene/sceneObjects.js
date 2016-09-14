@@ -36,14 +36,10 @@ function ballBuilder(){
 
 
 function earthBuilder(){
-  var textureLoader = new THREE.TextureLoader();
+  // var textureLoader = new THREE.TextureLoader();
   var earthGeometry = new THREE.SphereGeometry(36, 28.8, 14.4);
-  var earthMap  = textureLoader.load('/assets/planetPics/earthmap1k.jpg');
-  var earthBump = textureLoader.load('/assets/planetPics/earthbump1k.jpg');
-  var earthSpec = textureLoader.load('/assets/planetPics/earthspec1k.jpg');
-  var earthTexture = new THREE.MeshPhongMaterial( { map: earthMap, bumpMap: earthBump, specularMap: earthSpec} );
+  var earthTexture = new THREE.MeshPhongMaterial({ color: 0x2BD3A7});
   var earth = new THREE.Mesh(earthGeometry, earthTexture );
-
   earth.position.z = 80;
   earth.position.x = -300;
   earth.position.y = -10;
@@ -51,12 +47,17 @@ function earthBuilder(){
   return earth; 
 }
 
-
-
+function lightBuilder(){
+  var spotlight =  new THREE.SpotLight( 0xEFD7AD);
+  spotlight.intesity = 1;
+  spotlight.castShadow = true;
+  spotlight.position.set(230, 75, 15);
+  return spotlight; 
+}
 
 
 
 if (typeof exports !== 'undefined')
 {
-  module.exports = {ballBuilder, earthBuilder}; 
+  module.exports = {ballBuilder, earthBuilder, lightBuilder}; 
 }
