@@ -12,7 +12,7 @@ function onWindowResize() {
 window.addEventListener( 'resize', onWindowResize, false );
 
 //to collect possible user change in angle;
-var userAngle = 45, userVelocity, spaceScene;
+var userVelocity, spaceScene;
 var camera, renderer, mesh;
 var keyboard = {};
 scene = new Physijs.Scene;
@@ -227,6 +227,7 @@ function determineVelocity(velocity, angle) {
 }
 
 function throwProjectile() {
+  var userAngle = $('#inputAngle').val(); 
   var velocity = determineVelocity(userVelocity, userAngle);
   t = performance.now();
   ball.setLinearVelocity(new THREE.Vector3(velocity[0], velocity[1], 0));
@@ -244,3 +245,5 @@ function throwProjectile() {
   }
   demo.clear();
 }
+
+

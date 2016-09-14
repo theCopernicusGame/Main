@@ -37,6 +37,8 @@ var SIGNAL_ROOM = window.location.href.split('').splice(keyIndex).join('');
 if (SIGNAL_ROOM === "singleplayer") singleplayer = true;
 if (SIGNAL_ROOM === "demo") isDemo = true;
 
+if (isDemo === true) $("#calling").hide();
+
 // P2P information needed for game logic
 var peerFound = false;
 
@@ -45,7 +47,7 @@ io = io.connect();
 
 
 //COLLECTING AUDIO FOR CHAT AND START SIGNALING
-if (singleplayer === false) {
+if (singleplayer === false && isDemo === false) {
   navigator.mediaDevices.getUserMedia({audio: true, video: false}).then(function(stream) {
     localStream = stream;
     audioTracks = localStream.getAudioTracks();
@@ -57,8 +59,7 @@ if (singleplayer === false) {
     // DIRECTIONS, to server.js
     io.emit('ready', {"signal_room": SIGNAL_ROOM });
   });
-}
-
+} else if (singleplayer === false && isDemo === true) io.emit('ready', { "signal_room": SIGNAL_ROOM })
 
 if (singleplayer === false) {
   displaySignalMessage('Waiting for other player...')
@@ -71,7 +72,9 @@ if (singleplayer === false) {
 if (singleplayer === false) io.emit('signal',{ "type": "user_here", "message": "Let's play the CopernicusGame!", "room": SIGNAL_ROOM });
 
 io.on('signaling_message', function(data) {
-  if (data.type === "user_here") displaySignalMessage('Player 2 is joining...');
+  if (data.type === "user_here") {
+    displaySignalMessage('Player 2 is joining...');
+  }
   setTimeout(transitionGameMessages, 10000);
   peerFound = true;
 
@@ -97,7 +100,7 @@ function startSignaling() {
   rtcPeerConn = new webkitRTCPeerConnection(configuration, {optional: []});
   dataChannel = rtcPeerConn.createDataChannel('gameMessages', dataChannelOptions);
 
-  rtcPeerConn.addStream(localStream);
+  if (isDemo === false) rtcPeerConn.addStream(localStream);
 
   // send any ice candidates to the other peer
   rtcPeerConn.onicecandidate = function (evt) {
@@ -203,3 +206,8 @@ function addGameLogic() {
   $('#spotlight').append( `<script id=` + `"gamescript"` + `type=` + `"text/javascript"` + ` src=` + `"/public/gameLogic.js"` + `></script>` );
 }
 setTimeout(addGameLogic, 2000);
+
+if (typeof exports !== 'undefined')
+{
+  module.exports = {peerFound}; 
+}

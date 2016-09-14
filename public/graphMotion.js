@@ -7,11 +7,15 @@ var GRAPH = document.getElementById('line-graph');
 var maxHeight = 0;
 var width = window.innerWidth
 var height = window.innerHeight;
+var lineWidth;
 
 function onWindowResize() {
    width = window.innerWidth
    height = window.innerHeight;
 }
+
+if (isDemo === true) lineWidth = 6;
+else lineWidth = 3;
 
 // in case window size changes
 window.onresize = onWindowResize;
@@ -49,7 +53,11 @@ function graphMotion() {
     {
       x: savedPos.x,
       y: savedPos.y,
-      name: 'Throw ' + count
+      name: 'Throw ' + count,
+      mode: 'lines',
+      line: {
+        width: lineWidth
+      }
     },
     {
       x: [13, 13],
@@ -58,7 +66,7 @@ function graphMotion() {
       mode: 'lines',
       line: {
         dash: 'dot',
-        width: 4
+        width: 6
       }
     }
   ],

@@ -2,8 +2,6 @@
 body {
   color: #E2F4DF;
   background-image:url('/assets/starfield2.jpg');
-/*  background-repeat: no-repeat;
-  background-size: cover;*/
   line-height: 1.2;
   margin: 0px;
   overflow: hidden;
@@ -49,6 +47,7 @@ body {
 
 .newGame {
   cursor: pointer;
+  color: white;
   outline: none;
   background: rgba(0,0,128, .1);
   border: none;
@@ -225,6 +224,75 @@ body {
   width: 100%;
   height: 26px;
   border-color: #8594AE;
+}
+
+/* pulsing effect for info */
+.info-data {
+  font-size: 20px;
+}
+
+.info-data div:nth-child(2) {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+
+.info-data div {
+  vertical-align: middle;
+}
+
+@-webkit-keyframes pulse {
+  0% { box-shadow:0 0 8px #0BFF54, inset 0 0 8px #FFF; }
+  50% { box-shadow:0 0 16px #0BFF54, inset 0 0 14px #FFF; }
+  100% { box-shadow:0 0 8px #0BFF54, inset 0 0 8px #FFF; }
+}
+
+.glowing-circle {
+  display: inline-block;
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  box-shadow: 0 0 8px #FFF, inset 0 0 8px #FFF;
+  -webkit-animation: pulse 2s linear 1s infinite;
+}
+
+/* angle input */
+.angle {
+  font-size: 20px;
+  left: 20%;
+  bottom: 7%;
+  position: absolute;
+  color: #E2F4DF;
+}
+
+.angle label {
+  margin: 7px 0;
+}
+
+.angle-arrows {
+  cursor: pointer;
+  display: block;
+  width: 25px;
+  margin-left: 115px;
+}
+
+.angle input {
+  cursor: pointer;
+  background: rgba(0,0,128, .1);
+  border: none;
+  font-size: 20px;
+  text-align: center;
+  border-radius: 50%;
+  width: 40px;
+  padding: 2px;
+  color: #E2F4DF;
+  box-shadow: 0 0 8px #FFF, inset 0 0 8px #FFF;
+  -webkit-animation: pulse 2s linear 1s infinite;
+}
+
+.angle input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 
 /* right side game data */
@@ -415,73 +483,4 @@ body {
 
 #displayData {
   font-size: 20px;
-}
-
-.info-data {
-  font-size: 20px;
-}
-
-.info-data div:nth-child(2) {
-  display: inline-block;
-  margin-left: 10px;
-}
-
-
-.info-data div {
-  vertical-align: middle;
-}
-
-@-webkit-keyframes pulse {
-  0% { box-shadow:0 0 8px #0BFF54, inset 0 0 8px #FFF; }
-  50% { box-shadow:0 0 16px #0BFF54, inset 0 0 14px #FFF; }
-  100% { box-shadow:0 0 8px #0BFF54, inset 0 0 8px #FFF; }
-}
-
-.glowing-circle {
-  display: inline-block;
-  width:20px;
-  height:20px;
-  border-radius:50%;
-  box-shadow: 0 0 8px #FFF, inset 0 0 8px #FFF;
-  -webkit-animation: pulse 2s linear 1s infinite;
-}
-
-
-
-.angle {
-  font-size: 20px;
-  left: 20%;
-  bottom: 7%;
-  position: absolute;
-  color: #E2F4DF;
-}
-
-.angle label {
-  margin: 7px 0;
-}
-
-.angle-arrows {
-  cursor: pointer;
-  display: block;
-  width: 25px;
-  margin-left: 115px;
-}
-
-.angle input {
-  cursor: pointer;
-  background: rgba(0,0,128, .1);
-  border: none;
-  font-size: 20px;
-  text-align: center;
-  border-radius: 50%;
-  width: 40px;
-  padding: 2px;
-  color: #E2F4DF;
-  box-shadow: 0 0 8px #FFF, inset 0 0 8px #FFF;
-  -webkit-animation: pulse 2s linear 1s infinite;
-}
-
-.angle input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
