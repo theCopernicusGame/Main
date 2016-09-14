@@ -14,7 +14,7 @@ var configuration = {
 var rtcPeerConn;
 var singleplayer = false;
 var isDemo = false;
-var counter = 0; 
+var counter = 0;
 //ADD offerOptions to createOffer for Audio
 var offerOptions = {
   offerToReceiveAudio: 1,
@@ -51,7 +51,6 @@ if (singleplayer === false && isDemo === false) {
   navigator.mediaDevices.getUserMedia({audio: true, video: false}).then(function(stream) {
     localStream = stream;
     audioTracks = localStream.getAudioTracks();
-    console.log('stream', stream); 
     // if MediaStream has reference to microphone
     if (audioTracks[0]) {
       audioTracks[0].enabled = false;
@@ -86,7 +85,6 @@ io.on('signaling_message', function(data) {
 
   // if user isn't the first user to join the page, peerConnect obj is already set up, so simply respond with description
   if (data.type != "user_here") {
-    console.log('there"s a user here, about to send remoteDescription'); 
     var message = JSON.parse(data.message);
     if (message.sdp) {
       sendRemoteDesc(message.sdp);
@@ -115,7 +113,6 @@ function startSignaling() {
   rtcPeerConn.onnegotiationneeded = function (event) {
     //offer is created here by player 1
     if (rtcPeerConn.remoteDescription.type.length === 0){
-      console.log('about to createOffer'); 
      rtcPeerConn.createOffer(sendLocalDesc, logError);
    }
   };
@@ -147,7 +144,7 @@ function sendLocalDesc(desc) {
   rtcPeerConn.setLocalDescription(desc, function () {
     io.emit('signal',{"type":"SDP", "message": JSON.stringify({ 'sdp': rtcPeerConn.localDescription }), "room":SIGNAL_ROOM});
   }, logError);
-  
+
 }
 
 // sends remote description
@@ -169,7 +166,6 @@ function restartConnection() {
 
 //Data Channel Specific methods
 function dataChannelStateChanged() {
-  console.log('dataChannel.readyState', dataChannel.readyState); 
   if (dataChannel.readyState === 'open') {
     dataChannel.onmessage = receiveDataChannelMessage;
   }
@@ -213,5 +209,5 @@ setTimeout(addGameLogic, 2000);
 
 if (typeof exports !== 'undefined')
 {
-  module.exports = {peerFound}; 
+  module.exports = {peerFound};
 }
