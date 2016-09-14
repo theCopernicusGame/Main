@@ -86,13 +86,13 @@
             <div id="allow-webcam">
               <button class='newGame' id="start-scan">Use Webcam</button>
             </div>
-            <div id='calling'>
-              <div id="callContainer">
-                <input type="button" id="unmuteButton"/>
-                <input type="button" id="muteButton"/>
-              </div>
-              <audio id="audio" autoplay></audio>
+          </div>
+          <div id='calling'>
+            <div id="callContainer">
+              <input type="button" id="unmuteButton" value="Talk" />
+              <input type="button" id="muteButton" value="Mute" />
             </div>
+            <audio id="audio" autoplay></audio>
           </div>
            <div class='angle'>
              <img  id='up-arrow' class="angle-arrows" src='/assets/up_arrow.png' alt='up arrow'>
@@ -171,7 +171,8 @@
     <script type="text/javascript" src="/scene/physicsFloor.js"></script>
     <script type="text/javascript" src="/scene/astronaut.js"></script>
     <script id="spotlight" type="text/javascript" src="/scene/spotlight.js"></script>
-    <script type="text/javascript" src="/scene/sceneObjects.js"></script>
+    <!-- the below is required to run test scripts - requires THREE.js (remove comments to run tests) -->
+    <!-- <script type="text/javascript" src="/scene/sceneObjects.js"></script> -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
