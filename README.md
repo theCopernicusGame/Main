@@ -7,13 +7,13 @@ Copernicus is a dynamic 3D environment capturing player gestures for an educatio
 
 Copernicus was created to supplement the physics curriculum at schools in Newport-Mesa USD. The goal was to provide students with a fun way to learn core kinematics concepts in an environment they identify with.
 
-# Installation
+# Play It!
 
 Find us at https://www.thecopernicusgame.com
 
 # Tests
 
-Describe and show how to run the tests with code examples.
+Copernicus includes a testing suite directed primarily at its complex game logic and 3D scene.
 
 # Contributors
 
