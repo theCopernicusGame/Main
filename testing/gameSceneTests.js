@@ -29,9 +29,9 @@ describe('ball object', function(){
       for (var x in output){
         if (x === 'position'){
           for (var inner in output[x]){
-              if (inner === 'x') testObj[inner] = output[x][inner];
-              else if (inner === 'y') testObj[inner] = output[x][inner];
-              else if (inner === 'z') testObj[inner] = output[x][inner];
+            if (inner === 'x') testObj[inner] = output[x][inner];
+            else if (inner === 'y') testObj[inner] = output[x][inner];
+            else if (inner === 'z') testObj[inner] = output[x][inner];
           }   
         }
       }
@@ -49,7 +49,7 @@ describe('ball object', function(){
       for (var x in output){
         if (x === 'material'){
           for (var inner in output[x]){
-              if (inner === 'type') testObj[inner] = output[x][inner];
+            if (inner === 'type') testObj[inner] = output[x][inner];
           }   
         }
       }
@@ -62,9 +62,9 @@ describe('ball object', function(){
   for (var x in output){
     if (x === 'rotation'){
       for (var inner in output[x]){
-          if (inner === 'x') testObj[inner] = output[x][inner];
-          else if (inner === 'y') testObj[inner] = output[x][inner];
-          else if (inner === 'z') testObj[inner] = output[x][inner];
+        if (inner === 'x') testObj[inner] = output[x][inner];
+        else if (inner === 'y') testObj[inner] = output[x][inner];
+        else if (inner === 'z') testObj[inner] = output[x][inner];
       }   
     }
   }
@@ -107,9 +107,9 @@ describe('earth object', function(){
       for (var x in output){
         if (x === 'position'){
           for (var inner in output[x]){
-              if (inner === 'x') testObj[inner] = output[x][inner];
-              else if (inner === 'y') testObj[inner] = output[x][inner];
-              else if (inner === 'z') testObj[inner] = output[x][inner];
+            if (inner === 'x') testObj[inner] = output[x][inner];
+            else if (inner === 'y') testObj[inner] = output[x][inner];
+            else if (inner === 'z') testObj[inner] = output[x][inner];
           }   
         }
       }
@@ -170,9 +170,9 @@ describe('light object', function(){
       for (var x in output){
         if (x === 'position'){
           for (var inner in output[x]){
-              if (inner === 'x') testObj[inner] = output[x][inner];
-              else if (inner === 'y') testObj[inner] = output[x][inner];
-              else if (inner === 'z') testObj[inner] = output[x][inner];
+            if (inner === 'x') testObj[inner] = output[x][inner];
+            else if (inner === 'y') testObj[inner] = output[x][inner];
+            else if (inner === 'z') testObj[inner] = output[x][inner];
           }   
         }
       }
@@ -233,9 +233,9 @@ describe('light object', function(){
       for (var x in output){
         if (x === 'position'){
           for (var inner in output[x]){
-              if (inner === 'x') testObj[inner] = output[x][inner];
-              else if (inner === 'y') testObj[inner] = output[x][inner];
-              else if (inner === 'z') testObj[inner] = output[x][inner];
+            if (inner === 'x') testObj[inner] = output[x][inner];
+            else if (inner === 'y') testObj[inner] = output[x][inner];
+            else if (inner === 'z') testObj[inner] = output[x][inner];
           }   
         }
       }
@@ -248,9 +248,9 @@ describe('light object', function(){
       for (var x in output){
         if (x === 'rotation'){
           for (var inner in output[x]){
-              if (inner === 'x') testObj[inner] = output[x][inner];
-              else if (inner === 'y') testObj[inner] = output[x][inner];
-              else if (inner === 'z') testObj[inner] = output[x][inner];
+            if (inner === 'x') testObj[inner] = output[x][inner];
+            else if (inner === 'y') testObj[inner] = output[x][inner];
+            else if (inner === 'z') testObj[inner] = output[x][inner];
           }   
         }
       }
