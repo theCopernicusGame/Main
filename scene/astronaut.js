@@ -1,5 +1,8 @@
 'use strict';
 
+//This file loads the astronaut object which is added to the scene in scene.js in this folder
+//Bug in Three.ObjLoader requires each image (colormap, bumpmap, normalMap for reflectivity) to be loaded separately
+
 var imageMap = new THREE.Texture();
 var normalMap = new THREE.Texture();
 var specMap = new THREE.Texture();
