@@ -170,9 +170,3 @@ function addScene() {
 }
 
 setTimeout(addScene, 2000);
-
-
-if (typeof exports !== 'undefined')
-{
-  module.exports = {chooseUser, setUser};
-}
