@@ -1,6 +1,9 @@
 'use strict';
 
+//This file walks through picture-taking functionality and engage tracking software
+
 var minMaxColors = {}, pixelsNeededIndex = [], handScanned = false;
+
 
 $(function() {
   var swipeNum = $('#swipe-num');
@@ -10,12 +13,13 @@ $(function() {
   var closeGif = $('<button class="newGame" id="closeGif">Got It!</button>');
 
    //scan hand and start scanning functionality
+   //hides graph, fades out background and brings up video and circle overlay so 
+   //player can focus on scanning their hand properly
   $('#start-scan').click(function() {
     handScanned = true;
     $('#line-graph').animate({ opacity: 0 });
     $('#show-video').animate({ opacity: 1 });
     $('#take-snapshot').animate({ opacity: 1 });
-    $('#line-graph').animate({ opacity: 0 });
     $('#bg').animate({ opacity: .3 });
     $('#how-to-play').animate({ opacity: 1 }); // figure out how to keep this opaque
     $('#start-tracking').attr("disabled", false);
@@ -25,7 +29,12 @@ $(function() {
     snapContainer.css('display', 'block');
 
 
-    //capture snapshot of hand && tell user
+    //Capture Snapshot of Hand && Tell User
+    //after giving the user 6 seconds to align their hand in the circle properly
+    //we take a picture of their hand, place whole pic on the 'snapShot' canvas 
+    //then loop through the existing black pic w/white circle and re-write it to the 'process-image' canvas
+    //when we find a white pixel, we write from our snapShot canvas instead of black/white pic, 
+    //giving process-image canvas a black picture with center circle of hand snapshot
     setTimeout(function() {
       var canvas = document.getElementById('process-image');
       var canvas2 = document.getElementById('snapShot');
@@ -45,15 +54,15 @@ $(function() {
       var arrRed = [];
       var arrGreen = [];
       var arrBlue = [];
-
+    //Here we collect the indices in the large imageData array that contain the hand color pixels 
+    //so we can loop only through those indices later in the tracking lib
       for (var i = 0; i < imageData.data.length; i += 4) {
         if (imageData.data[i] > 235) {
-
-           imageData.data[i] = videoData.data[i];
-           if (imageData.data[i] > 25) {
-             arrRed.push(imageData.data[i]);
-             pixelsNeededIndex.push(i);
-           }
+          imageData.data[i] = videoData.data[i];
+          if (imageData.data[i] > 25) {
+            arrRed.push(imageData.data[i]);
+            pixelsNeededIndex.push(i);
+          }
 
            imageData.data[i + 1] = videoData.data[i + 1];
            if (imageData.data[i + 1] > 25) arrGreen.push(imageData.data[i + 1]);
@@ -63,7 +72,8 @@ $(function() {
         }
 
       }
-
+      //Here we collect the player-specific tight RGB-color window, and push RGB range into minMaxColors obj to 
+      //later use in tracking lib
       function average(arr) {
         let maxLow = {};
 
@@ -99,11 +109,12 @@ $(function() {
     }, 6000);
   });
 
+  //Displaying the instructional video on how to swipe hand to throw ball
   function showTracking() {
     $('#tracking-container').delay(500).animate({ opacity: 1 }, 1000);
     $('#start-tracking').delay(500).animate({ opacity: 1 }, 1000);
   }
-
+  //clicking 'Start Tracking' button, engages the 3, 2, 1 countdown and removes all other distractions from screen
   $('#start-tracking').on('mousedown', function(event) {
     event.preventDefault(); // fixes spacebar event triggering by removing autofocus
     $('#line-graph').animate({ opacity: 0 });
@@ -138,6 +149,7 @@ $(function() {
       snapContainer.fadeOut();
     }, 6000);
 
+    //demo.tick engages the tracking software, now looking for RGB values that match the player's hand
     function startTracking() {
         user.trackFlag = true;
         demo.tick();
