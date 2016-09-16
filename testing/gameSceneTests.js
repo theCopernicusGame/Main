@@ -20,10 +20,6 @@ describe('ball object', function(){
   });
   it('should contain position property', function(done){
       var output = sceneObjects.ballBuilder(); 
-      resArr = []; 
-      for (var x in output){
-        if (x === 'position') resArr.push(output[x]); 
-      }
       expect(output).to.have.any.keys('position'); 
       done(); 
   });
@@ -189,8 +185,80 @@ describe('light object', function(){
     done(); 
   });
 });
+  describe('floor object', function(){
+  it('should exist', function(done){
+      var output = sceneObjects.floorBuilder(); 
+      expect(output).to.exist; 
+      done(); 
+  });
+   it("should be type 'Mesh'", function(done){
+      var output = sceneObjects.floorBuilder();
+      var testObj = {};  
+      for (var x in output){
+        if (x === 'type') testObj[x] = output[x];
+      }
+      expect([testObj]).to.deep.include.members([{'type': 'Mesh'}]); 
+      done(); 
+  });
+   it("should be able to receive a shadow", function(done){
+      var output = sceneObjects.floorBuilder();
+      var testObj = {};  
+      for (var x in output){
+        if (x === 'receiveShadow') testObj[x] = output[x];
+      }
+      expect([testObj]).to.deep.include.members([{'receiveShadow': true}]); 
+      done(); 
+  });
+    it("should not be able to cast a shadow", function(done){
+      var output = sceneObjects.floorBuilder();
+      var testObj = {};  
+      for (var x in output){
+        if (x === 'castShadow') testObj[x] = output[x];
+      }
+      expect([testObj]).to.deep.include.members([{'castShadow': false}]); 
+      done(); 
+  });
+    it('should contain position property', function(done){
+      var output = sceneObjects.floorBuilder(); 
+      resArr = []; 
+      for (var x in output){
+        if (x === 'position') resArr.push(output[x]); 
+      }
+      expect(output).to.have.any.keys('position'); 
+      done(); 
+  });
+  it('position property should be set to {x: 0, y: -0.5, z: 0}', function(done){
+      var output = sceneObjects.floorBuilder(); 
+      var testObj = {};
+      for (var x in output){
+        if (x === 'position'){
+          for (var inner in output[x]){
+              if (inner === 'x') testObj[inner] = output[x][inner];
+              else if (inner === 'y') testObj[inner] = output[x][inner];
+              else if (inner === 'z') testObj[inner] = output[x][inner];
+          }   
+        }
+      }
+      expect([testObj]).to.deep.include.members([{'x': 0, 'y': -0.5, 'z': 0}]); 
+      done(); 
+  });
+    it("should be rotated so it's visible in the scene", function(done){
+      var output = sceneObjects.floorBuilder(); 
+      var testObj = {};
+      for (var x in output){
+        if (x === 'rotation'){
+          for (var inner in output[x]){
+              if (inner === 'x') testObj[inner] = output[x][inner];
+              else if (inner === 'y') testObj[inner] = output[x][inner];
+              else if (inner === 'z') testObj[inner] = output[x][inner];
+          }   
+        }
+      }
+      expect([testObj]).to.deep.include.members([{'x': 1.5707963267948966, 'y': 0, 'z': 0}]); 
+      done(); 
+  });      
 }); 
-
+}); 
 
 
 
