@@ -1,3 +1,6 @@
+//Each planet has it's own orbitRadius (dist. from sun), Orbit Angle (initial starting position in it's elliptical pattern) and speed
+//Each planet is using a combination of maps - color map is the visual look, bump map adds the appearance of mountains (topography)
+//specular map adds reflectiveness re light. 
  
 marsOrbitRadius = 355,
 marsOrbitAngle = 75,

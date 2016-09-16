@@ -1,3 +1,4 @@
+//THIS FILE IMPORTS OBJECTS FROM ALL THE OTHER FILES IN THIS FOLDER AND RENDERS THE SOLAR-SYSTEM SCENE YOU SEE ON THE HOME PAGE
 var renderer, scene, camera;
     theSun,
     theEarthAndMoon,
@@ -26,16 +27,17 @@ window.addEventListener( 'resize', onWindowResize, false );
 function init() {
 
 
-  // renderer
+  // renderer - the space in which all the objects and the camera appears, this is 
+  // re-rendered ~60x/second
   renderer = new THREE.WebGLRenderer( { clearColor: 0x000000, alpha: true } );
   renderer.setSize( window.innerWidth, window.innerHeight );
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
   $('#containerG').append( renderer.domElement );
+//#containerG is the div in galaxy.html that the whole 3D scene is attached to
 
-
-  // scene
+  // scene - contains all the planets, etc. 
   scene = new THREE.Scene();
 
   //camera
@@ -43,9 +45,11 @@ function init() {
   camera.position.z = 500;
   //camera.position.z = 35;
   camera.position.y = 100;
-  //
-  camera.lookAt(new THREE.Vector3(0,0,0));
 
+  camera.lookAt(new THREE.Vector3(0,0,0));
+   //camera stays fixed on the position occupied by the sun, can be modified with code on line 138 to follow a planet's orbit
+  //Camera cannot follow objects (which include planets with their own moons), hence following Mars instead of Earth.
+  //Scott thinks it's prettier, but lost in a 2-1 vote.  
 
   scene.add(theSun);
 
@@ -97,11 +101,16 @@ function init() {
 
 function animate() {
 
-  requestAnimationFrame( animate );
+  requestAnimationFrame( animate ); //<-- superior to setInterval because animate stops on inactive tabs, so lighter and more battery friendly
 
   render();
 
 }
+
+//About the following: All of the below boils down to creating an orbit for each planet around the 0,0,0 position, 
+//which is occupied by the Sun.  Each planet has it's own distance from the sun (radians) and it's own orbital speed
+//we update the position of the planet based on it's orbital speed and by using Math.cos/Math.sin it's new position follows
+// an elliptical pattern.  Decrement/Increment determines which direction it goes around the sun (clockwise, counterclockwise) 
 
 function render() {
 
@@ -133,6 +142,7 @@ function render() {
   Mars.rotation.y -= .02;
 
   //camera.lookAt(Mars.position); 
+
   Venus.position.x = Math.cos(venusRadians) * venusOrbitRadius;
   Venus.position.z = Math.sin(venusRadians) * venusOrbitRadius;
   Venus.rotation.y -= .02;
