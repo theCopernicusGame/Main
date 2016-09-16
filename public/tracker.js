@@ -1,5 +1,5 @@
 'use strict';
-//THE FOLLOWING IS TRACKING HANDS USING JS-HANDTRACKING
+//THE FOLLOWING IS TRACKING HANDS USING HANDTRACKING.JS
 
 var DEMO = function(){
   var startTime = undefined, endTime = undefined;
@@ -10,6 +10,7 @@ DEMO.prototype.clear = function(){
   this.tracker.clear();
 };
 
+//Engages video element in HTML, browser-nuetral 
 DEMO.prototype.start = function() {
   var that = this;
   this.tracker = new HT.Tracker();
@@ -28,6 +29,8 @@ DEMO.prototype.start = function() {
   }
 };
 
+//COMMENTED OUT this.tick() so user can engage tracking with button-click
+//previously tracking engaged automatically
 DEMO.prototype.videoReady = function(stream){
   if (window.URL) {
     this.video.src = window.URL.createObjectURL(stream);
@@ -42,6 +45,9 @@ DEMO.prototype.videoReady = function(stream){
 DEMO.prototype.videoError = function(error){
 };
 
+//Intiates scanning each image in video element 
+//Added conditional with trackFlag so tracking can be disengaged when ball is thrown
+//on line 58, candidate = this.tracker.detect(image), we dive into handTracking.js
 DEMO.prototype.tick = function(){
   if (user.trackFlag === true) {
     var that = this, image, candidate;
@@ -147,7 +153,8 @@ DEMO.prototype.createImage = function(imageSrc, imageDst){
 
 
 var demo = new DEMO();
-
+//We auto-initiate the demo to engage the video as soon as the page loads, but then
+//don't engage the tracking until player clicks 'start tracking' button
 demo.start();
 
 function waitABit(){
@@ -157,7 +164,3 @@ function waitABit(){
   }, 1000);
 }
 
-if (typeof exports !== 'undefined')
-{
-  module.exports = {DEMO}; 
-}
