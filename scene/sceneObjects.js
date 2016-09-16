@@ -55,9 +55,18 @@ function lightBuilder(){
   return spotlight; 
 }
 
+function floorBuilder(){
+  var floorMaterial = new THREE.MeshBasicMaterial( { color: 0x2BD3A7 } );
+  var floorGeometry = new THREE.PlaneGeometry(1000, 1000, 1, 1);
+  var floor = new THREE.Mesh(floorGeometry, floorMaterial);
+  floor.position.y = -0.5;
+  floor.receiveShadow = true; 
+  floor.rotation.x = Math.PI / 2;
+  return floor; 
+}
 
 
 if (typeof exports !== 'undefined')
 {
-  module.exports = {ballBuilder, earthBuilder, lightBuilder}; 
+  module.exports = {ballBuilder, earthBuilder, lightBuilder, floorBuilder}; 
 }
