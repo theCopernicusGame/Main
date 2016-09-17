@@ -18,5 +18,5 @@ Copernicus includes a testing suite directed primarily at its complex game logic
 # Contributors
 
 David Vorona: https://github.com/davidvorona  
-Scott Miller: https://github.com/ScottMillerWesCoas 
+Scott Miller: https://github.com/ScottMillerWesCoas   
 Yandri Sanchez: https://github.com/crosky1291 
